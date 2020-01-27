@@ -1,46 +1,76 @@
+scalar Date
+
+type Query {
+  getPlaces: [Place]
+  getUsers: [User]
+  getCompanies: [Company]
+}
+
+type Mutation {
+  createUser(
+    name: String!
+    email: String!
+    password: String!
+    role: Role!
+  ): User
+
+  createCompany(name: String!, email: String): Company
+
+  createPlace(
+    name: String!
+    number: Int
+    street: String
+    zipCode: Int
+    type: String
+    category: Category
+  ): Place
+
+  login(email: String!, password: String!): AuthPayload
+
+  deletePlace(id: ID!): Place
+  deleteCompany(id: ID!): Company
+  deleteUser(id: ID!): User
+}
+
 type User {
   id: ID!
   name: String
   email: String
   password: String
-}
-
-type Query {
-  place: Place
-}
-
-type Mutation {
-  demo: String
-  # signup(name: String!, email: String!, password: String!): AuthPayload
-  # login(email: String!, password: String!): AuthPayload
+  role: Role
 }
 
 type Place {
   id: ID!
   name: String
   address: Address
-  hours: [Hour]
-  keywords: [String]
+  hours: [Hour!]
+  keywords: [String!]
   category: Category
-  type: Type
+  type: String
+}
+
+type Company {
+  id: ID!
+  name: String
+  email: String
+}
+
+type AuthPayload {
+  token: String
+  user: User
 }
 
 type Address {
   number: Int
   street: String
-  zip_code: Int
+  zipCode: Int
 }
 
 type Hour {
-  id: ID!
   day: Day
   start: String
   end: String
-}
-
-type Type {
-  id: ID!
-  name: String
 }
 
 enum Day {
@@ -69,4 +99,11 @@ enum Bio {
   NO
   PARTIAL
   FULL
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  MODERATOR
+  USER
 }

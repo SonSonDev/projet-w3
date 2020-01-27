@@ -2,41 +2,115 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { APP_SECRET, getUserId } = require('../utils')
 
-async function demo(parent, args, context, info) {
-  return "string"
+async function createPlace(parent, { name, number, street, zipCode, type, category }, context, info) {
+  // const userId = getUserId(context)
+  return context.prisma.createPlace({
+    name,
+    type,
+    category,
+    keywords: { set: ["1", "2", "3"] },
+    address: {
+      create: {
+        number,
+        street,
+        zipCode,
+      }
+    },
+    hours: {
+      create: [
+        {
+          day: "MONDAY",
+          start: null,
+          end: null,
+        },
+        {
+          day: "TUESDAY",
+          start: null,
+          end: null,
+        },
+        {
+          day: "WEDNESDAY",
+          start: null,
+          end: null,
+        },
+        {
+          day: "THURSDAY",
+          start: null,
+          end: null,
+        },
+        {
+          day: "FRIDAY",
+          start: null,
+          end: null,
+        },
+        {
+          day: "SATURDAY",
+          start: null,
+          end: null,
+        },
+        {
+          day: "SUNDAY",
+          start: null,
+          end: null,
+        },
+      ]
+    }
+  })
 }
 
-// async function signup(parent, args, context, info) {
-//   const password = await bcrypt.hash(args.password, 10)
-//   const user = await context.prisma.createUser({ ...args, password })
+async function createCompany(parent, { name, email }, context, info) {
+  return context.prisma.createCompany({
+    name: name,
+    email: email
+  })
+}
 
-//   const token = jwt.sign({ userId: user.id }, APP_SECRET)
+async function createUser(parent, { password, name, email, role }, context, info) {
+  return await context.prisma.createUser({
+    name: name,
+    password: hashPassword,
+    role: role,
+    email: email
+  })
+}
 
-//   return {
-//     token,
-//     user,
-//   }
-// }
+async function deletePlace(parent, { id }, context, info) {
+  return await context.prisma.deletePlace({ id });
+}
 
-// async function login(parent, args, context, info) {
-//   const user = await context.prisma.user({ email: args.email })
-//   if (!user) {
-//     throw new Error('No such user found')
-//   }
+async function deleteCompany(parent, { id }, context, info) {
+  return await context.prisma.deleteCompany({ id });
+}
 
-//   const valid = await bcrypt.compare(args.password, user.password)
-//   if (!valid) {
-//     throw new Error('Invalid password')
-//   }
+async function deleteUser(parent, { id }, context, info) {
+  return await context.prisma.deleteUser({ id });
+}
 
-//   const token = jwt.sign({ userId: user.id }, APP_SECRET)
+async function login(parent, args, context, info) {
+  const user = await context.prisma.user({ email: args.email })
+  if (!user) {
+    throw new Error('No such user found')
+  }
 
-//   return {
-//     token,
-//     user,
-//   }
-// }
+  const valid = await bcrypt.compare(args.password, user.password)
+  if (!valid) {
+    throw new Error('Invalid password')
+  }
+
+  const token = jwt.sign({ userId: user.id }, APP_SECRET)
+
+  return {
+    token,
+    user,
+  }
+}
 
 module.exports = {
-  demo
+  createPlace,
+  createCompany,
+  createUser,
+  deletePlace,
+  deleteCompany,
+  deleteUser,
+  login
 }

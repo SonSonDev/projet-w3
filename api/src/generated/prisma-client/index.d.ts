@@ -16,9 +16,8 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
-  hour: (where?: HourWhereInput) => Promise<boolean>;
+  company: (where?: CompanyWhereInput) => Promise<boolean>;
   place: (where?: PlaceWhereInput) => Promise<boolean>;
-  type: (where?: TypeWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -41,25 +40,25 @@ export interface Prisma {
    * Queries
    */
 
-  hour: (where: HourWhereUniqueInput) => HourNullablePromise;
-  hours: (args?: {
-    where?: HourWhereInput;
-    orderBy?: HourOrderByInput;
+  company: (where: CompanyWhereUniqueInput) => CompanyNullablePromise;
+  companies: (args?: {
+    where?: CompanyWhereInput;
+    orderBy?: CompanyOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => FragmentableArray<Hour>;
-  hoursConnection: (args?: {
-    where?: HourWhereInput;
-    orderBy?: HourOrderByInput;
+  }) => FragmentableArray<Company>;
+  companiesConnection: (args?: {
+    where?: CompanyWhereInput;
+    orderBy?: CompanyOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => HourConnectionPromise;
+  }) => CompanyConnectionPromise;
   place: (where: PlaceWhereUniqueInput) => PlaceNullablePromise;
   places: (args?: {
     where?: PlaceWhereInput;
@@ -79,25 +78,6 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => PlaceConnectionPromise;
-  type: (where: TypeWhereUniqueInput) => TypeNullablePromise;
-  types: (args?: {
-    where?: TypeWhereInput;
-    orderBy?: TypeOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => FragmentableArray<Type>;
-  typesConnection: (args?: {
-    where?: TypeWhereInput;
-    orderBy?: TypeOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => TypeConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -123,22 +103,22 @@ export interface Prisma {
    * Mutations
    */
 
-  createHour: (data: HourCreateInput) => HourPromise;
-  updateHour: (args: {
-    data: HourUpdateInput;
-    where: HourWhereUniqueInput;
-  }) => HourPromise;
-  updateManyHours: (args: {
-    data: HourUpdateManyMutationInput;
-    where?: HourWhereInput;
+  createCompany: (data: CompanyCreateInput) => CompanyPromise;
+  updateCompany: (args: {
+    data: CompanyUpdateInput;
+    where: CompanyWhereUniqueInput;
+  }) => CompanyPromise;
+  updateManyCompanies: (args: {
+    data: CompanyUpdateManyMutationInput;
+    where?: CompanyWhereInput;
   }) => BatchPayloadPromise;
-  upsertHour: (args: {
-    where: HourWhereUniqueInput;
-    create: HourCreateInput;
-    update: HourUpdateInput;
-  }) => HourPromise;
-  deleteHour: (where: HourWhereUniqueInput) => HourPromise;
-  deleteManyHours: (where?: HourWhereInput) => BatchPayloadPromise;
+  upsertCompany: (args: {
+    where: CompanyWhereUniqueInput;
+    create: CompanyCreateInput;
+    update: CompanyUpdateInput;
+  }) => CompanyPromise;
+  deleteCompany: (where: CompanyWhereUniqueInput) => CompanyPromise;
+  deleteManyCompanies: (where?: CompanyWhereInput) => BatchPayloadPromise;
   createPlace: (data: PlaceCreateInput) => PlacePromise;
   updatePlace: (args: {
     data: PlaceUpdateInput;
@@ -155,22 +135,6 @@ export interface Prisma {
   }) => PlacePromise;
   deletePlace: (where: PlaceWhereUniqueInput) => PlacePromise;
   deleteManyPlaces: (where?: PlaceWhereInput) => BatchPayloadPromise;
-  createType: (data: TypeCreateInput) => TypePromise;
-  updateType: (args: {
-    data: TypeUpdateInput;
-    where: TypeWhereUniqueInput;
-  }) => TypePromise;
-  updateManyTypes: (args: {
-    data: TypeUpdateManyMutationInput;
-    where?: TypeWhereInput;
-  }) => BatchPayloadPromise;
-  upsertType: (args: {
-    where: TypeWhereUniqueInput;
-    create: TypeCreateInput;
-    update: TypeUpdateInput;
-  }) => TypePromise;
-  deleteType: (where: TypeWhereUniqueInput) => TypePromise;
-  deleteManyTypes: (where?: TypeWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -196,15 +160,12 @@ export interface Prisma {
 }
 
 export interface Subscription {
-  hour: (
-    where?: HourSubscriptionWhereInput
-  ) => HourSubscriptionPayloadSubscription;
+  company: (
+    where?: CompanySubscriptionWhereInput
+  ) => CompanySubscriptionPayloadSubscription;
   place: (
     where?: PlaceSubscriptionWhereInput
   ) => PlaceSubscriptionPayloadSubscription;
-  type: (
-    where?: TypeSubscriptionWhereInput
-  ) => TypeSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -218,6 +179,14 @@ export interface ClientConstructor<T> {
  * Types
  */
 
+export type CompanyOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "email_ASC"
+  | "email_DESC";
+
 export type Day =
   | "MONDAY"
   | "TUESDAY"
@@ -227,16 +196,6 @@ export type Day =
   | "SATURDAY"
   | "SUNDAY";
 
-export type HourOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "day_ASC"
-  | "day_DESC"
-  | "start_ASC"
-  | "start_DESC"
-  | "end_ASC"
-  | "end_DESC";
-
 export type Category = "FOOD" | "SHOP" | "ACTIVITY";
 
 export type PlaceOrderByInput =
@@ -245,9 +204,11 @@ export type PlaceOrderByInput =
   | "name_ASC"
   | "name_DESC"
   | "category_ASC"
-  | "category_DESC";
+  | "category_DESC"
+  | "type_ASC"
+  | "type_DESC";
 
-export type TypeOrderByInput = "id_ASC" | "id_DESC" | "name_ASC" | "name_DESC";
+export type Role = "SUPER_ADMIN" | "ADMIN" | "MODERATOR" | "USER";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -257,15 +218,17 @@ export type UserOrderByInput =
   | "email_ASC"
   | "email_DESC"
   | "password_ASC"
-  | "password_DESC";
+  | "password_DESC"
+  | "role_ASC"
+  | "role_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type HourWhereUniqueInput = AtLeastOne<{
+export type CompanyWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface HourWhereInput {
+export interface CompanyWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -280,39 +243,35 @@ export interface HourWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  day?: Maybe<Day>;
-  day_not?: Maybe<Day>;
-  day_in?: Maybe<Day[] | Day>;
-  day_not_in?: Maybe<Day[] | Day>;
-  start?: Maybe<String>;
-  start_not?: Maybe<String>;
-  start_in?: Maybe<String[] | String>;
-  start_not_in?: Maybe<String[] | String>;
-  start_lt?: Maybe<String>;
-  start_lte?: Maybe<String>;
-  start_gt?: Maybe<String>;
-  start_gte?: Maybe<String>;
-  start_contains?: Maybe<String>;
-  start_not_contains?: Maybe<String>;
-  start_starts_with?: Maybe<String>;
-  start_not_starts_with?: Maybe<String>;
-  start_ends_with?: Maybe<String>;
-  start_not_ends_with?: Maybe<String>;
-  end?: Maybe<String>;
-  end_not?: Maybe<String>;
-  end_in?: Maybe<String[] | String>;
-  end_not_in?: Maybe<String[] | String>;
-  end_lt?: Maybe<String>;
-  end_lte?: Maybe<String>;
-  end_gt?: Maybe<String>;
-  end_gte?: Maybe<String>;
-  end_contains?: Maybe<String>;
-  end_not_contains?: Maybe<String>;
-  end_starts_with?: Maybe<String>;
-  end_not_starts_with?: Maybe<String>;
-  end_ends_with?: Maybe<String>;
-  end_not_ends_with?: Maybe<String>;
-  AND?: Maybe<HourWhereInput[] | HourWhereInput>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
+  AND?: Maybe<CompanyWhereInput[] | CompanyWhereInput>;
 }
 
 export type PlaceWhereUniqueInput = AtLeastOne<{
@@ -350,11 +309,26 @@ export interface PlaceWhereInput {
   name_not_ends_with?: Maybe<String>;
   address?: Maybe<AddressWhereInput>;
   hours_some?: Maybe<HourWhereInput>;
+  hours_every?: Maybe<HourRestrictedWhereInput>;
+  hours_none?: Maybe<HourRestrictedWhereInput>;
   category?: Maybe<Category>;
   category_not?: Maybe<Category>;
   category_in?: Maybe<Category[] | Category>;
   category_not_in?: Maybe<Category[] | Category>;
-  type?: Maybe<TypeWhereInput>;
+  type?: Maybe<String>;
+  type_not?: Maybe<String>;
+  type_in?: Maybe<String[] | String>;
+  type_not_in?: Maybe<String[] | String>;
+  type_lt?: Maybe<String>;
+  type_lte?: Maybe<String>;
+  type_gt?: Maybe<String>;
+  type_gte?: Maybe<String>;
+  type_contains?: Maybe<String>;
+  type_not_contains?: Maybe<String>;
+  type_starts_with?: Maybe<String>;
+  type_not_starts_with?: Maybe<String>;
+  type_ends_with?: Maybe<String>;
+  type_not_ends_with?: Maybe<String>;
   AND?: Maybe<PlaceWhereInput[] | PlaceWhereInput>;
 }
 
@@ -381,52 +355,88 @@ export interface AddressWhereInput {
   street_not_starts_with?: Maybe<String>;
   street_ends_with?: Maybe<String>;
   street_not_ends_with?: Maybe<String>;
-  zip_code?: Maybe<Int>;
-  zip_code_not?: Maybe<Int>;
-  zip_code_in?: Maybe<Int[] | Int>;
-  zip_code_not_in?: Maybe<Int[] | Int>;
-  zip_code_lt?: Maybe<Int>;
-  zip_code_lte?: Maybe<Int>;
-  zip_code_gt?: Maybe<Int>;
-  zip_code_gte?: Maybe<Int>;
+  zipCode?: Maybe<Int>;
+  zipCode_not?: Maybe<Int>;
+  zipCode_in?: Maybe<Int[] | Int>;
+  zipCode_not_in?: Maybe<Int[] | Int>;
+  zipCode_lt?: Maybe<Int>;
+  zipCode_lte?: Maybe<Int>;
+  zipCode_gt?: Maybe<Int>;
+  zipCode_gte?: Maybe<Int>;
   AND?: Maybe<AddressWhereInput[] | AddressWhereInput>;
 }
 
-export interface TypeWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  AND?: Maybe<TypeWhereInput[] | TypeWhereInput>;
+export interface HourWhereInput {
+  day?: Maybe<Day>;
+  day_not?: Maybe<Day>;
+  day_in?: Maybe<Day[] | Day>;
+  day_not_in?: Maybe<Day[] | Day>;
+  start?: Maybe<String>;
+  start_not?: Maybe<String>;
+  start_in?: Maybe<String[] | String>;
+  start_not_in?: Maybe<String[] | String>;
+  start_lt?: Maybe<String>;
+  start_lte?: Maybe<String>;
+  start_gt?: Maybe<String>;
+  start_gte?: Maybe<String>;
+  start_contains?: Maybe<String>;
+  start_not_contains?: Maybe<String>;
+  start_starts_with?: Maybe<String>;
+  start_not_starts_with?: Maybe<String>;
+  start_ends_with?: Maybe<String>;
+  start_not_ends_with?: Maybe<String>;
+  end?: Maybe<String>;
+  end_not?: Maybe<String>;
+  end_in?: Maybe<String[] | String>;
+  end_not_in?: Maybe<String[] | String>;
+  end_lt?: Maybe<String>;
+  end_lte?: Maybe<String>;
+  end_gt?: Maybe<String>;
+  end_gte?: Maybe<String>;
+  end_contains?: Maybe<String>;
+  end_not_contains?: Maybe<String>;
+  end_starts_with?: Maybe<String>;
+  end_not_starts_with?: Maybe<String>;
+  end_ends_with?: Maybe<String>;
+  end_not_ends_with?: Maybe<String>;
+  AND?: Maybe<HourWhereInput[] | HourWhereInput>;
 }
 
-export type TypeWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
+export interface HourRestrictedWhereInput {
+  day?: Maybe<Day>;
+  day_not?: Maybe<Day>;
+  day_in?: Maybe<Day[] | Day>;
+  day_not_in?: Maybe<Day[] | Day>;
+  start?: Maybe<String>;
+  start_not?: Maybe<String>;
+  start_in?: Maybe<String[] | String>;
+  start_not_in?: Maybe<String[] | String>;
+  start_lt?: Maybe<String>;
+  start_lte?: Maybe<String>;
+  start_gt?: Maybe<String>;
+  start_gte?: Maybe<String>;
+  start_contains?: Maybe<String>;
+  start_not_contains?: Maybe<String>;
+  start_starts_with?: Maybe<String>;
+  start_not_starts_with?: Maybe<String>;
+  start_ends_with?: Maybe<String>;
+  start_not_ends_with?: Maybe<String>;
+  end?: Maybe<String>;
+  end_not?: Maybe<String>;
+  end_in?: Maybe<String[] | String>;
+  end_not_in?: Maybe<String[] | String>;
+  end_lt?: Maybe<String>;
+  end_lte?: Maybe<String>;
+  end_gt?: Maybe<String>;
+  end_gte?: Maybe<String>;
+  end_contains?: Maybe<String>;
+  end_not_contains?: Maybe<String>;
+  end_starts_with?: Maybe<String>;
+  end_not_starts_with?: Maybe<String>;
+  end_ends_with?: Maybe<String>;
+  end_not_ends_with?: Maybe<String>;
+  AND?: Maybe<HourRestrictedWhereInput[] | HourRestrictedWhereInput>;
+}
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
@@ -490,26 +500,27 @@ export interface UserWhereInput {
   password_not_starts_with?: Maybe<String>;
   password_ends_with?: Maybe<String>;
   password_not_ends_with?: Maybe<String>;
+  role?: Maybe<Role>;
+  role_not?: Maybe<Role>;
+  role_in?: Maybe<Role[] | Role>;
+  role_not_in?: Maybe<Role[] | Role>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
-export interface HourCreateInput {
+export interface CompanyCreateInput {
   id?: Maybe<ID_Input>;
-  day?: Maybe<Day>;
-  start?: Maybe<String>;
-  end?: Maybe<String>;
+  name?: Maybe<String>;
+  email?: Maybe<String>;
 }
 
-export interface HourUpdateInput {
-  day?: Maybe<Day>;
-  start?: Maybe<String>;
-  end?: Maybe<String>;
+export interface CompanyUpdateInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
 }
 
-export interface HourUpdateManyMutationInput {
-  day?: Maybe<Day>;
-  start?: Maybe<String>;
-  end?: Maybe<String>;
+export interface CompanyUpdateManyMutationInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
 }
 
 export interface PlaceCreateInput {
@@ -519,7 +530,7 @@ export interface PlaceCreateInput {
   hours?: Maybe<HourCreateManyInput>;
   keywords?: Maybe<PlaceCreatekeywordsInput>;
   category?: Maybe<Category>;
-  type?: Maybe<TypeCreateOneInput>;
+  type?: Maybe<String>;
 }
 
 export interface AddressCreateOneInput {
@@ -529,26 +540,21 @@ export interface AddressCreateOneInput {
 export interface AddressCreateInput {
   number?: Maybe<Int>;
   street?: Maybe<String>;
-  zip_code?: Maybe<Int>;
+  zipCode?: Maybe<Int>;
 }
 
 export interface HourCreateManyInput {
   create?: Maybe<HourCreateInput[] | HourCreateInput>;
-  connect?: Maybe<HourWhereUniqueInput[] | HourWhereUniqueInput>;
+}
+
+export interface HourCreateInput {
+  day?: Maybe<Day>;
+  start?: Maybe<String>;
+  end?: Maybe<String>;
 }
 
 export interface PlaceCreatekeywordsInput {
   set?: Maybe<String[] | String>;
-}
-
-export interface TypeCreateOneInput {
-  create?: Maybe<TypeCreateInput>;
-  connect?: Maybe<TypeWhereUniqueInput>;
-}
-
-export interface TypeCreateInput {
-  id?: Maybe<ID_Input>;
-  name?: Maybe<String>;
 }
 
 export interface PlaceUpdateInput {
@@ -557,7 +563,7 @@ export interface PlaceUpdateInput {
   hours?: Maybe<HourUpdateManyInput>;
   keywords?: Maybe<PlaceUpdatekeywordsInput>;
   category?: Maybe<Category>;
-  type?: Maybe<TypeUpdateOneInput>;
+  type?: Maybe<String>;
 }
 
 export interface AddressUpdateOneInput {
@@ -571,7 +577,7 @@ export interface AddressUpdateOneInput {
 export interface AddressUpdateDataInput {
   number?: Maybe<Int>;
   street?: Maybe<String>;
-  zip_code?: Maybe<Int>;
+  zipCode?: Maybe<Int>;
 }
 
 export interface AddressUpsertNestedInput {
@@ -581,56 +587,13 @@ export interface AddressUpsertNestedInput {
 
 export interface HourUpdateManyInput {
   create?: Maybe<HourCreateInput[] | HourCreateInput>;
-  update?: Maybe<
-    | HourUpdateWithWhereUniqueNestedInput[]
-    | HourUpdateWithWhereUniqueNestedInput
-  >;
-  upsert?: Maybe<
-    | HourUpsertWithWhereUniqueNestedInput[]
-    | HourUpsertWithWhereUniqueNestedInput
-  >;
-  delete?: Maybe<HourWhereUniqueInput[] | HourWhereUniqueInput>;
-  connect?: Maybe<HourWhereUniqueInput[] | HourWhereUniqueInput>;
-  set?: Maybe<HourWhereUniqueInput[] | HourWhereUniqueInput>;
-  disconnect?: Maybe<HourWhereUniqueInput[] | HourWhereUniqueInput>;
   deleteMany?: Maybe<HourScalarWhereInput[] | HourScalarWhereInput>;
   updateMany?: Maybe<
     HourUpdateManyWithWhereNestedInput[] | HourUpdateManyWithWhereNestedInput
   >;
 }
 
-export interface HourUpdateWithWhereUniqueNestedInput {
-  where: HourWhereUniqueInput;
-  data: HourUpdateDataInput;
-}
-
-export interface HourUpdateDataInput {
-  day?: Maybe<Day>;
-  start?: Maybe<String>;
-  end?: Maybe<String>;
-}
-
-export interface HourUpsertWithWhereUniqueNestedInput {
-  where: HourWhereUniqueInput;
-  update: HourUpdateDataInput;
-  create: HourCreateInput;
-}
-
 export interface HourScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
   day?: Maybe<Day>;
   day_not?: Maybe<Day>;
   day_in?: Maybe<Day[] | Day>;
@@ -683,36 +646,11 @@ export interface PlaceUpdatekeywordsInput {
   set?: Maybe<String[] | String>;
 }
 
-export interface TypeUpdateOneInput {
-  create?: Maybe<TypeCreateInput>;
-  update?: Maybe<TypeUpdateDataInput>;
-  upsert?: Maybe<TypeUpsertNestedInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<TypeWhereUniqueInput>;
-}
-
-export interface TypeUpdateDataInput {
-  name?: Maybe<String>;
-}
-
-export interface TypeUpsertNestedInput {
-  update: TypeUpdateDataInput;
-  create: TypeCreateInput;
-}
-
 export interface PlaceUpdateManyMutationInput {
   name?: Maybe<String>;
   keywords?: Maybe<PlaceUpdatekeywordsInput>;
   category?: Maybe<Category>;
-}
-
-export interface TypeUpdateInput {
-  name?: Maybe<String>;
-}
-
-export interface TypeUpdateManyMutationInput {
-  name?: Maybe<String>;
+  type?: Maybe<String>;
 }
 
 export interface UserCreateInput {
@@ -720,27 +658,30 @@ export interface UserCreateInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
+  role?: Maybe<Role>;
 }
 
 export interface UserUpdateInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
+  role?: Maybe<Role>;
 }
 
 export interface UserUpdateManyMutationInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
+  role?: Maybe<Role>;
 }
 
-export interface HourSubscriptionWhereInput {
+export interface CompanySubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
   updatedFields_contains_every?: Maybe<String[] | String>;
   updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<HourWhereInput>;
-  AND?: Maybe<HourSubscriptionWhereInput[] | HourSubscriptionWhereInput>;
+  node?: Maybe<CompanyWhereInput>;
+  AND?: Maybe<CompanySubscriptionWhereInput[] | CompanySubscriptionWhereInput>;
 }
 
 export interface PlaceSubscriptionWhereInput {
@@ -750,15 +691,6 @@ export interface PlaceSubscriptionWhereInput {
   updatedFields_contains_some?: Maybe<String[] | String>;
   node?: Maybe<PlaceWhereInput>;
   AND?: Maybe<PlaceSubscriptionWhereInput[] | PlaceSubscriptionWhereInput>;
-}
-
-export interface TypeSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<TypeWhereInput>;
-  AND?: Maybe<TypeSubscriptionWhereInput[] | TypeSubscriptionWhereInput>;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -774,57 +706,53 @@ export interface NodeNode {
   id: ID_Output;
 }
 
-export interface Hour {
+export interface Company {
   id: ID_Output;
-  day?: Day;
-  start?: String;
-  end?: String;
+  name?: String;
+  email?: String;
 }
 
-export interface HourPromise extends Promise<Hour>, Fragmentable {
+export interface CompanyPromise extends Promise<Company>, Fragmentable {
   id: () => Promise<ID_Output>;
-  day: () => Promise<Day>;
-  start: () => Promise<String>;
-  end: () => Promise<String>;
+  name: () => Promise<String>;
+  email: () => Promise<String>;
 }
 
-export interface HourSubscription
-  extends Promise<AsyncIterator<Hour>>,
+export interface CompanySubscription
+  extends Promise<AsyncIterator<Company>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  day: () => Promise<AsyncIterator<Day>>;
-  start: () => Promise<AsyncIterator<String>>;
-  end: () => Promise<AsyncIterator<String>>;
+  name: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
 }
 
-export interface HourNullablePromise
-  extends Promise<Hour | null>,
+export interface CompanyNullablePromise
+  extends Promise<Company | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  day: () => Promise<Day>;
-  start: () => Promise<String>;
-  end: () => Promise<String>;
+  name: () => Promise<String>;
+  email: () => Promise<String>;
 }
 
-export interface HourConnection {
+export interface CompanyConnection {
   pageInfo: PageInfo;
-  edges: HourEdge[];
+  edges: CompanyEdge[];
 }
 
-export interface HourConnectionPromise
-  extends Promise<HourConnection>,
+export interface CompanyConnectionPromise
+  extends Promise<CompanyConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<HourEdge>>() => T;
-  aggregate: <T = AggregateHourPromise>() => T;
+  edges: <T = FragmentableArray<CompanyEdge>>() => T;
+  aggregate: <T = AggregateCompanyPromise>() => T;
 }
 
-export interface HourConnectionSubscription
-  extends Promise<AsyncIterator<HourConnection>>,
+export interface CompanyConnectionSubscription
+  extends Promise<AsyncIterator<CompanyConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<HourEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateHourSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CompanyEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCompanySubscription>() => T;
 }
 
 export interface PageInfo {
@@ -850,35 +778,35 @@ export interface PageInfoSubscription
   endCursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface HourEdge {
-  node: Hour;
+export interface CompanyEdge {
+  node: Company;
   cursor: String;
 }
 
-export interface HourEdgePromise extends Promise<HourEdge>, Fragmentable {
-  node: <T = HourPromise>() => T;
+export interface CompanyEdgePromise extends Promise<CompanyEdge>, Fragmentable {
+  node: <T = CompanyPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface HourEdgeSubscription
-  extends Promise<AsyncIterator<HourEdge>>,
+export interface CompanyEdgeSubscription
+  extends Promise<AsyncIterator<CompanyEdge>>,
     Fragmentable {
-  node: <T = HourSubscription>() => T;
+  node: <T = CompanySubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateHour {
+export interface AggregateCompany {
   count: Int;
 }
 
-export interface AggregateHourPromise
-  extends Promise<AggregateHour>,
+export interface AggregateCompanyPromise
+  extends Promise<AggregateCompany>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateHourSubscription
-  extends Promise<AsyncIterator<AggregateHour>>,
+export interface AggregateCompanySubscription
+  extends Promise<AsyncIterator<AggregateCompany>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -887,26 +815,20 @@ export interface Place {
   id: ID_Output;
   name?: String;
   address?: Address | null;
+  hours?: <T = FragmentableArray<Hour>>() => T;
   keywords: String[];
   category?: Category;
+  type?: String;
 }
 
 export interface PlacePromise extends Promise<Place>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   address: <T = AddressPromise>() => T;
-  hours: <T = FragmentableArray<Hour>>(args?: {
-    where?: HourWhereInput;
-    orderBy?: HourOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  hours: <T = FragmentableArray<Hour>>() => T;
   keywords: () => Promise<String[]>;
   category: () => Promise<Category>;
-  type: <T = TypePromise>() => T;
+  type: () => Promise<String>;
 }
 
 export interface PlaceSubscription
@@ -915,18 +837,10 @@ export interface PlaceSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   address: <T = AddressSubscription>() => T;
-  hours: <T = Promise<AsyncIterator<HourSubscription>>>(args?: {
-    where?: HourWhereInput;
-    orderBy?: HourOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  hours: <T = Promise<AsyncIterator<HourSubscription>>>() => T;
   keywords: () => Promise<AsyncIterator<String[]>>;
   category: () => Promise<AsyncIterator<Category>>;
-  type: <T = TypeSubscription>() => T;
+  type: () => Promise<AsyncIterator<String>>;
 }
 
 export interface PlaceNullablePromise
@@ -935,30 +849,22 @@ export interface PlaceNullablePromise
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   address: <T = AddressPromise>() => T;
-  hours: <T = FragmentableArray<Hour>>(args?: {
-    where?: HourWhereInput;
-    orderBy?: HourOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  hours: <T = FragmentableArray<Hour>>() => T;
   keywords: () => Promise<String[]>;
   category: () => Promise<Category>;
-  type: <T = TypePromise>() => T;
+  type: () => Promise<String>;
 }
 
 export interface Address {
   number?: Int;
   street?: String;
-  zip_code?: Int;
+  zipCode?: Int;
 }
 
 export interface AddressPromise extends Promise<Address>, Fragmentable {
   number: () => Promise<Int>;
   street: () => Promise<String>;
-  zip_code: () => Promise<Int>;
+  zipCode: () => Promise<Int>;
 }
 
 export interface AddressSubscription
@@ -966,7 +872,7 @@ export interface AddressSubscription
     Fragmentable {
   number: () => Promise<AsyncIterator<Int>>;
   street: () => Promise<AsyncIterator<String>>;
-  zip_code: () => Promise<AsyncIterator<Int>>;
+  zipCode: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface AddressNullablePromise
@@ -974,31 +880,35 @@ export interface AddressNullablePromise
     Fragmentable {
   number: () => Promise<Int>;
   street: () => Promise<String>;
-  zip_code: () => Promise<Int>;
+  zipCode: () => Promise<Int>;
 }
 
-export interface Type {
-  id: ID_Output;
-  name?: String;
+export interface Hour {
+  day?: Day;
+  start?: String;
+  end?: String;
 }
 
-export interface TypePromise extends Promise<Type>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
+export interface HourPromise extends Promise<Hour>, Fragmentable {
+  day: () => Promise<Day>;
+  start: () => Promise<String>;
+  end: () => Promise<String>;
 }
 
-export interface TypeSubscription
-  extends Promise<AsyncIterator<Type>>,
+export interface HourSubscription
+  extends Promise<AsyncIterator<Hour>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
+  day: () => Promise<AsyncIterator<Day>>;
+  start: () => Promise<AsyncIterator<String>>;
+  end: () => Promise<AsyncIterator<String>>;
 }
 
-export interface TypeNullablePromise
-  extends Promise<Type | null>,
+export interface HourNullablePromise
+  extends Promise<Hour | null>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
+  day: () => Promise<Day>;
+  start: () => Promise<String>;
+  end: () => Promise<String>;
 }
 
 export interface PlaceConnection {
@@ -1055,65 +965,12 @@ export interface AggregatePlaceSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface TypeConnection {
-  pageInfo: PageInfo;
-  edges: TypeEdge[];
-}
-
-export interface TypeConnectionPromise
-  extends Promise<TypeConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<TypeEdge>>() => T;
-  aggregate: <T = AggregateTypePromise>() => T;
-}
-
-export interface TypeConnectionSubscription
-  extends Promise<AsyncIterator<TypeConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<TypeEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateTypeSubscription>() => T;
-}
-
-export interface TypeEdge {
-  node: Type;
-  cursor: String;
-}
-
-export interface TypeEdgePromise extends Promise<TypeEdge>, Fragmentable {
-  node: <T = TypePromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface TypeEdgeSubscription
-  extends Promise<AsyncIterator<TypeEdge>>,
-    Fragmentable {
-  node: <T = TypeSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateType {
-  count: Int;
-}
-
-export interface AggregateTypePromise
-  extends Promise<AggregateType>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateTypeSubscription
-  extends Promise<AsyncIterator<AggregateType>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
 export interface User {
   id: ID_Output;
   name?: String;
   email?: String;
   password?: String;
+  role?: Role;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
@@ -1121,6 +978,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   name: () => Promise<String>;
   email: () => Promise<String>;
   password: () => Promise<String>;
+  role: () => Promise<Role>;
 }
 
 export interface UserSubscription
@@ -1130,6 +988,7 @@ export interface UserSubscription
   name: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
+  role: () => Promise<AsyncIterator<Role>>;
 }
 
 export interface UserNullablePromise
@@ -1139,6 +998,7 @@ export interface UserNullablePromise
   name: () => Promise<String>;
   email: () => Promise<String>;
   password: () => Promise<String>;
+  role: () => Promise<Role>;
 }
 
 export interface UserConnection {
@@ -1211,54 +1071,51 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
-export interface HourSubscriptionPayload {
+export interface CompanySubscriptionPayload {
   mutation: MutationType;
-  node: Hour;
+  node: Company;
   updatedFields: String[];
-  previousValues: HourPreviousValues;
+  previousValues: CompanyPreviousValues;
 }
 
-export interface HourSubscriptionPayloadPromise
-  extends Promise<HourSubscriptionPayload>,
+export interface CompanySubscriptionPayloadPromise
+  extends Promise<CompanySubscriptionPayload>,
     Fragmentable {
   mutation: () => Promise<MutationType>;
-  node: <T = HourPromise>() => T;
+  node: <T = CompanyPromise>() => T;
   updatedFields: () => Promise<String[]>;
-  previousValues: <T = HourPreviousValuesPromise>() => T;
+  previousValues: <T = CompanyPreviousValuesPromise>() => T;
 }
 
-export interface HourSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<HourSubscriptionPayload>>,
+export interface CompanySubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<CompanySubscriptionPayload>>,
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = HourSubscription>() => T;
+  node: <T = CompanySubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = HourPreviousValuesSubscription>() => T;
+  previousValues: <T = CompanyPreviousValuesSubscription>() => T;
 }
 
-export interface HourPreviousValues {
+export interface CompanyPreviousValues {
   id: ID_Output;
-  day?: Day;
-  start?: String;
-  end?: String;
+  name?: String;
+  email?: String;
 }
 
-export interface HourPreviousValuesPromise
-  extends Promise<HourPreviousValues>,
+export interface CompanyPreviousValuesPromise
+  extends Promise<CompanyPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  day: () => Promise<Day>;
-  start: () => Promise<String>;
-  end: () => Promise<String>;
+  name: () => Promise<String>;
+  email: () => Promise<String>;
 }
 
-export interface HourPreviousValuesSubscription
-  extends Promise<AsyncIterator<HourPreviousValues>>,
+export interface CompanyPreviousValuesSubscription
+  extends Promise<AsyncIterator<CompanyPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  day: () => Promise<AsyncIterator<Day>>;
-  start: () => Promise<AsyncIterator<String>>;
-  end: () => Promise<AsyncIterator<String>>;
+  name: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
 }
 
 export interface PlaceSubscriptionPayload {
@@ -1291,6 +1148,7 @@ export interface PlacePreviousValues {
   name?: String;
   keywords: String[];
   category?: Category;
+  type?: String;
 }
 
 export interface PlacePreviousValuesPromise
@@ -1300,6 +1158,7 @@ export interface PlacePreviousValuesPromise
   name: () => Promise<String>;
   keywords: () => Promise<String[]>;
   category: () => Promise<Category>;
+  type: () => Promise<String>;
 }
 
 export interface PlacePreviousValuesSubscription
@@ -1309,50 +1168,7 @@ export interface PlacePreviousValuesSubscription
   name: () => Promise<AsyncIterator<String>>;
   keywords: () => Promise<AsyncIterator<String[]>>;
   category: () => Promise<AsyncIterator<Category>>;
-}
-
-export interface TypeSubscriptionPayload {
-  mutation: MutationType;
-  node: Type;
-  updatedFields: String[];
-  previousValues: TypePreviousValues;
-}
-
-export interface TypeSubscriptionPayloadPromise
-  extends Promise<TypeSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = TypePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = TypePreviousValuesPromise>() => T;
-}
-
-export interface TypeSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<TypeSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = TypeSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = TypePreviousValuesSubscription>() => T;
-}
-
-export interface TypePreviousValues {
-  id: ID_Output;
-  name?: String;
-}
-
-export interface TypePreviousValuesPromise
-  extends Promise<TypePreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-}
-
-export interface TypePreviousValuesSubscription
-  extends Promise<AsyncIterator<TypePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
+  type: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserSubscriptionPayload {
@@ -1385,6 +1201,7 @@ export interface UserPreviousValues {
   name?: String;
   email?: String;
   password?: String;
+  role?: Role;
 }
 
 export interface UserPreviousValuesPromise
@@ -1394,6 +1211,7 @@ export interface UserPreviousValuesPromise
   name: () => Promise<String>;
   email: () => Promise<String>;
   password: () => Promise<String>;
+  role: () => Promise<Role>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -1403,6 +1221,7 @@ export interface UserPreviousValuesSubscription
   name: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
+  role: () => Promise<AsyncIterator<Role>>;
 }
 
 /*
@@ -1442,16 +1261,16 @@ export const models: Model[] = [
     embedded: false
   },
   {
+    name: "Company",
+    embedded: false
+  },
+  {
     name: "Address",
     embedded: true
   },
   {
     name: "Hour",
-    embedded: false
-  },
-  {
-    name: "Type",
-    embedded: false
+    embedded: true
   },
   {
     name: "Day",
@@ -1462,11 +1281,7 @@ export const models: Model[] = [
     embedded: false
   },
   {
-    name: "Vegan",
-    embedded: false
-  },
-  {
-    name: "Bio",
+    name: "Role",
     embedded: false
   }
 ];

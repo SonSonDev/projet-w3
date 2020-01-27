@@ -3,34 +3,35 @@ type User {
   name: String
   email: String @unique
   password: String
+  role: Role
 }
 
 type Place {
   id: ID! @id
   name: String
   address: Address
-  hours: [Hour] @relation(link: INLINE)
-  keywords: [String]
+  hours: [Hour!]
+  keywords: [String!] @scalarList(strategy: EMBEDDED)
   category: Category @relation(link: INLINE)
-  type: Type @relation(link: INLINE)
+  type: String
+}
+
+type Company {
+  id: ID! @id
+  name: String
+  email: String
 }
 
 type Address @embedded {
   number: Int
   street: String
-  zip_code: Int
+  zipCode: Int
 }
 
-type Hour {
-  id: ID! @id
+type Hour @embedded {
   day: Day
   start: String
   end: String
-}
-
-type Type {
-  id: ID! @id
-  name: String
 }
 
 enum Day {
@@ -49,14 +50,9 @@ enum Category {
   ACTIVITY
 }
 
-enum Vegan {
-  VG
-  VGN
-  VGF
-}
-
-enum Bio {
-  NO
-  PARTIAL
-  FULL
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  MODERATOR
+  USER
 }

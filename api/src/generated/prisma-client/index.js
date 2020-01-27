@@ -13,16 +13,16 @@ var models = [
     embedded: false
   },
   {
+    name: "Company",
+    embedded: false
+  },
+  {
     name: "Address",
     embedded: true
   },
   {
     name: "Hour",
-    embedded: false
-  },
-  {
-    name: "Type",
-    embedded: false
+    embedded: true
   },
   {
     name: "Day",
@@ -33,11 +33,7 @@ var models = [
     embedded: false
   },
   {
-    name: "Vegan",
-    embedded: false
-  },
-  {
-    name: "Bio",
+    name: "Role",
     embedded: false
   }
 ];

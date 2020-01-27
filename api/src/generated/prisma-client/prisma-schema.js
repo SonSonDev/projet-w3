@@ -6,13 +6,13 @@ module.exports = {
 /* GraphQL */ `type Address {
   number: Int
   street: String
-  zip_code: Int
+  zipCode: Int
 }
 
 input AddressCreateInput {
   number: Int
   street: String
-  zip_code: Int
+  zipCode: Int
 }
 
 input AddressCreateOneInput {
@@ -22,7 +22,7 @@ input AddressCreateOneInput {
 input AddressUpdateDataInput {
   number: Int
   street: String
-  zip_code: Int
+  zipCode: Int
 }
 
 input AddressUpdateOneInput {
@@ -61,26 +61,22 @@ input AddressWhereInput {
   street_not_starts_with: String
   street_ends_with: String
   street_not_ends_with: String
-  zip_code: Int
-  zip_code_not: Int
-  zip_code_in: [Int!]
-  zip_code_not_in: [Int!]
-  zip_code_lt: Int
-  zip_code_lte: Int
-  zip_code_gt: Int
-  zip_code_gte: Int
+  zipCode: Int
+  zipCode_not: Int
+  zipCode_in: [Int!]
+  zipCode_not_in: [Int!]
+  zipCode_lt: Int
+  zipCode_lte: Int
+  zipCode_gt: Int
+  zipCode_gte: Int
   AND: [AddressWhereInput!]
 }
 
-type AggregateHour {
+type AggregateCompany {
   count: Int!
 }
 
 type AggregatePlace {
-  count: Int!
-}
-
-type AggregateType {
   count: Int!
 }
 
@@ -98,65 +94,71 @@ enum Category {
   ACTIVITY
 }
 
-enum Day {
-  MONDAY
-  TUESDAY
-  WEDNESDAY
-  THURSDAY
-  FRIDAY
-  SATURDAY
-  SUNDAY
-}
-
-type Hour {
+type Company {
   id: ID!
-  day: Day
-  start: String
-  end: String
+  name: String
+  email: String
 }
 
-type HourConnection {
+type CompanyConnection {
   pageInfo: PageInfo!
-  edges: [HourEdge]!
-  aggregate: AggregateHour!
+  edges: [CompanyEdge]!
+  aggregate: AggregateCompany!
 }
 
-input HourCreateInput {
+input CompanyCreateInput {
   id: ID
-  day: Day
-  start: String
-  end: String
+  name: String
+  email: String
 }
 
-input HourCreateManyInput {
-  create: [HourCreateInput!]
-  connect: [HourWhereUniqueInput!]
-}
-
-type HourEdge {
-  node: Hour!
+type CompanyEdge {
+  node: Company!
   cursor: String!
 }
 
-enum HourOrderByInput {
+enum CompanyOrderByInput {
   id_ASC
   id_DESC
-  day_ASC
-  day_DESC
-  start_ASC
-  start_DESC
-  end_ASC
-  end_DESC
+  name_ASC
+  name_DESC
+  email_ASC
+  email_DESC
 }
 
-type HourPreviousValues {
+type CompanyPreviousValues {
   id: ID!
-  day: Day
-  start: String
-  end: String
+  name: String
+  email: String
 }
 
-input HourScalarWhereInput {
+type CompanySubscriptionPayload {
+  mutation: MutationType!
+  node: Company
+  updatedFields: [String!]
+  previousValues: CompanyPreviousValues
+}
+
+input CompanySubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: CompanyWhereInput
+  AND: [CompanySubscriptionWhereInput!]
+}
+
+input CompanyUpdateInput {
+  name: String
+  email: String
+}
+
+input CompanyUpdateManyMutationInput {
+  name: String
+  email: String
+}
+
+input CompanyWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -171,6 +173,104 @@ input HourScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  AND: [CompanyWhereInput!]
+}
+
+input CompanyWhereUniqueInput {
+  id: ID
+}
+
+enum Day {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+type Hour {
+  day: Day
+  start: String
+  end: String
+}
+
+input HourCreateInput {
+  day: Day
+  start: String
+  end: String
+}
+
+input HourCreateManyInput {
+  create: [HourCreateInput!]
+}
+
+input HourRestrictedWhereInput {
+  day: Day
+  day_not: Day
+  day_in: [Day!]
+  day_not_in: [Day!]
+  start: String
+  start_not: String
+  start_in: [String!]
+  start_not_in: [String!]
+  start_lt: String
+  start_lte: String
+  start_gt: String
+  start_gte: String
+  start_contains: String
+  start_not_contains: String
+  start_starts_with: String
+  start_not_starts_with: String
+  start_ends_with: String
+  start_not_ends_with: String
+  end: String
+  end_not: String
+  end_in: [String!]
+  end_not_in: [String!]
+  end_lt: String
+  end_lte: String
+  end_gt: String
+  end_gte: String
+  end_contains: String
+  end_not_contains: String
+  end_starts_with: String
+  end_not_starts_with: String
+  end_ends_with: String
+  end_not_ends_with: String
+  AND: [HourRestrictedWhereInput!]
+}
+
+input HourScalarWhereInput {
   day: Day
   day_not: Day
   day_in: [Day!]
@@ -208,34 +308,6 @@ input HourScalarWhereInput {
   NOT: [HourScalarWhereInput!]
 }
 
-type HourSubscriptionPayload {
-  mutation: MutationType!
-  node: Hour
-  updatedFields: [String!]
-  previousValues: HourPreviousValues
-}
-
-input HourSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: HourWhereInput
-  AND: [HourSubscriptionWhereInput!]
-}
-
-input HourUpdateDataInput {
-  day: Day
-  start: String
-  end: String
-}
-
-input HourUpdateInput {
-  day: Day
-  start: String
-  end: String
-}
-
 input HourUpdateManyDataInput {
   day: Day
   start: String
@@ -244,20 +316,8 @@ input HourUpdateManyDataInput {
 
 input HourUpdateManyInput {
   create: [HourCreateInput!]
-  update: [HourUpdateWithWhereUniqueNestedInput!]
-  upsert: [HourUpsertWithWhereUniqueNestedInput!]
-  delete: [HourWhereUniqueInput!]
-  connect: [HourWhereUniqueInput!]
-  set: [HourWhereUniqueInput!]
-  disconnect: [HourWhereUniqueInput!]
   deleteMany: [HourScalarWhereInput!]
   updateMany: [HourUpdateManyWithWhereNestedInput!]
-}
-
-input HourUpdateManyMutationInput {
-  day: Day
-  start: String
-  end: String
 }
 
 input HourUpdateManyWithWhereNestedInput {
@@ -265,32 +325,7 @@ input HourUpdateManyWithWhereNestedInput {
   data: HourUpdateManyDataInput!
 }
 
-input HourUpdateWithWhereUniqueNestedInput {
-  where: HourWhereUniqueInput!
-  data: HourUpdateDataInput!
-}
-
-input HourUpsertWithWhereUniqueNestedInput {
-  where: HourWhereUniqueInput!
-  update: HourUpdateDataInput!
-  create: HourCreateInput!
-}
-
 input HourWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
   day: Day
   day_not: Day
   day_in: [Day!]
@@ -326,31 +361,21 @@ input HourWhereInput {
   AND: [HourWhereInput!]
 }
 
-input HourWhereUniqueInput {
-  id: ID
-}
-
 scalar Long
 
 type Mutation {
-  createHour(data: HourCreateInput!): Hour!
-  updateHour(data: HourUpdateInput!, where: HourWhereUniqueInput!): Hour
-  updateManyHours(data: HourUpdateManyMutationInput!, where: HourWhereInput): BatchPayload!
-  upsertHour(where: HourWhereUniqueInput!, create: HourCreateInput!, update: HourUpdateInput!): Hour!
-  deleteHour(where: HourWhereUniqueInput!): Hour
-  deleteManyHours(where: HourWhereInput): BatchPayload!
+  createCompany(data: CompanyCreateInput!): Company!
+  updateCompany(data: CompanyUpdateInput!, where: CompanyWhereUniqueInput!): Company
+  updateManyCompanies(data: CompanyUpdateManyMutationInput!, where: CompanyWhereInput): BatchPayload!
+  upsertCompany(where: CompanyWhereUniqueInput!, create: CompanyCreateInput!, update: CompanyUpdateInput!): Company!
+  deleteCompany(where: CompanyWhereUniqueInput!): Company
+  deleteManyCompanies(where: CompanyWhereInput): BatchPayload!
   createPlace(data: PlaceCreateInput!): Place!
   updatePlace(data: PlaceUpdateInput!, where: PlaceWhereUniqueInput!): Place
   updateManyPlaces(data: PlaceUpdateManyMutationInput!, where: PlaceWhereInput): BatchPayload!
   upsertPlace(where: PlaceWhereUniqueInput!, create: PlaceCreateInput!, update: PlaceUpdateInput!): Place!
   deletePlace(where: PlaceWhereUniqueInput!): Place
   deleteManyPlaces(where: PlaceWhereInput): BatchPayload!
-  createType(data: TypeCreateInput!): Type!
-  updateType(data: TypeUpdateInput!, where: TypeWhereUniqueInput!): Type
-  updateManyTypes(data: TypeUpdateManyMutationInput!, where: TypeWhereInput): BatchPayload!
-  upsertType(where: TypeWhereUniqueInput!, create: TypeCreateInput!, update: TypeUpdateInput!): Type!
-  deleteType(where: TypeWhereUniqueInput!): Type
-  deleteManyTypes(where: TypeWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -380,10 +405,10 @@ type Place {
   id: ID!
   name: String
   address: Address
-  hours(where: HourWhereInput, orderBy: HourOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Hour!]
+  hours: [Hour!]
   keywords: [String!]!
   category: Category
-  type: Type
+  type: String
 }
 
 type PlaceConnection {
@@ -399,7 +424,7 @@ input PlaceCreateInput {
   hours: HourCreateManyInput
   keywords: PlaceCreatekeywordsInput
   category: Category
-  type: TypeCreateOneInput
+  type: String
 }
 
 input PlaceCreatekeywordsInput {
@@ -418,6 +443,8 @@ enum PlaceOrderByInput {
   name_DESC
   category_ASC
   category_DESC
+  type_ASC
+  type_DESC
 }
 
 type PlacePreviousValues {
@@ -425,6 +452,7 @@ type PlacePreviousValues {
   name: String
   keywords: [String!]!
   category: Category
+  type: String
 }
 
 type PlaceSubscriptionPayload {
@@ -449,7 +477,7 @@ input PlaceUpdateInput {
   hours: HourUpdateManyInput
   keywords: PlaceUpdatekeywordsInput
   category: Category
-  type: TypeUpdateOneInput
+  type: String
 }
 
 input PlaceUpdatekeywordsInput {
@@ -460,6 +488,7 @@ input PlaceUpdateManyMutationInput {
   name: String
   keywords: PlaceUpdatekeywordsInput
   category: Category
+  type: String
 }
 
 input PlaceWhereInput {
@@ -493,11 +522,26 @@ input PlaceWhereInput {
   name_not_ends_with: String
   address: AddressWhereInput
   hours_some: HourWhereInput
+  hours_every: HourRestrictedWhereInput
+  hours_none: HourRestrictedWhereInput
   category: Category
   category_not: Category
   category_in: [Category!]
   category_not_in: [Category!]
-  type: TypeWhereInput
+  type: String
+  type_not: String
+  type_in: [String!]
+  type_not_in: [String!]
+  type_lt: String
+  type_lte: String
+  type_gt: String
+  type_gte: String
+  type_contains: String
+  type_not_contains: String
+  type_starts_with: String
+  type_not_starts_with: String
+  type_ends_with: String
+  type_not_ends_with: String
   AND: [PlaceWhereInput!]
 }
 
@@ -506,142 +550,29 @@ input PlaceWhereUniqueInput {
 }
 
 type Query {
-  hour(where: HourWhereUniqueInput!): Hour
-  hours(where: HourWhereInput, orderBy: HourOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Hour]!
-  hoursConnection(where: HourWhereInput, orderBy: HourOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): HourConnection!
+  company(where: CompanyWhereUniqueInput!): Company
+  companies(where: CompanyWhereInput, orderBy: CompanyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Company]!
+  companiesConnection(where: CompanyWhereInput, orderBy: CompanyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CompanyConnection!
   place(where: PlaceWhereUniqueInput!): Place
   places(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Place]!
   placesConnection(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PlaceConnection!
-  type(where: TypeWhereUniqueInput!): Type
-  types(where: TypeWhereInput, orderBy: TypeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Type]!
-  typesConnection(where: TypeWhereInput, orderBy: TypeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TypeConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   node(id: ID!): Node
 }
 
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  MODERATOR
+  USER
+}
+
 type Subscription {
-  hour(where: HourSubscriptionWhereInput): HourSubscriptionPayload
+  company(where: CompanySubscriptionWhereInput): CompanySubscriptionPayload
   place(where: PlaceSubscriptionWhereInput): PlaceSubscriptionPayload
-  type(where: TypeSubscriptionWhereInput): TypeSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
-}
-
-type Type {
-  id: ID!
-  name: String
-}
-
-type TypeConnection {
-  pageInfo: PageInfo!
-  edges: [TypeEdge]!
-  aggregate: AggregateType!
-}
-
-input TypeCreateInput {
-  id: ID
-  name: String
-}
-
-input TypeCreateOneInput {
-  create: TypeCreateInput
-  connect: TypeWhereUniqueInput
-}
-
-type TypeEdge {
-  node: Type!
-  cursor: String!
-}
-
-enum TypeOrderByInput {
-  id_ASC
-  id_DESC
-  name_ASC
-  name_DESC
-}
-
-type TypePreviousValues {
-  id: ID!
-  name: String
-}
-
-type TypeSubscriptionPayload {
-  mutation: MutationType!
-  node: Type
-  updatedFields: [String!]
-  previousValues: TypePreviousValues
-}
-
-input TypeSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: TypeWhereInput
-  AND: [TypeSubscriptionWhereInput!]
-}
-
-input TypeUpdateDataInput {
-  name: String
-}
-
-input TypeUpdateInput {
-  name: String
-}
-
-input TypeUpdateManyMutationInput {
-  name: String
-}
-
-input TypeUpdateOneInput {
-  create: TypeCreateInput
-  update: TypeUpdateDataInput
-  upsert: TypeUpsertNestedInput
-  delete: Boolean
-  disconnect: Boolean
-  connect: TypeWhereUniqueInput
-}
-
-input TypeUpsertNestedInput {
-  update: TypeUpdateDataInput!
-  create: TypeCreateInput!
-}
-
-input TypeWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  name: String
-  name_not: String
-  name_in: [String!]
-  name_not_in: [String!]
-  name_lt: String
-  name_lte: String
-  name_gt: String
-  name_gte: String
-  name_contains: String
-  name_not_contains: String
-  name_starts_with: String
-  name_not_starts_with: String
-  name_ends_with: String
-  name_not_ends_with: String
-  AND: [TypeWhereInput!]
-}
-
-input TypeWhereUniqueInput {
-  id: ID
 }
 
 type User {
@@ -649,6 +580,7 @@ type User {
   name: String
   email: String
   password: String
+  role: Role
 }
 
 type UserConnection {
@@ -662,6 +594,7 @@ input UserCreateInput {
   name: String
   email: String
   password: String
+  role: Role
 }
 
 type UserEdge {
@@ -678,6 +611,8 @@ enum UserOrderByInput {
   email_DESC
   password_ASC
   password_DESC
+  role_ASC
+  role_DESC
 }
 
 type UserPreviousValues {
@@ -685,6 +620,7 @@ type UserPreviousValues {
   name: String
   email: String
   password: String
+  role: Role
 }
 
 type UserSubscriptionPayload {
@@ -707,12 +643,14 @@ input UserUpdateInput {
   name: String
   email: String
   password: String
+  role: Role
 }
 
 input UserUpdateManyMutationInput {
   name: String
   email: String
   password: String
+  role: Role
 }
 
 input UserWhereInput {
@@ -772,6 +710,10 @@ input UserWhereInput {
   password_not_starts_with: String
   password_ends_with: String
   password_not_ends_with: String
+  role: Role
+  role_not: Role
+  role_in: [Role!]
+  role_not_in: [Role!]
   AND: [UserWhereInput!]
 }
 
