@@ -1,0 +1,23 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: $baseFontSize;
+}
+
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: $defaultFontColor;
+  font-size: $defaultFontSize;
+  letter-spacing: 0rem;
+  background: $background-color;
+}
+
+a {
+  text-decoration: none;
+  color: $defaultFontColor;
+}
