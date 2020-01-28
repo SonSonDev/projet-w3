@@ -37,7 +37,7 @@ services:
     environment:
       PORT: 3000
     entrypoint: /app/entrypoint.sh
-    command: npm run dev
+    command: yarn dev
 
   bo:
     image: node:alpine
@@ -51,7 +51,7 @@ services:
       PORT: 80
     working_dir: /app
     entrypoint: /app/entrypoint.sh
-    command: npm run start
+    command: yarn start
 
 volumes:
   mongo: ~

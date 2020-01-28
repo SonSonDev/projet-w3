@@ -1,4 +1,3 @@
 #!/bin/sh
-npm install
-npm rebuild node-sass
+yarn install
 exec "$@"
