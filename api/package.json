@@ -1,0 +1,14 @@
+{
+  "name": "hackernews-node",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "bcryptjs": "2.4.3",
+    "graphql-yoga": "1.17.4",
+    "jsonwebtoken": "8.5.1",
+    "prisma-client-lib": "1.30.1"
+  }
+}

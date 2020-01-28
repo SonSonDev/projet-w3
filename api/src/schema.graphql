@@ -1,0 +1,76 @@
+type Place {
+  id: ID!
+  name: String
+  address: Address
+  hours: [Hour]
+  keywords: [String]
+  category: Category
+  type: Type
+}
+
+type Address {
+  number: Int
+  street: String
+  zip_code: Int
+}
+
+type Hour {
+  id: ID!
+  day: Day
+  start: String
+  end: String
+}
+
+type Type {
+  id: ID!
+  name: String
+}
+
+enum Day {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+enum Category {
+  FOOD
+  SHOP
+  ACTIVITY
+}
+
+enum Vegan {
+  VG
+  VGN
+  VGF
+}
+
+enum Bio {
+  NO
+  PARTIAL
+  FULL
+}
+
+type AuthPayload {
+  token: String
+  user: User
+}
+
+type User {
+  id: ID!
+  name: String
+  email: String
+  password: String
+}
+
+type Query {
+  place: Place
+}
+
+type Mutation {
+  signup(name: String!, email: String!, password: String!): AuthPayload
+  login(email: String!, password: String!): AuthPayload
+}
