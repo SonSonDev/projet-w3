@@ -66,6 +66,7 @@ async function createCompany(parent, { name, email }, context, info) {
 }
 
 async function createUser(parent, { password, name, email, role }, context, info) {
+  const hashPassword = await bcrypt.hash(password, 10)
   return await context.prisma.createUser({
     name: name,
     password: hashPassword,

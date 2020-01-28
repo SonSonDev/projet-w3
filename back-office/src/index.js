@@ -1,14 +1,28 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+
+import ApolloClient from "apollo-client"
+import { InMemoryCache } from "apollo-cache-inmemory"
+import { createUploadLink } from "apollo-upload-client"
+import { ApolloProvider } from "@apollo/react-hooks"
+
 import '@duik/it/dist/styles.css'
 import './style/style.scss'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
-import {wrapRootElement} from './components/wrapRootElement'
 
-ReactDOM.render(<wrapRootElement><App /></wrapRootElement>, document.getElementById('root'))
+const link = createUploadLink({ uri: process.env.REACT_APP_API_URL })
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+const client = new ApolloClient({
+  link,
+  cache: new InMemoryCache()
+})
+
+
+ReactDOM.render(
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>,
+  document.getElementById('root'))
+
 serviceWorker.unregister()
