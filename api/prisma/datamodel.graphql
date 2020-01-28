@@ -1,3 +1,10 @@
+type User {
+  id: ID! @id
+  name: String
+  email: String @unique
+  password: String
+}
+
 type Place {
   id: ID! @id
   name: String
@@ -52,16 +59,4 @@ enum Bio {
   NO
   PARTIAL
   FULL
-}
-
-type AuthPayload {
-  token: String
-  user: User
-}
-
-type User {
-  id: ID! @id
-  name: String
-  email: String @unique
-  password: String
 }

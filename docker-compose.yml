@@ -33,10 +33,10 @@ services:
     volumes:
       - ./api:/app
     ports:
-      - '4000:4000'
+      - '3000:3000'
     environment:
-      PORT: 4000
-    command: npm run start
+      PORT: 3000
+    command: npm run dev
 
 volumes:
   mongo: ~

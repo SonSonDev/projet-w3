@@ -1,16 +1,6 @@
-# The HTTP endpoint for your Prisma API
-#endpoint: ''
-endpoint: http://prisma:4466
-
-# Points to the file that contains your datamodel
+endpoint: http://localhost:4466/madu/api
 datamodel: datamodel.graphql
 databaseType: document
-
-# Specifies language & location for the generated Prisma client
 generate:
   - generator: javascript-client
     output: ../src/generated/prisma-client
-
-hooks:
-  post-deploy:
-    - prisma generate
