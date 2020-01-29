@@ -2,8 +2,11 @@ scalar Date
 
 type Query {
   getPlaces: [Place]
+  getPlace(id: ID!): Place
   getUsers: [User]
+  getUser: User
   getCompanies: [Company]
+  getCompany: Company
 }
 
 type Mutation {

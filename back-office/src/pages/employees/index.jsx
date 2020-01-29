@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { GET_USERS, CREATE_USER } from "../graphql/queries";
+import { GET_USERS, CREATE_USER } from "../../graphql/queries";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import Card from "../components/cards/user";
-import UserForm from "../components/forms/user";
-import withAuthenticationCheck from "../components/hocs/withAuthenticationCheck";
+import Card from "../../components/cards/user";
+import UserForm from "../../components/forms/user";
+import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck";
 
 const Employees = () => {
   const [users, setUsers] = useState(null);

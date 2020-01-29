@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { GET_PLACES, CREATE_PLACE } from "../graphql/queries";
+import { GET_PLACES, CREATE_PLACE } from "../../graphql/queries";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import Card from "../components/cards/place";
-import PlaceForm from "../components/forms/place";
+import Card from "../../components/cards/place";
+import PlaceForm from "../../components/forms/place";
 import { Card as Cards, Dimmer } from "tabler-react";
-import Hourform from "../components/forms/hour";
-import withAuthenticationCheck from "../components/hocs/withAuthenticationCheck";
+import Hourform from "../../components/forms/hour";
+import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck";
 
 const Places = () => {
   const [places, setPlaces] = useState(null);
@@ -47,26 +47,8 @@ const Places = () => {
   if (error) return <div>{error.message}</div>;
 
   return (
-    <section class='places'>
-        <PlaceForm
-        onSubmit={values => {
-          // TEMP
-          setTimeout(() => {
-            window.location.reload();
-          }, 500);
-          createPlace({
-            variables: {
-              name: values.name,
-              number: values.number,
-              street: values.street,
-              zipCode: values.zipCode,
-              type: values.type,
-              category: values.category
-            }
-          });
-        }}
-      />
-      <div class='places_cards'>
+    <section className='places'>
+      <div className='places_cards'>
         {loading && 
         <Cards title="Loading" isClosable isCollapsible>
           <Cards.Body>

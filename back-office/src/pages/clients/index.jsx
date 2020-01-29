@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { GET_COMPANIES } from "../graphql/queries";
+import { GET_COMPANIES } from "../../graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
-import Card from "../components/cards/company";
-import CompanyForm from "../components/forms/company";
-import withAuthenticationCheck from "../components/hocs/withAuthenticationCheck";
+import Card from "../../components/cards/company";
+import CompanyForm from "../../components/forms/company";
+import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck";
 
 const Clients = () => {
   const [companies, setCompanies] = useState(null);

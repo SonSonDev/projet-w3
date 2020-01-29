@@ -1,6 +1,27 @@
 import gql from 'graphql-tag';
 
-export const UPDATE_HOUR = gql `
+export const GET_PLACE = gql`
+query getPlace($id: ID!) {
+  getPlace(id: $id) {
+    id
+    name
+    address {
+      number
+      street
+      zipCode
+    }
+    hours {
+      day
+      start
+      end
+    }
+    keywords
+    category
+  }
+}
+`;
+
+export const UPDATE_HOUR = gql`
 mutation UpdateHour($id: ID!, $day: Day!, $start: String!, $end: String!) {
   updateHour(id: $id, day: $day, start: $start, end: $end) {
     id

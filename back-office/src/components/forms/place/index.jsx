@@ -32,40 +32,40 @@ const PlaceForm = props => {
         }, 400);
       }}
     >
-      <Form class="places__form">
-        <div class="places__field">
+      <Form className="places__form">
+        <div className="places__field">
           <label htmlFor="name">Name</label>
           <Field name="name" type="text" />
           {/* <ErrorMessage name="name" /> */}
         </div>
 
         <div>
-          <div class="places__field">
+          <div className="places__field">
             <label htmlFor="number">Number</label>
             <Field name="number" type="number" />
             {/* <ErrorMessage name="number" /> */}
           </div>
 
-          <div class="places__field">
+          <div className="places__field">
             <label htmlFor="street">Street</label>
             <Field name="street" type="text" />
             {/* <ErrorMessage name="street" /> */}
           </div>
 
-          <div class="places__field">
+          <div className="places__field">
             <label htmlFor="zipCode">ZipCode</label>
             <Field name="zipCode" type="number" />
             {/* <ErrorMessage name="zipCode" /> */}
           </div>
         </div>
         
-        <div class="places__field">
+        <div className="places__field">
           <label htmlFor="type">Type</label>
           <Field name="type" type="text" />
           {/* <ErrorMessage name="type" /> */}
         </div>
 
-        <div class="places__field">
+        <div className="places__field">
           <label htmlFor="category">Category</label>
           <Field as="select" name="category">
               <option value="FOOD">Food</option>
