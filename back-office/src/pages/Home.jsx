@@ -2,6 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Home = () => {
+  const logout = () => {
+    console.log("logout");
+    localStorage.setItem("isLoggedIn", "false");
+    localStorage.setItem("user", null);
+  };
   return (
     <div
       style={{
@@ -18,6 +23,7 @@ const Home = () => {
       <Link to="/places">Places</Link>
       <Link to="/companies">Companies</Link>
       <Link to="/login">Login</Link>
+      <div onClick={() => logout()}>Logout</div>
     </div>
   );
 };

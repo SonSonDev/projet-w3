@@ -7,10 +7,24 @@ const Login = () => {
   const [err, setErr] = useState({ active: false, msg: null });
 
   const [login] = useMutation(LOGIN, {
-    onCompleted: user => {
+    onCompleted: ({
+      login: {
+        user: { id, name, email, role }
+      }
+    }) => {
       // redirect
       // put on localstorage
-      console.log(user);
+      const user = {
+        id,
+        name,
+        email,
+        role
+      };
+      localStorage.setItem("isLoggedIn", "true");
+      console.log(JSON.stringify(user));
+      localStorage.setItem("user", JSON.stringify(user));
+      window.location.href = "http://localhost:80/users";
+      console.log({ id, name, email, role });
     },
     onError: error => {
       // SHOW MESSAGES

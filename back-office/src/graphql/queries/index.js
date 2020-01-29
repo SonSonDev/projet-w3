@@ -103,18 +103,20 @@ export const DELETE_PLACE = gql`
 `;
 
 export const CREATE_USER = gql`
-mutation {
-  createUser(name: "Flo", password: "test", email: "fezfc", role: SUPER_ADMIN) {
-
-      id
-      name
-      email
-      password
-      role
-    }
-  
+mutation CreateUser(
+  $name: String!
+  $password: String!
+  $email: String!
+  $role: Role!
+) {
+  createUser(name: $name, password: $password, email: $email, role: $role) {
+    id
+    name
+    email
+    password
+    role
+  }
 }
-
 `;
 
 export const CREATE_COMPANY = gql`

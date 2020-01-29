@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { GET_USERS } from "../graphql/queries";
-import { useQuery } from "@apollo/react-hooks";
+import { GET_USERS, CREATE_USER } from "../graphql/queries";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import Card from "../components/cards/user";
 import UserForm from "../components/forms/user";
 
 const Users = () => {
   const [users, setUsers] = useState(null);
+
+  const [createUser] = useMutation(CREATE_USER);
 
   const { error, loading } = useQuery(GET_USERS, {
     onCompleted: ({ getUsers }) => setUsers(getUsers)
@@ -22,7 +24,23 @@ const Users = () => {
     <section style={{ minHeight: "100vh", border: "5px solid pink" }}>
       {loading && <div>Loading...</div>}
       {!loading && users && renderCards(users)}
-      <UserForm onSubmit={values => console.log(values)} />
+      <UserForm
+        onSubmit={values => {
+          console.log(values);
+          // TEMP
+          setTimeout(() => {
+            window.location.reload();
+          }, 500);
+          createUser({
+            variables: {
+              name: values.name,
+              password: values.password,
+              email: values.email,
+              role: values.role
+            }
+          });
+        }}
+      />
     </section>
   );
 };

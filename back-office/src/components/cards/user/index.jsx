@@ -5,7 +5,11 @@ import { useMutation } from "@apollo/react-hooks";
 const Card = ({ name, email, role, id }) => {
   const [deleteUser] = useMutation(DELETE_USER, {
     variables: { id },
-    onCompleted: data => console.log(data)
+    onCompleted: data => {
+      // TEMP
+      window.location.reload();
+      console.log(data);
+    }
   });
 
   return (
