@@ -10,6 +10,7 @@ services:
       - "27017:27017"
     volumes:
       - mongo:/var/lib/mongo
+      - data:/data/db
 
   prisma:
     image: prismagraphql/prisma:1.34
@@ -55,3 +56,4 @@ services:
 
 volumes:
   mongo: ~
+  data: ~
