@@ -1,5 +1,19 @@
 import gql from 'graphql-tag';
 
+export const UPDATE_HOUR = gql `
+mutation UpdateHour($id: ID!, $day: Day!, $start: String!, $end: String!) {
+  updateHour(id: $id, day: $day, start: $start, end: $end) {
+    id
+    name
+    hours {
+      day
+      start
+      end
+    }
+  }
+}
+`;
+
 export const LOGIN = gql`
 mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {

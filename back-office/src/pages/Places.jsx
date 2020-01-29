@@ -3,6 +3,7 @@ import { GET_PLACES, CREATE_PLACE } from "../graphql/queries";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import Card from "../components/cards/place";
 import PlaceForm from "../components/forms/place";
+import Hourform from "../components/forms/hour";
 
 const Places = () => {
   const [places, setPlaces] = useState(null);

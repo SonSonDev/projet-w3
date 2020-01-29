@@ -106,6 +106,25 @@ async function login(parent, args, context, info) {
   }
 }
 
+async function updateHour(parent, { id, day, start, end }, context, info) {
+  return await context.prisma.updatePlace({
+    where: {
+      id: id
+    },
+    data: {
+      hours: {
+        updateMany:
+        {
+          where:
+            { day: day },
+          data:
+            { start: start, end: end }
+        }
+      }
+    }
+  })
+}
+
 module.exports = {
   createPlace,
   createCompany,
@@ -113,5 +132,6 @@ module.exports = {
   deletePlace,
   deleteCompany,
   deleteUser,
-  login
+  login,
+  updateHour
 }

@@ -1,6 +1,7 @@
 import React from "react";
-import { DELETE_PLACE } from "../../../graphql/queries";
+import { DELETE_PLACE, UPDATE_HOUR } from "../../../graphql/queries";
 import { useMutation } from "@apollo/react-hooks";
+import HourForm from "../../forms/hour";
 
 const Card = ({
   name,
@@ -13,6 +14,13 @@ const Card = ({
   hours,
   keywords
 }) => {
+  const [updateHour] = useMutation(UPDATE_HOUR, {
+    onCompleted: data => {
+      window.location.reload();
+      console.log(data);
+    }
+  });
+
   const [deletePlace] = useMutation(DELETE_PLACE, {
     variables: { id },
     onCompleted: data => {
@@ -41,9 +49,9 @@ const Card = ({
             <div>
               <span>{h.day}</span>
               {" - "}
-              <span>{h.start | "N/A"}</span>
+              <span>{h.start}</span>
               {" - "}
-              <span>{h.end | "N/A"}</span>
+              <span>{h.end}</span>
             </div>
           );
         })}
@@ -54,6 +62,22 @@ const Card = ({
       >
         Supprimer
       </div>
+      <HourForm
+        onSubmit={values => {
+          // TEMP
+          setTimeout(() => {
+            // window.location.reload();
+          }, 500);
+          updateHour({
+            variables: {
+              id,
+              day: values.day,
+              start: values.start,
+              end: values.end
+            }
+          });
+        }}
+      />
     </div>
   );
 };
