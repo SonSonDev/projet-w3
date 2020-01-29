@@ -19,7 +19,7 @@ const Companies = () => {
   if (error) return <div>{error.message}</div>;
 
   return (
-    <section style={{ minHeight: "100vh", border: "5px solid pink" }}>
+    <section style={{ minHeight: "100%" }}>
       {loading && <div>Loading...</div>}
       {!loading && companies && renderCards(companies)}
       <CompanyForm onSubmit={values => console.log(values)} />

@@ -21,7 +21,7 @@ const Users = () => {
   if (error) return <div>{error.message}</div>;
 
   return (
-    <section style={{ minHeight: "100vh", border: "5px solid pink" }}>
+    <section style={{ minHeight: "100%" }}>
       {loading && <div>Loading...</div>}
       {!loading && users && renderCards(users)}
       <UserForm

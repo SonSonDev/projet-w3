@@ -36,8 +36,7 @@ const Login = () => {
   return (
     <section
       style={{
-        minHeight: "100vh",
-        border: "5px solid pink",
+        minHeight: "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
