@@ -3,8 +3,9 @@ import { GET_COMPANIES } from "../graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
 import Card from "../components/cards/company";
 import CompanyForm from "../components/forms/company";
+import withAuthenticationCheck from "../components/hocs/withAuthenticationCheck";
 
-const Companies = () => {
+const Clients = () => {
   const [companies, setCompanies] = useState(null);
 
   const { error, loading } = useQuery(GET_COMPANIES, {
@@ -27,4 +28,4 @@ const Companies = () => {
   );
 };
 
-export default Companies;
+export default withAuthenticationCheck(Clients, ['SUPER_ADMIN']);

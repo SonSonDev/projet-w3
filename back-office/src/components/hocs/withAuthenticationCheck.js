@@ -7,6 +7,7 @@ const withAuthenticationCheck = (Page, authorizedRoles) => props => {
     if (!user || !authorizedRoles.includes(user.role)) {
         return <Redirect to="/login" />
     }
+    console.log(user)
     return <Page {...props} />
 }
 

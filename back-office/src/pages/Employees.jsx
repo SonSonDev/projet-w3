@@ -5,7 +5,7 @@ import Card from "../components/cards/user";
 import UserForm from "../components/forms/user";
 import withAuthenticationCheck from "../components/hocs/withAuthenticationCheck";
 
-const Users = () => {
+const Employees = () => {
   const [users, setUsers] = useState(null);
 
   const [createUser] = useMutation(CREATE_USER);
@@ -46,4 +46,4 @@ const Users = () => {
   );
 };
 
-export default withAuthenticationCheck(Users, ['SUPER_ADMIN']);
+export default withAuthenticationCheck(Employees, ['ADMIN']);

@@ -5,6 +5,7 @@ import Card from "../components/cards/place";
 import PlaceForm from "../components/forms/place";
 import { Card as Cards, Dimmer } from "tabler-react";
 import Hourform from "../components/forms/hour";
+import withAuthenticationCheck from "../components/hocs/withAuthenticationCheck";
 
 const Places = () => {
   const [places, setPlaces] = useState(null);
@@ -80,4 +81,4 @@ const Places = () => {
   );
 };
 
-export default Places;
+export default withAuthenticationCheck(Places, ['SUPER_ADMIN']);
