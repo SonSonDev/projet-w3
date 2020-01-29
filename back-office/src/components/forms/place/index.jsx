@@ -36,7 +36,7 @@ const PlaceForm = props => {
         <Field name="name" type="text" />
         <ErrorMessage name="name" />
 
-        <div style={{ border: "2px solid pink", padding: "1em" }}>
+        <div style={{ padding: "1em" }}>
           <label htmlFor="number">number</label>
           <Field name="number" type="number" />
           <ErrorMessage name="number" />

@@ -1,0 +1,11 @@
+.card {
+  &__day {
+    text-transform: lowercase;
+  }
+  &__schedule {
+    margin-bottom: 4px;
+    &__container {
+      margin-bottom: 16px;
+    }
+  }
+}

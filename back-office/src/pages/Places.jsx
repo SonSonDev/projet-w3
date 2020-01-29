@@ -45,9 +45,11 @@ const Places = () => {
   if (error) return <div>{error.message}</div>;
 
   return (
-    <section style={{ minHeight: "100%" }}>
-      {loading && <div>Loading...</div>}
-      {!loading && places && renderCards(places)}
+    <section class='places'>
+      <div class='places_cards'>
+        {loading && <div>Loading...</div>}
+        {!loading && places && renderCards(places)}
+      </div>
       <PlaceForm
         onSubmit={values => {
           // TEMP

@@ -21,7 +21,6 @@ const App = () => {
           <Nav.Item to="/users">Users</Nav.Item>
           <Nav.Item to="/places">Places</Nav.Item>
           <Nav.Item to="/companies">Companies</Nav.Item>
-          <Nav.Item to="/places">Places</Nav.Item>
           {localStorage.getItem("isLoggedIn") === "true" ? (
             <div onClick={() => logout()}>Logout</div>
           ) : (
