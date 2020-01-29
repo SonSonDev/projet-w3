@@ -6,8 +6,9 @@ import { useParams } from "react-router-dom";
 import { GET_PLACE } from "../../graphql/queries/index";
 import { useQuery } from "@apollo/react-hooks";
 
-const Info = () => {
+const Update = () => {
   let { id } = useParams("id");
+
   const { error, loading, data } = useQuery(GET_PLACE, {
     variables: { id },
     onCompleted: data => {
@@ -90,4 +91,4 @@ const Info = () => {
     );
 };
 
-export default Info;
+export default Update;

@@ -1,16 +1,14 @@
 import React from "react";
-import { CREATE_PLACE } from "../../graphql/queries";
+import { Formik, Field, Form } from "formik";
+import * as Yup from "yup";
+import { Button } from "tabler-react";
+import { CREATE_PLACE } from "../../graphql/queries/index";
 import { useMutation } from "@apollo/react-hooks";
-import PlaceForm from "../../components/forms/place";
-import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck";
-import { Redirect } from "react-router-dom";
 
-const Places = () => {
+const Create = () => {
   const [createPlace] = useMutation(CREATE_PLACE, {
     onCompleted: data => {
       console.log(data);
-      console.log("red");
-      return <Redirect to="/places" />;
     },
     onError: error => {
       console.log(error);
@@ -18,23 +16,82 @@ const Places = () => {
   });
 
   return (
-    <section className="places">
-      <PlaceForm
-        onSubmit={values => {
-          createPlace({
-            variables: {
-              name: values.name,
-              number: values.number,
-              street: values.street,
-              zipCode: values.zipCode,
-              type: values.type,
-              category: values.category
-            }
-          });
-        }}
-      />
-    </section>
+    <Formik
+      initialValues={{
+        name: "",
+        number: "",
+        street: "",
+        zipCode: "",
+        type: "",
+        category: ""
+      }}
+      validationSchema={Yup.object({
+        name: Yup.string(),
+        number: Yup.number(),
+        street: Yup.string(),
+        zipCode: Yup.number(),
+        type: Yup.string(),
+        category: Yup.string()
+      })}
+      onSubmit={(values, { setSubmitting }) => {
+        setTimeout(() => {
+          setSubmitting(false);
+        }, 400);
+        createPlace({
+          variables: {
+            name: values.name,
+            number: values.number,
+            street: values.street,
+            zipCode: values.zipCode,
+            type: values.type,
+            category: values.category
+          }
+        });
+      }}
+    >
+      <Form className="places__form">
+        <div className="places__field">
+          <label htmlFor="name">Name</label>
+          <Field name="name" type="text" />
+        </div>
+
+        <div>
+          <div className="places__field">
+            <label htmlFor="number">Number</label>
+            <Field name="number" type="number" />
+          </div>
+
+          <div className="places__field">
+            <label htmlFor="street">Street</label>
+            <Field name="street" type="text" />
+          </div>
+
+          <div className="places__field">
+            <label htmlFor="zipCode">ZipCode</label>
+            <Field name="zipCode" type="number" />
+          </div>
+        </div>
+
+        <div className="places__field">
+          <label htmlFor="type">Type</label>
+          <Field name="type" type="text" />
+        </div>
+
+        <div className="places__field">
+          <label htmlFor="category">Category</label>
+          <Field as="select" name="category">
+            <option value="FOOD">Food</option>
+            <option value="SHOP">Shop</option>
+            <option value="ACTIVITY">Activity</option>
+          </Field>
+        </div>
+
+        <Button color="primary" type="submit" className="places__btn">
+          Submit
+        </Button>
+      </Form>
+    </Formik>
   );
 };
 
-export default withAuthenticationCheck(Places, ["SUPER_ADMIN"]);
+export default Create;
