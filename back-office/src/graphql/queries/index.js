@@ -1,5 +1,18 @@
 import gql from 'graphql-tag';
 
+export const LOGIN = gql`
+mutation Login($email: String!, $password: String!) {
+  login(email: $email, password: $password) {
+    user {
+      id
+      name
+      email
+      role
+    }
+  }
+}
+`;
+
 export const GET_USERS = gql`
 query GetUsers {
   getUsers {
@@ -57,8 +70,15 @@ export const DELETE_USER = gql`
     }
 `;
 
-// export const DELETE_COMPANY = gql`
-// `;
+export const DELETE_COMPANY = gql`
+mutation DeleteCompany($id: ID!) {
+  deleteCompany(id: $id) {
+    id
+    name
+    email
+  }
+}
+`;
 
 export const DELETE_PLACE = gql`
     mutation DeletePlace($id: ID!) {
@@ -85,21 +105,28 @@ export const DELETE_PLACE = gql`
 export const CREATE_USER = gql`
 mutation {
   createUser(name: "Flo", password: "test", email: "fezfc", role: SUPER_ADMIN) {
-    token
-    user {
+
       id
       name
       email
       password
       role
     }
-  }
+  
 }
 
 `;
 
-// export const CREATE_COMPANY = gql`
-// `;
+export const CREATE_COMPANY = gql`
+mutation CreateCompany($name: String!, $email: String!) {
+  createCompany(name: $name, email: $email) {
+    id
+    name
+    email
+  }
+}
+
+`;
 
 export const CREATE_PLACE = gql`
 mutation CreatePlace(
