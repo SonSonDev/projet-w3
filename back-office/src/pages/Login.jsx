@@ -23,7 +23,7 @@ const Login = () => {
       localStorage.setItem("isLoggedIn", "true");
       console.log(JSON.stringify(user));
       localStorage.setItem("user", JSON.stringify(user));
-      window.location.href = "http://localhost:80/users";
+      window.location.href = "http://localhost:80/";
       console.log({ id, name, email, role });
     },
     onError: error => {

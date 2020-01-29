@@ -22,8 +22,13 @@ const Home = () => {
       <Link to="/users">Users</Link>
       <Link to="/places">Places</Link>
       <Link to="/companies">Companies</Link>
-      <Link to="/login">Login</Link>
-      <div onClick={() => logout()}>Logout</div>
+      {localStorage.getItem("isLoggedIn") === "true" ? (
+        <div onClick={() => logout()}>Logout</div>
+      ) : (
+        <>
+          <Link to="/login">Login</Link>
+        </>
+      )}
     </div>
   );
 };
