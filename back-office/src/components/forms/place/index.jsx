@@ -5,7 +5,7 @@ import * as Yup from "yup";
 const PlaceForm = props => {
   return (
     <Formik
-      initialValues={{ name: "", password: "", email: "" }}
+      initialValues={{ name: "", number: "", street: "", zipCode: "", type: "", category: "" }}
       validationSchema={Yup.object({
         name: Yup.string()
           .min(1, "Must be at least 1 characters or more")
