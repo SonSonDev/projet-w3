@@ -4,15 +4,18 @@
   display:grid;
   grid-template-areas:
     "header"
+    "nav"
     "main";
   grid-template-columns: 1fr;
-  grid-template-rows: 64px 1fr;
+  grid-template-rows: auto auto 1fr;
 }
 
 .app__header {
   grid-area: header;
-  padding-left: 8px;
-  padding-right: 8px;
+}
+
+.app__nav {
+  grid-area: nav;
 }
 
 .main {

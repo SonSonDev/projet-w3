@@ -3,6 +3,7 @@ import { GET_PLACES, CREATE_PLACE } from "../graphql/queries";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import Card from "../components/cards/place";
 import PlaceForm from "../components/forms/place";
+import { Card as Cards, Dimmer } from "tabler-react";
 import Hourform from "../components/forms/hour";
 
 const Places = () => {
@@ -46,11 +47,7 @@ const Places = () => {
 
   return (
     <section class='places'>
-      <div class='places_cards'>
-        {loading && <div>Loading...</div>}
-        {!loading && places && renderCards(places)}
-      </div>
-      <PlaceForm
+        <PlaceForm
         onSubmit={values => {
           // TEMP
           setTimeout(() => {
@@ -68,6 +65,17 @@ const Places = () => {
           });
         }}
       />
+      <div class='places_cards'>
+        {loading && 
+        <Cards title="Loading" isClosable isCollapsible>
+          <Cards.Body>
+            <Dimmer active loader>
+            </Dimmer>
+          </Cards.Body>
+        </Cards>}
+        
+        {!loading && places && renderCards(places)}
+      </div>
     </section>
   );
 };

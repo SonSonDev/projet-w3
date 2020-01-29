@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { Nav } from "tabler-react";
+import { Nav, Site } from "tabler-react";
 
 import Home from './pages/Home'
 import Users from './pages/Users'
@@ -17,19 +17,23 @@ const App = () => {
   return (
     <section class="app">
       <header class="app__header">
-        <Nav>
-          <Nav.Item to="/users">Users</Nav.Item>
-          <Nav.Item to="/places">Places</Nav.Item>
-          <Nav.Item to="/companies">Companies</Nav.Item>
-          {localStorage.getItem("isLoggedIn") === "true" ? (
+        <Site.Header imageURL="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Docker_%28container_engine%29_logo.svg/1280px-Docker_%28container_engine%29_logo.svg.png"></Site.Header>
+      </header>
+      <nav class="app__nav">
+        <Site.Nav items={[
+          <Nav.Item to="/users">Users</Nav.Item>,
+          <Nav.Item to="/places">Places</Nav.Item>,
+          <Nav.Item to="/companies">Companies</Nav.Item>,
+          localStorage.getItem("isLoggedIn") === "true" ? (
             <div onClick={() => logout()}>Logout</div>
           ) : (
             <>
               <Nav.Item to="/login">Login</Nav.Item>
             </>
-          )}
-        </Nav>
-      </header>
+          )
+        ]
+        }></Site.Nav>
+      </nav>
 
       <div class="main">
         <Router>
