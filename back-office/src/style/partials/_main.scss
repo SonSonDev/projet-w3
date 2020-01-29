@@ -1,0 +1,20 @@
+.app {
+  width:100vw;
+  height:100vh;
+  display:grid;
+  grid-template-areas:
+    "header"
+    "main";
+  grid-template-columns: 1fr;
+  grid-template-rows: 64px 1fr;
+}
+
+.app__header {
+  grid-area: header;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.main {
+  grid-area: main;
+}
