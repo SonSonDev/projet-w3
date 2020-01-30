@@ -4,6 +4,8 @@ type User {
   email: String @unique
   password: String
   role: Role
+  isRepresentative: Boolean
+  company: Company @relation(link: INLINE)
 }
 
 type Place {
@@ -20,6 +22,7 @@ type Company {
   id: ID! @id
   name: String
   email: String
+  users: [User]
 }
 
 type Address @embedded {
