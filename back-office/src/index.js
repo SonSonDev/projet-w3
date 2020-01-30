@@ -6,7 +6,6 @@ import { InMemoryCache } from "apollo-cache-inmemory"
 import { createUploadLink } from "apollo-upload-client"
 import { ApolloProvider } from "@apollo/react-hooks"
 
-import "tabler-react/dist/Tabler.css";
 import './style/style.scss'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
