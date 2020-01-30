@@ -12,6 +12,8 @@
 .header {
   grid-area: header;
   border-bottom: 1px solid;
+  display: flex;
+  align-items: center;
 }
 
 .menu {
@@ -19,14 +21,11 @@
   border-right: 1px solid;
   width: 104px;
 }
-
 .main {
   grid-area: main;
 }
 
-table, th, td {
-  border: 1px solid black;
-}
-th {
-  min-width: 30px;
+.navbar-brand {
+  justify-content: space-between;
+  width: 98%;
 }

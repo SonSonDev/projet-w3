@@ -1,47 +1,31 @@
 import React, { useState } from "react";
 import { GET_PLACES } from "../../graphql/queries/places";
-import { useQuery } from "@apollo/react-hooks";
-import Card from "../../components/card/place";
+import { DELETE_PLACE } from "../../graphql/mutations/places";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import { Card as Cards, Dimmer } from "tabler-react";
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck";
 import { Button } from "tabler-react";
 import { Link } from "react-router-dom";
+import Table from "../../components/table";
+import Tabs from "../../components/Tabs/Tabs.jsx";
 
 const PlacesIndex = () => {
-  console.log("PlacesIndex");
-  const [places, setPlaces] = useState(null);
+  console.log("render PlacesIndex");
+  const [activeTabIndex, setactiveTabIndex] = useState(0);
+
+  const [places, setPlaces] = useState([]);
 
   const { error, loading } = useQuery(GET_PLACES, {
     onCompleted: ({ getPlaces }) => setPlaces(getPlaces),
     onError: error => console.log(error.message)
   });
 
-  const renderCards = places =>
-    places.map(
-      ({
-        id,
-        name,
-        address: { street, zipCode, number },
-        hours,
-        type,
-        category,
-        keywords
-      }) => (
-        <Card
-          key={id}
-          name={name}
-          number={number}
-          street={street}
-          id={id}
-          zipCode={zipCode}
-          type={type}
-          category={category}
-          hours={hours}
-          keywords={keywords}
-        />
-      )
-    );
-
+  const [deletePlace] = useMutation(DELETE_PLACE, {
+    onCompleted: data => {
+      window.location.reload();
+      console.log(data);
+    }
+  });
   if (error) return <div>{error.message}</div>;
 
   if (loading) {
@@ -54,21 +38,41 @@ const PlacesIndex = () => {
     );
   }
 
+  const columns = [
+    { title: "Nom", key: "name" },
+    { title: "Catégorie", key: "category" },
+    { title: "Adresse", key: "address" },
+    { label: "Delete", handleClick: deletePlace },
+    { label: "Edit", handleClick: () => console.log("Edit") },
+    { label: "Info", handleClick: () => console.log("Info") }
+  ];
+
+  const tabs = [
+    { title: "All", filter: () => true },
+    { title: "Shop", filter: ({ category }) => category === "SHOP" },
+    { title: "Activity", filter: ({ category }) => category === "ACTIVITY" },
+    { title: "Food", filter: ({ category }) => category === "FOOD" }
+  ];
+
+  const data = places
+    .map(({ address: { street, zipCode, number }, ...place }) => ({
+      ...place,
+      address: `${number} ${street} ${zipCode}`
+    }))
+    .filter(tabs[activeTabIndex].filter);
+
   return (
     <section className="places">
-      <div className="places_cards">
-        <Button
-          RootComponent={Link}
-          to={`/place/create`}
-          color="green"
-          size="sm"
-        >
-          Add
-        </Button>
-        {!loading && places && renderCards(places)}
+      <Tabs tabs={tabs} activeTabIndex={activeTabIndex} onTabClick={setactiveTabIndex} action={{label:"Ajouter une adresse", url: "/place/create"}}/>
+      <div className="padding16">
+        <Table data={data} columns={columns} />
       </div>
     </section>
   );
 };
 
-export default withAuthenticationCheck(PlacesIndex, ["SUPER_ADMIN", "ADMIN", "USER"]);
+export default withAuthenticationCheck(PlacesIndex, [
+  "SUPER_ADMIN",
+  "ADMIN",
+  "USER"
+]);

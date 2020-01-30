@@ -23,7 +23,7 @@ const Login = () => {
       localStorage.setItem("isLoggedIn", "true");
       console.log(JSON.stringify(user));
       localStorage.setItem("user", JSON.stringify(user));
-      window.location.href = "http://localhost:80/";
+      window.location.href = "/";
       console.log({ id, name, email, role });
     },
     onError: error => console.log(error.message)
@@ -35,15 +35,15 @@ const Login = () => {
 
   return (
     <section className="login">
-      <div class="login__side"></div>
-      <div class="login__content">
+      <div className="login__side"></div>
+      <div className="login__content">
         <h1 className="title is-spaced">madu</h1>
         <p className="subtitle center">Identifiez-vous pour accéder à l'espace Madu de votre entreprise.</p>
         <Formik
           initialValues={{ name: "", password: "", email: "" }}
           validationSchema={Yup.object({
-            password: Yup.string(),
-            email: Yup.string()
+            password: Yup.string().required(),
+            email: Yup.string().required()
           })}
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
@@ -57,11 +57,11 @@ const Login = () => {
               });
             }, 400);
           }}>
-          <Form class="login__form">
+          <Form className="login__form">
             <div className="field">
-              <label htmlFor="email" className="label">Adresse </label>
+              <label htmlFor="email" className="label">Adresse email</label>
               <div className="control">
-                <Field className="input" name="email" type="email" />
+                <Field className="input" name="email" type="email" placeholder="Adresse email" />
               </div>
             </div>
             <div className="field">
@@ -70,8 +70,8 @@ const Login = () => {
                 <Field className="input" name="password" type="password" placeholder="Mot de passe"/>
               </div>
             </div>
-            <div class="control">
-              <button type="submit" class="button is-link is-fullwidth">Submit</button>
+            <div className="control">
+              <button type="submit" className="button is-link is-fullwidth">Submit</button>
             </div>
           </Form>
         </Formik>

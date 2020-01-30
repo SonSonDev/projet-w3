@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Nav, Site } from "tabler-react";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -31,40 +30,31 @@ const App = () => {
     localStorage.setItem("user", null);
     window.location = "/";
   };
+
+  const user = JSON.parse(localStorage.getItem('user'))
+  console.log(localStorage.getItem("isLoggedIn"))
   return (
     <section className="app">
       <Router>
-        <header class="header">
-          <div class="navbar-brand">
-            <a class="navbar-item" href="/">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Docker_%28container_engine%29_logo.svg/1280px-Docker_%28container_engine%29_logo.svg.png" />
-            </a>
-
-            <a
-              role="button"
-              class="navbar-burger burger"
-              aria-label="menu"
-              aria-expanded="false"
-              data-target="navbarBasicExample"
-            >
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
+        <header className="header">
+          <div className="navbar-brand">
+            <a className="navbar-item" href="/">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Docker_%28container_engine%29_logo.svg/1280px-Docker_%28container_engine%29_logo.svg.png" alt="logo"/>
             </a>
             {localStorage.getItem("isLoggedIn") === "true" && (
-              <div class="buttons">
-                <a className="button is-light" onClick={() => logout()}>
+              <div className="buttons">
+                <button className="button is-light" onClick={() => logout()}>
                   Logout
-                </a>
+                </button>
               </div>
             )}
           </div>
         </header>
 
-        {/* <nav class="navbar" role="navigation" aria-label="main navigation">
+        {/* <nav className="navbar" role="navigation" aria-label="main navigation">
           { localStorage.getItem("isLoggedIn") === "true" &&
-          (<div id="navbarBasicExample" class="navbar-menu">
-            <div class="navbar-start">
+          (<div id="navbarBasicExample" className="navbar-menu">
+            <div className="navbar-start">
               <Link className="navbar-item" to="/clients">Clients</Link>
               <Link className="navbar-item" to="/places">Places</Link>
               <Link className="navbar-item" to="/employees">Employees</Link>
@@ -76,20 +66,27 @@ const App = () => {
           }
         </nav> */}
         {localStorage.getItem("isLoggedIn") === "true" && (
-          <aside class="menu">
-            <ul class="menu-list">
+          <aside className="menu">
+            <ul className="menu-list">
               <li>
-                <Link to="/clients">Clients</Link>
+                <Link to="/places">Adresses</Link>
               </li>
-              <li>
-                <Link to="/places">Places</Link>
-              </li>
-              <li>
-                <Link to="/employees">Employees</Link>
-              </li>
-              <li>
-                <Link to="/companies">Companies</Link>
-              </li>
+              { user.role === 'SUPER_ADMIN' && (
+                <>
+                  <li>
+                    <Link to="/clients">Clients</Link>
+                  </li>
+                  <li>
+                    <Link to="/companies">Entreprises</Link>
+                  </li>
+                </>
+              )}
+              { user.role === 'ADMIN' && (
+                <li>
+                  <Link to="/employees">Employés</Link>
+                </li>
+              )}
+
             </ul>
           </aside>
         )}

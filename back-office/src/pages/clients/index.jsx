@@ -1,27 +1,30 @@
 import React, { useState } from "react";
 import { GET_USERS } from "../../graphql/queries/clients";
-import { useQuery } from "@apollo/react-hooks";
-import Card from "../../components/card/client";
+import { DELETE_USER } from "../../graphql/mutations/clients";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import { Card as Cards, Dimmer } from "tabler-react";
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck";
 import { Link } from "react-router-dom";
+import Table from "../../components/table";
 
 const ClientsIndex = () => {
-  console.log("ClientsIndex");
-  const [clients, setClients] = useState(null);
 
+  const [clients, setClients] = useState([]);
+  
   const { error, loading } = useQuery(GET_USERS, {
     variables: { role: "ADMIN" },
     fetchPolicy: "no-cache",
     onCompleted: ({ getUsers }) => setClients(getUsers),
     onError: error => console.log(error.message)
   });
-
-  const renderCards = clients =>
-    clients.map(({ id, name, email, role }) => (
-      <Card key={id} name={name} email={email} role={role} id={id} />
-    ));
-
+  
+  const [deleteUser] = useMutation(DELETE_USER, {
+    onCompleted: data => {
+      window.location.reload();
+      console.log(data);
+    }
+  });
+    
   if (error) return <div>{error.message}</div>;
 
   if (loading) {
@@ -34,20 +37,29 @@ const ClientsIndex = () => {
     );
   }
 
+  const columns = [
+    { title: "Nom du commerçant", key: "name" },
+    { title: "Email", key: "email" },
+    { title: "Role", key: "role" },
+    { label: "Delete", handleClick: deleteUser },
+    { label: "Edit", handleClick: () => console.log("Edit") },
+    { label: "Info", handleClick: () => console.log("Info") }
+  ];
+
   return (
     <section style={{ minHeight: "100%" }}>
-      <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div id="navbarBasicExample" class="navbar-menu">
-          <div class="navbar-start">
-            <Link to="/clients" class="navbar-item">
+      <nav className="navbar" role="navigation" aria-label="main navigation">
+        <div id="navbarBasicExample" className="navbar-menu">
+          <div className="navbar-start">
+            <Link to="/clients" className="navbar-item">
               All
             </Link>
           </div>
 
-          <div class="navbar-end">
-            <div class="navbar-item">
-              <div class="buttons">
-                <Link to={`/client/create`} class="button is-primary">
+          <div className="navbar-end">
+            <div className="navbar-item">
+              <div className="buttons">
+                <Link to={`/client/create`} className="button is-primary">
                   <strong>Add</strong>
                 </Link>
               </div>
@@ -55,24 +67,7 @@ const ClientsIndex = () => {
           </div>
         </div>
       </nav>
-      {/* {!loading && clients && renderCards(clients)} */}
-      <table>
-        <thead>
-          <tr>
-            <th>Nom du commerçant</th>
-            <th>Type de client</th>
-            <th>Adresse</th>
-            <th>Nbr user</th>
-            <th>Représentant</th>
-            <th></th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {!loading && clients && renderCards(clients)}
-        </tbody>
-      </table>
+      <Table data={clients} columns={columns} />
     </section>
   );
 };
