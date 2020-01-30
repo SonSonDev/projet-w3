@@ -1,23 +1,32 @@
 .app {
-  width:100vw;
-  height:100vh;
-  display:grid;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
   grid-template-areas:
-    "header"
-    "nav"
-    "main";
-  grid-template-columns: 1fr;
-  grid-template-rows: auto auto 1fr;
+    "header header"
+    "nav main";
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 64px 1fr;
 }
 
-.app__header {
+.header {
   grid-area: header;
+  border-bottom: 1px solid;
 }
 
-.app__nav {
+.menu {
   grid-area: nav;
+  border-right: 1px solid;
+  width: 104px;
 }
 
 .main {
   grid-area: main;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+th {
+  min-width: 30px;
 }
