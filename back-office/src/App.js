@@ -34,15 +34,15 @@ const App = () => {
   return (
     <section className="app">
       <Router>
-        <header class="header">
-          <div class="navbar-brand">
-            <a class="navbar-item" href="/">
+        <header className="header">
+          <div className="navbar-brand">
+            <a className="navbar-item" href="/">
               <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Docker_%28container_engine%29_logo.svg/1280px-Docker_%28container_engine%29_logo.svg.png" />
             </a>
 
             <a
               role="button"
-              class="navbar-burger burger"
+              className="navbar-burger burger"
               aria-label="menu"
               aria-expanded="false"
               data-target="navbarBasicExample"
@@ -52,7 +52,7 @@ const App = () => {
               <span aria-hidden="true"></span>
             </a>
             {localStorage.getItem("isLoggedIn") === "true" && (
-              <div class="buttons">
+              <div className="buttons">
                 <a className="button is-light" onClick={() => logout()}>
                   Logout
                 </a>
@@ -61,10 +61,10 @@ const App = () => {
           </div>
         </header>
 
-        {/* <nav class="navbar" role="navigation" aria-label="main navigation">
+        {/* <nav className="navbar" role="navigation" aria-label="main navigation">
           { localStorage.getItem("isLoggedIn") === "true" &&
-          (<div id="navbarBasicExample" class="navbar-menu">
-            <div class="navbar-start">
+          (<div id="navbarBasicExample" className="navbar-menu">
+            <div className="navbar-start">
               <Link className="navbar-item" to="/clients">Clients</Link>
               <Link className="navbar-item" to="/places">Places</Link>
               <Link className="navbar-item" to="/employees">Employees</Link>
@@ -76,8 +76,8 @@ const App = () => {
           }
         </nav> */}
         {localStorage.getItem("isLoggedIn") === "true" && (
-          <aside class="menu">
-            <ul class="menu-list">
+          <aside className="menu">
+            <ul className="menu-list">
               <li>
                 <Link to="/clients">Clients</Link>
               </li>
