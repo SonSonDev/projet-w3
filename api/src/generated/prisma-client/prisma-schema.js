@@ -98,6 +98,7 @@ type Company {
   id: ID!
   name: String
   email: String
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
 }
 
 type CompanyConnection {
@@ -107,6 +108,18 @@ type CompanyConnection {
 }
 
 input CompanyCreateInput {
+  id: ID
+  name: String
+  email: String
+  users: UserCreateManyWithoutCompanyInput
+}
+
+input CompanyCreateOneWithoutUsersInput {
+  create: CompanyCreateWithoutUsersInput
+  connect: CompanyWhereUniqueInput
+}
+
+input CompanyCreateWithoutUsersInput {
   id: ID
   name: String
   email: String
@@ -151,11 +164,31 @@ input CompanySubscriptionWhereInput {
 input CompanyUpdateInput {
   name: String
   email: String
+  users: UserUpdateManyWithoutCompanyInput
 }
 
 input CompanyUpdateManyMutationInput {
   name: String
   email: String
+}
+
+input CompanyUpdateOneWithoutUsersInput {
+  create: CompanyCreateWithoutUsersInput
+  update: CompanyUpdateWithoutUsersDataInput
+  upsert: CompanyUpsertWithoutUsersInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: CompanyWhereUniqueInput
+}
+
+input CompanyUpdateWithoutUsersDataInput {
+  name: String
+  email: String
+}
+
+input CompanyUpsertWithoutUsersInput {
+  update: CompanyUpdateWithoutUsersDataInput!
+  create: CompanyCreateWithoutUsersInput!
 }
 
 input CompanyWhereInput {
@@ -201,6 +234,7 @@ input CompanyWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
+  users_some: UserWhereInput
   AND: [CompanyWhereInput!]
 }
 
@@ -581,6 +615,8 @@ type User {
   email: String
   password: String
   role: Role
+  isRepresentative: Boolean
+  company: Company
 }
 
 type UserConnection {
@@ -595,6 +631,22 @@ input UserCreateInput {
   email: String
   password: String
   role: Role
+  isRepresentative: Boolean
+  company: CompanyCreateOneWithoutUsersInput
+}
+
+input UserCreateManyWithoutCompanyInput {
+  create: [UserCreateWithoutCompanyInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateWithoutCompanyInput {
+  id: ID
+  name: String
+  email: String
+  password: String
+  role: Role
+  isRepresentative: Boolean
 }
 
 type UserEdge {
@@ -613,6 +665,8 @@ enum UserOrderByInput {
   password_DESC
   role_ASC
   role_DESC
+  isRepresentative_ASC
+  isRepresentative_DESC
 }
 
 type UserPreviousValues {
@@ -621,6 +675,75 @@ type UserPreviousValues {
   email: String
   password: String
   role: Role
+  isRepresentative: Boolean
+}
+
+input UserScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  password: String
+  password_not: String
+  password_in: [String!]
+  password_not_in: [String!]
+  password_lt: String
+  password_lte: String
+  password_gt: String
+  password_gte: String
+  password_contains: String
+  password_not_contains: String
+  password_starts_with: String
+  password_not_starts_with: String
+  password_ends_with: String
+  password_not_ends_with: String
+  role: Role
+  role_not: Role
+  role_in: [Role!]
+  role_not_in: [Role!]
+  isRepresentative: Boolean
+  isRepresentative_not: Boolean
+  AND: [UserScalarWhereInput!]
+  OR: [UserScalarWhereInput!]
+  NOT: [UserScalarWhereInput!]
 }
 
 type UserSubscriptionPayload {
@@ -644,6 +767,16 @@ input UserUpdateInput {
   email: String
   password: String
   role: Role
+  isRepresentative: Boolean
+  company: CompanyUpdateOneWithoutUsersInput
+}
+
+input UserUpdateManyDataInput {
+  name: String
+  email: String
+  password: String
+  role: Role
+  isRepresentative: Boolean
 }
 
 input UserUpdateManyMutationInput {
@@ -651,6 +784,43 @@ input UserUpdateManyMutationInput {
   email: String
   password: String
   role: Role
+  isRepresentative: Boolean
+}
+
+input UserUpdateManyWithoutCompanyInput {
+  create: [UserCreateWithoutCompanyInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutCompanyInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutCompanyInput!]
+  deleteMany: [UserScalarWhereInput!]
+  updateMany: [UserUpdateManyWithWhereNestedInput!]
+}
+
+input UserUpdateManyWithWhereNestedInput {
+  where: UserScalarWhereInput!
+  data: UserUpdateManyDataInput!
+}
+
+input UserUpdateWithoutCompanyDataInput {
+  name: String
+  email: String
+  password: String
+  role: Role
+  isRepresentative: Boolean
+}
+
+input UserUpdateWithWhereUniqueWithoutCompanyInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateWithoutCompanyDataInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutCompanyInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutCompanyDataInput!
+  create: UserCreateWithoutCompanyInput!
 }
 
 input UserWhereInput {
@@ -714,6 +884,9 @@ input UserWhereInput {
   role_not: Role
   role_in: [Role!]
   role_not_in: [Role!]
+  isRepresentative: Boolean
+  isRepresentative_not: Boolean
+  company: CompanyWhereInput
   AND: [UserWhereInput!]
 }
 

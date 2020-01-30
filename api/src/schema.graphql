@@ -43,6 +43,8 @@ type User {
   email: String
   password: String
   role: Role
+  isRepresentative: Boolean
+  company: Company
 }
 
 type Place {
@@ -59,6 +61,7 @@ type Company {
   id: ID!
   name: String
   email: String
+  users: [User] 
 }
 
 type AuthPayload {

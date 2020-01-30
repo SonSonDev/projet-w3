@@ -1,6 +1,14 @@
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const { APP_SECRET, getUserId } = require('../utils')
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { APP_SECRET, getUserId, emailTemplate } = require('../utils');
+const nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'madu.group7@gmail.com',
+    pass: 'azazazaz1'
+  }
+});
 
 async function createPlace(parent, { name, number, street, zipCode, type, category }, context, info) {
   // const userId = getUserId(context)
@@ -65,8 +73,24 @@ async function createCompany(parent, { name, email }, context, info) {
   })
 }
 
-async function createUser(parent, { password, name, email, role }, context, info) {
-  const hashPassword = await bcrypt.hash(password, 10)
+async function createUser(parent, { name, email, role }, context, info) {
+  let randomPassword =  Math.random().toString(36).substring(5)
+
+  const mailOptions = {
+    from: 'madu.group7@gmail.com', 
+    to: email,
+    subject: 'Votre mot de passe',
+    html: emailTemplate(name, randomPassword)
+  };
+
+  transporter.sendMail(mailOptions, function (err, info) {
+    if(err)
+      console.log(err)
+    else
+      console.log(info);
+ });
+
+  const hashPassword = await bcrypt.hash(randomPassword, 10)
   return await context.prisma.createUser({
     name: name,
     password: hashPassword,
