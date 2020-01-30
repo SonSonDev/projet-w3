@@ -1,9 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const expiresIn = '1 day';
-const { APP_SECRET, getUserId } = require('../utils');
+const { APP_SECRET, getUserId, emailTemplate } = require('../utils');
 const nodemailer = require('nodemailer');
-
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -69,6 +68,7 @@ async function createPlace(parent, { name, number, street, zipCode, type, catego
 }
 
 async function createCompany(parent, { name, email }, context, info) {
+  const userId = getUserId(context)
   return context.prisma.createCompany({
     name: name,
     email: email
@@ -76,11 +76,13 @@ async function createCompany(parent, { name, email }, context, info) {
 }
 
 async function createUser(parent, { name, email, role }, context, info) {
+  let randomPassword = Math.random().toString(36).substring(5)
+
   const mailOptions = {
     from: 'madu.group7@gmail.com',
     to: email,
     subject: 'Votre mot de passe',
-    html: '<p>passpass</p>'
+    html: emailTemplate(name, randomPassword)
   };
 
   transporter.sendMail(mailOptions, function (err, info) {
@@ -90,23 +92,30 @@ async function createUser(parent, { name, email, role }, context, info) {
       console.log(info);
   });
 
+  const hashPassword = await bcrypt.hash(randomPassword, 10);
 
-  const hashPassword = await bcrypt.hash("passpass", 10)
-  return await context.prisma.createUser({
+  const user = await context.prisma.createUser({
     name: name,
     password: hashPassword,
     role: role,
     email: email
   })
+
+  const token = jwt.sign({ userId: user.id }, APP_SECRET)
+
+  return {
+    token,
+    user,
+  }
 }
 
-async function login(parent, {email, password}, context, info) {
-  const user = await context.prisma.user({ email: args.email })
+async function login(parent, { email, password }, context, info) {
+  const user = await context.prisma.user({ email: email })
   if (!user) {
     throw new Error('No such user found')
   }
 
-  const valid = await bcrypt.compare(args.password, user.password)
+  const valid = await bcrypt.compare(password, user.password)
   if (!valid) {
     throw new Error('Invalid password')
   }
@@ -120,7 +129,7 @@ async function login(parent, {email, password}, context, info) {
 }
 
 async function updateRepresentative(parent, { userEmail, companyId, isRepresentative }, context, info) {
-  console.log({ userEmail, companyId, isRepresentative } )
+  console.log({ userEmail, companyId, isRepresentative })
   const update = await context.prisma.updateUser({
     where: { email: userEmail },
     data: {

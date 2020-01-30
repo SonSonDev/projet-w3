@@ -1,7 +1,6 @@
 import React from "react";
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
-import { Button } from "tabler-react";
 import { CREATE_USER } from "../../graphql/mutations/clients";
 import { useMutation } from "@apollo/react-hooks";
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck";
@@ -20,42 +19,53 @@ const ClientCreate = () => {
   });
 
   return (
-    <Formik
-      initialValues={{ name: "", password: "", email: "", role: "ADMIN" }}
-      validationSchema={Yup.object({
-        name: Yup.string(),
-        password: Yup.string(),
-        email: Yup.string()
-      })}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          setSubmitting(false);
-          createUser({
-            variables: {
-              name: values.name,
-              password: values.password,
-              email: values.email,
-              role: values.role
-            }
-          });
-        }, 400);
-      }}
-    >
-      <Form>
-        <label htmlFor="name">Name</label>
-        <Field name="name" type="text" />
-
-        <label htmlFor="password">Password</label>
-        <Field name="password" type="password" />
-
-        <label htmlFor="email">Email Address</label>
-        <Field name="email" type="email" />
-
-        <Button color="primary" type="submit" className="places__btn">
-          Submit
-        </Button>
-      </Form>
-    </Formik>
+    <section className="create">
+      <Formik
+        initialValues={{ name: "", password: "", email: "", role: "ADMIN" }}
+        validationSchema={Yup.object({
+          name: Yup.string(),
+          password: Yup.string(),
+          email: Yup.string()
+        })}
+        onSubmit={(values, { setSubmitting }) => {
+          setTimeout(() => {
+            setSubmitting(false);
+            createUser({
+              variables: {
+                name: values.name,
+                password: values.password,
+                email: values.email,
+                role: values.role
+              }
+            });
+          }, 400);
+        }}
+      >
+        <Form className="create__form">
+          <div class="field">
+            <label htmlFor="name" class="label">Nom</label>
+            <div class="control">
+              <Field id="name" class="input" name="name" type="text" placeholder="Name" />
+            </div>
+          </div>
+          <div class="field">
+            <label htmlFor="password" class="label">Mot de passe</label>
+            <div class="control">
+              <Field id="password" class="input" name="password" type="password" placeholder="Mot de passe" />
+            </div>
+          </div>
+          <div class="field">
+            <label htmlFor="email" class="label">Adresse email</label>
+            <div class="control">
+              <Field id="email" class="input" name="email" type="email" placeholder="Adresse email" />
+            </div>
+          </div>
+          <button type="submit" className="button is-link is-fullwidth">
+            Submit
+          </button>
+        </Form>
+      </Formik>
+    </section>
   );
 };
 

@@ -4,7 +4,6 @@ import { useQuery } from "@apollo/react-hooks";
 import Card from "../../components/card/client";
 import { Card as Cards, Dimmer } from "tabler-react";
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck";
-import { Button } from "tabler-react";
 import { Link } from "react-router-dom";
 
 const ClientsIndex = () => {
@@ -37,15 +36,43 @@ const ClientsIndex = () => {
 
   return (
     <section style={{ minHeight: "100%" }}>
-      <Button
-        RootComponent={Link}
-        to={`/client/create`}
-        color="green"
-        size="sm"
-      >
-        Add
-      </Button>
-      {!loading && clients && renderCards(clients)}
+      <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div id="navbarBasicExample" class="navbar-menu">
+          <div class="navbar-start">
+            <Link to="/clients" class="navbar-item">
+              All
+            </Link>
+          </div>
+
+          <div class="navbar-end">
+            <div class="navbar-item">
+              <div class="buttons">
+                <Link to={`/client/create`} class="button is-primary">
+                  <strong>Add</strong>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      {/* {!loading && clients && renderCards(clients)} */}
+      <table>
+        <thead>
+          <tr>
+            <th>Nom du commerçant</th>
+            <th>Type de client</th>
+            <th>Adresse</th>
+            <th>Nbr user</th>
+            <th>Représentant</th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {!loading && clients && renderCards(clients)}
+        </tbody>
+      </table>
     </section>
   );
 };

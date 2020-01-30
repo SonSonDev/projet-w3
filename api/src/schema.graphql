@@ -22,7 +22,7 @@ type Mutation {
     name: String!
     email: String!
     role: Role!
-  ): User
+  ): AuthPayload
 
   createCompany(name: String!, email: String): Company
 
