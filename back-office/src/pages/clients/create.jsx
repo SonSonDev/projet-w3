@@ -10,7 +10,7 @@ const ClientCreate = () => {
   const [createUser] = useMutation(CREATE_USER, {
     onCompleted: data => {
       // TEMP
-      window.location.href = "http://localhost:80/clients";
+      window.location.href = "/clients";
       console.log(data);
     },
     onError: error => {
@@ -42,24 +42,29 @@ const ClientCreate = () => {
         }}
       >
         <Form className="create__form">
-          <div class="field">
-            <label htmlFor="name" class="label">Nom</label>
-            <div class="control">
-              <Field id="name" class="input" name="name" type="text" placeholder="Name" />
+          <h1 className="title">Ajouter un nouveau client</h1>
+
+          <div className="field">
+            <label htmlFor="name" className="label">Nom</label>
+            <div className="control">
+              <Field id="name" className="input" name="name" type="text" placeholder="Name" />
             </div>
           </div>
-          <div class="field">
-            <label htmlFor="password" class="label">Mot de passe</label>
-            <div class="control">
-              <Field id="password" class="input" name="password" type="password" placeholder="Mot de passe" />
+
+          <div className="field">
+            <label htmlFor="password" className="label">Mot de passe</label>
+            <div className="control">
+              <Field id="password" className="input" name="password" type="password" placeholder="Mot de passe" />
             </div>
           </div>
-          <div class="field">
-            <label htmlFor="email" class="label">Adresse email</label>
-            <div class="control">
-              <Field id="email" class="input" name="email" type="email" placeholder="Adresse email" />
+
+          <div className="field">
+            <label htmlFor="email" className="label">Adresse email</label>
+            <div className="control">
+              <Field id="email" className="input" name="email" type="email" placeholder="Adresse email" />
             </div>
           </div>
+
           <button type="submit" className="button is-link is-fullwidth">
             Submit
           </button>

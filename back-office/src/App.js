@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Nav, Site } from "tabler-react";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -33,32 +32,20 @@ const App = () => {
   };
 
   const user = JSON.parse(localStorage.getItem('user'))
-
+  console.log(localStorage.getItem("isLoggedIn"))
   return (
     <section className="app">
       <Router>
         <header className="header">
           <div className="navbar-brand">
             <a className="navbar-item" href="/">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Docker_%28container_engine%29_logo.svg/1280px-Docker_%28container_engine%29_logo.svg.png" />
-            </a>
-
-            <a
-              role="button"
-              className="navbar-burger burger"
-              aria-label="menu"
-              aria-expanded="false"
-              data-target="navbarBasicExample"
-            >
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Docker_%28container_engine%29_logo.svg/1280px-Docker_%28container_engine%29_logo.svg.png" alt="logo"/>
             </a>
             {localStorage.getItem("isLoggedIn") === "true" && (
               <div className="buttons">
-                <a className="button is-light" onClick={() => logout()}>
+                <button className="button is-light" onClick={() => logout()}>
                   Logout
-                </a>
+                </button>
               </div>
             )}
           </div>
@@ -82,7 +69,7 @@ const App = () => {
           <aside className="menu">
             <ul className="menu-list">
               <li>
-                <Link to="/places">Places</Link>
+                <Link to="/places">Adresses</Link>
               </li>
               { user.role === 'SUPER_ADMIN' && (
                 <>
@@ -90,13 +77,13 @@ const App = () => {
                     <Link to="/clients">Clients</Link>
                   </li>
                   <li>
-                    <Link to="/companies">Companies</Link>
+                    <Link to="/companies">Entreprises</Link>
                   </li>
                 </>
               )}
               { user.role === 'ADMIN' && (
                 <li>
-                  <Link to="/employees">Employees</Link>
+                  <Link to="/employees">Employés</Link>
                 </li>
               )}
 
