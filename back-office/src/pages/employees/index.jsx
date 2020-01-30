@@ -1,17 +1,20 @@
 import React, { useState } from "react";
-import { GET_USERS, CREATE_USER } from "../../graphql/queries";
-import { useQuery, useMutation } from "@apollo/react-hooks";
-import Card from "../../components/cards/user";
-import UserForm from "../../components/forms/user";
+import { GET_USERS } from "../../graphql/queries/employees";
+import { useQuery } from "@apollo/react-hooks";
+import Card from "../../components/card/employee";
+import { Card as Cards, Dimmer } from "tabler-react";
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck";
+import { Button } from "tabler-react";
+import { Link } from "react-router-dom";
 
-const Employees = () => {
+const EmployeesIndex = () => {
+  console.log("EmployeesIndex");
   const [users, setUsers] = useState(null);
 
-  const [createUser] = useMutation(CREATE_USER);
-
   const { error, loading } = useQuery(GET_USERS, {
-    onCompleted: ({ getUsers }) => setUsers(getUsers)
+    variables: { role: "USER" },
+    onCompleted: ({ getUsers }) => setUsers(getUsers),
+    onError: error => console.log(error.message)
   });
 
   const renderCards = users =>
@@ -21,29 +24,29 @@ const Employees = () => {
 
   if (error) return <div>{error.message}</div>;
 
+  if (loading) {
+    return (
+      <Cards title="Loading" isClosable isCollapsible>
+        <Cards.Body>
+          <Dimmer active loader />
+        </Cards.Body>
+      </Cards>
+    );
+  }
+
   return (
     <section style={{ minHeight: "100%" }}>
-      {loading && <div>Loading...</div>}
+      <Button
+        RootComponent={Link}
+        to={`/employee/create`}
+        color="green"
+        size="sm"
+      >
+        Add
+      </Button>
       {!loading && users && renderCards(users)}
-      <UserForm
-        onSubmit={values => {
-          console.log(values);
-          // TEMP
-          setTimeout(() => {
-            window.location.reload();
-          }, 500);
-          createUser({
-            variables: {
-              name: values.name,
-              password: values.password,
-              email: values.email,
-              role: values.role
-            }
-          });
-        }}
-      />
     </section>
   );
 };
 
-export default withAuthenticationCheck(Employees, ['ADMIN']);
+export default withAuthenticationCheck(EmployeesIndex, ["ADMIN", "USER"]);

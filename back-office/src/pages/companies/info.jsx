@@ -1,9 +1,10 @@
 import React from "react";
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck";
 
-const PlaceUpdate = () => {
-  console.log("PlaceUpdate")
+const CompanyInfo = () => {
+  console.log("CompanyInfo");
+
   return <h1>SOON</h1>;
 };
 
-export default withAuthenticationCheck(PlaceUpdate, ["SUPER_ADMIN"]);
+export default withAuthenticationCheck(CompanyInfo, ["SUPER_ADMIN", "ADMIN"]);

@@ -1,9 +1,8 @@
 import React from "react";
-import { DELETE_PLACE, UPDATE_HOUR } from "../../../graphql/queries";
+import { DELETE_PLACE } from "../../graphql/mutations/places";
 import { useMutation } from "@apollo/react-hooks";
 import { Card as Cards, Button, Tag, Header } from "tabler-react";
-import HourForm from "../../forms/hour";
-import { Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Card = ({
   name,
@@ -16,22 +15,9 @@ const Card = ({
   hours,
   keywords
 }) => {
-  // const [updateHour] = useMutation(UPDATE_HOUR, {
-  //   onCompleted: data => {
-  //     window.location.reload();
-  //     console.log(data);
-  //   }
-  // });
-
-  const redirect = () => {
-    console.log('ok')
-    return <Redirect to="/" />;
-  };
-
   const [deletePlace] = useMutation(DELETE_PLACE, {
     variables: { id },
     onCompleted: data => {
-      // TEMP
       window.location.reload();
       console.log(data);
     }
@@ -46,8 +32,21 @@ const Card = ({
             <Button color="red" size="sm" onClick={() => deletePlace()}>
               Supprimer
             </Button>
-            <Button color="blue" size="sm" onClick={() => redirect()}>
+            <Button
+              RootComponent={Link}
+              to={`/place/${id}/update`}
+              color="blue"
+              size="sm"
+            >
               Update
+            </Button>
+            <Button
+              RootComponent={Link}
+              to={`/place/${id}`}
+              color="green"
+              size="sm"
+            >
+              Info
             </Button>
           </Cards.Options>
         </Cards.Header>

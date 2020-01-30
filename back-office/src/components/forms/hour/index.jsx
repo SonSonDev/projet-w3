@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik, Field, Form, ErrorMessage } from "formik";
+import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 
 const HourForm = props => {
@@ -13,7 +13,6 @@ const HourForm = props => {
       })}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
-          props.onSubmit(values);
           setSubmitting(false);
         }, 400);
       }}
@@ -29,15 +28,12 @@ const HourForm = props => {
           <option value="SATURDAY">Saturday</option>
           <option value="SUNDAY">Sunday</option>
         </Field>
-        <ErrorMessage name="day" />
 
         <label htmlFor="start">Start</label>
         <Field name="start" type="text" />
-        <ErrorMessage name="start" />
 
         <label htmlFor="end">End</label>
         <Field name="end" type="text" />
-        <ErrorMessage name="end" />
 
         <button type="submit">Submit</button>
       </Form>

@@ -2,10 +2,12 @@ import React from "react";
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import { Button } from "tabler-react";
-import { CREATE_PLACE } from "../../graphql/queries/index";
+import { CREATE_PLACE } from "../../graphql/mutations/places";
 import { useMutation } from "@apollo/react-hooks";
+import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck";
 
-const Create = () => {
+const PlaceCreate = () => {
+  console.log("PlaceCreate")
   const [createPlace] = useMutation(CREATE_PLACE, {
     onCompleted: data => {
       console.log(data);
@@ -94,4 +96,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default withAuthenticationCheck(PlaceCreate, ["SUPER_ADMIN"]);

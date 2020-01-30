@@ -3,10 +3,10 @@ scalar Date
 type Query {
   getPlaces: [Place]
   getPlace(id: ID!): Place
-  getUsers: [User]
-  getUser: User
+  getUsers(role: Role): [User]
+  getUser(id: ID!): User
   getCompanies: [Company]
-  getCompany: Company
+  getCompany(id: ID!): Company
 }
 
 type Mutation {

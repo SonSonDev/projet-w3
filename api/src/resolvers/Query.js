@@ -6,8 +6,8 @@ async function getPlace(parent, { id }, context, parernt) {
   return await context.prisma.place({ id });
 }
 
-async function getUsers(parent, args, context) {
-  return await context.prisma.users()
+async function getUsers(parent, { role }, context) {
+  return await context.prisma.users({ where: { role } })
 }
 
 async function getUser(parent, { id }, context, parernt) {

@@ -1,11 +1,10 @@
-import React, { useState } from "react";
-import { LOGIN } from "../graphql/queries";
+import React from "react";
+import { LOGIN } from "../graphql/mutations/auth";
 import { useMutation } from "@apollo/react-hooks";
-import LoginForm from "../components/forms/login";
+import { Formik, Field, Form } from "formik";
+import * as Yup from "yup";
 
 const Login = () => {
-  const [err, setErr] = useState({ active: false, msg: null });
-
   const [login] = useMutation(LOGIN, {
     onCompleted: ({
       login: {
@@ -26,11 +25,7 @@ const Login = () => {
       window.location.href = "http://localhost:80/";
       console.log({ id, name, email, role });
     },
-    onError: error => {
-      // SHOW MESSAGES
-      console.log(error.message);
-      setErr({ active: true, msg: error.message });
-    }
+    onError: error => console.log(error.message)
   });
 
   return (
@@ -43,16 +38,54 @@ const Login = () => {
         flexDirection: "column"
       }}
     >
-      <LoginForm
-        onSubmit={values =>
-          login({
-            variables: { email: values.email, password: values.password }
-          })
-        }
-      />
-      <div style={err.active ? { color: "red" } : { color: "blue" }}>
-        {err.msg}
-      </div>
+      <Formik
+        initialValues={{ name: "", password: "", email: "" }}
+        validationSchema={Yup.object({
+          password: Yup.string(),
+          email: Yup.string()
+        })}
+        onSubmit={(values, { setSubmitting }) => {
+          setTimeout(() => {
+            setSubmitting(false);
+            login({
+              variables: {
+                name: values.name,
+                password: values.password,
+                email: values.email
+              }
+            });
+          }, 400);
+        }}
+      >
+        <Form>
+          <div
+            style={{
+              border: "2px solid grey",
+              borderRadius: "15px",
+              height: "200px",
+              width: "200px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-evenly",
+              alignItems: "center"
+            }}
+          >
+            <label htmlFor="email">Email Address</label>
+            <Field
+              style={{ border: "2px solid grey", borderRadius: "15px" }}
+              name="email"
+              type="email"
+            />
+            <label htmlFor="password">Password</label>
+            <Field
+              style={{ border: "2px solid grey", borderRadius: "15px" }}
+              name="password"
+              type="password"
+            />
+            <button type="submit">Submit</button>
+          </div>
+        </Form>
+      </Formik>
     </section>
   );
 };
