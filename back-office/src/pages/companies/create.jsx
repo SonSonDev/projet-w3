@@ -10,6 +10,8 @@ const CompanyCreate = () => {
   console.log("CompanyCreate")
   const [createCompany] = useMutation(CREATE_COMPANY, {
     onCompleted: data => {
+      // TEMP
+      window.location.href = "http://localhost:80/companies";
       console.log(data);
     },
     onError: error => {

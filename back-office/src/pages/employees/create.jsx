@@ -10,6 +10,8 @@ const EmployeeCreate = () => {
   console.log("EmployeeCreate")
   const [createUser] = useMutation(CREATE_USER, {
     onCompleted: data => {
+      // TEMP
+      window.location.href = "http://localhost:80/employees";
       console.log(data);
     },
     onError: error => {

@@ -10,6 +10,8 @@ const ClientCreate = () => {
   console.log("ClientCreate")
   const [createUser] = useMutation(CREATE_USER, {
     onCompleted: data => {
+      // TEMP
+      window.location.href = "http://localhost:80/clients";
       console.log(data);
     },
     onError: error => {

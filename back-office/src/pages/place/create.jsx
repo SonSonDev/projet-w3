@@ -10,6 +10,8 @@ const PlaceCreate = () => {
   console.log("PlaceCreate")
   const [createPlace] = useMutation(CREATE_PLACE, {
     onCompleted: data => {
+      // TEMP
+      window.location.href = "http://localhost:80/places";
       console.log(data);
     },
     onError: error => {
