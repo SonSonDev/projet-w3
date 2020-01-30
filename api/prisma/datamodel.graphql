@@ -4,7 +4,7 @@ type User {
   email: String @unique
   password: String
   role: Role
-  isRepresentative: Boolean
+  isRepresentative: Boolean @default(value: false)
   company: Company @relation(link: INLINE)
 }
 

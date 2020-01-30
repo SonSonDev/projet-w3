@@ -28,3 +28,26 @@ mutation DeleteUser($id: ID!) {
   }
 }
 `;
+
+export const UPDATE_REPRESENTATIVE = gql`
+  mutation UpdateRepresentative(
+    $userEmail: String!
+    $companyId: ID!
+    $isRepresentative: Boolean!
+  ) {
+    updateRepresentative(
+      userEmail: $userEmail
+      companyId: $companyId
+      isRepresentative: $isRepresentative
+    ) {
+      id
+      name
+      isRepresentative
+      company {
+        id
+        email
+        name
+      }
+    }
+  }
+`;

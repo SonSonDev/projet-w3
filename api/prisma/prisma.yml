@@ -1,6 +1,7 @@
 endpoint: http://prisma:4466/madu/api
 datamodel: datamodel.graphql
 databaseType: document
+secret: ${env:SECRET}
 generate:
   - generator: javascript-client
     output: ../src/generated/prisma-client

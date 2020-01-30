@@ -36,6 +36,7 @@ services:
     ports:
       - "3000:3000"
     environment:
+      SECRET: "prisma-secret"
       PORT: 3000
     entrypoint: /app/entrypoint.sh
     command: yarn dev
