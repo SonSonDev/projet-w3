@@ -1,0 +1,39 @@
+.login {
+  display: flex;
+  min-height: 100%;
+  
+  &__side {
+    flex: 1;
+    background-image: url('../../assets/img/login-img.jpeg');
+    background-size: cover;
+    background-position: center top;
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  &__content {
+    flex: 1;
+    min-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 30px 30px 120px;
+  }
+
+
+  .title {
+    margin-bottom: 20px;
+  }
+
+  .subtitle {
+    margin-bottom: 40px;
+  }
+
+  &__form {
+    width: 100%;
+    max-width: 300px;
+
+  }
+}
