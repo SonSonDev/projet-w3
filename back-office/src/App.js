@@ -31,6 +31,9 @@ const App = () => {
     localStorage.setItem("user", null);
     window.location = "/";
   };
+
+  const user = JSON.parse(localStorage.getItem('user'))
+
   return (
     <section className="app">
       <Router>
@@ -79,17 +82,24 @@ const App = () => {
           <aside className="menu">
             <ul className="menu-list">
               <li>
-                <Link to="/clients">Clients</Link>
-              </li>
-              <li>
                 <Link to="/places">Places</Link>
               </li>
-              <li>
-                <Link to="/employees">Employees</Link>
-              </li>
-              <li>
-                <Link to="/companies">Companies</Link>
-              </li>
+              { user.role === 'SUPER_ADMIN' && (
+                <>
+                  <li>
+                    <Link to="/clients">Clients</Link>
+                  </li>
+                  <li>
+                    <Link to="/companies">Companies</Link>
+                  </li>
+                </>
+              )}
+              { user.role === 'ADMIN' && (
+                <li>
+                  <Link to="/employees">Employees</Link>
+                </li>
+              )}
+
             </ul>
           </aside>
         )}
