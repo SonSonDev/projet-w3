@@ -15,7 +15,7 @@ const Table = ({
   ]
 }) => {
   return (
-    <table className="table is-striped table is-bordered">
+    <table className="table is-striped table is-bordered w100">
       <thead>
         <tr>
           {columns.map(({ title, label }) => (

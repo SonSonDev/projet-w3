@@ -7,8 +7,11 @@ import withAuthenticationCheck from "../../components/hocs/withAuthenticationChe
 import { Button } from "tabler-react";
 import { Link } from "react-router-dom";
 import Table from "../../components/table";
+import Tabs from "../../components/Tabs/Tabs.jsx";
 
 const PlacesIndex = () => {
+  console.log("render PlacesIndex");
+  const [activeTabIndex, setactiveTabIndex] = useState(0);
 
   const [places, setPlaces] = useState([]);
 
@@ -23,7 +26,6 @@ const PlacesIndex = () => {
       console.log(data);
     }
   });
-
   if (error) return <div>{error.message}</div>;
 
   if (loading) {
@@ -45,25 +47,25 @@ const PlacesIndex = () => {
     { label: "Info", handleClick: () => console.log("Info") }
   ];
 
+  const tabs = [
+    { title: "All", filter: () => true },
+    { title: "Shop", filter: ({ category }) => category === "SHOP" },
+    { title: "Activity", filter: ({ category }) => category === "ACTIVITY" },
+    { title: "Food", filter: ({ category }) => category === "FOOD" }
+  ];
+
+  const data = places
+    .map(({ address: { street, zipCode, number }, ...place }) => ({
+      ...place,
+      address: `${number} ${street} ${zipCode}`
+    }))
+    .filter(tabs[activeTabIndex].filter);
+
   return (
     <section className="places">
-      <div className="places_cards">
-        <Button
-          RootComponent={Link}
-          to={`/place/create`}
-          color="green"
-          size="sm"
-        >
-          Add
-        </Button>
-        <Table
-          data={places.map(({ address: { street, zipCode, number }, ...place }) => ({
-              ...place,
-              address: `${number} ${street} ${zipCode}`
-            })
-          )}
-          columns={columns}
-        />
+      <Tabs tabs={tabs} activeTabIndex={activeTabIndex} onTabClick={setactiveTabIndex} action={{label:"Ajouter une adresse", url: "/place/create"}}/>
+      <div className="padding16">
+        <Table data={data} columns={columns} />
       </div>
     </section>
   );
