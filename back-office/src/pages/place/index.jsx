@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import { GET_PLACES } from "../../graphql/queries/places";
 import { DELETE_PLACE } from "../../graphql/mutations/places";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { Card as Cards, Dimmer } from "tabler-react";
+import Loader from "../../components/loader";
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck";
-import { Button } from "tabler-react";
-import { Link } from "react-router-dom";
 import Table from "../../components/table";
 import Tabs from "../../components/Tabs/Tabs.jsx";
 
@@ -30,11 +28,7 @@ const PlacesIndex = () => {
 
   if (loading) {
     return (
-      <Cards title="Loading" isClosable isCollapsible>
-        <Cards.Body>
-          <Dimmer active loader />
-        </Cards.Body>
-      </Cards>
+      <Loader/>
     );
   }
 

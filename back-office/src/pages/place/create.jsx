@@ -105,8 +105,8 @@ const PlaceCreate = () => {
             </div>
           </div>
 
-          <div class="control">
-            <button type="submit" class="button is-link is-fullwidth">Submit</button>
+          <div className="control">
+            <button type="submit" className="button is-link is-fullwidth">Submit</button>
           </div>
         </Form>
       </Formik>
