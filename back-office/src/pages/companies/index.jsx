@@ -7,6 +7,7 @@ import withAuthenticationCheck from "../../components/hocs/withAuthenticationChe
 import { Button } from "tabler-react";
 import { Link } from "react-router-dom";
 import Table from "../../components/table";
+import Tabs from "../../components/Tabs/Tabs.jsx";
 
 const CompaniesIndex = () => {
   const [companies, setCompanies] = useState([]);
@@ -45,15 +46,18 @@ const CompaniesIndex = () => {
 
   return (
     <section style={{ minHeight: "100%" }}>
-      <Button
+      {/* <Button
         RootComponent={Link}
         to={`/company/create`}
         color="green"
         size="sm"
       >
         Add
-      </Button>
-      <Table data={companies} columns={columns} />
+      </Button> */}
+      <Tabs tabs={[{ title: "All company", filter: () => true }]} action={{label:"Ajouter une entreprise", url: "/company/create"}}/>
+      <div class="padding16">
+        <Table data={companies} columns={columns} />
+      </div>
     </section>
   );
 };
