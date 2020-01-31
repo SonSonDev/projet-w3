@@ -1,12 +1,12 @@
 import gql from 'graphql-tag';
 
-export const CREATE_USER = gql`
+export const CREATE_USER = gql `
 mutation CreateUser(
   $name: String!
   $email: String!
   $role: Role!
 ) {
-  createUser(name: $name, email: $email, role: $role) {
+  createUser(name: $name, password: "nik", email: $email, role: $role) {
     id
     name
     email
@@ -15,7 +15,7 @@ mutation CreateUser(
 }
 `;
 
-export const DELETE_USER = gql`
+export const DELETE_USER = gql `
 mutation DeleteUser($id: ID!) {
   deleteUser(id: $id) {
     id

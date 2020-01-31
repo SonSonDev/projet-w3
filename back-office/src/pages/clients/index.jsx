@@ -6,6 +6,7 @@ import { Card as Cards, Dimmer } from "tabler-react";
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck";
 import { Link } from "react-router-dom";
 import Table from "../../components/table";
+import Tabs from "../../components/Tabs/Tabs.jsx";
 
 const ClientsIndex = () => {
 
@@ -48,26 +49,24 @@ const ClientsIndex = () => {
 
   return (
     <section style={{ minHeight: "100%" }}>
-      <nav className="navbar" role="navigation" aria-label="main navigation">
+      {/* <nav className="navbar" role="navigation" aria-label="main navigation">
         <div id="navbarBasicExample" className="navbar-menu">
           <div className="navbar-start">
-            <Link to="/clients" className="navbar-item">
-              All
-            </Link>
           </div>
 
           <div className="navbar-end">
             <div className="navbar-item">
               <div className="buttons">
-                <Link to={`/client/create`} className="button is-primary">
-                  <strong>Add</strong>
-                </Link>
+                <a href='/client/create' className="button is-small go-to-right">Ajouter un client</a>
               </div>
             </div>
           </div>
         </div>
-      </nav>
-      <Table data={clients} columns={columns} />
+      </nav> */}
+      <Tabs tabs={[{ title: "All clients", filter: () => true }]} action={{label:"Ajouter un Client", url: "/client/create"}}/>
+      <div class="padding16">
+        <Table data={clients} columns={columns} /> 
+      </div>
     </section>
   );
 };
