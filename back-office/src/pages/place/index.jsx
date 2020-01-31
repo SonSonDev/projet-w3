@@ -41,7 +41,8 @@ const PlacesIndex = () => {
   const columns = [
     { title: "Nom", key: "name" },
     { title: "Catégorie", key: "category" },
-    { title: "Adresse", key: "address" },
+    { title: "Adresse", key: "address", link: address => `https://www.google.com/maps/search/?api=1&query=${encodeURI(address)}`
+    },
     { label: "Delete", handleClick: deletePlace },
     { label: "Edit", handleClick: () => console.log("Edit") },
     { label: "Info", handleClick: () => console.log("Info") }

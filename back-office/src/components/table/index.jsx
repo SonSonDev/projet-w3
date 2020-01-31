@@ -26,9 +26,11 @@ const Table = ({
       <tbody>
         {data.map(({ id, ...entry }) => (
           <tr key={id}>
-            {columns.map(({ key, label, handleClick }, i) => (
+            {columns.map(({ key, label, handleClick, link }, i) => (
               <td key={id + i}>
-                {key ? (
+                { link ?
+                  <a href={link(entry[key])} target="_blank">{entry[key]}</a> 
+                : key ? (
                   entry[key] || "-"
                 ) : (
                   <button

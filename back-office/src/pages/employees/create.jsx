@@ -21,10 +21,9 @@ const EmployeeCreate = () => {
   return (
     <div className="create">
       <Formik
-        initialValues={{ name: "", password: "", email: "", role: "USER" }}
+        initialValues={{ name: "", email: "", role: "USER" }}
         validationSchema={Yup.object({
           name: Yup.string(),
-          password: Yup.string(),
           email: Yup.string()
         })}
         onSubmit={(values, { setSubmitting }) => {
@@ -33,7 +32,6 @@ const EmployeeCreate = () => {
             createUser({
               variables: {
                 name: values.name,
-                password: values.password,
                 email: values.email,
                 role: values.role
               }
@@ -47,13 +45,6 @@ const EmployeeCreate = () => {
             <label htmlFor="name" className="label">Nom</label>
             <div className="control">
               <Field id="name" className="input" name="name" type="text" placeholder="Nom" />
-            </div>
-          </div>
-
-          <div className="field">
-            <label htmlFor="password" className="label">Mot de passe</label>
-            <div className="control">
-              <Field id="password" className="input" name="password" type="password" placeholder="Mot de passe" />
             </div>
           </div>
 
