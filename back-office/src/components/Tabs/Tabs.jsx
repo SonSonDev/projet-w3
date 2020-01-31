@@ -17,7 +17,7 @@ const Tabs = ({
             <a onClick={() => onTabClick(index)}>{title}</a>
           </li>
         ))}
-        <a href={action.url} className="button is-small go-to-right">{action.label}</a>
+        <a href={action.url} className="button is-primary go-to-right">{action.label}</a>
       </ul>
     </div>
   );

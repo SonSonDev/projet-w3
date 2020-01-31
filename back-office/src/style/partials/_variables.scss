@@ -1,13 +1,21 @@
-$darkColor: #363636;
-$midColor: #575757;
+// Colors
+$dark-50: hsl(0, 0%, 9%);
+$dark-30: hsl(165, 2%, 52%); 
+$dark-10: hsl(165, 7%, 89%);
 
-$header-height: 80px;
-$nav-height-mobile: 56px;
-$student-sidepanel-width: 400px;
+$white: hsl(100, 100%, 100%);
 
-$primaryColor: #cd654d;
-$defaultFontColor: $midColor;
+$green-50: hsl(157, 23%, 22%);
+$green-30: hsl(101, 25%, 37%);
+$green-10: hsl(98, 31%, 75%);
+
+$green-50: hsl(27, 71%, 59%);
+$green-30: hsl(24, 78%, 81%);
+$green-10: hsl(35, 39%, 90%);
+
+
+// $primaryColor: #cd654d;
+$defaultFontColor: $dark-50;
 $baseFontSize: 12px;
 $defaultFontSize: 1.2rem;
-$errorColor: #d84141;
-$background-color: white;
+$background-color: $white;

@@ -59,28 +59,42 @@ const PlaceCreate = () => {
           <div className="field">
             <label htmlFor="name" className="label">Nom</label>
             <div className="control">
-              <Field id="name" className="input" name="name" type="text" placeholder="Name" />
+              <Field id="name" className="input" name="name" type="text" placeholder="Nom" />
             </div>
           </div>
 
           <div className="field">
-            <label htmlFor="number" className="label">Number</label>
+            <label className="label" htmlFor="category">Catégorie</label>
             <div className="control">
-              <Field id="number" className="input" name="number" type="number" placeholder="Number" />
+              <div className="select is-fullwidth">
+                <Field as="select" id="category" name="category">
+                  <option value="" disabled>Sélectionner une catégorie</option>
+                  <option value="FOOD">Restaurant</option>
+                  <option value="SHOP">Boutique</option>
+                  <option value="ACTIVITY">Activité</option>
+                </Field>
+              </div>
             </div>
           </div>
 
           <div className="field">
-            <label htmlFor="street" className="label">Street</label>
+            <label htmlFor="number" className="label">N° de rue</label>
             <div className="control">
-              <Field id="street" className="input" name="street" type="text" placeholder="Number" />
+              <Field id="number" className="input" name="number" type="number" placeholder="N° de rue" />
             </div>
           </div>
 
           <div className="field">
-            <label htmlFor="zipCode" className="label">Zip code</label>
+            <label htmlFor="street" className="label">Rue</label>
             <div className="control">
-              <Field id="zipCode" className="input" name="zipCode" type="number" placeholder="Zip code" />
+              <Field id="street" className="input" name="street" type="text" placeholder="Rue" />
+            </div>
+          </div>
+
+          <div className="field">
+            <label htmlFor="zipCode" className="label">Code postal</label>
+            <div className="control">
+              <Field id="zipCode" className="input" name="zipCode" type="number" placeholder="Code postal" />
             </div>
           </div>
 
@@ -91,22 +105,9 @@ const PlaceCreate = () => {
             </div>
           </div>
 
-          <div className="field">
-            <label className="label" htmlFor="category">Category</label>
-            <div className="control">
-              <div className="select is-fullwidth">
-                <Field as="select" id="category" name="category">
-                  <option value="" disabled>Sélectionner une catégorie</option>
-                  <option value="FOOD">Food</option>
-                  <option value="SHOP">Shop</option>
-                  <option value="ACTIVITY">Activity</option>
-                </Field>
-              </div>
-            </div>
-          </div>
 
-          <div className="control">
-            <button type="submit" className="button is-link is-fullwidth">Submit</button>
+          <div class="control">
+            <button type="submit" class="button is-link is-large is-fullwidth">Valider</button>
           </div>
         </Form>
       </Formik>
