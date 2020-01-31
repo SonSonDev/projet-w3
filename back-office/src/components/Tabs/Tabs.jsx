@@ -13,7 +13,7 @@ const Tabs = ({
     <div className="tabs">
       <ul>
         {tabs.map(({ title, active }, index) => (
-          <li className={activeTabIndex === index && "is-active"}>
+          <li className={activeTabIndex === index ? "is-active" : ""} key={index}>
             <a onClick={() => onTabClick(index)}>{title}</a>
           </li>
         ))}

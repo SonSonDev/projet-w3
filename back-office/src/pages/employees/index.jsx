@@ -2,12 +2,10 @@ import React, { useState } from "react";
 import { GET_USERS } from "../../graphql/queries/employees";
 import { DELETE_USER } from "../../graphql/mutations/clients";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { Card as Cards, Dimmer } from "tabler-react";
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck";
-import { Button } from "tabler-react";
-import { Link } from "react-router-dom";
 import Table from "../../components/table";
 import Tabs from "../../components/Tabs/Tabs.jsx";
+import Loader from "../../components/loader";
 
 const EmployeesIndex = () => {
   console.log("EmployeesIndex");
@@ -30,17 +28,13 @@ const EmployeesIndex = () => {
 
   if (loading) {
     return (
-      <Cards title="Loading" isClosable isCollapsible>
-        <Cards.Body>
-          <Dimmer active loader />
-        </Cards.Body>
-      </Cards>
+      <Loader/>
     );
   }
 
   const columns = [
-    { title: "Prénom de l’employé", key: "firstName" },
-    { title: "Nom de l’employé", key: "lastName" },
+    { title: "Prénom", key: "firstName" },
+    { title: "Nom", key: "lastName" },
     { title: "Email", key: "email" },
     { label: "Delete", handleClick: deleteUser },
     { label: "Edit", handleClick: () => console.log("Edit") },
@@ -50,7 +44,7 @@ const EmployeesIndex = () => {
   return (
     <section style={{ minHeight: "100%" }}>
       <Tabs tabs={[{ title: "All Employee", filter: () => true }]} action={{label:"Ajouter un employé", url: "/employee/create"}}/>
-      <div class="padding16">
+      <div className="padding16">
         <Table data={users} columns={columns} />
       </div>
     </section>

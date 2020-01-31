@@ -2,12 +2,10 @@ import React, { useState } from "react";
 import { GET_COMPANIES } from "../../graphql/queries/companies";
 import { DELETE_COMPANY } from "../../graphql/mutations/companies";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { Card as Cards, Dimmer } from "tabler-react";
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck";
-import { Button } from "tabler-react";
-import { Link } from "react-router-dom";
 import Table from "../../components/table";
 import Tabs from "../../components/Tabs/Tabs.jsx";
+import Loader from "../../components/loader";
 
 const CompaniesIndex = () => {
   const [companies, setCompanies] = useState([]);
@@ -28,11 +26,7 @@ const CompaniesIndex = () => {
 
   if (loading) {
     return (
-      <Cards title="Loading" isClosable isCollapsible>
-        <Cards.Body>
-          <Dimmer active loader />
-        </Cards.Body>
-      </Cards>
+      <Loader/>
     );
   }
 
@@ -47,7 +41,7 @@ const CompaniesIndex = () => {
   return (
     <section style={{ minHeight: "100%" }}>
       <Tabs tabs={[{ title: "All company", filter: () => true }]} action={{label:"Ajouter une entreprise", url: "/company/create"}}/>
-      <div class="padding16">
+      <div className="padding16">
         <Table data={companies} columns={columns} />
       </div>
     </section>

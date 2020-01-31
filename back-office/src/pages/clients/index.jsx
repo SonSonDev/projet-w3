@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import { GET_USERS } from "../../graphql/queries/clients";
 import { DELETE_USER } from "../../graphql/mutations/clients";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { Card as Cards, Dimmer } from "tabler-react";
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck";
-import { Link } from "react-router-dom";
 import Table from "../../components/table";
 import Tabs from "../../components/Tabs/Tabs.jsx";
+import Loader from "../../components/loader";
 
 const ClientsIndex = () => {
 
@@ -30,11 +29,7 @@ const ClientsIndex = () => {
 
   if (loading) {
     return (
-      <Cards title="Loading" isClosable isCollapsible>
-        <Cards.Body>
-          <Dimmer active loader />
-        </Cards.Body>
-      </Cards>
+      <Loader/>
     );
   }
 
@@ -51,7 +46,7 @@ const ClientsIndex = () => {
   return (
     <section style={{ minHeight: "100%" }}>
       <Tabs tabs={[{ title: "All clients", filter: () => true }]} action={{label:"Ajouter un Client", url: "/client/create"}}/>
-      <div class="padding16">
+      <div className="padding16">
         <Table data={clients} columns={columns} /> 
       </div>
     </section>

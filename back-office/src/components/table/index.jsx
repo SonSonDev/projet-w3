@@ -28,8 +28,8 @@ const Table = ({
           <tr key={id}>
             {columns.map(({ key, label, handleClick, link }, i) => (
               <td key={id + i}>
-                { link ?
-                  <a href={link(entry[key])} target="_blank">{entry[key]}</a> 
+                {link ?
+                  <a href={link(entry[key])} target="_blank" rel="noopener noreferrer">{entry[key]}</a> 
                 : key ? (
                   entry[key] || "-"
                 ) : (
