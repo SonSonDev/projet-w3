@@ -15,11 +15,12 @@ type Mutation {
     companyId: ID!
     isRepresentative: Boolean!
   ): User
-  
+
   updateHour(id: ID!, day: Day!, start: String!, end: String!): Place
 
   createUser(
-    name: String!
+    firstName: String
+    lastName: String
     email: String!
     role: Role!
   ): AuthPayload
@@ -44,7 +45,8 @@ type Mutation {
 
 type User {
   id: ID!
-  name: String
+  firstName: String
+  lastName: String
   email: String
   password: String
   role: Role

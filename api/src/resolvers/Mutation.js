@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const expiresIn = '1 day';
 const { APP_SECRET, getUserId, emailTemplate } = require('../utils');
 const nodemailer = require('nodemailer');
-var transporter = nodemailer.createTransport({
+const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'madu.group7@gmail.com',
@@ -68,21 +68,21 @@ async function createPlace(parent, { name, number, street, zipCode, type, catego
 }
 
 async function createCompany(parent, { name, email }, context, info) {
-  const userId = getUserId(context)
+  // const userId = getUserId(context)
   return context.prisma.createCompany({
     name: name,
     email: email
   })
 }
 
-async function createUser(parent, { name, email, role }, context, info) {
+async function createUser(parent, { firstName, lastName, email, role }, context, info) {
   let randomPassword = Math.random().toString(36).substring(5)
 
   const mailOptions = {
     from: 'madu.group7@gmail.com',
     to: email,
     subject: 'Votre mot de passe',
-    html: emailTemplate(name, randomPassword)
+    html: emailTemplate(firstName, randomPassword)
   };
 
   transporter.sendMail(mailOptions, function (err, info) {
@@ -95,7 +95,8 @@ async function createUser(parent, { name, email, role }, context, info) {
   const hashPassword = await bcrypt.hash(randomPassword, 10);
 
   const user = await context.prisma.createUser({
-    name: name,
+    firstName: firstName,
+    lastName: lastName,
     password: hashPassword,
     role: role,
     email: email
