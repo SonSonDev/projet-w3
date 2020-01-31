@@ -7,6 +7,7 @@ import withAuthenticationCheck from "../../components/hocs/withAuthenticationChe
 import { Button } from "tabler-react";
 import { Link } from "react-router-dom";
 import Table from "../../components/table";
+import Tabs from "../../components/Tabs/Tabs.jsx";
 
 const EmployeesIndex = () => {
   console.log("EmployeesIndex");
@@ -41,7 +42,6 @@ const EmployeesIndex = () => {
     { title: "Prénom de l’employé", key: "firstName" },
     { title: "Nom de l’employé", key: "lastName" },
     { title: "Email", key: "email" },
-    { title: "Role", key: "role" },
     { label: "Delete", handleClick: deleteUser },
     { label: "Edit", handleClick: () => console.log("Edit") },
     { label: "Info", handleClick: () => console.log("Info") }
@@ -49,15 +49,10 @@ const EmployeesIndex = () => {
 
   return (
     <section style={{ minHeight: "100%" }}>
-      <Button
-        RootComponent={Link}
-        to={`/employee/create`}
-        color="green"
-        size="sm"
-      >
-        Add
-      </Button>
-      <Table data={users} columns={columns} />
+      <Tabs tabs={[{ title: "All Employee", filter: () => true }]} action={{label:"Ajouter un employé", url: "/employee/create"}}/>
+      <div class="padding16">
+        <Table data={users} columns={columns} />
+      </div>
     </section>
   );
 };
