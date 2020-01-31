@@ -179,6 +179,8 @@ export interface ClientConstructor<T> {
  * Types
  */
 
+export type CompanyType = "COMPANY" | "SCHOOL" | "PLACE" | "COWORKING";
+
 export type Role = "SUPER_ADMIN" | "ADMIN" | "MODERATOR" | "USER";
 
 export type UserOrderByInput =
@@ -190,6 +192,8 @@ export type UserOrderByInput =
   | "lastName_DESC"
   | "email_ASC"
   | "email_DESC"
+  | "phone_ASC"
+  | "phone_DESC"
   | "password_ASC"
   | "password_DESC"
   | "role_ASC"
@@ -202,8 +206,8 @@ export type CompanyOrderByInput =
   | "id_DESC"
   | "name_ASC"
   | "name_DESC"
-  | "email_ASC"
-  | "email_DESC";
+  | "type_ASC"
+  | "type_DESC";
 
 export type Day =
   | "MONDAY"
@@ -289,6 +293,20 @@ export interface UserWhereInput {
   email_not_starts_with?: Maybe<String>;
   email_ends_with?: Maybe<String>;
   email_not_ends_with?: Maybe<String>;
+  phone?: Maybe<String>;
+  phone_not?: Maybe<String>;
+  phone_in?: Maybe<String[] | String>;
+  phone_not_in?: Maybe<String[] | String>;
+  phone_lt?: Maybe<String>;
+  phone_lte?: Maybe<String>;
+  phone_gt?: Maybe<String>;
+  phone_gte?: Maybe<String>;
+  phone_contains?: Maybe<String>;
+  phone_not_contains?: Maybe<String>;
+  phone_starts_with?: Maybe<String>;
+  phone_not_starts_with?: Maybe<String>;
+  phone_ends_with?: Maybe<String>;
+  phone_not_ends_with?: Maybe<String>;
   password?: Maybe<String>;
   password_not?: Maybe<String>;
   password_in?: Maybe<String[] | String>;
@@ -342,22 +360,59 @@ export interface CompanyWhereInput {
   name_not_starts_with?: Maybe<String>;
   name_ends_with?: Maybe<String>;
   name_not_ends_with?: Maybe<String>;
-  email?: Maybe<String>;
-  email_not?: Maybe<String>;
-  email_in?: Maybe<String[] | String>;
-  email_not_in?: Maybe<String[] | String>;
-  email_lt?: Maybe<String>;
-  email_lte?: Maybe<String>;
-  email_gt?: Maybe<String>;
-  email_gte?: Maybe<String>;
-  email_contains?: Maybe<String>;
-  email_not_contains?: Maybe<String>;
-  email_starts_with?: Maybe<String>;
-  email_not_starts_with?: Maybe<String>;
-  email_ends_with?: Maybe<String>;
-  email_not_ends_with?: Maybe<String>;
+  type?: Maybe<CompanyType>;
+  type_not?: Maybe<CompanyType>;
+  type_in?: Maybe<CompanyType[] | CompanyType>;
+  type_not_in?: Maybe<CompanyType[] | CompanyType>;
+  address?: Maybe<AddressWhereInput>;
   users_some?: Maybe<UserWhereInput>;
   AND?: Maybe<CompanyWhereInput[] | CompanyWhereInput>;
+}
+
+export interface AddressWhereInput {
+  street?: Maybe<String>;
+  street_not?: Maybe<String>;
+  street_in?: Maybe<String[] | String>;
+  street_not_in?: Maybe<String[] | String>;
+  street_lt?: Maybe<String>;
+  street_lte?: Maybe<String>;
+  street_gt?: Maybe<String>;
+  street_gte?: Maybe<String>;
+  street_contains?: Maybe<String>;
+  street_not_contains?: Maybe<String>;
+  street_starts_with?: Maybe<String>;
+  street_not_starts_with?: Maybe<String>;
+  street_ends_with?: Maybe<String>;
+  street_not_ends_with?: Maybe<String>;
+  zipCode?: Maybe<String>;
+  zipCode_not?: Maybe<String>;
+  zipCode_in?: Maybe<String[] | String>;
+  zipCode_not_in?: Maybe<String[] | String>;
+  zipCode_lt?: Maybe<String>;
+  zipCode_lte?: Maybe<String>;
+  zipCode_gt?: Maybe<String>;
+  zipCode_gte?: Maybe<String>;
+  zipCode_contains?: Maybe<String>;
+  zipCode_not_contains?: Maybe<String>;
+  zipCode_starts_with?: Maybe<String>;
+  zipCode_not_starts_with?: Maybe<String>;
+  zipCode_ends_with?: Maybe<String>;
+  zipCode_not_ends_with?: Maybe<String>;
+  city?: Maybe<String>;
+  city_not?: Maybe<String>;
+  city_in?: Maybe<String[] | String>;
+  city_not_in?: Maybe<String[] | String>;
+  city_lt?: Maybe<String>;
+  city_lte?: Maybe<String>;
+  city_gt?: Maybe<String>;
+  city_gte?: Maybe<String>;
+  city_contains?: Maybe<String>;
+  city_not_contains?: Maybe<String>;
+  city_starts_with?: Maybe<String>;
+  city_not_starts_with?: Maybe<String>;
+  city_ends_with?: Maybe<String>;
+  city_not_ends_with?: Maybe<String>;
+  AND?: Maybe<AddressWhereInput[] | AddressWhereInput>;
 }
 
 export type PlaceWhereUniqueInput = AtLeastOne<{
@@ -416,40 +471,6 @@ export interface PlaceWhereInput {
   type_ends_with?: Maybe<String>;
   type_not_ends_with?: Maybe<String>;
   AND?: Maybe<PlaceWhereInput[] | PlaceWhereInput>;
-}
-
-export interface AddressWhereInput {
-  number?: Maybe<Int>;
-  number_not?: Maybe<Int>;
-  number_in?: Maybe<Int[] | Int>;
-  number_not_in?: Maybe<Int[] | Int>;
-  number_lt?: Maybe<Int>;
-  number_lte?: Maybe<Int>;
-  number_gt?: Maybe<Int>;
-  number_gte?: Maybe<Int>;
-  street?: Maybe<String>;
-  street_not?: Maybe<String>;
-  street_in?: Maybe<String[] | String>;
-  street_not_in?: Maybe<String[] | String>;
-  street_lt?: Maybe<String>;
-  street_lte?: Maybe<String>;
-  street_gt?: Maybe<String>;
-  street_gte?: Maybe<String>;
-  street_contains?: Maybe<String>;
-  street_not_contains?: Maybe<String>;
-  street_starts_with?: Maybe<String>;
-  street_not_starts_with?: Maybe<String>;
-  street_ends_with?: Maybe<String>;
-  street_not_ends_with?: Maybe<String>;
-  zipCode?: Maybe<Int>;
-  zipCode_not?: Maybe<Int>;
-  zipCode_in?: Maybe<Int[] | Int>;
-  zipCode_not_in?: Maybe<Int[] | Int>;
-  zipCode_lt?: Maybe<Int>;
-  zipCode_lte?: Maybe<Int>;
-  zipCode_gt?: Maybe<Int>;
-  zipCode_gte?: Maybe<Int>;
-  AND?: Maybe<AddressWhereInput[] | AddressWhereInput>;
 }
 
 export interface HourWhereInput {
@@ -532,8 +553,19 @@ export type UserWhereUniqueInput = AtLeastOne<{
 export interface CompanyCreateInput {
   id?: Maybe<ID_Input>;
   name?: Maybe<String>;
-  email?: Maybe<String>;
+  type?: Maybe<CompanyType>;
+  address?: Maybe<AddressCreateOneInput>;
   users?: Maybe<UserCreateManyWithoutCompanyInput>;
+}
+
+export interface AddressCreateOneInput {
+  create?: Maybe<AddressCreateInput>;
+}
+
+export interface AddressCreateInput {
+  street?: Maybe<String>;
+  zipCode?: Maybe<String>;
+  city?: Maybe<String>;
 }
 
 export interface UserCreateManyWithoutCompanyInput {
@@ -548,6 +580,7 @@ export interface UserCreateWithoutCompanyInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   email?: Maybe<String>;
+  phone?: Maybe<String>;
   password?: Maybe<String>;
   role?: Maybe<Role>;
   isRepresentative?: Maybe<Boolean>;
@@ -555,8 +588,28 @@ export interface UserCreateWithoutCompanyInput {
 
 export interface CompanyUpdateInput {
   name?: Maybe<String>;
-  email?: Maybe<String>;
+  type?: Maybe<CompanyType>;
+  address?: Maybe<AddressUpdateOneInput>;
   users?: Maybe<UserUpdateManyWithoutCompanyInput>;
+}
+
+export interface AddressUpdateOneInput {
+  create?: Maybe<AddressCreateInput>;
+  update?: Maybe<AddressUpdateDataInput>;
+  upsert?: Maybe<AddressUpsertNestedInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+}
+
+export interface AddressUpdateDataInput {
+  street?: Maybe<String>;
+  zipCode?: Maybe<String>;
+  city?: Maybe<String>;
+}
+
+export interface AddressUpsertNestedInput {
+  update: AddressUpdateDataInput;
+  create: AddressCreateInput;
 }
 
 export interface UserUpdateManyWithoutCompanyInput {
@@ -590,6 +643,7 @@ export interface UserUpdateWithoutCompanyDataInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   email?: Maybe<String>;
+  phone?: Maybe<String>;
   password?: Maybe<String>;
   role?: Maybe<Role>;
   isRepresentative?: Maybe<Boolean>;
@@ -658,6 +712,20 @@ export interface UserScalarWhereInput {
   email_not_starts_with?: Maybe<String>;
   email_ends_with?: Maybe<String>;
   email_not_ends_with?: Maybe<String>;
+  phone?: Maybe<String>;
+  phone_not?: Maybe<String>;
+  phone_in?: Maybe<String[] | String>;
+  phone_not_in?: Maybe<String[] | String>;
+  phone_lt?: Maybe<String>;
+  phone_lte?: Maybe<String>;
+  phone_gt?: Maybe<String>;
+  phone_gte?: Maybe<String>;
+  phone_contains?: Maybe<String>;
+  phone_not_contains?: Maybe<String>;
+  phone_starts_with?: Maybe<String>;
+  phone_not_starts_with?: Maybe<String>;
+  phone_ends_with?: Maybe<String>;
+  phone_not_ends_with?: Maybe<String>;
   password?: Maybe<String>;
   password_not?: Maybe<String>;
   password_in?: Maybe<String[] | String>;
@@ -692,6 +760,7 @@ export interface UserUpdateManyDataInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   email?: Maybe<String>;
+  phone?: Maybe<String>;
   password?: Maybe<String>;
   role?: Maybe<Role>;
   isRepresentative?: Maybe<Boolean>;
@@ -699,7 +768,7 @@ export interface UserUpdateManyDataInput {
 
 export interface CompanyUpdateManyMutationInput {
   name?: Maybe<String>;
-  email?: Maybe<String>;
+  type?: Maybe<CompanyType>;
 }
 
 export interface PlaceCreateInput {
@@ -710,16 +779,6 @@ export interface PlaceCreateInput {
   keywords?: Maybe<PlaceCreatekeywordsInput>;
   category?: Maybe<Category>;
   type?: Maybe<String>;
-}
-
-export interface AddressCreateOneInput {
-  create?: Maybe<AddressCreateInput>;
-}
-
-export interface AddressCreateInput {
-  number?: Maybe<Int>;
-  street?: Maybe<String>;
-  zipCode?: Maybe<Int>;
 }
 
 export interface HourCreateManyInput {
@@ -743,25 +802,6 @@ export interface PlaceUpdateInput {
   keywords?: Maybe<PlaceUpdatekeywordsInput>;
   category?: Maybe<Category>;
   type?: Maybe<String>;
-}
-
-export interface AddressUpdateOneInput {
-  create?: Maybe<AddressCreateInput>;
-  update?: Maybe<AddressUpdateDataInput>;
-  upsert?: Maybe<AddressUpsertNestedInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-}
-
-export interface AddressUpdateDataInput {
-  number?: Maybe<Int>;
-  street?: Maybe<String>;
-  zipCode?: Maybe<Int>;
-}
-
-export interface AddressUpsertNestedInput {
-  update: AddressUpdateDataInput;
-  create: AddressCreateInput;
 }
 
 export interface HourUpdateManyInput {
@@ -837,6 +877,7 @@ export interface UserCreateInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   email?: Maybe<String>;
+  phone?: Maybe<String>;
   password?: Maybe<String>;
   role?: Maybe<Role>;
   isRepresentative?: Maybe<Boolean>;
@@ -851,13 +892,15 @@ export interface CompanyCreateOneWithoutUsersInput {
 export interface CompanyCreateWithoutUsersInput {
   id?: Maybe<ID_Input>;
   name?: Maybe<String>;
-  email?: Maybe<String>;
+  type?: Maybe<CompanyType>;
+  address?: Maybe<AddressCreateOneInput>;
 }
 
 export interface UserUpdateInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   email?: Maybe<String>;
+  phone?: Maybe<String>;
   password?: Maybe<String>;
   role?: Maybe<Role>;
   isRepresentative?: Maybe<Boolean>;
@@ -875,7 +918,8 @@ export interface CompanyUpdateOneWithoutUsersInput {
 
 export interface CompanyUpdateWithoutUsersDataInput {
   name?: Maybe<String>;
-  email?: Maybe<String>;
+  type?: Maybe<CompanyType>;
+  address?: Maybe<AddressUpdateOneInput>;
 }
 
 export interface CompanyUpsertWithoutUsersInput {
@@ -887,6 +931,7 @@ export interface UserUpdateManyMutationInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   email?: Maybe<String>;
+  phone?: Maybe<String>;
   password?: Maybe<String>;
   role?: Maybe<Role>;
   isRepresentative?: Maybe<Boolean>;
@@ -926,13 +971,15 @@ export interface NodeNode {
 export interface Company {
   id: ID_Output;
   name?: String;
-  email?: String;
+  type?: CompanyType;
+  address?: Address | null;
 }
 
 export interface CompanyPromise extends Promise<Company>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
-  email: () => Promise<String>;
+  type: () => Promise<CompanyType>;
+  address: <T = AddressPromise>() => T;
   users: <T = FragmentableArray<User>>(args?: {
     where?: UserWhereInput;
     orderBy?: UserOrderByInput;
@@ -949,7 +996,8 @@ export interface CompanySubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
-  email: () => Promise<AsyncIterator<String>>;
+  type: () => Promise<AsyncIterator<CompanyType>>;
+  address: <T = AddressSubscription>() => T;
   users: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
     where?: UserWhereInput;
     orderBy?: UserOrderByInput;
@@ -966,7 +1014,8 @@ export interface CompanyNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
-  email: () => Promise<String>;
+  type: () => Promise<CompanyType>;
+  address: <T = AddressPromise>() => T;
   users: <T = FragmentableArray<User>>(args?: {
     where?: UserWhereInput;
     orderBy?: UserOrderByInput;
@@ -978,11 +1027,40 @@ export interface CompanyNullablePromise
   }) => T;
 }
 
+export interface Address {
+  street?: String;
+  zipCode?: String;
+  city?: String;
+}
+
+export interface AddressPromise extends Promise<Address>, Fragmentable {
+  street: () => Promise<String>;
+  zipCode: () => Promise<String>;
+  city: () => Promise<String>;
+}
+
+export interface AddressSubscription
+  extends Promise<AsyncIterator<Address>>,
+    Fragmentable {
+  street: () => Promise<AsyncIterator<String>>;
+  zipCode: () => Promise<AsyncIterator<String>>;
+  city: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AddressNullablePromise
+  extends Promise<Address | null>,
+    Fragmentable {
+  street: () => Promise<String>;
+  zipCode: () => Promise<String>;
+  city: () => Promise<String>;
+}
+
 export interface User {
   id: ID_Output;
   firstName?: String;
   lastName?: String;
   email?: String;
+  phone?: String;
   password?: String;
   role?: Role;
   isRepresentative?: Boolean;
@@ -993,6 +1071,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   firstName: () => Promise<String>;
   lastName: () => Promise<String>;
   email: () => Promise<String>;
+  phone: () => Promise<String>;
   password: () => Promise<String>;
   role: () => Promise<Role>;
   isRepresentative: () => Promise<Boolean>;
@@ -1006,6 +1085,7 @@ export interface UserSubscription
   firstName: () => Promise<AsyncIterator<String>>;
   lastName: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
+  phone: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   role: () => Promise<AsyncIterator<Role>>;
   isRepresentative: () => Promise<AsyncIterator<Boolean>>;
@@ -1019,6 +1099,7 @@ export interface UserNullablePromise
   firstName: () => Promise<String>;
   lastName: () => Promise<String>;
   email: () => Promise<String>;
+  phone: () => Promise<String>;
   password: () => Promise<String>;
   role: () => Promise<Role>;
   isRepresentative: () => Promise<Boolean>;
@@ -1144,34 +1225,6 @@ export interface PlaceNullablePromise
   keywords: () => Promise<String[]>;
   category: () => Promise<Category>;
   type: () => Promise<String>;
-}
-
-export interface Address {
-  number?: Int;
-  street?: String;
-  zipCode?: Int;
-}
-
-export interface AddressPromise extends Promise<Address>, Fragmentable {
-  number: () => Promise<Int>;
-  street: () => Promise<String>;
-  zipCode: () => Promise<Int>;
-}
-
-export interface AddressSubscription
-  extends Promise<AsyncIterator<Address>>,
-    Fragmentable {
-  number: () => Promise<AsyncIterator<Int>>;
-  street: () => Promise<AsyncIterator<String>>;
-  zipCode: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface AddressNullablePromise
-  extends Promise<Address | null>,
-    Fragmentable {
-  number: () => Promise<Int>;
-  street: () => Promise<String>;
-  zipCode: () => Promise<Int>;
 }
 
 export interface Hour {
@@ -1354,7 +1407,7 @@ export interface CompanySubscriptionPayloadSubscription
 export interface CompanyPreviousValues {
   id: ID_Output;
   name?: String;
-  email?: String;
+  type?: CompanyType;
 }
 
 export interface CompanyPreviousValuesPromise
@@ -1362,7 +1415,7 @@ export interface CompanyPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
-  email: () => Promise<String>;
+  type: () => Promise<CompanyType>;
 }
 
 export interface CompanyPreviousValuesSubscription
@@ -1370,7 +1423,7 @@ export interface CompanyPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
-  email: () => Promise<AsyncIterator<String>>;
+  type: () => Promise<AsyncIterator<CompanyType>>;
 }
 
 export interface PlaceSubscriptionPayload {
@@ -1456,6 +1509,7 @@ export interface UserPreviousValues {
   firstName?: String;
   lastName?: String;
   email?: String;
+  phone?: String;
   password?: String;
   role?: Role;
   isRepresentative?: Boolean;
@@ -1468,6 +1522,7 @@ export interface UserPreviousValuesPromise
   firstName: () => Promise<String>;
   lastName: () => Promise<String>;
   email: () => Promise<String>;
+  phone: () => Promise<String>;
   password: () => Promise<String>;
   role: () => Promise<Role>;
   isRepresentative: () => Promise<Boolean>;
@@ -1480,6 +1535,7 @@ export interface UserPreviousValuesSubscription
   firstName: () => Promise<AsyncIterator<String>>;
   lastName: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
+  phone: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   role: () => Promise<AsyncIterator<Role>>;
   isRepresentative: () => Promise<AsyncIterator<Boolean>>;
@@ -1532,6 +1588,10 @@ export const models: Model[] = [
   {
     name: "Hour",
     embedded: true
+  },
+  {
+    name: "CompanyType",
+    embedded: false
   },
   {
     name: "Day",

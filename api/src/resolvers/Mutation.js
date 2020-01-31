@@ -67,11 +67,47 @@ async function createPlace(parent, { name, number, street, zipCode, type, catego
   })
 }
 
-async function createCompany(parent, { name, email }, context, info) {
+async function createCompany(parent, args, context, info) {
   // const userId = getUserId(context)
+  let randomPassword = Math.random().toString(36).substring(5)
+
+  const mailOptions = {
+    from: 'madu.group7@gmail.com',
+    to: args.emailUser,
+    subject: 'Votre mot de passe',
+    html: emailTemplate(args.firstName, randomPassword)
+  };
+
+  transporter.sendMail(mailOptions, function (err, info) {
+    if (err)
+      console.log(err)
+    else
+      console.log(info);
+  });
+
+  const hashPassword = await bcrypt.hash(randomPassword, 10);
+
   return context.prisma.createCompany({
-    name: name,
-    email: email
+    name: args.companyName,
+    type: args.companyType,
+    address: {
+      create: {
+        street: args.streetCompany,
+        zipCode: args.zipCodeCompany,
+        city: args.cityCompany,
+      },
+    },
+    users: {
+      create: {
+        firstName: args.firstNameUser,
+        lastName: args.lastNameUser,
+        email: args.emailUser,
+        password: hashPassword,
+        phone: args.phoneUser,
+        role: args.roleUser,
+        isRepresentative: args.isRepresentative,
+      }
+    }
   })
 }
 

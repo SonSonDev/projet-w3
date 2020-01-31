@@ -4,15 +4,15 @@ module.exports = {
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
 /* GraphQL */ `type Address {
-  number: Int
   street: String
-  zipCode: Int
+  zipCode: String
+  city: String
 }
 
 input AddressCreateInput {
-  number: Int
   street: String
-  zipCode: Int
+  zipCode: String
+  city: String
 }
 
 input AddressCreateOneInput {
@@ -20,9 +20,9 @@ input AddressCreateOneInput {
 }
 
 input AddressUpdateDataInput {
-  number: Int
   street: String
-  zipCode: Int
+  zipCode: String
+  city: String
 }
 
 input AddressUpdateOneInput {
@@ -39,14 +39,6 @@ input AddressUpsertNestedInput {
 }
 
 input AddressWhereInput {
-  number: Int
-  number_not: Int
-  number_in: [Int!]
-  number_not_in: [Int!]
-  number_lt: Int
-  number_lte: Int
-  number_gt: Int
-  number_gte: Int
   street: String
   street_not: String
   street_in: [String!]
@@ -61,14 +53,34 @@ input AddressWhereInput {
   street_not_starts_with: String
   street_ends_with: String
   street_not_ends_with: String
-  zipCode: Int
-  zipCode_not: Int
-  zipCode_in: [Int!]
-  zipCode_not_in: [Int!]
-  zipCode_lt: Int
-  zipCode_lte: Int
-  zipCode_gt: Int
-  zipCode_gte: Int
+  zipCode: String
+  zipCode_not: String
+  zipCode_in: [String!]
+  zipCode_not_in: [String!]
+  zipCode_lt: String
+  zipCode_lte: String
+  zipCode_gt: String
+  zipCode_gte: String
+  zipCode_contains: String
+  zipCode_not_contains: String
+  zipCode_starts_with: String
+  zipCode_not_starts_with: String
+  zipCode_ends_with: String
+  zipCode_not_ends_with: String
+  city: String
+  city_not: String
+  city_in: [String!]
+  city_not_in: [String!]
+  city_lt: String
+  city_lte: String
+  city_gt: String
+  city_gte: String
+  city_contains: String
+  city_not_contains: String
+  city_starts_with: String
+  city_not_starts_with: String
+  city_ends_with: String
+  city_not_ends_with: String
   AND: [AddressWhereInput!]
 }
 
@@ -97,7 +109,8 @@ enum Category {
 type Company {
   id: ID!
   name: String
-  email: String
+  type: CompanyType
+  address: Address
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
 }
 
@@ -110,7 +123,8 @@ type CompanyConnection {
 input CompanyCreateInput {
   id: ID
   name: String
-  email: String
+  type: CompanyType
+  address: AddressCreateOneInput
   users: UserCreateManyWithoutCompanyInput
 }
 
@@ -122,7 +136,8 @@ input CompanyCreateOneWithoutUsersInput {
 input CompanyCreateWithoutUsersInput {
   id: ID
   name: String
-  email: String
+  type: CompanyType
+  address: AddressCreateOneInput
 }
 
 type CompanyEdge {
@@ -135,14 +150,14 @@ enum CompanyOrderByInput {
   id_DESC
   name_ASC
   name_DESC
-  email_ASC
-  email_DESC
+  type_ASC
+  type_DESC
 }
 
 type CompanyPreviousValues {
   id: ID!
   name: String
-  email: String
+  type: CompanyType
 }
 
 type CompanySubscriptionPayload {
@@ -161,15 +176,23 @@ input CompanySubscriptionWhereInput {
   AND: [CompanySubscriptionWhereInput!]
 }
 
+enum CompanyType {
+  COMPANY
+  SCHOOL
+  PLACE
+  COWORKING
+}
+
 input CompanyUpdateInput {
   name: String
-  email: String
+  type: CompanyType
+  address: AddressUpdateOneInput
   users: UserUpdateManyWithoutCompanyInput
 }
 
 input CompanyUpdateManyMutationInput {
   name: String
-  email: String
+  type: CompanyType
 }
 
 input CompanyUpdateOneWithoutUsersInput {
@@ -183,7 +206,8 @@ input CompanyUpdateOneWithoutUsersInput {
 
 input CompanyUpdateWithoutUsersDataInput {
   name: String
-  email: String
+  type: CompanyType
+  address: AddressUpdateOneInput
 }
 
 input CompanyUpsertWithoutUsersInput {
@@ -220,20 +244,11 @@ input CompanyWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
-  email: String
-  email_not: String
-  email_in: [String!]
-  email_not_in: [String!]
-  email_lt: String
-  email_lte: String
-  email_gt: String
-  email_gte: String
-  email_contains: String
-  email_not_contains: String
-  email_starts_with: String
-  email_not_starts_with: String
-  email_ends_with: String
-  email_not_ends_with: String
+  type: CompanyType
+  type_not: CompanyType
+  type_in: [CompanyType!]
+  type_not_in: [CompanyType!]
+  address: AddressWhereInput
   users_some: UserWhereInput
   AND: [CompanyWhereInput!]
 }
@@ -614,6 +629,7 @@ type User {
   firstName: String
   lastName: String
   email: String
+  phone: String
   password: String
   role: Role
   isRepresentative: Boolean
@@ -631,6 +647,7 @@ input UserCreateInput {
   firstName: String
   lastName: String
   email: String
+  phone: String
   password: String
   role: Role
   isRepresentative: Boolean
@@ -647,6 +664,7 @@ input UserCreateWithoutCompanyInput {
   firstName: String
   lastName: String
   email: String
+  phone: String
   password: String
   role: Role
   isRepresentative: Boolean
@@ -666,6 +684,8 @@ enum UserOrderByInput {
   lastName_DESC
   email_ASC
   email_DESC
+  phone_ASC
+  phone_DESC
   password_ASC
   password_DESC
   role_ASC
@@ -679,6 +699,7 @@ type UserPreviousValues {
   firstName: String
   lastName: String
   email: String
+  phone: String
   password: String
   role: Role
   isRepresentative: Boolean
@@ -741,6 +762,20 @@ input UserScalarWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
+  phone: String
+  phone_not: String
+  phone_in: [String!]
+  phone_not_in: [String!]
+  phone_lt: String
+  phone_lte: String
+  phone_gt: String
+  phone_gte: String
+  phone_contains: String
+  phone_not_contains: String
+  phone_starts_with: String
+  phone_not_starts_with: String
+  phone_ends_with: String
+  phone_not_ends_with: String
   password: String
   password_not: String
   password_in: [String!]
@@ -786,6 +821,7 @@ input UserUpdateInput {
   firstName: String
   lastName: String
   email: String
+  phone: String
   password: String
   role: Role
   isRepresentative: Boolean
@@ -796,6 +832,7 @@ input UserUpdateManyDataInput {
   firstName: String
   lastName: String
   email: String
+  phone: String
   password: String
   role: Role
   isRepresentative: Boolean
@@ -805,6 +842,7 @@ input UserUpdateManyMutationInput {
   firstName: String
   lastName: String
   email: String
+  phone: String
   password: String
   role: Role
   isRepresentative: Boolean
@@ -831,6 +869,7 @@ input UserUpdateWithoutCompanyDataInput {
   firstName: String
   lastName: String
   email: String
+  phone: String
   password: String
   role: Role
   isRepresentative: Boolean
@@ -904,6 +943,20 @@ input UserWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
+  phone: String
+  phone_not: String
+  phone_in: [String!]
+  phone_not_in: [String!]
+  phone_lt: String
+  phone_lte: String
+  phone_gt: String
+  phone_gte: String
+  phone_contains: String
+  phone_not_contains: String
+  phone_starts_with: String
+  phone_not_starts_with: String
+  phone_ends_with: String
+  phone_not_ends_with: String
   password: String
   password_not: String
   password_in: [String!]

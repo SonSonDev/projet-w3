@@ -10,6 +10,20 @@ type Query {
 }
 
 type Mutation {
+  createCompany(
+    companyName: String
+    companyType: CompanyType
+    streetCompany: String
+    zipCodeCompany: String
+    cityCompany: String
+    firstNameUser: String
+    lastNameUser: String
+    emailUser: String
+    phoneUser: String
+    roleUser: Role
+    isRepresentative: Boolean
+  ): Company
+
   updateRepresentative(
     userEmail: String!
     companyId: ID!
@@ -24,8 +38,6 @@ type Mutation {
     email: String!
     role: Role!
   ): AuthPayload
-
-  createCompany(name: String!, email: String): Company
 
   createPlace(
     name: String!
@@ -48,10 +60,19 @@ type User {
   firstName: String
   lastName: String
   email: String
+  phone: String
   password: String
   role: Role
-  isRepresentative: Boolean
   company: Company
+  isRepresentative: Boolean
+}
+
+type Company {
+  id: ID!
+  name: String
+  type: CompanyType
+  address: Address
+  users: [User]
 }
 
 type Place {
@@ -64,28 +85,28 @@ type Place {
   type: String
 }
 
-type Company {
-  id: ID!
-  name: String
-  email: String
-  users: [User]
-}
-
 type AuthPayload {
   token: String
   user: User
 }
 
 type Address {
-  number: Int
   street: String
-  zipCode: Int
+  zipCode: String
+  city: String
 }
 
 type Hour {
   day: Day
   start: String
   end: String
+}
+
+enum CompanyType {
+  COMPANY
+  SCHOOL
+  PLACE
+  COWORKING
 }
 
 enum Day {
