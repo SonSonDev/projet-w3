@@ -42,7 +42,7 @@ const EmployeesIndex = () => {
   ];
 
   return (
-    <section style={{ minHeight: "100%" }}>
+    <section className="list-page">
       <Tabs tabs={[{ title: "All Employee", filter: () => true }]} action={{label:"Ajouter un employé", url: "/employee/create"}}/>
       <div className="padding16">
         <Table data={users} columns={columns} />

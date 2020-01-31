@@ -44,7 +44,7 @@ const ClientsIndex = () => {
   ];
 
   return (
-    <section style={{ minHeight: "100%" }}>
+    <section className="list-page">
       <Tabs tabs={[{ title: "All clients", filter: () => true }]} action={{label:"Ajouter un Client", url: "/client/create"}}/>
       <div className="padding16">
         <Table data={clients} columns={columns} /> 

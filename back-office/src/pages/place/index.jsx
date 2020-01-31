@@ -57,7 +57,7 @@ const PlacesIndex = () => {
     .filter(tabs[activeTabIndex].filter);
 
   return (
-    <section className="places">
+    <section className="list-page">
       <Tabs tabs={tabs} activeTabIndex={activeTabIndex} onTabClick={setactiveTabIndex} action={{label:"Ajouter une adresse", url: "/place/create"}}/>
       <div className="padding16">
         <Table data={data} columns={columns} />

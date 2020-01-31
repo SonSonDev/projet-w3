@@ -28,7 +28,11 @@
 }
 .main {
   grid-area: main;
+}
+
+.create, .list-page {
   padding: 64px 104px;
+  min-height: 100%;
 }
 
 .navbar-brand {

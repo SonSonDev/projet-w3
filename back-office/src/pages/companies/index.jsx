@@ -39,7 +39,7 @@ const CompaniesIndex = () => {
   ];
 
   return (
-    <section style={{ minHeight: "100%" }}>
+    <section className="list-page">
       <Tabs tabs={[{ title: "All company", filter: () => true }]} action={{label:"Ajouter une entreprise", url: "/company/create"}}/>
       <div className="padding16">
         <Table data={companies} columns={columns} />
