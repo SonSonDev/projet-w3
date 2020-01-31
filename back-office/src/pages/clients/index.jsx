@@ -39,7 +39,8 @@ const ClientsIndex = () => {
   }
 
   const columns = [
-    { title: "Nom du commerçant", key: "name" },
+    { title: "Prénom du commerçant", key: "firstName" },
+    { title: "Nom du commerçant", key: "lastName" },
     { title: "Email", key: "email" },
     { title: "Role", key: "role" },
     { label: "Delete", handleClick: deleteUser },
@@ -49,20 +50,6 @@ const ClientsIndex = () => {
 
   return (
     <section style={{ minHeight: "100%" }}>
-      {/* <nav className="navbar" role="navigation" aria-label="main navigation">
-        <div id="navbarBasicExample" className="navbar-menu">
-          <div className="navbar-start">
-          </div>
-
-          <div className="navbar-end">
-            <div className="navbar-item">
-              <div className="buttons">
-                <a href='/client/create' className="button is-small go-to-right">Ajouter un client</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav> */}
       <Tabs tabs={[{ title: "All clients", filter: () => true }]} action={{label:"Ajouter un Client", url: "/client/create"}}/>
       <div class="padding16">
         <Table data={clients} columns={columns} /> 

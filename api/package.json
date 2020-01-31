@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "deploy": "prisma deploy"
+    "deploy": "prisma deploy",
+    "token": "prisma token"
   },
   "dependencies": {
     "bcryptjs": "2.4.3",

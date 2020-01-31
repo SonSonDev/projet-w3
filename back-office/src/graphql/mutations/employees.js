@@ -1,16 +1,21 @@
 import gql from 'graphql-tag';
 
-export const CREATE_USER = gql`
+export const CREATE_USER = gql `
   mutation CreateUser(
-    $name: String!
+    $firstName: String!
+    $lastName: String!
     $email: String!
     $role: Role!
   ) {
-    createUser(name: $name, email: $email, role: $role) {
-      id
-      name
-      email
-      role
+    createUser(firstName: $firstName, lastName: $lastName, email: $email, role: $role) {
+      token
+      user{
+        id
+        firstName
+        lastName
+        email
+        role
+      }
     }
   }
 `;
@@ -19,7 +24,8 @@ export const DELETE_USER = gql`
   mutation DeleteUser($id: ID!) {
     deleteUser(id: $id) {
       id
-      name
+      firstName
+      lastName
       email
       password
       role

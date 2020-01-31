@@ -1,10 +1,11 @@
 type User {
   id: ID! @id
-  name: String
+  firstName: String
+  lastName: String
   email: String @unique
   password: String
   role: Role
-  isRepresentative: Boolean
+  isRepresentative: Boolean @default(value: false)
   company: Company @relation(link: INLINE)
 }
 

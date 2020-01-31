@@ -14,16 +14,17 @@ const ClientCreate = () => {
       console.log(data);
     },
     onError: error => {
-      console.log(error);
+      console.log(error.message);
     }
   });
 
   return (
     <section className="create">
       <Formik
-        initialValues={{ name: "", email: "", role: "ADMIN" }}
+        initialValues={{ firstName: "", lastName: "", email: "", role: "ADMIN" }}
         validationSchema={Yup.object({
-          name: Yup.string(),
+          firstName: Yup.string(),
+          lastName: Yup.string(),
           email: Yup.string()
         })}
         onSubmit={(values, { setSubmitting }) => {
@@ -31,7 +32,8 @@ const ClientCreate = () => {
             setSubmitting(false);
             createUser({
               variables: {
-                name: values.name,
+                firstName: values.firstName,
+                lastName: values.lastName,
                 email: values.email,
                 role: values.role
               }
@@ -43,9 +45,16 @@ const ClientCreate = () => {
           <h1 className="title">Ajouter un nouveau client</h1>
 
           <div className="field">
-            <label htmlFor="name" className="label">Nom</label>
+            <label htmlFor="firstName" className="label">Prénom</label>
             <div className="control">
-              <Field id="name" className="input" name="name" type="text" placeholder="Name" />
+              <Field id="firstName" className="input" name="firstName" type="text" placeholder="Prenom" />
+            </div>
+          </div>
+
+          <div className="field">
+            <label htmlFor="lastName" className="label">Nom</label>
+            <div className="control">
+              <Field id="lastName" className="input" name="lastName" type="text" placeholder="Nom" />
             </div>
           </div>
 

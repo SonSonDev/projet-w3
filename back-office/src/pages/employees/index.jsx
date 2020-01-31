@@ -39,7 +39,8 @@ const EmployeesIndex = () => {
   }
 
   const columns = [
-    { title: "Nom de l’employé", key: "name" },
+    { title: "Prénom de l’employé", key: "firstName" },
+    { title: "Nom de l’employé", key: "lastName" },
     { title: "Email", key: "email" },
     { label: "Delete", handleClick: deleteUser },
     { label: "Edit", handleClick: () => console.log("Edit") },
