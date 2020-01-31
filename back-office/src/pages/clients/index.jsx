@@ -34,8 +34,8 @@ const ClientsIndex = () => {
   }
 
   const columns = [
-    { title: "Prénom du commerçant", key: "firstName" },
-    { title: "Nom du commerçant", key: "lastName" },
+    { title: "Prénom", key: "firstName" },
+    { title: "Nom", key: "lastName" },
     { title: "Email", key: "email" },
     { title: "Role", key: "role" },
     { label: "Delete", handleClick: deleteUser },
