@@ -34,8 +34,8 @@ const ClientsIndex = () => {
   }
 
   const columns = [
-    { title: "Prénom du commerçant", key: "firstName" },
-    { title: "Nom du commerçant", key: "lastName" },
+    { title: "Prénom", key: "firstName" },
+    { title: "Nom", key: "lastName" },
     { title: "Email", key: "email" },
     { title: "Role", key: "role" },
     { label: "Delete", handleClick: deleteUser },
@@ -44,7 +44,7 @@ const ClientsIndex = () => {
   ];
 
   return (
-    <section style={{ minHeight: "100%" }}>
+    <section className="list-page">
       <Tabs tabs={[{ title: "All clients", filter: () => true }]} action={{label:"Ajouter un Client", url: "/client/create"}}/>
       <div className="padding16">
         <Table data={clients} columns={columns} /> 

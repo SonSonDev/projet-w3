@@ -10,14 +10,15 @@ const Tabs = ({
   onTabClick = () => console.log("action")
 }) => {
   return (
-    <div className="tabs">
+    <div className="tabs" style={{overflow:"visible"}}>
       <ul>
         {tabs.map(({ title, active }, index) => (
           <li className={activeTabIndex === index ? "is-active" : ""} key={index}>
             <a onClick={() => onTabClick(index)}>{title}</a>
           </li>
         ))}
-        <a href={action.url} className="button is-small go-to-right">{action.label}</a>
+        <a href={action.url} className="button is-primary go-to-right" style={{transform: "translate(-5px,-5px)"}}>{action.label}</a>
+
       </ul>
     </div>
   );
