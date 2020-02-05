@@ -25,6 +25,10 @@ var models = [
     embedded: true
   },
   {
+    name: "CompanyType",
+    embedded: false
+  },
+  {
     name: "Day",
     embedded: false
   },

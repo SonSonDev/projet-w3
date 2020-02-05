@@ -6,9 +6,9 @@ export const GET_PLACE = gql`
       id
       name
       address {
-        number
         street
         zipCode
+        city
       }
       hours {
         day
@@ -16,6 +16,7 @@ export const GET_PLACE = gql`
         end
       }
       keywords
+      type
       category
     }
   }
@@ -27,9 +28,9 @@ export const GET_PLACES = gql`
       id
       name
       address {
-        number
         street
         zipCode
+        city
       }
       hours {
         day

@@ -23,17 +23,17 @@ const PlaceCreate = () => {
       <Formik
         initialValues={{
           name: "",
-          number: "",
           street: "",
           zipCode: "",
+          city: "",
           type: "",
           category: ""
         }}
         validationSchema={Yup.object({
           name: Yup.string(),
-          number: Yup.number(),
           street: Yup.string(),
-          zipCode: Yup.number(),
+          zipCode: Yup.string(),
+          city: Yup.string(),
           type: Yup.string(),
           category: Yup.string().required()
         })}
@@ -44,9 +44,9 @@ const PlaceCreate = () => {
           createPlace({
             variables: {
               name: values.name,
-              number: values.number,
               street: values.street,
               zipCode: values.zipCode,
+              city: values.city,
               type: values.type,
               category: values.category
             }
@@ -78,14 +78,7 @@ const PlaceCreate = () => {
           </div>
 
           <div className="field">
-            <label htmlFor="number" className="label">N° de rue</label>
-            <div className="control">
-              <Field id="number" className="input" name="number" type="number" placeholder="N° de rue" />
-            </div>
-          </div>
-
-          <div className="field">
-            <label htmlFor="street" className="label">Rue</label>
+            <label htmlFor="street" className="label">Adresse</label>
             <div className="control">
               <Field id="street" className="input" name="street" type="text" placeholder="Rue" />
             </div>
@@ -94,7 +87,14 @@ const PlaceCreate = () => {
           <div className="field">
             <label htmlFor="zipCode" className="label">Code postal</label>
             <div className="control">
-              <Field id="zipCode" className="input" name="zipCode" type="number" placeholder="Code postal" />
+              <Field id="zipCode" className="input" name="zipCode" type="text" placeholder="Code postal" />
+            </div>
+          </div>
+
+          <div className="field">
+            <label htmlFor="city" className="label">Ville</label>
+            <div className="control">
+              <Field id="city" className="input" name="city" type="text" placeholder="Ville" />
             </div>
           </div>
 

@@ -35,8 +35,7 @@ const PlacesIndex = () => {
   const columns = [
     { title: "Nom", key: "name" },
     { title: "Catégorie", key: "category" },
-    { title: "Adresse", key: "address", link: address => `https://www.google.com/maps/search/?api=1&query=${encodeURI(address)}`
-    },
+    { title: "Adresse", key: "address", link: address => `https://www.google.com/maps/search/?api=1&query=${encodeURI(address)}`},
     { label: "Delete", handleClick: deletePlace },
     { label: "Edit", handleClick: () => console.log("Edit") },
     { label: "Info", handleClick: () => console.log("Info") }
@@ -50,9 +49,9 @@ const PlacesIndex = () => {
   ];
 
   const data = places
-    .map(({ address: { street, zipCode, number }, ...place }) => ({
+    .map(({ address: { street, zipCode, city }, ...place }) => ({
       ...place,
-      address: `${number} ${street} ${zipCode}`
+      address: `${street} ${zipCode} ${city}`
     }))
     .filter(tabs[activeTabIndex].filter);
 

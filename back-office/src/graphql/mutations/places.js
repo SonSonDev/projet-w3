@@ -3,24 +3,23 @@ import gql from 'graphql-tag';
 export const CREATE_PLACE = gql`
   mutation CreatePlace(
     $name: String!
-    $number: Int
     $street: String
-    $zipCode: Int
+    $zipCode: String
+    $city: String
     $type: String
     $category: Category
   ) {
     createPlace(
       name: $name
-      number: $number
       street: $street
       zipCode: $zipCode
+      city: $city
       type: $type
       category: $category
     ) {
       id
       name
       address {
-        number
         street
         zipCode
       }
@@ -42,7 +41,6 @@ export const DELETE_PLACE = gql`
       id
       name
       address {
-        number
         street
         zipCode
       }
@@ -62,12 +60,6 @@ export const UPDATE_HOUR = gql`
   mutation UpdateHour($id: ID!, $day: Day!, $start: String!, $end: String!) {
     updateHour(id: $id, day: $day, start: $start, end: $end) {
       id
-      name
-      hours {
-        day
-        start
-        end
-      }
     }
   }
 `;

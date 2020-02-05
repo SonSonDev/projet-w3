@@ -3,6 +3,7 @@ type User {
   firstName: String
   lastName: String
   email: String @unique
+  phone: String
   password: String
   role: Role
   isRepresentative: Boolean @default(value: false)
@@ -22,20 +23,28 @@ type Place {
 type Company {
   id: ID! @id
   name: String
-  email: String
+  type: CompanyType
+  address: Address
   users: [User]
 }
 
 type Address @embedded {
-  number: Int
   street: String
-  zipCode: Int
+  zipCode: String
+  city: String
 }
 
 type Hour @embedded {
   day: Day
   start: String
   end: String
+}
+
+enum CompanyType {
+  COMPANY
+  SCHOOL
+  PLACE
+  COWORKING
 }
 
 enum Day {
