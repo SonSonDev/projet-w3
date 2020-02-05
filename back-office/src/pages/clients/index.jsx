@@ -45,7 +45,7 @@ const ClientsIndex = () => {
 
   return (
     <section className="list-page">
-      <Tabs tabs={[{ title: "All clients", filter: () => true }]} action={{label:"Ajouter un Client", url: "/client/create"}}/>
+      <Tabs tabs={[{ title: "All clients", filter: () => true }]}/>
       <div className="padding16">
         <Table data={clients} columns={columns} /> 
       </div>

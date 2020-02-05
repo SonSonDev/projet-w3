@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-async function createPlace(parent, { name, number, street, zipCode, type, category }, context, info) {
+async function createPlace(parent, { name, street, zipCode, city, type, category }, context, info) {
   // const userId = getUserId(context)
   return context.prisma.createPlace({
     name,
@@ -20,9 +20,9 @@ async function createPlace(parent, { name, number, street, zipCode, type, catego
     keywords: { set: ["1", "2", "3"] },
     address: {
       create: {
-        number,
         street,
         zipCode,
+        city,
       }
     },
     hours: {
@@ -75,7 +75,7 @@ async function createCompany(parent, args, context, info) {
     from: 'madu.group7@gmail.com',
     to: args.emailUser,
     subject: 'Votre mot de passe',
-    html: emailTemplate(args.firstName, randomPassword)
+    html: emailTemplate(`${args.firstNameUser} ${args.lastNameUser}`, randomPassword)
   };
 
   transporter.sendMail(mailOptions, function (err, info) {
@@ -118,7 +118,7 @@ async function createUser(parent, { firstName, lastName, email, role }, context,
     from: 'madu.group7@gmail.com',
     to: email,
     subject: 'Votre mot de passe',
-    html: emailTemplate(firstName, randomPassword)
+    html: emailTemplate(`${firstName} ${lastName}`, randomPassword)
   };
 
   transporter.sendMail(mailOptions, function (err, info) {

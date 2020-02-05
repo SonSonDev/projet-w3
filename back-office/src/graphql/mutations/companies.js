@@ -15,27 +15,17 @@ export const CREATE_COMPANY = gql`
     $isRepresentative: Boolean
   ) {
     createCompany(
-      data: {
-        name: $companyName
-        type: $companyType
-        address: {
-          create: {
-            street: $streetCompany
-            zipCode: $zipCodeCompany
-            city: $cityCompany
-          }
-        }
-        users: {
-          create: {
-            firstName: $firstNameUser
-            lastName: $lastNameUser
-            email: $emailUser
-            phone: $phoneUser
-            role: $roleUser
-            isRepresentative: $isRepresentative
-          }
-        }
-      }
+      companyName: $companyName
+      companyType: $companyType
+      streetCompany: $streetCompany
+      zipCodeCompany: $zipCodeCompany
+      cityCompany: $cityCompany
+      firstNameUser: $firstNameUser
+      lastNameUser: $lastNameUser
+      emailUser: $emailUser
+      phoneUser: $phoneUser
+      roleUser: $roleUser
+      isRepresentative: $isRepresentative
     ) {
       id
       name
@@ -48,8 +38,8 @@ export const CREATE_COMPANY = gql`
       users {
         id
         firstName
-        lastName
         email
+        lastName
         phone
         password
         role
@@ -63,8 +53,6 @@ export const DELETE_COMPANY = gql`
   mutation DeleteCompany($id: ID!) {
     deleteCompany(id: $id) {
       id
-      name
-      email
     }
   }
 `;

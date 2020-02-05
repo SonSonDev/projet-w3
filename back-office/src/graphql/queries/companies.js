@@ -5,7 +5,22 @@ export const GET_COMPANY = gql`
     getCompany(id: $id) {
       id
       name
-      email
+      type
+      address {
+        street
+        zipCode
+        city
+      }
+      users {
+        id
+        firstName
+        lastName
+        email
+        phone
+        password
+        role
+        isRepresentative
+      }
     }
   }
 `;
@@ -15,7 +30,22 @@ export const GET_COMPANIES = gql`
     getCompanies {
       id
       name
-      email
+      type
+      address {
+        street
+        zipCode
+        city
+      }
+      users {
+        id
+        firstName
+        lastName
+        email
+        phone
+        password
+        role
+        isRepresentative
+      }
     }
   }
 `;

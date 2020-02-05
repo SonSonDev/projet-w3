@@ -26,13 +26,13 @@ const Table = ({
       <tbody>
         {data.map(({ id, ...entry }) => (
           <tr key={id}>
-            {columns.map(({ key, label, handleClick, link }, i) => (
+            {columns.map(({ key, label, handleClick, link, customString }, i) => (
               <td key={id + i}>
-                {link ?
+                { link ?
                   <a href={link(entry[key])} target="_blank" rel="noopener noreferrer">{entry[key]}</a> 
-                : key ? (
-                  entry[key] || "-"
-                ) : (
+                  : customString ? customString(entry)
+                  : key ? (entry[key] || "-" )
+                  : (
                   <button
                     className="button is-small"
                     onClick={() => handleClick({ variables: { id } })}

@@ -17,7 +17,7 @@ const Tabs = ({
             <a onClick={() => onTabClick(index)}>{title}</a>
           </li>
         ))}
-        <a href={action.url} className="button is-primary go-to-right" style={{transform: "translate(-5px,-5px)"}}>{action.label}</a>
+      { action.url !== "/" && <a href={action.url} className="button is-primary go-to-right" style={{transform: "translate(-5px,-5px)"}}>{action.label}</a> }
 
       </ul>
     </div>

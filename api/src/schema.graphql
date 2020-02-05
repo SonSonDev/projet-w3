@@ -41,9 +41,9 @@ type Mutation {
 
   createPlace(
     name: String!
-    number: Int
     street: String
-    zipCode: Int
+    zipCode: String
+    city: String
     type: String
     category: Category
   ): Place

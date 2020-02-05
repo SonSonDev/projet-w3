@@ -21,16 +21,15 @@ const CompanyCreate = () => {
   return (
     <section className="create">
       <Formik
-        initialValues={{ name: "", email: "" }}
+        initialValues={{ companyName: "", companyType: "", streetCompany: "", zipCodeCompany: "", cityCompany: "", firstNameUser: "", lastNameUser: "", emailUser: "", phoneUser: "", roleUser: "ADMIN", isRepresentative: true }}
         validationSchema={Yup.object({
-          name: Yup.string(),
-          email: Yup.string()
+          companyName: Yup.string(), companyType: Yup.string(), streetCompany: Yup.string(), zipCodeCompany: Yup.string(), cityCompany: Yup.string(), firstNameUser: Yup.string(), lastNameUser: Yup.string(), emailUser: Yup.string(), phoneUser: Yup.string(), roleUser: Yup.string(), isRepresentative: Yup.boolean()
         })}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
             setSubmitting(false);
             createCompany({
-              variables: { name: values.name, email: values.email }
+              variables: { companyName: values.companyName, companyType: values.companyType, streetCompany: values.streetCompany, zipCodeCompany: values.zipCodeCompany, cityCompany: values.cityCompany, firstNameUser: values.firstNameUser, lastNameUser: values.lastNameUser, emailUser: values.emailUser, phoneUser: values.phoneUser, roleUser: values.roleUser, isRepresentative: values.isRepresentative }
             });
           }, 400);
         }}
@@ -39,20 +38,20 @@ const CompanyCreate = () => {
           <h1 className="title">Ajouter une nouvelle entreprise</h1>
 
           <div className="field">
-            <label htmlFor="name" className="label">Raison sociale</label>
+            <label htmlFor="companyName" className="label">Raison sociale</label>
             <div className="control">
-              <Field id="name" className="input" name="name" type="text" placeholder="Raison sociale" />
+              <Field id="companyName" className="input" name="companyName" type="text" placeholder="Raison sociale" />
             </div>
           </div>
 
           <div className="field">
-            <label className="label" htmlFor="type">Type</label>
+            <label className="label" htmlFor="companyType">Type</label>
             <div className="control">
               <div className="select is-fullwidth">
-                <Field as="select" id="type" name="type">
+                <Field as="select" id="companyType" name="companyType">
                   <option value="" disabled>Sélectionner un type</option>
                   <option value="COMPANY">Entreprise</option>
-                  <option value="ECOLE">Ecole</option>
+                  <option value="SCHOOL">Ecole</option>
                   <option value="PLACE">Point d'intérêt</option>
                   <option value="COWORKING">Espace Coworking</option>
                 </Field>
@@ -61,50 +60,50 @@ const CompanyCreate = () => {
           </div>
 
           <div className="field">
-            <label htmlFor="email" className="label">Rue</label>
+            <label htmlFor="streetCompany" className="label">Rue</label>
             <div className="control">
-              <Field id="email" className="input" name="email" type="text" placeholder="Rue" />
+              <Field id="streetCompany" className="input" name="streetCompany" type="text" placeholder="Rue" />
             </div>
           </div>
 
           <div className="field">
-            <label htmlFor="zipCode" className="label">Code postal</label>
+            <label htmlFor="zipCodeCompany" className="label">Code postal</label>
             <div className="control">
-              <Field id="zipCode" className="input" name="zipCode" type="text" placeholder="Code postal" />
+              <Field id="zipCodeCompany" className="input" name="zipCodeCompany" type="text" placeholder="Code postal" />
             </div>
           </div>
 
           <div className="field">
-            <label htmlFor="street" className="label">Ville</label>
+            <label htmlFor="cityCompany" className="label">Ville</label>
             <div className="control">
-              <Field id="street" className="input" name="street" type="text" placeholder="Ville" />
+              <Field id="cityCompany" className="input" name="cityCompany" type="text" placeholder="Ville" />
             </div>
           </div>
           <div className="field">
-            <label htmlFor="userLastName" className="label">Nom</label>
+            <label htmlFor="lastNameUser" className="label">Nom</label>
             <div className="control">
-              <Field id="userLastName" className="input" name="userLastName" type="text" placeholder="Nom" />
+              <Field id="lastNameUser" className="input" name="lastNameUser" type="text" placeholder="Nom" />
             </div>
           </div>
 
           <div className="field">
-            <label htmlFor="userFirstName" className="label">Prenom</label>
+            <label htmlFor="firstNameUser" className="label">Prenom</label>
             <div className="control">
-              <Field id="userFirstName" className="input" name="userFirstName" type="text" placeholder="Prenom" />
+              <Field id="firstNameUser" className="input" name="firstNameUser" type="text" placeholder="Prenom" />
             </div>
           </div>
           
           <div className="field">
-            <label htmlFor="userEmail" className="label">Email</label>
+            <label htmlFor="emailUser" className="label">Email</label>
             <div className="control">
-              <Field id="userEmail" className="input" name="userEmail" type="text" placeholder="Email" />
+              <Field id="emailUser" className="input" name="emailUser" type="text" placeholder="Email" />
             </div>
           </div>
 
           <div className="field">
-            <label htmlFor="phone" className="label">Telephone</label>
+            <label htmlFor="phoneUser" className="label">Telephone</label>
             <div className="control">
-              <Field id="phone" className="input" name="phone" type="text" placeholder="Telephone" />
+              <Field id="phoneUser" className="input" name="phoneUser" type="text" placeholder="Telephone" />
             </div>
           </div>
 

@@ -32,17 +32,23 @@ const CompaniesIndex = () => {
 
   const columns = [
     { title: "Nom", key: "name" },
-    { title: "Email", key: "email" },
+    { title: "Type", key: "type" },
+    { title: "Adresse", key: "address", link: address => `https://www.google.com/maps/search/?api=1&query=${encodeURI(address)}` },
     { label: "Delete", handleClick: deleteCompany },
     { label: "Edit", handleClick: () => console.log("Edit") },
     { label: "Info", handleClick: () => console.log("Info") }
   ];
+  const data = companies
+  .map(({ address: { street, zipCode, city }, ...companies }) => ({
+    ...companies,
+    address: `${street} ${zipCode} ${city}`
+  }))
 
   return (
     <section className="list-page">
       <Tabs tabs={[{ title: "All company", filter: () => true }]} action={{label:"Ajouter une entreprise", url: "/company/create"}}/>
       <div className="padding16">
-        <Table data={companies} columns={columns} />
+        <Table data={data} columns={columns} />
       </div>
     </section>
   );
