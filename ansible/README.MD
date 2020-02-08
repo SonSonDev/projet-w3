@@ -2,7 +2,7 @@
 
 
 
-Dans le fichier `ansible/inventory/madu.yml`, remplacer `insert_ip` par l'ip obtenu dans lors de la création du serveur AWS avec Terraform.
+Dans les fichiers `ansible/inventory/group_vars/madu.yml` et `ansible/inventory/inventory`, remplacer `insert_ip` par l'ip obtenu dans lors de la création du serveur AWS avec Terraform.
 
 ## Installation du serveur
 
