@@ -1,0 +1,50 @@
+---
+
+- name: Create Application directory
+  file:
+    path: /opt/app
+    state: directory
+
+- name: Sync API madu directory
+  synchronize:
+    src: ../../../api
+    dest: /opt/app
+    rsync_opts:
+      - "--exclude=node_modules"
+
+- name: Sync Back-office madu directory
+  synchronize:
+    src: ../../../back-office
+    dest: /opt/app
+    rsync_opts:
+      - "--exclude=node_modules"
+
+- name: Build docker image API madu
+  docker_image:
+    build:
+      path: /opt/app/api
+      pull: no
+    name: "{{ application_api_image }}"
+    tag: "{{ application_api_tag }}"
+    source: build
+  notify: restart docker stack
+  tags: ["build", "redeploy"]
+
+- name: Build docker image Back-office madu
+  docker_image:
+    build:
+      path: /opt/app/back-office
+      pull: no
+      args:
+        REACT_APP_API_URL: "{{ application_scheme }}://{{ application_ip }}:{{ application_api_port }}"
+    name: "{{ application_backoffice_image }}"
+    tag: "{{ application_backoffice_tag }}"
+    source: build
+  notify: restart docker stack
+  tags: ["build", "redeploy"]
+
+- name: Copy docker-compose configuration file
+  template:
+    src: templates/docker-compose.yml
+    dest: /opt/app/docker-compose.yml
+  notify: restart docker stack

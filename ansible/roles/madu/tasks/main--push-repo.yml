@@ -1,0 +1,64 @@
+---
+
+- name: Create Application directory
+  file:
+    path: /opt/app
+    state: directory
+
+- name: Sync API madu directory
+  synchronize:
+    src: ../../../api
+    dest: /opt/app
+    rsync_opts:
+      - "--exclude=node_modules"
+
+- name: Sync Back-office madu directory
+  synchronize:
+    src: ../../../back-office
+    dest: /opt/app
+    rsync_opts:
+      - "--exclude=node_modules"
+
+- name: Login to Docker registry
+  docker_login:
+    registry: "{{ application_docker_registry }}"
+    username: "{{ application_docker_username }}"
+    password: "{{ application_docker_password }}"
+    reauthorize: yes
+
+- name: Build and push docker image API madu
+  docker_image:
+    build:
+      path: /opt/app/api
+      pull: no
+    name: "{{ application_api_image }}"
+    tag: "{{ application_api_tag }}"
+    push: yes
+    source: build
+  notify: restart docker stack
+  tags: ["build", "redeploy"]
+
+- name: Build and push docker image Back-office madu
+  docker_image:
+    build:
+      path: /opt/app/back-office
+      pull: no
+      args:
+        REACT_APP_API_URL: "{{ application_scheme }}://{{ application_ip }}:{{ application_api_port }}"
+    name: "{{ application_backoffice_image }}"
+    tag: "{{ application_backoffice_tag }}"
+    push: yes
+    source: build
+  notify: restart docker stack
+  tags: ["build", "redeploy"]
+
+- name: Copy docker-compose configuration file
+  template:
+    src: templates/docker-compose.yml
+    dest: /opt/app/docker-compose.yml
+  notify: restart docker stack
+
+# - name: Run docker compose madu stack
+#   docker_compose:
+#     project_src: /opt/app
+#     state: present
