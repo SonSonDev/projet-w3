@@ -2,7 +2,7 @@
 
 ## Créer une clé SSH
 Choisir un __passphrase__. Via le terminal, dans le dossier __terraform__  du projet:
-```console
+```sh
 ssh-keygen -f ./id_rsa -N passphrase
 ```
 
@@ -16,17 +16,17 @@ Via la console AWS:
 ## Créer une instance AWS
 
 Via le terminal, dans le dossier __terraform__ du projet:
-```
+```sh
 terraform init
 ```
 - Utiliser les clés de l'utilisateur créé précédemment et créer une instance AWS:
-```console
+```sh
 export AWS_ACCESS_KEY_ID="ID de clé d'accès"
 export AWS_SECRET_ACCESS_KEY="Clé d'accès secrète"
 terraform apply
 ```
 
 - Obtenir l'adresse ip public de l'instance AWS créée:
-```console
+```sh
 terraform state pull | grep \"public_ip\"
 ```
