@@ -1,0 +1,17 @@
+---
+  # file: apicontroller.yml
+  # This playbook deploy registries apicontroller
+
+- name: Install common libs and packages
+  hosts: madu
+  gather_facts: no
+  become: yes
+  roles:
+    - { role: common, tags: ["common"] }
+    - { role: geerlingguy.docker, tags: ["docker"] }
+
+- name: Install web service
+  hosts: madu
+  become: yes
+  roles:
+    - { role: madu, tags: ["madu"] }

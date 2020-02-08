@@ -1,0 +1,17 @@
+application_ip: 35.180.37.49
+
+application_docker_registry: https://registry.hub.docker.com
+application_docker_username: insert_your_username
+application_docker_password: insert_your_password
+
+application_api_image: "{{ application_docker_username }}/madu-api"
+application_api_tag: latest
+
+application_backoffice_image: "{{ application_docker_username }}/madu-backoffice"
+application_backoffice_tag: latest
+
+# Database configuration
+mongo_initdb_root_username: prisma
+mongo_initdb_root_password: prisma
+
+api_secret: insert_your_secret
