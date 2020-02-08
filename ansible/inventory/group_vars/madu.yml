@@ -1,4 +1,5 @@
-application_ip: 35.180.37.49
+application_scheme: http
+application_ip: insert_ip
 
 application_docker_registry: https://registry.hub.docker.com
 application_docker_username: insert_your_username

@@ -1,6 +1,4 @@
 ---
-  # file: apicontroller.yml
-  # This playbook deploy registries apicontroller
 
 - name: Install common libs and packages
   hosts: madu
