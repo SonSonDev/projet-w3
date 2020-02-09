@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from 'graphql-tag'
 
 export const GET_PLACE = gql`
   query getPlace($id: ID!) {
@@ -20,7 +20,7 @@ export const GET_PLACE = gql`
       category
     }
   }
-`;
+`
 
 export const GET_PLACES = gql`
   query getPlaces {
@@ -42,4 +42,4 @@ export const GET_PLACES = gql`
       category
     }
   }
-`;
+`

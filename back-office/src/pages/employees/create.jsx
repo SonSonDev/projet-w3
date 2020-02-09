@@ -1,27 +1,30 @@
-import React from "react";
-import { Formik, Field, Form } from "formik";
-import * as Yup from "yup";
-import { CREATE_USER } from "../../graphql/mutations/clients";
-import { useMutation } from "@apollo/react-hooks";
-import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck";
+import React from 'react'
+
+import { Formik, Field, Form } from 'formik'
+import * as Yup from 'yup'
+
+import { useMutation } from '@apollo/react-hooks'
+import { CREATE_USER } from '../../graphql/mutations/clients'
+
+import withAuthenticationCheck from '../../components/hocs/withAuthenticationCheck'
 
 const EmployeeCreate = () => {
-  console.log("EmployeeCreate")
+  console.log('EmployeeCreate')
   const [createUser] = useMutation(CREATE_USER, {
     onCompleted: data => {
       // TEMP
-      window.location.href = "/employees";
-      console.log(data);
+      window.location.href = '/employees'
+      console.log(data)
     },
     onError: error => {
-      console.log(error);
+      console.log(error)
     }
-  });
+  })
 
   return (
     <div className="create">
       <Formik
-        initialValues={{ firstName: "", lastName: "", email: "", role: "USER" }}
+        initialValues={{ firstName: '', lastName: '', email: '', role: 'USER' }}
         validationSchema={Yup.object({
           firstName: Yup.string(),
           lastName: Yup.string(),
@@ -29,7 +32,7 @@ const EmployeeCreate = () => {
         })}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
-            setSubmitting(false);
+            setSubmitting(false)
             createUser({
               variables: {
                 firstName: values.firstName,
@@ -37,8 +40,8 @@ const EmployeeCreate = () => {
                 email: values.email,
                 role: values.role
               }
-            });
-          }, 400);
+            })
+          }, 400)
         }}
       >
         <Form className="create__form">
@@ -71,7 +74,7 @@ const EmployeeCreate = () => {
         </Form>
       </Formik>
     </div>
-  );
-};
+  )
+}
 
-export default withAuthenticationCheck(EmployeeCreate, ["ADMIN"]);
+export default withAuthenticationCheck(EmployeeCreate, ['ADMIN'])

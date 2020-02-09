@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from 'graphql-tag'
 
 export const CREATE_COMPANY = gql`
   mutation CreateCompany(
@@ -47,7 +47,7 @@ export const CREATE_COMPANY = gql`
       }
     }
   }
-`;
+`
 
 export const DELETE_COMPANY = gql`
   mutation DeleteCompany($id: ID!) {
@@ -55,4 +55,4 @@ export const DELETE_COMPANY = gql`
       id
     }
   }
-`;
+`

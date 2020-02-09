@@ -1,33 +1,36 @@
-import React from "react";
-import { Formik, Field, Form } from "formik";
-import * as Yup from "yup";
-import { CREATE_PLACE } from "../../graphql/mutations/places";
-import { useMutation } from "@apollo/react-hooks";
-import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck";
+import React from 'react'
+
+import { Formik, Field, Form } from 'formik'
+import * as Yup from 'yup'
+
+import { useMutation } from '@apollo/react-hooks'
+import { CREATE_PLACE } from '../../graphql/mutations/places'
+
+import withAuthenticationCheck from '../../components/hocs/withAuthenticationCheck'
 
 const PlaceCreate = () => {
-  console.log("PlaceCreate")
+  console.log('PlaceCreate')
   const [createPlace] = useMutation(CREATE_PLACE, {
     onCompleted: data => {
       // TEMP
-      window.location.href = "/places";
-      console.log(data);
+      window.location.href = '/places'
+      console.log(data)
     },
     onError: error => {
-      console.log(error);
+      console.log(error)
     }
-  });
+  })
 
   return (
     <section className="create">
       <Formik
         initialValues={{
-          name: "",
-          street: "",
-          zipCode: "",
-          city: "",
-          type: "",
-          category: ""
+          name: '',
+          street: '',
+          zipCode: '',
+          city: '',
+          type: '',
+          category: ''
         }}
         validationSchema={Yup.object({
           name: Yup.string(),
@@ -39,8 +42,8 @@ const PlaceCreate = () => {
         })}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
-            setSubmitting(false);
-          }, 400);
+            setSubmitting(false)
+          }, 400)
           createPlace({
             variables: {
               name: values.name,
@@ -50,7 +53,7 @@ const PlaceCreate = () => {
               type: values.type,
               category: values.category
             }
-          });
+          })
         }}
       >
         <Form className="create__form">
@@ -106,13 +109,13 @@ const PlaceCreate = () => {
           </div>
 
 
-          <div class="control">
-            <button type="submit" class="button is-link is-large is-fullwidth">Valider</button>
+          <div className="control">
+            <button type="submit" className="button is-link is-large is-fullwidth">Valider</button>
           </div>
         </Form>
       </Formik>
     </section>
-  );
-};
+  )
+}
 
-export default withAuthenticationCheck(PlaceCreate, ["SUPER_ADMIN"]);
+export default withAuthenticationCheck(PlaceCreate, ['SUPER_ADMIN'])

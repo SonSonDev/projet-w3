@@ -1,17 +1,18 @@
-import React from "react";
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const Table = ({
   data = [
-    { id: 1, name: "name 1", email: "email 1", role: "role 1" },
-    { id: 2, name: "name 2", email: "email 2", role: "role 2" },
-    { id: 3, name: "name 3", email: "email 3", role: "role 3" }
+    { id: 1, name: 'name 1', email: 'email 1', role: 'role 1' },
+    { id: 2, name: 'name 2', email: 'email 2', role: 'role 2' },
+    { id: 3, name: 'name 3', email: 'email 3', role: 'role 3' }
   ],
   columns = [
-    { title: "Name", key: "name" },
-    { title: "Email", key: "email" },
-    { title: "Role", key: "role" },
-    { label: "Delete", handleClick: () => console.log("Delete") },
-    { label: "Edit", handleClick: () => console.log("Edit") }
+    { title: 'Name', key: 'name' },
+    { title: 'Email', key: 'email' },
+    { title: 'Role', key: 'role' },
+    { label: 'Delete', handleClick: () => console.log('Delete') },
+    { label: 'Edit', handleClick: () => console.log('Edit') }
   ]
 }) => {
   return (
@@ -31,7 +32,7 @@ const Table = ({
                 { link ?
                   <a href={link(entry[key])} target="_blank" rel="noopener noreferrer">{entry[key]}</a> 
                   : customString ? customString(entry)
-                  : key ? (entry[key] || "-" )
+                  : key ? (entry[key] || '-' )
                   : (
                   <button
                     className="button is-small"
@@ -46,7 +47,21 @@ const Table = ({
         ))}
       </tbody>
     </table>
-  );
-};
+  )
+}
 
-export default Table;
+Table.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.object
+  ).isRequired,
+  columns: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string,
+      key: PropTypes.string,
+      label: PropTypes.string,
+      handleClick: PropTypes.func,
+    })
+  ).isRequired,
+}
+
+export default Table

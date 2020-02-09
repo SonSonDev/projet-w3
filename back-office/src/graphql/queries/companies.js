@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from 'graphql-tag'
 
 export const GET_COMPANY = gql`
   query GetCompany($id: ID!) {
@@ -23,7 +23,7 @@ export const GET_COMPANY = gql`
       }
     }
   }
-`;
+`
 
 export const GET_COMPANIES = gql`
   query GetCompanies {
@@ -48,4 +48,4 @@ export const GET_COMPANIES = gql`
       }
     }
   }
-`;
+`
