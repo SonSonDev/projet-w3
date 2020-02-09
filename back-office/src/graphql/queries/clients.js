@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from 'graphql-tag'
 
 export const GET_USER = gql`
   query GetUser($id: ID!) {
@@ -10,7 +10,7 @@ export const GET_USER = gql`
       role
     }
   }
-`;
+`
 
 export const GET_USERS = gql`
   query GetUsers($role: Role) {
@@ -22,4 +22,4 @@ export const GET_USERS = gql`
       role
     }
   }
-`;
+`

@@ -1,11 +1,11 @@
-import React from "react";
-import { Formik, Field, Form } from "formik";
-import * as Yup from "yup";
+import React from 'react'
+import { Formik, Field, Form } from 'formik'
+import * as Yup from 'yup'
 
-const HourForm = props => {
+const HourForm = () => {
   return (
     <Formik
-      initialValues={{ day: "", start: "", end: "" }}
+      initialValues={{ day: '', start: '', end: '' }}
       validationSchema={Yup.object({
         day: Yup.string(),
         start: Yup.string(),
@@ -13,8 +13,8 @@ const HourForm = props => {
       })}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
-          setSubmitting(false);
-        }, 400);
+          setSubmitting(false)
+        }, 400)
       }}
     >
       <Form>
@@ -38,7 +38,7 @@ const HourForm = props => {
         <button type="submit">Submit</button>
       </Form>
     </Formik>
-  );
-};
+  )
+}
 
-export default HourForm;
+export default HourForm

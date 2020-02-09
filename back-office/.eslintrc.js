@@ -21,7 +21,7 @@ module.exports = {
     'sourceType': 'module'
   },
   'plugins': [
-    'react'
+    'react',
   ],
   'rules': {
     'linebreak-style': [
@@ -36,5 +36,10 @@ module.exports = {
       2,
       'never'
     ],
+  },
+  'settings': {
+    'react': {
+      'version': 'detect'
+    }
   }
 }

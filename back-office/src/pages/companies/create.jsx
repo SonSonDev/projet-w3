@@ -1,37 +1,40 @@
-import React from "react";
-import { Formik, Field, Form } from "formik";
-import * as Yup from "yup";
-import { CREATE_COMPANY } from "../../graphql/mutations/companies";
-import { useMutation } from "@apollo/react-hooks";
-import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck";
+import React from 'react'
+
+import { Formik, Field, Form } from 'formik'
+import * as Yup from 'yup'
+
+import { useMutation } from '@apollo/react-hooks'
+import { CREATE_COMPANY } from '../../graphql/mutations/companies'
+
+import withAuthenticationCheck from '../../components/hocs/withAuthenticationCheck'
 
 const CompanyCreate = () => {
-  console.log("CompanyCreate")
+  console.log('CompanyCreate')
   const [createCompany] = useMutation(CREATE_COMPANY, {
     onCompleted: data => {
       // TEMP
-      window.location.href = "/companies";
-      console.log(data);
+      window.location.href = '/companies'
+      console.log(data)
     },
     onError: error => {
-      console.log(error);
+      console.log(error)
     }
-  });
+  })
 
   return (
     <section className="create">
       <Formik
-        initialValues={{ companyName: "", companyType: "", streetCompany: "", zipCodeCompany: "", cityCompany: "", firstNameUser: "", lastNameUser: "", emailUser: "", phoneUser: "", roleUser: "ADMIN", isRepresentative: true }}
+        initialValues={{ companyName: '', companyType: '', streetCompany: '', zipCodeCompany: '', cityCompany: '', firstNameUser: '', lastNameUser: '', emailUser: '', phoneUser: '', roleUser: 'ADMIN', isRepresentative: true }}
         validationSchema={Yup.object({
           companyName: Yup.string(), companyType: Yup.string(), streetCompany: Yup.string(), zipCodeCompany: Yup.string(), cityCompany: Yup.string(), firstNameUser: Yup.string(), lastNameUser: Yup.string(), emailUser: Yup.string(), phoneUser: Yup.string(), roleUser: Yup.string(), isRepresentative: Yup.boolean()
         })}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
-            setSubmitting(false);
+            setSubmitting(false)
             createCompany({
               variables: { companyName: values.companyName, companyType: values.companyType, streetCompany: values.streetCompany, zipCodeCompany: values.zipCodeCompany, cityCompany: values.cityCompany, firstNameUser: values.firstNameUser, lastNameUser: values.lastNameUser, emailUser: values.emailUser, phoneUser: values.phoneUser, roleUser: values.roleUser, isRepresentative: values.isRepresentative }
-            });
-          }, 400);
+            })
+          }, 400)
         }}
       >
         <Form className="create__form">
@@ -52,7 +55,7 @@ const CompanyCreate = () => {
                   <option value="" disabled>Sélectionner un type</option>
                   <option value="COMPANY">Entreprise</option>
                   <option value="SCHOOL">Ecole</option>
-                  <option value="PLACE">Point d'intérêt</option>
+                  <option value="PLACE">Point d&apos;intérêt</option>
                   <option value="COWORKING">Espace Coworking</option>
                 </Field>
               </div>
@@ -113,7 +116,7 @@ const CompanyCreate = () => {
         </Form>
       </Formik>
     </section>
-  );
-};
+  )
+}
 
-export default withAuthenticationCheck(CompanyCreate, ["SUPER_ADMIN"]);
+export default withAuthenticationCheck(CompanyCreate, ['SUPER_ADMIN'])

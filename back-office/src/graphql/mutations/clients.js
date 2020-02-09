@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from 'graphql-tag'
 
 export const CREATE_USER = gql `
   mutation CreateUser(
@@ -18,7 +18,7 @@ export const CREATE_USER = gql `
       }
     }
   }
-`;
+`
 
 export const DELETE_USER = gql `
 mutation DeleteUser($id: ID!) {
@@ -31,7 +31,7 @@ mutation DeleteUser($id: ID!) {
     role
   }
 }
-`;
+`
 
 export const UPDATE_REPRESENTATIVE = gql`
   mutation UpdateRepresentative(
@@ -54,4 +54,4 @@ export const UPDATE_REPRESENTATIVE = gql`
       }
     }
   }
-`;
+`

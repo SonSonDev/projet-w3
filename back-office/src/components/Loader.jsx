@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default () => (
+const Loader = () => (
   <div style={{display:'flex', justifyContent:'center', padding:'50px 20px'}}>
     <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38" stroke="#555">
       <g fill="none" fillRule="evenodd">
@@ -14,3 +14,5 @@ export default () => (
     </svg>
   </div>
 )
+
+export default Loader

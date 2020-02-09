@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from 'graphql-tag'
 
 export const CREATE_PLACE = gql`
   mutation CreatePlace(
@@ -33,7 +33,7 @@ export const CREATE_PLACE = gql`
       type
     }
   }
-`;
+`
 
 export const DELETE_PLACE = gql`
   mutation DeletePlace($id: ID!) {
@@ -54,7 +54,7 @@ export const DELETE_PLACE = gql`
       type
     }
   }
-`;
+`
 
 export const UPDATE_HOUR = gql`
   mutation UpdateHour($id: ID!, $day: Day!, $start: String!, $end: String!) {
@@ -62,4 +62,4 @@ export const UPDATE_HOUR = gql`
       id
     }
   }
-`;
+`
