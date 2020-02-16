@@ -1,0 +1,12 @@
+{
+  "eslint.workingDirectories": [
+    { 
+			"directory": "api", 
+			"changeProcessCWD": true
+    },
+    { 
+			"directory": "back-office", 
+			"changeProcessCWD": true
+		}
+	]
+}

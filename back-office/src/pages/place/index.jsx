@@ -17,14 +17,14 @@ const PlacesIndex = () => {
 
   const { error, loading } = useQuery(GET_PLACES, {
     onCompleted: ({ getPlaces }) => setPlaces(getPlaces),
-    onError: error => console.log(error.message)
+    onError: error => console.log(error.message),
   })
 
   const [deletePlace] = useMutation(DELETE_PLACE, {
     onCompleted: data => {
       window.location.reload()
       console.log(data)
-    }
+    },
   })
   if (error) return <div>{error.message}</div>
 
@@ -40,20 +40,20 @@ const PlacesIndex = () => {
     { title: 'Adresse', key: 'address', link: address => `https://www.google.com/maps/search/?api=1&query=${encodeURI(address)}`},
     { label: 'Delete', handleClick: deletePlace },
     { label: 'Edit', handleClick: () => console.log('Edit') },
-    { label: 'Info', handleClick: () => console.log('Info') }
+    { label: 'Info', handleClick: () => console.log('Info') },
   ]
 
   const tabs = [
     { title: 'All', filter: () => true },
     { title: 'Shop', filter: ({ category }) => category === 'SHOP' },
     { title: 'Activity', filter: ({ category }) => category === 'ACTIVITY' },
-    { title: 'Food', filter: ({ category }) => category === 'FOOD' }
+    { title: 'Food', filter: ({ category }) => category === 'FOOD' },
   ]
 
   const data = places
     .map(({ address: { street, zipCode, city }, ...place }) => ({
       ...place,
-      address: `${street} ${zipCode} ${city}`
+      address: `${street} ${zipCode} ${city}`,
     }))
     .filter(tabs[activeTabIndex].filter)
 
@@ -70,5 +70,5 @@ const PlacesIndex = () => {
 export default withAuthenticationCheck(PlacesIndex, [
   'SUPER_ADMIN',
   'ADMIN',
-  'USER'
+  'USER',
 ])

@@ -19,5 +19,5 @@ function emailTemplate (name, password) {
 module.exports = {
   APP_SECRET,
   getUserId,
-  emailTemplate
+  emailTemplate,
 }

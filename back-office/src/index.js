@@ -14,7 +14,7 @@ const link = createUploadLink({ uri: process.env.REACT_APP_API_URL })
 
 const client = new ApolloClient({
   link,
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
 })
 
 

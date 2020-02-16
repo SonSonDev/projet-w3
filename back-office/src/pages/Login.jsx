@@ -11,8 +11,8 @@ const Login = () => {
   const [login] = useMutation(LOGIN, {
     onCompleted: ({
       login: {
-        user: { id, name, email, role }
-      }
+        user: { id, name, email, role },
+      },
     }) => {
       // redirect
       // put on localstorage
@@ -20,7 +20,7 @@ const Login = () => {
         id,
         name,
         email,
-        role
+        role,
       }
       localStorage.setItem('isLoggedIn', 'true')
       console.log(JSON.stringify(user))
@@ -28,7 +28,7 @@ const Login = () => {
       window.location.href = '/'
       console.log({ id, name, email, role })
     },
-    onError: error => console.log(error.message)
+    onError: error => console.log(error.message),
   })
 
   if (JSON.parse(localStorage.getItem('user'))) {
@@ -45,7 +45,7 @@ const Login = () => {
           initialValues={{ name: '', password: '', email: '' }}
           validationSchema={Yup.object({
             password: Yup.string().required(),
-            email: Yup.string().required()
+            email: Yup.string().required(),
           })}
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
@@ -54,8 +54,8 @@ const Login = () => {
                 variables: {
                   name: values.name,
                   password: values.password,
-                  email: values.email
-                }
+                  email: values.email,
+                },
               })
             }, 400)
           }}>

@@ -18,7 +18,7 @@ const ClientCreate = () => {
     },
     onError: error => {
       console.log(error.message)
-    }
+    },
   })
 
   return (
@@ -28,7 +28,7 @@ const ClientCreate = () => {
         validationSchema={Yup.object({
           firstName: Yup.string(),
           lastName: Yup.string(),
-          email: Yup.string()
+          email: Yup.string(),
         })}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
@@ -38,8 +38,8 @@ const ClientCreate = () => {
                 firstName: values.firstName,
                 lastName: values.lastName,
                 email: values.email,
-                role: values.role
-              }
+                role: values.role,
+              },
             })
           }, 400)
         }}
@@ -68,9 +68,7 @@ const ClientCreate = () => {
             </div>
           </div>
 
-          <button type="submit" className="button is-link is-fullwidth">
-            Submit
-          </button>
+          <button type="submit" className="button is-link is-fullwidth">Submit</button>
         </Form>
       </Formik>
     </section>

@@ -1,3 +1,3 @@
 #!/bin/sh
-yarn install
+yarn install --pure-lockfile
 exec "$@"

@@ -18,7 +18,7 @@ const EmployeeCreate = () => {
     },
     onError: error => {
       console.log(error)
-    }
+    },
   })
 
   return (
@@ -28,7 +28,7 @@ const EmployeeCreate = () => {
         validationSchema={Yup.object({
           firstName: Yup.string(),
           lastName: Yup.string(),
-          email: Yup.string()
+          email: Yup.string(),
         })}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
@@ -38,8 +38,8 @@ const EmployeeCreate = () => {
                 firstName: values.firstName,
                 lastName: values.lastName,
                 email: values.email,
-                role: values.role
-              }
+                role: values.role,
+              },
             })
           }, 400)
         }}

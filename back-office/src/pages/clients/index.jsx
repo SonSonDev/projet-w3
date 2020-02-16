@@ -17,14 +17,14 @@ const ClientsIndex = () => {
     variables: { role: 'ADMIN' },
     fetchPolicy: 'no-cache',
     onCompleted: ({ getUsers }) => setClients(getUsers),
-    onError: error => console.log(error.message)
+    onError: error => console.log(error.message),
   })
   
   const [deleteUser] = useMutation(DELETE_USER, {
     onCompleted: data => {
       window.location.reload()
       console.log(data)
-    }
+    },
   })
     
   if (error) return <div>{error.message}</div>
@@ -42,7 +42,7 @@ const ClientsIndex = () => {
     { title: 'Role', key: 'role' },
     { label: 'Delete', handleClick: deleteUser },
     { label: 'Edit', handleClick: () => console.log('Edit') },
-    { label: 'Info', handleClick: () => console.log('Info') }
+    { label: 'Info', handleClick: () => console.log('Info') },
   ]
 
   return (

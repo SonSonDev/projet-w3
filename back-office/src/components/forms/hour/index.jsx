@@ -9,7 +9,7 @@ const HourForm = () => {
       validationSchema={Yup.object({
         day: Yup.string(),
         start: Yup.string(),
-        end: Yup.string()
+        end: Yup.string(),
       })}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
