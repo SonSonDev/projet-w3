@@ -1,19 +1,19 @@
-import React from 'react'
+import React from "react"
 
-import { Formik, Field, Form } from 'formik'
-import * as Yup from 'yup'
+import { Formik, Field, Form } from "formik"
+import * as Yup from "yup"
 
-import { useMutation } from '@apollo/react-hooks'
-import { CREATE_USER } from '../../graphql/mutations/clients'
+import { useMutation } from "@apollo/react-hooks"
+import { CREATE_USER } from "../../graphql/mutations/clients"
 
-import withAuthenticationCheck from '../../components/hocs/withAuthenticationCheck'
+import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 
 const ClientCreate = () => {
-  console.log('ClientCreate')
+  console.log("ClientCreate")
   const [createUser] = useMutation(CREATE_USER, {
     onCompleted: data => {
       // TEMP
-      window.location.href = '/clients'
+      window.location.href = "/clients"
       console.log(data)
     },
     onError: error => {
@@ -24,7 +24,7 @@ const ClientCreate = () => {
   return (
     <section className="create">
       <Formik
-        initialValues={{ firstName: '', lastName: '', email: '', role: 'ADMIN' }}
+        initialValues={{ firstName: "", lastName: "", email: "", role: "ADMIN" }}
         validationSchema={Yup.object({
           firstName: Yup.string(),
           lastName: Yup.string(),
@@ -75,4 +75,4 @@ const ClientCreate = () => {
   )
 }
 
-export default withAuthenticationCheck(ClientCreate, ['SUPER_ADMIN'])
+export default withAuthenticationCheck(ClientCreate, ["SUPER_ADMIN"])

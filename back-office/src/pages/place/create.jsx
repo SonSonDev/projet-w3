@@ -1,19 +1,19 @@
-import React from 'react'
+import React from "react"
 
-import { Formik, Field, Form } from 'formik'
-import * as Yup from 'yup'
+import { Formik, Field, Form } from "formik"
+import * as Yup from "yup"
 
-import { useMutation } from '@apollo/react-hooks'
-import { CREATE_PLACE } from '../../graphql/mutations/places'
+import { useMutation } from "@apollo/react-hooks"
+import { CREATE_PLACE } from "../../graphql/mutations/places"
 
-import withAuthenticationCheck from '../../components/hocs/withAuthenticationCheck'
+import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 
 const PlaceCreate = () => {
-  console.log('PlaceCreate')
+  console.log("PlaceCreate")
   const [createPlace] = useMutation(CREATE_PLACE, {
     onCompleted: data => {
       // TEMP
-      window.location.href = '/places'
+      window.location.href = "/places"
       console.log(data)
     },
     onError: error => {
@@ -25,12 +25,12 @@ const PlaceCreate = () => {
     <section className="create">
       <Formik
         initialValues={{
-          name: '',
-          street: '',
-          zipCode: '',
-          city: '',
-          type: '',
-          category: '',
+          name: "",
+          street: "",
+          zipCode: "",
+          city: "",
+          type: "",
+          category: "",
         }}
         validationSchema={Yup.object({
           name: Yup.string(),
@@ -118,4 +118,4 @@ const PlaceCreate = () => {
   )
 }
 
-export default withAuthenticationCheck(PlaceCreate, ['SUPER_ADMIN'])
+export default withAuthenticationCheck(PlaceCreate, ["SUPER_ADMIN"])

@@ -1,23 +1,23 @@
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const expiresIn = '1 day'
-const { APP_SECRET, getUserId, emailTemplate } = require('../utils')
-const nodemailer = require('nodemailer')
+const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
+const expiresIn = "1 day"
+const { APP_SECRET, getUserId, emailTemplate } = require("../utils")
+const nodemailer = require("nodemailer")
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  service: "gmail",
   auth: {
-    user: 'madu.group7@gmail.com',
-    pass: 'azazazaz1',
+    user: "madu.group7@gmail.com",
+    pass: "azazazaz1",
   },
 })
 
-async function createPlace(parent, { name, street, zipCode, city, type, category }, context, info) {
+async function createPlace(parent, { name, street, zipCode, city, type, category }, context) {
   // const userId = getUserId(context)
   return context.prisma.createPlace({
     name,
     type,
     category,
-    keywords: { set: ['1', '2', '3'] },
+    keywords: { set: ["1", "2", "3"] },
     address: {
       create: {
         street,
@@ -28,37 +28,37 @@ async function createPlace(parent, { name, street, zipCode, city, type, category
     hours: {
       create: [
         {
-          day: 'MONDAY',
+          day: "MONDAY",
           start: null,
           end: null,
         },
         {
-          day: 'TUESDAY',
+          day: "TUESDAY",
           start: null,
           end: null,
         },
         {
-          day: 'WEDNESDAY',
+          day: "WEDNESDAY",
           start: null,
           end: null,
         },
         {
-          day: 'THURSDAY',
+          day: "THURSDAY",
           start: null,
           end: null,
         },
         {
-          day: 'FRIDAY',
+          day: "FRIDAY",
           start: null,
           end: null,
         },
         {
-          day: 'SATURDAY',
+          day: "SATURDAY",
           start: null,
           end: null,
         },
         {
-          day: 'SUNDAY',
+          day: "SUNDAY",
           start: null,
           end: null,
         },
@@ -67,14 +67,14 @@ async function createPlace(parent, { name, street, zipCode, city, type, category
   })
 }
 
-async function createCompany(parent, args, context, info) {
+async function createCompany(parent, args, context) {
   // const userId = getUserId(context)
   let randomPassword = Math.random().toString(36).substring(5)
 
   const mailOptions = {
-    from: 'madu.group7@gmail.com',
+    from: "madu.group7@gmail.com",
     to: args.emailUser,
-    subject: 'Votre mot de passe',
+    subject: "Votre mot de passe",
     html: emailTemplate(`${args.firstNameUser} ${args.lastNameUser}`, randomPassword),
   }
 
@@ -111,13 +111,13 @@ async function createCompany(parent, args, context, info) {
   })
 }
 
-async function createUser(parent, { firstName, lastName, email, role }, context, info) {
+async function createUser(parent, { firstName, lastName, email, role }, context) {
   let randomPassword = Math.random().toString(36).substring(5)
 
   const mailOptions = {
-    from: 'madu.group7@gmail.com',
+    from: "madu.group7@gmail.com",
     to: email,
-    subject: 'Votre mot de passe',
+    subject: "Votre mot de passe",
     html: emailTemplate(`${firstName} ${lastName}`, randomPassword),
   }
 
@@ -146,15 +146,15 @@ async function createUser(parent, { firstName, lastName, email, role }, context,
   }
 }
 
-async function login(parent, { email, password }, context, info) {
+async function login(parent, { email, password }, context) {
   const user = await context.prisma.user({ email: email })
   if (!user) {
-    throw new Error('No such user found')
+    throw new Error("No such user found")
   }
 
   const valid = await bcrypt.compare(password, user.password)
   if (!valid) {
-    throw new Error('Invalid password')
+    throw new Error("Invalid password")
   }
 
   const token = jwt.sign({ userId: user.id }, APP_SECRET)
@@ -165,7 +165,7 @@ async function login(parent, { email, password }, context, info) {
   }
 }
 
-async function updateRepresentative(parent, { userEmail, companyId, isRepresentative }, context, info) {
+async function updateRepresentative(parent, { userEmail, companyId, isRepresentative }, context) {
   console.log({ userEmail, companyId, isRepresentative })
   const update = await context.prisma.updateUser({
     where: { email: userEmail },
@@ -178,19 +178,19 @@ async function updateRepresentative(parent, { userEmail, companyId, isRepresenta
   return update
 }
 
-async function deletePlace(parent, { id }, context, info) {
+async function deletePlace(parent, { id }, context) {
   return await context.prisma.deletePlace({ id })
 }
 
-async function deleteCompany(parent, { id }, context, info) {
+async function deleteCompany(parent, { id }, context) {
   return await context.prisma.deleteCompany({ id })
 }
 
-async function deleteUser(parent, { id }, context, info) {
+async function deleteUser(parent, { id }, context) {
   return await context.prisma.deleteUser({ id })
 }
 
-async function updateHour(parent, { id, day, start, end }, context, info) {
+async function updateHour(parent, { id, day, start, end }, context) {
   return await context.prisma.updatePlace({
     where: {
       id: id,

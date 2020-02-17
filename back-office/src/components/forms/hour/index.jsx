@@ -1,11 +1,11 @@
-import React from 'react'
-import { Formik, Field, Form } from 'formik'
-import * as Yup from 'yup'
+import React from "react"
+import { Formik, Field, Form } from "formik"
+import * as Yup from "yup"
 
 const HourForm = () => {
   return (
     <Formik
-      initialValues={{ day: '', start: '', end: '' }}
+      initialValues={{ day: "", start: "", end: "" }}
       validationSchema={Yup.object({
         day: Yup.string(),
         start: Yup.string(),

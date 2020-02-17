@@ -1,25 +1,25 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react"
+import PropTypes from "prop-types"
 
 const Tabs = ({
   tabs = [
-    { title: 'All', filter: () => true },
-    { title: 'Shop', filter: ({ category }) => category === 'SHOP' },
+    { title: "All", filter: () => true },
+    { title: "Shop", filter: ({ category }) => category === "SHOP" },
   ],
   activeTabIndex = 0,
-  action = { label: 'ajouter une action', url: ''},
-  onTabClick = () => console.log('action'),
+  action = { label: "ajouter une action", url: ""},
+  onTabClick = () => console.log("action"),
 }) => {
   return (
-    <div className="tabs" style={{overflow: 'visible'}}>
+    <div className="tabs" style={{overflow: "visible"}}>
       <ul>
         {tabs.map(({ title }, index) => (
-          <li className={activeTabIndex === index ? 'is-active' : ''} key={index}>
+          <li className={activeTabIndex === index ? "is-active" : ""} key={index}>
             <a href="#" onClick={() => onTabClick(index)}>{title}</a>
           </li>
         ))}
         { action.url && (
-          <a href={action.url} className="button is-primary go-to-right" style={{transform: 'translate(-5px,-5px)'}}>{action.label}</a>
+          <a href={action.url} className="button is-primary go-to-right" style={{transform: "translate(-5px,-5px)"}}>{action.label}</a>
         )}
       </ul>
     </div>

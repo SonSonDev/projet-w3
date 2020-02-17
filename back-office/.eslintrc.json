@@ -26,7 +26,7 @@
   },
   "rules": {
     "indent": ["warn", 2],
-    "quotes": ["warn", "single"],
+    "quotes": ["warn", "double"],
     "semi": ["warn", "never"],
     "comma-dangle": ["warn", "always-multiline"],
     "no-trailing-spaces": "warn",

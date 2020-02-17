@@ -1,11 +1,11 @@
-import React from 'react'
-import { Redirect } from 'react-router-dom'
+import React from "react"
+import { Redirect } from "react-router-dom"
 
-import { Formik, Field, Form } from 'formik'
-import * as Yup from 'yup'
+import { Formik, Field, Form } from "formik"
+import * as Yup from "yup"
 
-import { useMutation } from '@apollo/react-hooks'
-import { LOGIN } from '../graphql/mutations/auth'
+import { useMutation } from "@apollo/react-hooks"
+import { LOGIN } from "../graphql/mutations/auth"
 
 const Login = () => {
   const [login] = useMutation(LOGIN, {
@@ -22,16 +22,16 @@ const Login = () => {
         email,
         role,
       }
-      localStorage.setItem('isLoggedIn', 'true')
+      localStorage.setItem("isLoggedIn", "true")
       console.log(JSON.stringify(user))
-      localStorage.setItem('user', JSON.stringify(user))
-      window.location.href = '/'
+      localStorage.setItem("user", JSON.stringify(user))
+      window.location.href = "/"
       console.log({ id, name, email, role })
     },
     onError: error => console.log(error.message),
   })
 
-  if (JSON.parse(localStorage.getItem('user'))) {
+  if (JSON.parse(localStorage.getItem("user"))) {
     return <Redirect to="/"/>
   }
 
@@ -42,7 +42,7 @@ const Login = () => {
         <h1 className="title is-spaced">madu</h1>
         <p className="subtitle center">Identifiez-vous pour accéder à l&apos;espace Madu de votre entreprise.</p>
         <Formik
-          initialValues={{ name: '', password: '', email: '' }}
+          initialValues={{ name: "", password: "", email: "" }}
           validationSchema={Yup.object({
             password: Yup.string().required(),
             email: Yup.string().required(),

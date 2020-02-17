@@ -1,19 +1,19 @@
-import React from 'react'
+import React from "react"
 
-import { Formik, Field, Form } from 'formik'
-import * as Yup from 'yup'
+import { Formik, Field, Form } from "formik"
+import * as Yup from "yup"
 
-import { useMutation } from '@apollo/react-hooks'
-import { CREATE_USER } from '../../graphql/mutations/clients'
+import { useMutation } from "@apollo/react-hooks"
+import { CREATE_USER } from "../../graphql/mutations/clients"
 
-import withAuthenticationCheck from '../../components/hocs/withAuthenticationCheck'
+import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 
 const EmployeeCreate = () => {
-  console.log('EmployeeCreate')
+  console.log("EmployeeCreate")
   const [createUser] = useMutation(CREATE_USER, {
     onCompleted: data => {
       // TEMP
-      window.location.href = '/employees'
+      window.location.href = "/employees"
       console.log(data)
     },
     onError: error => {
@@ -24,7 +24,7 @@ const EmployeeCreate = () => {
   return (
     <div className="create">
       <Formik
-        initialValues={{ firstName: '', lastName: '', email: '', role: 'USER' }}
+        initialValues={{ firstName: "", lastName: "", email: "", role: "USER" }}
         validationSchema={Yup.object({
           firstName: Yup.string(),
           lastName: Yup.string(),
@@ -77,4 +77,4 @@ const EmployeeCreate = () => {
   )
 }
 
-export default withAuthenticationCheck(EmployeeCreate, ['ADMIN'])
+export default withAuthenticationCheck(EmployeeCreate, ["ADMIN"])

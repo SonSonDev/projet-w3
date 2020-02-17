@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState } from "react"
 
-import { useQuery, useMutation } from '@apollo/react-hooks'
-import { GET_PLACES } from '../../graphql/queries/places'
-import { DELETE_PLACE } from '../../graphql/mutations/places'
+import { useQuery, useMutation } from "@apollo/react-hooks"
+import { GET_PLACES } from "../../graphql/queries/places"
+import { DELETE_PLACE } from "../../graphql/mutations/places"
 
-import withAuthenticationCheck from '../../components/hocs/withAuthenticationCheck'
-import Table from '../../components/Table'
-import Tabs from '../../components/Tabs'
-import Loader from '../../components/Loader'
+import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
+import Table from "../../components/Table"
+import Tabs from "../../components/Tabs"
+import Loader from "../../components/Loader"
 
 const PlacesIndex = () => {
-  console.log('render PlacesIndex')
+  console.log("render PlacesIndex")
   const [activeTabIndex, setActiveTabIndex] = useState(0)
 
   const [places, setPlaces] = useState([])
@@ -35,19 +35,19 @@ const PlacesIndex = () => {
   }
 
   const columns = [
-    { title: 'Nom', key: 'name' },
-    { title: 'Catégorie', key: 'category' },
-    { title: 'Adresse', key: 'address', link: address => `https://www.google.com/maps/search/?api=1&query=${encodeURI(address)}`},
-    { label: 'Delete', handleClick: deletePlace },
-    { label: 'Edit', handleClick: () => console.log('Edit') },
-    { label: 'Info', handleClick: () => console.log('Info') },
+    { title: "Nom", key: "name" },
+    { title: "Catégorie", key: "category" },
+    { title: "Adresse", key: "address", link: address => `https://www.google.com/maps/search/?api=1&query=${encodeURI(address)}`},
+    { label: "Delete", handleClick: deletePlace },
+    { label: "Edit", handleClick: () => console.log("Edit") },
+    { label: "Info", handleClick: () => console.log("Info") },
   ]
 
   const tabs = [
-    { title: 'All', filter: () => true },
-    { title: 'Shop', filter: ({ category }) => category === 'SHOP' },
-    { title: 'Activity', filter: ({ category }) => category === 'ACTIVITY' },
-    { title: 'Food', filter: ({ category }) => category === 'FOOD' },
+    { title: "All", filter: () => true },
+    { title: "Shop", filter: ({ category }) => category === "SHOP" },
+    { title: "Activity", filter: ({ category }) => category === "ACTIVITY" },
+    { title: "Food", filter: ({ category }) => category === "FOOD" },
   ]
 
   const data = places
@@ -59,7 +59,7 @@ const PlacesIndex = () => {
 
   return (
     <section className="list-page">
-      <Tabs tabs={tabs} activeTabIndex={activeTabIndex} onTabClick={setActiveTabIndex} action={{label: 'Ajouter une adresse', url: '/place/create'}}/>
+      <Tabs tabs={tabs} activeTabIndex={activeTabIndex} onTabClick={setActiveTabIndex} action={{label: "Ajouter une adresse", url: "/place/create"}}/>
       <div className="padding16">
         <Table data={data} columns={columns} />
       </div>
@@ -68,7 +68,7 @@ const PlacesIndex = () => {
 }
 
 export default withAuthenticationCheck(PlacesIndex, [
-  'SUPER_ADMIN',
-  'ADMIN',
-  'USER',
+  "SUPER_ADMIN",
+  "ADMIN",
+  "USER",
 ])

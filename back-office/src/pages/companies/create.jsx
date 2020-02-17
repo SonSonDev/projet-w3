@@ -1,19 +1,19 @@
-import React from 'react'
+import React from "react"
 
-import { Formik, Field, Form } from 'formik'
-import * as Yup from 'yup'
+import { Formik, Field, Form } from "formik"
+import * as Yup from "yup"
 
-import { useMutation } from '@apollo/react-hooks'
-import { CREATE_COMPANY } from '../../graphql/mutations/companies'
+import { useMutation } from "@apollo/react-hooks"
+import { CREATE_COMPANY } from "../../graphql/mutations/companies"
 
-import withAuthenticationCheck from '../../components/hocs/withAuthenticationCheck'
+import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 
 const CompanyCreate = () => {
-  console.log('CompanyCreate')
+  console.log("CompanyCreate")
   const [createCompany] = useMutation(CREATE_COMPANY, {
     onCompleted: data => {
       // TEMP
-      window.location.href = '/companies'
+      window.location.href = "/companies"
       console.log(data)
     },
     onError: error => {
@@ -24,7 +24,7 @@ const CompanyCreate = () => {
   return (
     <section className="create">
       <Formik
-        initialValues={{ companyName: '', companyType: '', streetCompany: '', zipCodeCompany: '', cityCompany: '', firstNameUser: '', lastNameUser: '', emailUser: '', phoneUser: '', roleUser: 'ADMIN', isRepresentative: true }}
+        initialValues={{ companyName: "", companyType: "", streetCompany: "", zipCodeCompany: "", cityCompany: "", firstNameUser: "", lastNameUser: "", emailUser: "", phoneUser: "", roleUser: "ADMIN", isRepresentative: true }}
         validationSchema={Yup.object({
           companyName: Yup.string(), companyType: Yup.string(), streetCompany: Yup.string(), zipCodeCompany: Yup.string(), cityCompany: Yup.string(), firstNameUser: Yup.string(), lastNameUser: Yup.string(), emailUser: Yup.string(), phoneUser: Yup.string(), roleUser: Yup.string(), isRepresentative: Yup.boolean(),
         })}
@@ -119,4 +119,4 @@ const CompanyCreate = () => {
   )
 }
 
-export default withAuthenticationCheck(CompanyCreate, ['SUPER_ADMIN'])
+export default withAuthenticationCheck(CompanyCreate, ["SUPER_ADMIN"])

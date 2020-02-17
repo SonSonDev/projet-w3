@@ -1,10 +1,10 @@
-import React from 'react'
+import React from "react"
 
-import withAuthenticationCheck from '../../components/hocs/withAuthenticationCheck'
+import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 
 const ClientInfo = () => {
-  console.log('ClientInfo')
+  console.log("ClientInfo")
   return <h1>SOON</h1>
 }
 
-export default withAuthenticationCheck(ClientInfo, ['SUPER_ADMIN'])
+export default withAuthenticationCheck(ClientInfo, ["SUPER_ADMIN"])

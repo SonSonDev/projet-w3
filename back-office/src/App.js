@@ -1,38 +1,38 @@
-import React from 'react'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import React from "react"
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 
-import Home from './pages/Home'
-import Login from './pages/Login'
+import Home from "./pages/Home"
+import Login from "./pages/Login"
 
-import EmployeesIndex from './pages/employees/index'
-import EmployeeCreate from './pages/employees/create'
-import EmployeeUpdate from './pages/employees/update'
-import EmployeeInfo from './pages/employees/info'
+import EmployeesIndex from "./pages/employees/index"
+import EmployeeCreate from "./pages/employees/create"
+import EmployeeUpdate from "./pages/employees/update"
+import EmployeeInfo from "./pages/employees/info"
 
-import ClientsIndex from './pages/clients/index'
-import ClientCreate from './pages/clients/create'
-import ClientUpdate from './pages/clients/update'
-import ClientInfo from './pages/clients/info'
+import ClientsIndex from "./pages/clients/index"
+import ClientCreate from "./pages/clients/create"
+import ClientUpdate from "./pages/clients/update"
+import ClientInfo from "./pages/clients/info"
 
-import PlacesIndex from './pages/place/index'
-import PlaceCreate from './pages/place/create'
-import PlaceUpdate from './pages/place/update'
-import PlaceInfo from './pages/place/info'
+import PlacesIndex from "./pages/place/index"
+import PlaceCreate from "./pages/place/create"
+import PlaceUpdate from "./pages/place/update"
+import PlaceInfo from "./pages/place/info"
 
-import CompaniesIndex from './pages/companies/index'
-import CompanyCreate from './pages/companies/create'
-import CompanyUpdate from './pages/companies/update'
-import CompanyInfo from './pages/companies/info'
+import CompaniesIndex from "./pages/companies/index"
+import CompanyCreate from "./pages/companies/create"
+import CompanyUpdate from "./pages/companies/update"
+import CompanyInfo from "./pages/companies/info"
 
 const App = () => {
   const logout = () => {
-    localStorage.setItem('isLoggedIn', 'false')
-    localStorage.setItem('user', null)
-    window.location = '/'
+    localStorage.setItem("isLoggedIn", "false")
+    localStorage.setItem("user", null)
+    window.location = "/"
   }
 
-  const user = JSON.parse(localStorage.getItem('user'))
-  console.log(localStorage.getItem('isLoggedIn'))
+  const user = JSON.parse(localStorage.getItem("user"))
+  console.log(localStorage.getItem("isLoggedIn"))
   return (
     <section className="app">
       <Router>
@@ -41,7 +41,7 @@ const App = () => {
             <a className="navbar-item" href="/">
               <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Docker_%28container_engine%29_logo.svg/1280px-Docker_%28container_engine%29_logo.svg.png" alt="logo"/>
             </a>
-            {localStorage.getItem('isLoggedIn') === 'true' && (
+            {localStorage.getItem("isLoggedIn") === "true" && (
               <div className="buttons">
                 <button className="button is-light" onClick={() => logout()}>
                   Logout
@@ -65,13 +65,13 @@ const App = () => {
           </div>)
           }
         </nav> */}
-        {localStorage.getItem('isLoggedIn') === 'true' && (
+        {localStorage.getItem("isLoggedIn") === "true" && (
           <aside className="menu">
             <ul className="menu-list">
               <li>
                 <Link to="/places">Adresses</Link>
               </li>
-              { user.role === 'SUPER_ADMIN' && (
+              { user.role === "SUPER_ADMIN" && (
                 <>
                   <li>
                     <Link to="/clients">Clients</Link>
@@ -81,7 +81,7 @@ const App = () => {
                   </li>
                 </>
               )}
-              { user.role === 'ADMIN' && (
+              { user.role === "ADMIN" && (
                 <li>
                   <Link to="/employees">Employés</Link>
                 </li>

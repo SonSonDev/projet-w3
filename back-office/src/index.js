@@ -1,14 +1,14 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from "react"
+import ReactDOM from "react-dom"
 
-import ApolloClient from 'apollo-client'
-import { InMemoryCache } from 'apollo-cache-inmemory'
-import { createUploadLink } from 'apollo-upload-client'
-import { ApolloProvider } from '@apollo/react-hooks'
+import ApolloClient from "apollo-client"
+import { InMemoryCache } from "apollo-cache-inmemory"
+import { createUploadLink } from "apollo-upload-client"
+import { ApolloProvider } from "@apollo/react-hooks"
 
-import './style/style.scss'
-import App from './App'
-import * as serviceWorker from './serviceWorker'
+import "./style/style.scss"
+import App from "./App"
+import * as serviceWorker from "./serviceWorker"
 
 const link = createUploadLink({ uri: process.env.REACT_APP_API_URL })
 
@@ -22,6 +22,6 @@ ReactDOM.render(
   <ApolloProvider client={client}>
     <App />
   </ApolloProvider>,
-  document.getElementById('root'))
+  document.getElementById("root"))
 
 serviceWorker.unregister()

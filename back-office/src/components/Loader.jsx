@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react"
 
 const Loader = () => (
-  <div style={{display: 'flex', justifyContent: 'center', padding: '50px 20px'}}>
+  <div style={{display: "flex", justifyContent: "center", padding: "50px 20px"}}>
     <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38" stroke="#555">
       <g fill="none" fillRule="evenodd">
         <g transform="translate(1 1)" strokeWidth="2">
