@@ -24,6 +24,8 @@ import CompanyCreate from "./pages/companies/create"
 import CompanyUpdate from "./pages/companies/update"
 import CompanyInfo from "./pages/companies/info"
 
+import { ReactComponent as LogoMadu } from "./assets/img/logo-madu.svg"
+
 const App = () => {
   const logout = () => {
     localStorage.setItem("isLoggedIn", "false")
@@ -39,7 +41,7 @@ const App = () => {
         <header className="header">
           <div className="navbar-brand">
             <a className="navbar-item" href="/">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Docker_%28container_engine%29_logo.svg/1280px-Docker_%28container_engine%29_logo.svg.png" alt="logo"/>
+              <LogoMadu style={{width: "64px"}}/>
             </a>
             {localStorage.getItem("isLoggedIn") === "true" && (
               <div className="buttons">

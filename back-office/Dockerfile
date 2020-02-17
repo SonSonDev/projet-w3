@@ -3,8 +3,9 @@ FROM node:alpine as build
 WORKDIR /home/app
 
 COPY package.json .
+COPY ./yarn.lock .
 
-RUN npm install
+RUN yarn install --production=true --pure-lockfile
 
 COPY . .
 

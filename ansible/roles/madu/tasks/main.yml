@@ -25,8 +25,8 @@
       path: /opt/app/api
       pull: no
     name: "{{ application_api_image }}"
-    tag: "{{ application_api_tag }}"
     source: build
+    force_source: yes
   notify: restart docker stack
   tags: ["build", "redeploy"]
 
@@ -38,8 +38,8 @@
       args:
         REACT_APP_API_URL: "{{ application_scheme }}://{{ application_ip }}:{{ application_api_port }}"
     name: "{{ application_backoffice_image }}"
-    tag: "{{ application_backoffice_tag }}"
     source: build
+    force_source: yes
   notify: restart docker stack
   tags: ["build", "redeploy"]
 
@@ -48,3 +48,8 @@
     src: templates/docker-compose.yml
     dest: /opt/app/docker-compose.yml
   notify: restart docker stack
+
+- name: restart docker stack
+  docker_compose:
+    project_src: /opt/app
+    restarted: yes
