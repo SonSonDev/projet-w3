@@ -95,7 +95,7 @@ const CompanyCreate = () => {
               <Field id="firstNameUser" className="input" name="firstNameUser" type="text" placeholder="Prenom" />
             </div>
           </div>
-          
+
           <div className="field">
             <label htmlFor="emailUser" className="label">Email</label>
             <div className="control">

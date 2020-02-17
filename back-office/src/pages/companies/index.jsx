@@ -48,7 +48,7 @@ const CompaniesIndex = () => {
 
   return (
     <section className="list-page">
-      <Tabs tabs={[{ title: 'All company', filter: () => true }]} action={{label:'Ajouter une entreprise', url: '/company/create'}}/>
+      <Tabs tabs={[{ title: 'All company', filter: () => true }]} action={{label: 'Ajouter une entreprise', url: '/company/create'}}/>
       <div className="padding16">
         <Table data={data} columns={columns} />
       </div>

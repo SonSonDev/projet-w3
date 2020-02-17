@@ -45,7 +45,7 @@ const EmployeesIndex = () => {
 
   return (
     <section className="list-page">
-      <Tabs tabs={[{ title: 'All Employee', filter: () => true }]} action={{label:'Ajouter un employé', url: '/employee/create'}}/>
+      <Tabs tabs={[{ title: 'All Employee', filter: () => true }]} action={{label: 'Ajouter un employé', url: '/employee/create'}}/>
       <div className="padding16">
         <Table data={users} columns={columns} />
       </div>

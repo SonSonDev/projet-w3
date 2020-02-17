@@ -7,15 +7,15 @@ const Tabs = ({
     { title: 'Shop', filter: ({ category }) => category === 'SHOP' },
   ],
   activeTabIndex = 0,
-  action = { label : 'ajouter une action', url: ''},
+  action = { label: 'ajouter une action', url: ''},
   onTabClick = () => console.log('action'),
 }) => {
   return (
-    <div className="tabs" style={{overflow:'visible'}}>
+    <div className="tabs" style={{overflow: 'visible'}}>
       <ul>
         {tabs.map(({ title }, index) => (
           <li className={activeTabIndex === index ? 'is-active' : ''} key={index}>
-            <a onClick={() => onTabClick(index)}>{title}</a>
+            <a href="#" onClick={() => onTabClick(index)}>{title}</a>
           </li>
         ))}
         { action.url && (

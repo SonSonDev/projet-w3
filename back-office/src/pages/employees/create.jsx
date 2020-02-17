@@ -46,7 +46,7 @@ const EmployeeCreate = () => {
       >
         <Form className="create__form">
           <h1 className="title">Ajouter un nouvel employé</h1>
-          
+
           <div className="field">
             <label htmlFor="firstName" className="label">Prénom</label>
             <div className="control">

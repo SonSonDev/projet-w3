@@ -59,7 +59,7 @@ const PlacesIndex = () => {
 
   return (
     <section className="list-page">
-      <Tabs tabs={tabs} activeTabIndex={activeTabIndex} onTabClick={setActiveTabIndex} action={{label:'Ajouter une adresse', url: '/place/create'}}/>
+      <Tabs tabs={tabs} activeTabIndex={activeTabIndex} onTabClick={setActiveTabIndex} action={{label: 'Ajouter une adresse', url: '/place/create'}}/>
       <div className="padding16">
         <Table data={data} columns={columns} />
       </div>

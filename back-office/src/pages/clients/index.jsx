@@ -12,21 +12,21 @@ import Loader from '../../components/Loader'
 const ClientsIndex = () => {
 
   const [clients, setClients] = useState([])
-  
+
   const { error, loading } = useQuery(GET_USERS, {
     variables: { role: 'ADMIN' },
     fetchPolicy: 'no-cache',
     onCompleted: ({ getUsers }) => setClients(getUsers),
     onError: error => console.log(error.message),
   })
-  
+
   const [deleteUser] = useMutation(DELETE_USER, {
     onCompleted: data => {
       window.location.reload()
       console.log(data)
     },
   })
-    
+
   if (error) return <div>{error.message}</div>
 
   if (loading) {
@@ -49,7 +49,7 @@ const ClientsIndex = () => {
     <section className="list-page">
       <Tabs tabs={[{ title: 'All clients', filter: () => true }]}/>
       <div className="padding16">
-        <Table data={clients} columns={columns} /> 
+        <Table data={clients} columns={columns} />
       </div>
     </section>
   )

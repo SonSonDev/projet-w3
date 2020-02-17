@@ -10,10 +10,14 @@
   },
   "rules": {
     "indent": ["warn", 2],
-    "quotes": ["error", "single"],
-    "semi": ["error", "never"],
+    "quotes": ["warn", "single"],
+    "semi": ["warn", "never"],
     "comma-dangle": ["warn", "always-multiline"],
     "no-trailing-spaces": "warn",
+    "key-spacing": [
+      "warn",
+      { "mode": "strict" }
+    ],
     "no-unused-vars": [
       "warn",
       {
