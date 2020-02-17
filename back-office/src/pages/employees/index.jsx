@@ -16,14 +16,14 @@ const EmployeesIndex = () => {
   const { error, loading } = useQuery(GET_USERS, {
     variables: { role: 'USER' },
     onCompleted: ({ getUsers }) => setUsers(getUsers),
-    onError: error => console.log(error.message)
+    onError: error => console.log(error.message),
   })
 
   const [deleteUser] = useMutation(DELETE_USER, {
     onCompleted: data => {
       window.location.reload()
       console.log(data)
-    }
+    },
   })
 
   if (error) return <div>{error.message}</div>
@@ -40,12 +40,12 @@ const EmployeesIndex = () => {
     { title: 'Email', key: 'email' },
     { label: 'Delete', handleClick: deleteUser },
     { label: 'Edit', handleClick: () => console.log('Edit') },
-    { label: 'Info', handleClick: () => console.log('Info') }
+    { label: 'Info', handleClick: () => console.log('Info') },
   ]
 
   return (
     <section className="list-page">
-      <Tabs tabs={[{ title: 'All Employee', filter: () => true }]} action={{label:'Ajouter un employé', url: '/employee/create'}}/>
+      <Tabs tabs={[{ title: 'All Employee', filter: () => true }]} action={{label: 'Ajouter un employé', url: '/employee/create'}}/>
       <div className="padding16">
         <Table data={users} columns={columns} />
       </div>

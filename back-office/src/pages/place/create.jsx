@@ -18,7 +18,7 @@ const PlaceCreate = () => {
     },
     onError: error => {
       console.log(error)
-    }
+    },
   })
 
   return (
@@ -30,7 +30,7 @@ const PlaceCreate = () => {
           zipCode: '',
           city: '',
           type: '',
-          category: ''
+          category: '',
         }}
         validationSchema={Yup.object({
           name: Yup.string(),
@@ -38,7 +38,7 @@ const PlaceCreate = () => {
           zipCode: Yup.string(),
           city: Yup.string(),
           type: Yup.string(),
-          category: Yup.string().required()
+          category: Yup.string().required(),
         })}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
@@ -51,8 +51,8 @@ const PlaceCreate = () => {
               zipCode: values.zipCode,
               city: values.city,
               type: values.type,
-              category: values.category
-            }
+              category: values.category,
+            },
           })
         }}
       >

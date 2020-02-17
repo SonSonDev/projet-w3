@@ -18,7 +18,7 @@ const CompanyCreate = () => {
     },
     onError: error => {
       console.log(error)
-    }
+    },
   })
 
   return (
@@ -26,13 +26,13 @@ const CompanyCreate = () => {
       <Formik
         initialValues={{ companyName: '', companyType: '', streetCompany: '', zipCodeCompany: '', cityCompany: '', firstNameUser: '', lastNameUser: '', emailUser: '', phoneUser: '', roleUser: 'ADMIN', isRepresentative: true }}
         validationSchema={Yup.object({
-          companyName: Yup.string(), companyType: Yup.string(), streetCompany: Yup.string(), zipCodeCompany: Yup.string(), cityCompany: Yup.string(), firstNameUser: Yup.string(), lastNameUser: Yup.string(), emailUser: Yup.string(), phoneUser: Yup.string(), roleUser: Yup.string(), isRepresentative: Yup.boolean()
+          companyName: Yup.string(), companyType: Yup.string(), streetCompany: Yup.string(), zipCodeCompany: Yup.string(), cityCompany: Yup.string(), firstNameUser: Yup.string(), lastNameUser: Yup.string(), emailUser: Yup.string(), phoneUser: Yup.string(), roleUser: Yup.string(), isRepresentative: Yup.boolean(),
         })}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
             setSubmitting(false)
             createCompany({
-              variables: { companyName: values.companyName, companyType: values.companyType, streetCompany: values.streetCompany, zipCodeCompany: values.zipCodeCompany, cityCompany: values.cityCompany, firstNameUser: values.firstNameUser, lastNameUser: values.lastNameUser, emailUser: values.emailUser, phoneUser: values.phoneUser, roleUser: values.roleUser, isRepresentative: values.isRepresentative }
+              variables: { companyName: values.companyName, companyType: values.companyType, streetCompany: values.streetCompany, zipCodeCompany: values.zipCodeCompany, cityCompany: values.cityCompany, firstNameUser: values.firstNameUser, lastNameUser: values.lastNameUser, emailUser: values.emailUser, phoneUser: values.phoneUser, roleUser: values.roleUser, isRepresentative: values.isRepresentative },
             })
           }, 400)
         }}
@@ -95,7 +95,7 @@ const CompanyCreate = () => {
               <Field id="firstNameUser" className="input" name="firstNameUser" type="text" placeholder="Prenom" />
             </div>
           </div>
-          
+
           <div className="field">
             <label htmlFor="emailUser" className="label">Email</label>
             <div className="control">

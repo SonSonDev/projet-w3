@@ -1,5 +1,5 @@
 #!/bin/sh
-yarn install
+yarn install --pure-lockfile
 yarn deploy
 yarn token
 exec "$@"

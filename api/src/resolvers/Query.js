@@ -3,7 +3,7 @@ async function getPlaces(parent, args, context) {
 }
 
 async function getPlace(parent, { id }, context, parernt) {
-  return await context.prisma.place({ id });
+  return await context.prisma.place({ id })
 }
 
 async function getUsers(parent, { role }, context) {
@@ -11,7 +11,7 @@ async function getUsers(parent, { role }, context) {
 }
 
 async function getUser(parent, { id }, context, parernt) {
-  return await context.prisma.user({ id });
+  return await context.prisma.user({ id })
 }
 
 async function getCompanies(parent, args, context) {
@@ -19,7 +19,7 @@ async function getCompanies(parent, args, context) {
 }
 
 async function getCompany(parent, { id }, context, parernt) {
-  return await context.prisma.company({ id });
+  return await context.prisma.company({ id })
 }
 
 module.exports = {
@@ -28,5 +28,5 @@ module.exports = {
   getUsers,
   getUser,
   getCompanies,
-  getCompany
+  getCompany,
 }

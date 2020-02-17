@@ -5,15 +5,15 @@ const Table = ({
   data = [
     { id: 1, name: 'name 1', email: 'email 1', role: 'role 1' },
     { id: 2, name: 'name 2', email: 'email 2', role: 'role 2' },
-    { id: 3, name: 'name 3', email: 'email 3', role: 'role 3' }
+    { id: 3, name: 'name 3', email: 'email 3', role: 'role 3' },
   ],
   columns = [
     { title: 'Name', key: 'name' },
     { title: 'Email', key: 'email' },
     { title: 'Role', key: 'role' },
     { label: 'Delete', handleClick: () => console.log('Delete') },
-    { label: 'Edit', handleClick: () => console.log('Edit') }
-  ]
+    { label: 'Edit', handleClick: () => console.log('Edit') },
+  ],
 }) => {
   return (
     <table className="table is-striped table is-bordered w100">
@@ -27,20 +27,14 @@ const Table = ({
       <tbody>
         {data.map(({ id, ...entry }) => (
           <tr key={id}>
-            {columns.map(({ key, label, handleClick, link, customString }, i) => (
+            {columns.map(({ key, label, handleClick, link }, i) => (
               <td key={id + i}>
-                { link ?
-                  <a href={link(entry[key])} target="_blank" rel="noopener noreferrer">{entry[key]}</a> 
-                  : customString ? customString(entry)
-                  : key ? (entry[key] || '-' )
-                  : (
-                  <button
-                    className="button is-small"
-                    onClick={() => handleClick({ variables: { id } })}
-                  >
-                    {label}
-                  </button>
-                )}
+                { link ? <a href={link(entry[key])} target="_blank" rel="noopener noreferrer">{entry[key]}</a> :
+                  key ? (entry[key] || '-' ) :
+                    (
+                      <button className="button is-small" onClick={() => handleClick({ variables: { id } })}>{label}</button>
+                    )
+                }
               </td>
             ))}
           </tr>
@@ -52,7 +46,7 @@ const Table = ({
 
 Table.propTypes = {
   data: PropTypes.arrayOf(
-    PropTypes.object
+    PropTypes.object,
   ).isRequired,
   columns: PropTypes.arrayOf(
     PropTypes.shape({
@@ -60,7 +54,7 @@ Table.propTypes = {
       key: PropTypes.string,
       label: PropTypes.string,
       handleClick: PropTypes.func,
-    })
+    }),
   ).isRequired,
 }
 
