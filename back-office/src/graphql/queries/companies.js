@@ -21,6 +21,7 @@ export const GET_COMPANY = gql`
         role
         isRepresentative
       }
+      emailDomains
     }
   }
 `

@@ -13,11 +13,7 @@ const Login = () => {
   const userData = useContext(UserDataContext)
 
   const [login] = useMutation(LOGIN, {
-    onCompleted: ({
-      login: {
-        user: { id, name, email, role },
-      },
-    }) => {
+    onCompleted: () => {
       window.location.href = "/"
     },
     onError: error => console.log(error.message),

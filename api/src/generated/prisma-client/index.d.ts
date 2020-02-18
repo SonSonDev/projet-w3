@@ -556,6 +556,7 @@ export interface CompanyCreateInput {
   type?: Maybe<CompanyType>;
   address?: Maybe<AddressCreateOneInput>;
   users?: Maybe<UserCreateManyWithoutCompanyInput>;
+  emailDomains?: Maybe<CompanyCreateemailDomainsInput>;
 }
 
 export interface AddressCreateOneInput {
@@ -586,11 +587,16 @@ export interface UserCreateWithoutCompanyInput {
   isRepresentative?: Maybe<Boolean>;
 }
 
+export interface CompanyCreateemailDomainsInput {
+  set?: Maybe<String[] | String>;
+}
+
 export interface CompanyUpdateInput {
   name?: Maybe<String>;
   type?: Maybe<CompanyType>;
   address?: Maybe<AddressUpdateOneInput>;
   users?: Maybe<UserUpdateManyWithoutCompanyInput>;
+  emailDomains?: Maybe<CompanyUpdateemailDomainsInput>;
 }
 
 export interface AddressUpdateOneInput {
@@ -766,9 +772,14 @@ export interface UserUpdateManyDataInput {
   isRepresentative?: Maybe<Boolean>;
 }
 
+export interface CompanyUpdateemailDomainsInput {
+  set?: Maybe<String[] | String>;
+}
+
 export interface CompanyUpdateManyMutationInput {
   name?: Maybe<String>;
   type?: Maybe<CompanyType>;
+  emailDomains?: Maybe<CompanyUpdateemailDomainsInput>;
 }
 
 export interface PlaceCreateInput {
@@ -894,6 +905,7 @@ export interface CompanyCreateWithoutUsersInput {
   name?: Maybe<String>;
   type?: Maybe<CompanyType>;
   address?: Maybe<AddressCreateOneInput>;
+  emailDomains?: Maybe<CompanyCreateemailDomainsInput>;
 }
 
 export interface UserUpdateInput {
@@ -920,6 +932,7 @@ export interface CompanyUpdateWithoutUsersDataInput {
   name?: Maybe<String>;
   type?: Maybe<CompanyType>;
   address?: Maybe<AddressUpdateOneInput>;
+  emailDomains?: Maybe<CompanyUpdateemailDomainsInput>;
 }
 
 export interface CompanyUpsertWithoutUsersInput {
@@ -973,6 +986,7 @@ export interface Company {
   name?: String;
   type?: CompanyType;
   address?: Address | null;
+  emailDomains: String[];
 }
 
 export interface CompanyPromise extends Promise<Company>, Fragmentable {
@@ -989,6 +1003,7 @@ export interface CompanyPromise extends Promise<Company>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  emailDomains: () => Promise<String[]>;
 }
 
 export interface CompanySubscription
@@ -1007,6 +1022,7 @@ export interface CompanySubscription
     first?: Int;
     last?: Int;
   }) => T;
+  emailDomains: () => Promise<AsyncIterator<String[]>>;
 }
 
 export interface CompanyNullablePromise
@@ -1025,6 +1041,7 @@ export interface CompanyNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  emailDomains: () => Promise<String[]>;
 }
 
 export interface Address {
@@ -1408,6 +1425,7 @@ export interface CompanyPreviousValues {
   id: ID_Output;
   name?: String;
   type?: CompanyType;
+  emailDomains: String[];
 }
 
 export interface CompanyPreviousValuesPromise
@@ -1416,6 +1434,7 @@ export interface CompanyPreviousValuesPromise
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   type: () => Promise<CompanyType>;
+  emailDomains: () => Promise<String[]>;
 }
 
 export interface CompanyPreviousValuesSubscription
@@ -1424,6 +1443,7 @@ export interface CompanyPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   type: () => Promise<AsyncIterator<CompanyType>>;
+  emailDomains: () => Promise<AsyncIterator<String[]>>;
 }
 
 export interface PlaceSubscriptionPayload {

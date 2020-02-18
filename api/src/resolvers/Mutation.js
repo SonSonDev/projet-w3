@@ -1,6 +1,5 @@
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
-const expiresIn = "1 day"
 const { APP_SECRET, getUserId, emailTemplate } = require("../utils")
 const nodemailer = require("nodemailer")
 const transporter = nodemailer.createTransport({
@@ -78,16 +77,9 @@ async function createCompany(parent, args, context) {
     html: emailTemplate(`${args.firstNameUser} ${args.lastNameUser}`, randomPassword),
   }
 
-  transporter.sendMail(mailOptions, function (err, info) {
-    if (err)
-      console.log(err)
-    else
-      console.log(info)
-  })
-
   const hashPassword = await bcrypt.hash(randomPassword, 10)
 
-  return context.prisma.createCompany({
+  await context.prisma.createCompany({
     name: args.companyName,
     type: args.companyType,
     address: {
@@ -108,6 +100,14 @@ async function createCompany(parent, args, context) {
         isRepresentative: args.isRepresentative,
       },
     },
+    emailDomains: {
+      set: args.emailDomains,
+    },
+  })
+
+  transporter.sendMail(mailOptions, function (err, info) {
+    if (err) console.log(err)
+    else console.log(info)
   })
 }
 
@@ -121,13 +121,6 @@ async function createUser(parent, { firstName, lastName, email, role }, context)
     html: emailTemplate(`${firstName} ${lastName}`, randomPassword),
   }
 
-  transporter.sendMail(mailOptions, function (err, info) {
-    if (err)
-      console.log(err)
-    else
-      console.log(info)
-  })
-
   const hashPassword = await bcrypt.hash(randomPassword, 10)
 
   const user = await context.prisma.createUser({
@@ -136,6 +129,11 @@ async function createUser(parent, { firstName, lastName, email, role }, context)
     password: hashPassword,
     role: role,
     email: email,
+  })
+
+  transporter.sendMail(mailOptions, function (err, info) {
+    if (err) console.log(err)
+    else console.log(info)
   })
 
   const token = jwt.sign({ userId: user.id }, APP_SECRET)

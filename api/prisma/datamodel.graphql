@@ -26,6 +26,7 @@ type Company {
   type: CompanyType
   address: Address
   users: [User]
+  emailDomains: [String!]! @scalarList(strategy: EMBEDDED)
 }
 
 type Address @embedded {

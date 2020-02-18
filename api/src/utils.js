@@ -13,7 +13,7 @@ function getUserId(context) {
 }
 
 function parseCookie (cookies) {
-  return Object.fromEntries(cookies.split('; ').map(x => x.split('=')))
+  return Object.fromEntries(cookies.split("; ").map(x => x.split("=")))
 }
 
 function emailTemplate (name, password) {

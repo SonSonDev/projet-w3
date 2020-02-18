@@ -112,6 +112,7 @@ type Company {
   type: CompanyType
   address: Address
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  emailDomains: [String!]!
 }
 
 type CompanyConnection {
@@ -120,12 +121,17 @@ type CompanyConnection {
   aggregate: AggregateCompany!
 }
 
+input CompanyCreateemailDomainsInput {
+  set: [String!]
+}
+
 input CompanyCreateInput {
   id: ID
   name: String
   type: CompanyType
   address: AddressCreateOneInput
   users: UserCreateManyWithoutCompanyInput
+  emailDomains: CompanyCreateemailDomainsInput
 }
 
 input CompanyCreateOneWithoutUsersInput {
@@ -138,6 +144,7 @@ input CompanyCreateWithoutUsersInput {
   name: String
   type: CompanyType
   address: AddressCreateOneInput
+  emailDomains: CompanyCreateemailDomainsInput
 }
 
 type CompanyEdge {
@@ -158,6 +165,7 @@ type CompanyPreviousValues {
   id: ID!
   name: String
   type: CompanyType
+  emailDomains: [String!]!
 }
 
 type CompanySubscriptionPayload {
@@ -183,16 +191,22 @@ enum CompanyType {
   COWORKING
 }
 
+input CompanyUpdateemailDomainsInput {
+  set: [String!]
+}
+
 input CompanyUpdateInput {
   name: String
   type: CompanyType
   address: AddressUpdateOneInput
   users: UserUpdateManyWithoutCompanyInput
+  emailDomains: CompanyUpdateemailDomainsInput
 }
 
 input CompanyUpdateManyMutationInput {
   name: String
   type: CompanyType
+  emailDomains: CompanyUpdateemailDomainsInput
 }
 
 input CompanyUpdateOneWithoutUsersInput {
@@ -208,6 +222,7 @@ input CompanyUpdateWithoutUsersDataInput {
   name: String
   type: CompanyType
   address: AddressUpdateOneInput
+  emailDomains: CompanyUpdateemailDomainsInput
 }
 
 input CompanyUpsertWithoutUsersInput {

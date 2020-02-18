@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 
 import Home from "./pages/Home"
@@ -23,6 +23,9 @@ import CompaniesIndex from "./pages/companies/index"
 import CompanyCreate from "./pages/companies/create"
 import CompanyUpdate from "./pages/companies/update"
 import CompanyInfo from "./pages/companies/info"
+import CompanyEmployeeSignup from "./pages/companies/employee-signup"
+
+import NotFound from "./pages/NotFound"
 
 import { ReactComponent as LogoMadu } from "./assets/img/logo-madu.svg"
 
@@ -38,7 +41,7 @@ const App = () => {
     },
   })
 
-  const { loading, error, data } = useQuery(CHECK_AUTH, {
+  const { loading, data } = useQuery(CHECK_AUTH, {
     variables: { role: "ADMIN" },
     fetchPolicy: "no-cache",
   })
@@ -114,7 +117,11 @@ const App = () => {
               <Route exact path="/company/create" component={CompanyCreate} />
               <Route exact path="/companies/" component={CompaniesIndex} />
               <Route path="/company/:id/update" component={CompanyUpdate} />
-              <Route path="/company/:id" component={CompanyInfo} />
+              <Route exact path="/company/:id" component={CompanyInfo} />
+              <Route path="/company/:id/signup" component={CompanyEmployeeSignup} />
+
+              <Route component={NotFound} />
+
             </Switch>
           </div>
         </UserDataContext.Provider>

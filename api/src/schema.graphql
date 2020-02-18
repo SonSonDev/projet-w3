@@ -23,6 +23,7 @@ type Mutation {
     phoneUser: String
     roleUser: Role
     isRepresentative: Boolean
+    emailDomains: [String!]!
   ): Company
 
   updateRepresentative(
@@ -75,6 +76,7 @@ type Company {
   type: CompanyType
   address: Address
   users: [User]
+  emailDomains: [String!]!
 }
 
 type Place {
