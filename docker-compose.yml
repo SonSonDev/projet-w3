@@ -38,6 +38,7 @@ services:
     environment:
       SECRET: "MadUgr0up7"
       PORT: 3000
+      FRONT_URL: http://localhost
     entrypoint: /app/entrypoint.sh
     command: yarn dev
 

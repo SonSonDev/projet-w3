@@ -37,6 +37,7 @@ services:
     environment:
       SECRET: "{{ api_secret }}"
       PORT: 3000
+      FRONT_URL: "{{ application_scheme }}://{{ application_ip }}"
     entrypoint: /app/entrypoint.sh
     command: yarn start
 

@@ -13,3 +13,23 @@ export const LOGIN = gql`
     }
   }
 `
+
+export const LOGOUT = gql`
+  mutation Logout {
+    logout {
+      response
+    }
+  }
+`
+
+export const CHECK_AUTH = gql`
+  {
+    checkAuth {
+      id
+      firstName
+      lastName
+      email
+      role
+    }
+  }
+`

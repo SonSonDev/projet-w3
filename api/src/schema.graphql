@@ -7,6 +7,7 @@ type Query {
   getUser(id: ID!): User
   getCompanies: [Company]
   getCompany(id: ID!): Company
+  checkAuth: User
 }
 
 type Mutation {
@@ -49,6 +50,7 @@ type Mutation {
   ): Place
 
   login(email: String!, password: String!): AuthPayload
+  logout: LogoutResponse
 
   deletePlace(id: ID!): Place
   deleteCompany(id: ID!): Company
@@ -88,6 +90,10 @@ type Place {
 type AuthPayload {
   token: String
   user: User
+}
+
+type LogoutResponse {
+  response: String
 }
 
 type Address {

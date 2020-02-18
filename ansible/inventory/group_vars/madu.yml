@@ -1,4 +1,4 @@
-application_scheme: http
+application_scheme: "http"
 application_ip: "insert_ip"
 
 application_docker_registry: https://registry.hub.docker.com
