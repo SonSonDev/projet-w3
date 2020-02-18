@@ -52,20 +52,21 @@ const App = () => {
   return (
     <section className="app">
       <Router>
-        <header className="header">
-          <div className="navbar-brand">
-            <a className="navbar-item" href="/">
-              <LogoMadu style={{width: "64px"}}/>
-            </a>
-            {userData && (
+        {userData && (
+
+          <header className="header">
+            <div className="navbar-brand">
+              <a className="navbar-item" href="/">
+                <LogoMadu style={{width: "64px"}}/>
+              </a>
               <div className="buttons">
                 <button className="button is-light" onClick={() => logout()}>
                   Logout
                 </button>
               </div>
-            )}
-          </div>
-        </header>
+            </div>
+          </header>
+        )}
 
         {userData && (
           <aside className="menu">

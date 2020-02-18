@@ -27,8 +27,8 @@ function CompanyEmployeeSignup ({ match: { params: { id } } }) {
 
   if (successMessage) {
     return (
-      <div className="">
-        <div className="notification" style={{marginTop: "10px", backgroundColor: "#effaf3", color: "#257942"}}>
+      <div style={{padding: "20px"}}>
+        <div className="notification" style={{backgroundColor: "#effaf3", color: "#257942"}}>
           {successMessage}
         </div>
       </div>
@@ -51,9 +51,9 @@ function CompanyEmployeeSignup ({ match: { params: { id } } }) {
     <div className="create">
       <Formik
         initialValues={{
-          firstName: "vincent",
-          lastName: "pham",
-          emailLocalPart: "vpham",
+          firstName: "",
+          lastName: "",
+          emailLocalPart: "",
           emailDomain: emailDomains[0],
         }}
         validationSchema={Yup.object({
@@ -76,7 +76,6 @@ function CompanyEmployeeSignup ({ match: { params: { id } } }) {
       >
         <Form className="create__form">
           <h1 className="title">Inscription</h1>
-
 
           <div className="field">
             <label htmlFor="firstName" className="label">Prénom</label>
