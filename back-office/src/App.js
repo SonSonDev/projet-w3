@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 
 import Home from "./pages/Home"
@@ -26,15 +26,26 @@ import CompanyInfo from "./pages/companies/info"
 
 import { ReactComponent as LogoMadu } from "./assets/img/logo-madu.svg"
 
-const App = () => {
-  const logout = () => {
-    localStorage.setItem("isLoggedIn", "false")
-    localStorage.setItem("user", null)
-    window.location = "/"
-  }
+import { useMutation, useQuery } from "@apollo/react-hooks"
+import { LOGOUT, CHECK_AUTH } from "./graphql/mutations/auth"
 
-  const user = JSON.parse(localStorage.getItem("user"))
-  console.log(localStorage.getItem("isLoggedIn"))
+import UserDataContext from "./utils/UserDataContext"
+
+const App = () => {
+  const [logout] = useMutation(LOGOUT, {
+    onCompleted () {
+      window.location.href = "/"
+    },
+  })
+
+  const { loading, error, data } = useQuery(CHECK_AUTH, {
+    variables: { role: "ADMIN" },
+    fetchPolicy: "no-cache",
+  })
+
+  if (loading) return <div/>
+
+  const userData = data ? data.checkAuth : null
   return (
     <section className="app">
       <Router>
@@ -43,7 +54,7 @@ const App = () => {
             <a className="navbar-item" href="/">
               <LogoMadu style={{width: "64px"}}/>
             </a>
-            {localStorage.getItem("isLoggedIn") === "true" && (
+            {userData && (
               <div className="buttons">
                 <button className="button is-light" onClick={() => logout()}>
                   Logout
@@ -53,27 +64,13 @@ const App = () => {
           </div>
         </header>
 
-        {/* <nav className="navbar" role="navigation" aria-label="main navigation">
-          { localStorage.getItem("isLoggedIn") === "true" &&
-          (<div id="navbarBasicExample" className="navbar-menu">
-            <div className="navbar-start">
-              <Link className="navbar-item" to="/clients">Clients</Link>
-              <Link className="navbar-item" to="/places">Places</Link>
-              <Link className="navbar-item" to="/employees">Employees</Link>
-              <Link className="navbar-item" to="/companies">Companies</Link>
-            </div>
-
-
-          </div>)
-          }
-        </nav> */}
-        {localStorage.getItem("isLoggedIn") === "true" && (
+        {userData && (
           <aside className="menu">
             <ul className="menu-list">
               <li>
                 <Link to="/places">Adresses</Link>
               </li>
-              { user.role === "SUPER_ADMIN" && (
+              { userData.role === "SUPER_ADMIN" && (
                 <>
                   <li>
                     <Link to="/clients">Clients</Link>
@@ -83,7 +80,7 @@ const App = () => {
                   </li>
                 </>
               )}
-              { user.role === "ADMIN" && (
+              { userData.role === "ADMIN" && (
                 <li>
                   <Link to="/employees">Employés</Link>
                 </li>
@@ -93,32 +90,34 @@ const App = () => {
           </aside>
         )}
 
-        <div className="main">
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/login" component={Login} />
+        <UserDataContext.Provider value={userData}>
+          <div className="main">
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/login" component={Login} />
 
-            <Route exact path="/client/create" component={ClientCreate} />
-            <Route exact path="/clients" component={ClientsIndex} />
-            <Route path="/client/:id/update" component={ClientUpdate} />
-            <Route path="/client/:id" component={ClientInfo} />
+              <Route exact path="/client/create" component={ClientCreate} />
+              <Route exact path="/clients" component={ClientsIndex} />
+              <Route path="/client/:id/update" component={ClientUpdate} />
+              <Route path="/client/:id" component={ClientInfo} />
 
-            <Route exact path="/place/create" component={PlaceCreate} />
-            <Route exact path="/places" component={PlacesIndex} />
-            <Route path="/place/:id/update" component={PlaceUpdate} />
-            <Route path="/place/:id" component={PlaceInfo} />
+              <Route exact path="/place/create" component={PlaceCreate} />
+              <Route exact path="/places" component={PlacesIndex} />
+              <Route path="/place/:id/update" component={PlaceUpdate} />
+              <Route path="/place/:id" component={PlaceInfo} />
 
-            <Route exact path="/employee/create" component={EmployeeCreate} />
-            <Route exact path="/employees" component={EmployeesIndex} />
-            <Route path="/employee/:id/update" component={EmployeeUpdate} />
-            <Route path="/employee/:id" component={EmployeeInfo} />
+              <Route exact path="/employee/create" component={EmployeeCreate} />
+              <Route exact path="/employees" component={EmployeesIndex} />
+              <Route path="/employee/:id/update" component={EmployeeUpdate} />
+              <Route path="/employee/:id" component={EmployeeInfo} />
 
-            <Route exact path="/company/create" component={CompanyCreate} />
-            <Route exact path="/companies/" component={CompaniesIndex} />
-            <Route path="/company/:id/update" component={CompanyUpdate} />
-            <Route path="/company/:id" component={CompanyInfo} />
-          </Switch>
-        </div>
+              <Route exact path="/company/create" component={CompanyCreate} />
+              <Route exact path="/companies/" component={CompaniesIndex} />
+              <Route path="/company/:id/update" component={CompanyUpdate} />
+              <Route path="/company/:id" component={CompanyInfo} />
+            </Switch>
+          </div>
+        </UserDataContext.Provider>
       </Router>
     </section>
   )

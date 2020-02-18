@@ -159,9 +159,22 @@ async function login(parent, { email, password }, context) {
 
   const token = jwt.sign({ userId: user.id }, APP_SECRET)
 
+  context.response.cookie("x-auth-token", token, {
+    maxAge: 1000 * 60 * 60 * 24,
+    httpOnly: true,
+    sameSite: true,
+  })
+
   return {
     token,
     user,
+  }
+}
+
+async function logout(parent, args, context) {
+  context.response.clearCookie("x-auth-token")
+  return {
+    response: "ok",
   }
 }
 
@@ -218,5 +231,6 @@ module.exports = {
   deleteCompany,
   deleteUser,
   login,
+  logout,
   updateHour,
 }

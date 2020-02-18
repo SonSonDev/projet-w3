@@ -10,7 +10,10 @@ import "./style/style.scss"
 import App from "./App"
 import * as serviceWorker from "./serviceWorker"
 
-const link = createUploadLink({ uri: process.env.REACT_APP_API_URL })
+const link = createUploadLink({
+  uri: process.env.REACT_APP_API_URL,
+  credentials: "include",
+})
 
 const client = new ApolloClient({
   link,

@@ -1,3 +1,7 @@
+const jwt = require("jsonwebtoken")
+
+const { APP_SECRET, parseCookie } = require("../utils")
+
 async function getPlaces(parent, args, context) {
   return await context.prisma.places()
 }
@@ -22,6 +26,30 @@ async function getCompany(parent, { id }, context, parernt) {
   return await context.prisma.company({ id })
 }
 
+async function checkAuth(parent, args, context) {
+  if (!context.request.headers.cookie) {
+    throw new Error("No cookie")
+  }
+  const token = parseCookie(context.request.headers.cookie)["x-auth-token"]
+  if (!token) {
+    throw new Error("Invalid token")
+  }
+
+  const { userId } = jwt.verify(token, APP_SECRET)
+  if (!userId) {
+    context.response.clearCookie("x-auth-token")
+    throw new Error("Invalid id")
+  }
+
+  const user = await context.prisma.user({ id: userId })
+  if (!user) {
+    context.response.clearCookie("x-auth-token")
+    throw new Error("No user found")
+  }
+
+  return user
+}
+
 module.exports = {
   getPlace,
   getPlaces,
@@ -29,4 +57,5 @@ module.exports = {
   getUser,
   getCompanies,
   getCompany,
+  checkAuth,
 }

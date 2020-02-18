@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext } from "react"
 import { Redirect } from "react-router-dom"
 
 import { Formik, Field, Form } from "formik"
@@ -7,31 +7,23 @@ import * as Yup from "yup"
 import { useMutation } from "@apollo/react-hooks"
 import { LOGIN } from "../graphql/mutations/auth"
 
+import UserDataContext from "../utils/UserDataContext"
+
 const Login = () => {
+  const userData = useContext(UserDataContext)
+
   const [login] = useMutation(LOGIN, {
     onCompleted: ({
       login: {
         user: { id, name, email, role },
       },
     }) => {
-      // redirect
-      // put on localstorage
-      const user = {
-        id,
-        name,
-        email,
-        role,
-      }
-      localStorage.setItem("isLoggedIn", "true")
-      console.log(JSON.stringify(user))
-      localStorage.setItem("user", JSON.stringify(user))
       window.location.href = "/"
-      console.log({ id, name, email, role })
     },
     onError: error => console.log(error.message),
   })
 
-  if (JSON.parse(localStorage.getItem("user"))) {
+  if (userData) {
     return <Redirect to="/"/>
   }
 
