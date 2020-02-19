@@ -10,6 +10,34 @@ const transporter = nodemailer.createTransport({
   },
 })
 
+async function createTag(parent, { name, type, activity }, context) {
+  return context.prisma.createTag({
+    name,
+    type,
+    activity,
+  })
+}
+
+async function deleteTag(parent, { id }, context) {
+  return await context.prisma.deleteTag({ id })
+}
+
+async function updateTag(parent, { id, name, type, activity }, context) {
+  return await context.prisma.updateTag({
+    where: {
+      id,
+    },
+    data: {
+      name,
+      type,
+      activity,
+    },
+  })
+}
+
+
+
+
 async function createPlace(parent, { name, street, zipCode, city, type, category }, context) {
   // const userId = getUserId(context)
   return context.prisma.createPlace({
@@ -111,7 +139,7 @@ async function createCompany(parent, args, context) {
   })
 }
 
-async function createUser(parent, { firstName, lastName, email, role }, context) {
+async function createUser(parent, { firstName, lastName, email, role, companyId }, context) {
   let randomPassword = Math.random().toString(36).substring(5)
 
   const mailOptions = {
@@ -129,6 +157,9 @@ async function createUser(parent, { firstName, lastName, email, role }, context)
     password: hashPassword,
     role: role,
     email: email,
+    company: {
+      connect: {id: companyId},
+    },
   })
 
   transporter.sendMail(mailOptions, function (err, info) {
@@ -220,6 +251,18 @@ async function updateHour(parent, { id, day, start, end }, context) {
   })
 }
 
+async function updatePassword(parent, { email, newPassword }, context) {
+  const hashPassword = await bcrypt.hash(newPassword, 10)
+  return await context.prisma.updateUser({
+    data: {
+      password: hashPassword,
+    },
+    where: {
+      email,
+    },
+  })
+}
+
 module.exports = {
   updateRepresentative,
   createPlace,
@@ -231,4 +274,8 @@ module.exports = {
   login,
   logout,
   updateHour,
+  updatePassword,
+  createTag,
+  deleteTag,
+  updateTag,
 }

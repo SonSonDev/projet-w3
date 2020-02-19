@@ -29,6 +29,13 @@ type Company {
   emailDomains: [String!]! @scalarList(strategy: EMBEDDED)
 }
 
+type Tag {
+  id: ID! @id
+  name: String
+  type: String
+  activity: String
+}
+
 type Address @embedded {
   street: String
   zipCode: String

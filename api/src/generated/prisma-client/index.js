@@ -17,6 +17,10 @@ var models = [
     embedded: false
   },
   {
+    name: "Tag",
+    embedded: false
+  },
+  {
     name: "Address",
     embedded: true
   },

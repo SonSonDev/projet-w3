@@ -50,6 +50,14 @@ async function checkAuth(parent, args, context) {
   return user
 }
 
+async function getTags(parent, args, context) {
+  return await context.prisma.tags()
+}
+
+async function getTag(parent, { id }, context) {
+  return await context.prisma.tags({ id })
+}
+
 module.exports = {
   getPlace,
   getPlaces,
@@ -58,4 +66,6 @@ module.exports = {
   getCompanies,
   getCompany,
   checkAuth,
+  getTags,
+  getTag,
 }
