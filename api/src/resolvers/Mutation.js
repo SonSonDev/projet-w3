@@ -10,6 +10,8 @@ const transporter = nodemailer.createTransport({
   },
 })
 
+
+// TAGS
 async function createTag(parent, { name, type, activity }, context) {
   return context.prisma.createTag({
     name,
@@ -35,8 +37,7 @@ async function updateTag(parent, { id, name, type, activity }, context) {
   })
 }
 
-
-
+// PLACES
 
 async function createPlace(parent, { name, street, zipCode, city, type, category }, context) {
   // const userId = getUserId(context)
@@ -94,6 +95,26 @@ async function createPlace(parent, { name, street, zipCode, city, type, category
   })
 }
 
+async function deletePlace(parent, { id }, context) {
+  return await context.prisma.deletePlace({ id })
+}
+
+async function updatePlace(parent, { placeId, name, street, zipCode, city, type, category }, context) {
+  return await context.prisma.updatePlace({
+    where: {
+      id: placeId,
+    },
+    data: {
+      name,
+      address: { update: { street, zipCode, city } },
+      type,
+      category,
+    },
+  })
+}
+
+// COMPANIES
+
 async function createCompany(parent, args, context) {
   // const userId = getUserId(context)
   let randomPassword = Math.random().toString(36).substring(5)
@@ -139,6 +160,12 @@ async function createCompany(parent, args, context) {
   })
 }
 
+async function deleteCompany(parent, { id }, context) {
+  return await context.prisma.deleteCompany({ id })
+}
+
+// USERS
+
 async function createUser(parent, { firstName, lastName, email, role, companyId }, context) {
   let randomPassword = Math.random().toString(36).substring(5)
 
@@ -158,7 +185,7 @@ async function createUser(parent, { firstName, lastName, email, role, companyId 
     role: role,
     email: email,
     company: {
-      connect: {id: companyId},
+      connect: { id: companyId },
     },
   })
 
@@ -174,6 +201,12 @@ async function createUser(parent, { firstName, lastName, email, role, companyId 
     user,
   }
 }
+
+async function deleteUser(parent, { id }, context) {
+  return await context.prisma.deleteUser({ id })
+}
+
+// AUTHENTICATION
 
 async function login(parent, { email, password }, context) {
   const user = await context.prisma.user({ email: email })
@@ -207,30 +240,7 @@ async function logout(parent, args, context) {
   }
 }
 
-async function updateRepresentative(parent, { userEmail, companyId, isRepresentative }, context) {
-  console.log({ userEmail, companyId, isRepresentative })
-  const update = await context.prisma.updateUser({
-    where: { email: userEmail },
-    data: {
-      isRepresentative,
-      company: { connect: { id: companyId } },
-    },
-  })
-  console.log(update)
-  return update
-}
-
-async function deletePlace(parent, { id }, context) {
-  return await context.prisma.deletePlace({ id })
-}
-
-async function deleteCompany(parent, { id }, context) {
-  return await context.prisma.deleteCompany({ id })
-}
-
-async function deleteUser(parent, { id }, context) {
-  return await context.prisma.deleteUser({ id })
-}
+// OTHERS
 
 async function updateHour(parent, { id, day, start, end }, context) {
   return await context.prisma.updatePlace({
@@ -263,7 +273,21 @@ async function updatePassword(parent, { email, newPassword }, context) {
   })
 }
 
+async function updateRepresentative(parent, { userEmail, companyId, isRepresentative }, context) {
+  console.log({ userEmail, companyId, isRepresentative })
+  const update = await context.prisma.updateUser({
+    where: { email: userEmail },
+    data: {
+      isRepresentative,
+      company: { connect: { id: companyId } },
+    },
+  })
+  console.log(update)
+  return update
+}
+
 module.exports = {
+  updatePlace,
   updateRepresentative,
   createPlace,
   createCompany,

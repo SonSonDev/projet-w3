@@ -65,6 +65,15 @@ type Mutation {
   createTag(name: String!, type: String!, activity: String!): Tag!
   deleteTag(id: ID!): Tag!
   updateTag(id: ID!): Tag!
+  updatePlace(
+    placeId: ID!
+    name: String
+    street: String
+    zipCode: String
+    city: String
+    type: String
+    category: Category
+  ): Place
 }
 
 type User {
