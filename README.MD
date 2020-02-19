@@ -8,6 +8,11 @@ Cloner le projet:
 git clone https://github.com/ShonhTan/projet-w3.git
 cd projet-w3
 ```
+
+Créer le fichier `.env`:
+```
+cp .env.example .env
+```
  
 Démarrer le projet en mode développement:
 ```sh

@@ -117,6 +117,7 @@ type Company {
   address: Address
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   emailDomains: [String!]!
+  stripeCustomerId: String
 }
 
 type CompanyConnection {
@@ -136,6 +137,7 @@ input CompanyCreateInput {
   address: AddressCreateOneInput
   users: UserCreateManyWithoutCompanyInput
   emailDomains: CompanyCreateemailDomainsInput
+  stripeCustomerId: String
 }
 
 input CompanyCreateOneWithoutUsersInput {
@@ -149,6 +151,7 @@ input CompanyCreateWithoutUsersInput {
   type: CompanyType
   address: AddressCreateOneInput
   emailDomains: CompanyCreateemailDomainsInput
+  stripeCustomerId: String
 }
 
 type CompanyEdge {
@@ -163,6 +166,8 @@ enum CompanyOrderByInput {
   name_DESC
   type_ASC
   type_DESC
+  stripeCustomerId_ASC
+  stripeCustomerId_DESC
 }
 
 type CompanyPreviousValues {
@@ -170,6 +175,7 @@ type CompanyPreviousValues {
   name: String
   type: CompanyType
   emailDomains: [String!]!
+  stripeCustomerId: String
 }
 
 type CompanySubscriptionPayload {
@@ -205,12 +211,14 @@ input CompanyUpdateInput {
   address: AddressUpdateOneInput
   users: UserUpdateManyWithoutCompanyInput
   emailDomains: CompanyUpdateemailDomainsInput
+  stripeCustomerId: String
 }
 
 input CompanyUpdateManyMutationInput {
   name: String
   type: CompanyType
   emailDomains: CompanyUpdateemailDomainsInput
+  stripeCustomerId: String
 }
 
 input CompanyUpdateOneWithoutUsersInput {
@@ -227,6 +235,7 @@ input CompanyUpdateWithoutUsersDataInput {
   type: CompanyType
   address: AddressUpdateOneInput
   emailDomains: CompanyUpdateemailDomainsInput
+  stripeCustomerId: String
 }
 
 input CompanyUpsertWithoutUsersInput {
@@ -269,6 +278,20 @@ input CompanyWhereInput {
   type_not_in: [CompanyType!]
   address: AddressWhereInput
   users_some: UserWhereInput
+  stripeCustomerId: String
+  stripeCustomerId_not: String
+  stripeCustomerId_in: [String!]
+  stripeCustomerId_not_in: [String!]
+  stripeCustomerId_lt: String
+  stripeCustomerId_lte: String
+  stripeCustomerId_gt: String
+  stripeCustomerId_gte: String
+  stripeCustomerId_contains: String
+  stripeCustomerId_not_contains: String
+  stripeCustomerId_starts_with: String
+  stripeCustomerId_not_starts_with: String
+  stripeCustomerId_ends_with: String
+  stripeCustomerId_not_ends_with: String
   AND: [CompanyWhereInput!]
 }
 

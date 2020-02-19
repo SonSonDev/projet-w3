@@ -39,6 +39,8 @@ services:
       SECRET: "MadUgr0up7"
       PORT: 3000
       FRONT_URL: http://localhost
+      STRIPE_SECRET_KEY: "${STRIPE_SECRET_KEY}"
+      APP_SECRET: "${APP_SECRET}"
     entrypoint: /app/entrypoint.sh
     command: yarn dev
 

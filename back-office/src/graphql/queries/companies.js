@@ -17,11 +17,11 @@ export const GET_COMPANY = gql`
         lastName
         email
         phone
-        password
         role
         isRepresentative
       }
       emailDomains
+      stripeCustomerId
     }
   }
 `

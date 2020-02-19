@@ -33,9 +33,27 @@ const places = [
 ]
 
 const companies = [
-  [ "company_1",      "130 rue de la pompe",  "75016",          [ "company_1.com" ], "company_1_admin", "last_name", "admin_1@mail.com", "admin","0123456789"],
-  [ "company_2",      "130 rue de la pompe",  "75016",          [ "company_2.com" ], "company_2_admin", "last_name", "admin_2@mail.com", "admin","0123456789" ],
-  [ "company_3",      "130 rue de la pompe",  "75016",          [ "company_3.com" ], "company_3_admin", "last_name", "admin_3@mail.com", "admin","0123456789" ],
+  [
+    "Madame Je Vous Aime SARL", "COMPANY",
+    [ "12 Rue d'Enghien", "75010", "Paris" ],
+    [ "Zeroual", "Mahel", "mahel.zeroual@hetic.net", "0689364340", "admin" ],
+    [ "bridge.audio", "creaminal.com", "velvetcream.io", "velvetica.io" ],
+    "cus_GlQOvvGAtVXSxO",
+  ],
+  [
+    "HETIC", "SCHOOL",
+    [ "27 Bis Rue du Progrès", "93100", "Montreuil" ],
+    [ "Yip", "Theodore", "theodore.yip@hetic.net", "0666831336", "admin" ],
+    [ "hetic.net" ],
+    "cus_GlQ5hFO0y1S5Zk",
+  ],
+  [
+    "Otaku no sekai", "COMPANY",
+    [ "Shibuya City, Jingumae5-6-5", "〒150-0001", "Tokyo" ],
+    [ "Sahbi", "Florian", "sahbi.s@gmail.com", "0610658929", "admin" ],
+    [ "otaku.com", "otakupro.com"],
+    "cus_GlRIXTv11FPCQZ",
+  ],
 ]
 
 
@@ -69,35 +87,29 @@ const populateDb = async () => {
     })
   }
 
-  for (const [ name, street, zipCode, emailDomains, firstNameUser, lastNameUser, emailUser, password, phoneUser ] of companies) {
+  for (const [ name, type, [ street, zipCode, city ], [ firstName, lastName, email, phone, password ], emailDomains, stripeCustomerId ] of companies) {
     const { id } = await prisma.createCompany({
       name,
-      type: "COMPANY",
-      address: { create: { street, zipCode, city: "Paris" } },
+      type,
+      address: { create: { street, zipCode, city } },
+      users: { create: {
+        firstName, lastName, email, phone,
+        password: await bcrypt.hash(password, 10),
+        role: "ADMIN",
+        isRepresentative: true,
+      } },
       emailDomains: { set: emailDomains },
-      users: {
-        create: {
-          firstName: firstNameUser,
-          lastName: lastNameUser,
-          email: emailUser,
-          password: await bcrypt.hash(password, 10),
-          phone: phoneUser,
-          role: "ADMIN",
-          isRepresentative: true,
-        },
-      },
+      stripeCustomerId,
     })
-    console.log(id)
-    for (let i=0; i<3; i++) {
+
+    for (let i = 0; i < 3; i++) {
       await prisma.createUser({
         firstName: `${name}_userFirstname_${i}`,
         lastName: `${name}_userLastname_${i}`,
+        email: `${name}_user_${i}@mail.fr`,
         password: await bcrypt.hash("user", 10),
         role: "USER",
-        email: `${name}_user_${i}@mail.fr`,
-        company: {
-          connect: {id},
-        },
+        company: { connect: { id } },
       })
     }
   }

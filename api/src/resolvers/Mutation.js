@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
-const { APP_SECRET, getUserId, emailTemplate } = require("../utils")
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
+const { APP_SECRET, getUserId, getAuthenticatedUser, emailTemplate } = require("../utils")
 const nodemailer = require("nodemailer")
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -128,6 +129,11 @@ async function createCompany(parent, args, context) {
 
   const hashPassword = await bcrypt.hash(randomPassword, 10)
 
+  const stripeCustomer = await stripe.customers.create({
+    name: args.companyName,
+    email: args.emailUser,
+  })
+
   await context.prisma.createCompany({
     name: args.companyName,
     type: args.companyType,
@@ -152,6 +158,7 @@ async function createCompany(parent, args, context) {
     emailDomains: {
       set: args.emailDomains,
     },
+    stripeCustomerId: stripeCustomer.id,
   })
 
   transporter.sendMail(mailOptions, function (err, info) {
@@ -323,6 +330,26 @@ async function updateRepresentative(parent, { userEmail, companyId, isRepresenta
   return update
 }
 
+async function createStripeInvoice (parent, { stripeCustomerId }, context) {
+
+  const user = await getAuthenticatedUser(context)
+  if (user.role !== "SUPER_ADMIN") throw new Error("Not authorized")
+
+  const invoiceItem = await stripe.invoiceItems.create({
+    customer: stripeCustomerId,
+    amount: 2500,
+    currency: 'eur',
+    description: 'One-time setup fee',
+  })
+  const invoice = await stripe.invoices.create({
+    customer: stripeCustomerId,
+    auto_advance: true, // auto-finalize this draft after ~1 hour
+  })
+  // console.log(invoice)
+  return invoice.id
+}
+
+
 module.exports = {
   updateUser,
   updateCompany,
@@ -341,4 +368,5 @@ module.exports = {
   createTag,
   deleteTag,
   updateTag,
+  createStripeInvoice,
 }

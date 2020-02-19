@@ -93,6 +93,8 @@ type Mutation {
     type: String
     category: Category
   ): Place
+
+  createStripeInvoice(stripeCustomerId: String!): String
 }
 
 type User {
@@ -114,6 +116,7 @@ type Company {
   address: Address
   users: [User]
   emailDomains: [String!]!
+  stripeCustomerId: String
 }
 
 type Place {

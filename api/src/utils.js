@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken")
-const APP_SECRET = "MadUgr0up7"
+const { APP_SECRET } = process.env
 
 function getUserId(context) {
   const Authorization = context.request.get("Authorization")
@@ -10,6 +10,30 @@ function getUserId(context) {
   }
 
   throw new Error("Not authenticated")
+}
+
+async function getAuthenticatedUser (context) {
+  if (!context.request.headers.cookie) {
+    throw new Error("No cookie")
+  }
+  const token = parseCookie(context.request.headers.cookie)["x-auth-token"]
+  if (!token) {
+    throw new Error("Invalid token")
+  }
+
+  const { userId } = jwt.verify(token, APP_SECRET)
+  if (!userId) {
+    context.response.clearCookie("x-auth-token")
+    throw new Error("Invalid id")
+  }
+
+  const user = await context.prisma.user({ id: userId })
+  if (!user) {
+    context.response.clearCookie("x-auth-token")
+    throw new Error("No user found")
+  }
+
+  return user
 }
 
 function parseCookie (cookies) {
@@ -23,6 +47,7 @@ function emailTemplate (name, password) {
 module.exports = {
   APP_SECRET,
   getUserId,
+  getAuthenticatedUser,
   parseCookie,
   emailTemplate,
 }

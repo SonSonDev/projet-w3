@@ -246,7 +246,9 @@ export type CompanyOrderByInput =
   | "name_ASC"
   | "name_DESC"
   | "type_ASC"
-  | "type_DESC";
+  | "type_DESC"
+  | "stripeCustomerId_ASC"
+  | "stripeCustomerId_DESC";
 
 export type Day =
   | "MONDAY"
@@ -415,6 +417,20 @@ export interface CompanyWhereInput {
   type_not_in?: Maybe<CompanyType[] | CompanyType>;
   address?: Maybe<AddressWhereInput>;
   users_some?: Maybe<UserWhereInput>;
+  stripeCustomerId?: Maybe<String>;
+  stripeCustomerId_not?: Maybe<String>;
+  stripeCustomerId_in?: Maybe<String[] | String>;
+  stripeCustomerId_not_in?: Maybe<String[] | String>;
+  stripeCustomerId_lt?: Maybe<String>;
+  stripeCustomerId_lte?: Maybe<String>;
+  stripeCustomerId_gt?: Maybe<String>;
+  stripeCustomerId_gte?: Maybe<String>;
+  stripeCustomerId_contains?: Maybe<String>;
+  stripeCustomerId_not_contains?: Maybe<String>;
+  stripeCustomerId_starts_with?: Maybe<String>;
+  stripeCustomerId_not_starts_with?: Maybe<String>;
+  stripeCustomerId_ends_with?: Maybe<String>;
+  stripeCustomerId_not_ends_with?: Maybe<String>;
   AND?: Maybe<CompanyWhereInput[] | CompanyWhereInput>;
 }
 
@@ -670,6 +686,7 @@ export interface CompanyCreateInput {
   address?: Maybe<AddressCreateOneInput>;
   users?: Maybe<UserCreateManyWithoutCompanyInput>;
   emailDomains?: Maybe<CompanyCreateemailDomainsInput>;
+  stripeCustomerId?: Maybe<String>;
 }
 
 export interface AddressCreateOneInput {
@@ -710,6 +727,7 @@ export interface CompanyUpdateInput {
   address?: Maybe<AddressUpdateOneInput>;
   users?: Maybe<UserUpdateManyWithoutCompanyInput>;
   emailDomains?: Maybe<CompanyUpdateemailDomainsInput>;
+  stripeCustomerId?: Maybe<String>;
 }
 
 export interface AddressUpdateOneInput {
@@ -893,6 +911,7 @@ export interface CompanyUpdateManyMutationInput {
   name?: Maybe<String>;
   type?: Maybe<CompanyType>;
   emailDomains?: Maybe<CompanyUpdateemailDomainsInput>;
+  stripeCustomerId?: Maybe<String>;
 }
 
 export interface PlaceCreateInput {
@@ -1038,6 +1057,7 @@ export interface CompanyCreateWithoutUsersInput {
   type?: Maybe<CompanyType>;
   address?: Maybe<AddressCreateOneInput>;
   emailDomains?: Maybe<CompanyCreateemailDomainsInput>;
+  stripeCustomerId?: Maybe<String>;
 }
 
 export interface UserUpdateInput {
@@ -1065,6 +1085,7 @@ export interface CompanyUpdateWithoutUsersDataInput {
   type?: Maybe<CompanyType>;
   address?: Maybe<AddressUpdateOneInput>;
   emailDomains?: Maybe<CompanyUpdateemailDomainsInput>;
+  stripeCustomerId?: Maybe<String>;
 }
 
 export interface CompanyUpsertWithoutUsersInput {
@@ -1128,6 +1149,7 @@ export interface Company {
   type?: CompanyType;
   address?: Address | null;
   emailDomains: String[];
+  stripeCustomerId?: String;
 }
 
 export interface CompanyPromise extends Promise<Company>, Fragmentable {
@@ -1145,6 +1167,7 @@ export interface CompanyPromise extends Promise<Company>, Fragmentable {
     last?: Int;
   }) => T;
   emailDomains: () => Promise<String[]>;
+  stripeCustomerId: () => Promise<String>;
 }
 
 export interface CompanySubscription
@@ -1164,6 +1187,7 @@ export interface CompanySubscription
     last?: Int;
   }) => T;
   emailDomains: () => Promise<AsyncIterator<String[]>>;
+  stripeCustomerId: () => Promise<AsyncIterator<String>>;
 }
 
 export interface CompanyNullablePromise
@@ -1183,6 +1207,7 @@ export interface CompanyNullablePromise
     last?: Int;
   }) => T;
   emailDomains: () => Promise<String[]>;
+  stripeCustomerId: () => Promise<String>;
 }
 
 export interface Address {
@@ -1651,6 +1676,7 @@ export interface CompanyPreviousValues {
   name?: String;
   type?: CompanyType;
   emailDomains: String[];
+  stripeCustomerId?: String;
 }
 
 export interface CompanyPreviousValuesPromise
@@ -1660,6 +1686,7 @@ export interface CompanyPreviousValuesPromise
   name: () => Promise<String>;
   type: () => Promise<CompanyType>;
   emailDomains: () => Promise<String[]>;
+  stripeCustomerId: () => Promise<String>;
 }
 
 export interface CompanyPreviousValuesSubscription
@@ -1669,6 +1696,7 @@ export interface CompanyPreviousValuesSubscription
   name: () => Promise<AsyncIterator<String>>;
   type: () => Promise<AsyncIterator<CompanyType>>;
   emailDomains: () => Promise<AsyncIterator<String[]>>;
+  stripeCustomerId: () => Promise<AsyncIterator<String>>;
 }
 
 export interface PlaceSubscriptionPayload {

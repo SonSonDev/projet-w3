@@ -9,7 +9,7 @@ import Table from "../../components/Table"
 import Tabs from "../../components/Tabs"
 import Loader from "../../components/Loader"
 
-const CompaniesIndex = () => {
+const CompaniesIndex = ({ history }) => {
   const [companies, setCompanies] = useState([])
 
   const { error, loading } = useQuery(GET_COMPANIES, {
@@ -35,10 +35,10 @@ const CompaniesIndex = () => {
   const columns = [
     { title: "Nom", key: "name" },
     { title: "Type", key: "type" },
-    { title: "Adresse", key: "address", link: address => `https://www.google.com/maps/search/?api=1&query=${encodeURI(address)}` },
+    { title: "Adresse", key: "address", link: ({ address }) => `https://www.google.com/maps/search/?api=1&query=${encodeURI(address)}` },
     { label: "Delete", handleClick: deleteCompany },
-    { label: "Edit", handleClick: () => console.log("Edit") },
-    { label: "Info", handleClick: () => console.log("Info") },
+    { label: "Edit", handleClick: ({ variables: { id } }) => history.push(`/company/${id}/update`) },
+    { label: "Info", handleClick: ({ variables: { id } }) => history.push(`/company/${id}`) },
   ]
   const data = companies
     .map(({ address: { street, zipCode, city }, ...companies }) => ({
