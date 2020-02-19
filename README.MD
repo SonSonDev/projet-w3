@@ -28,3 +28,8 @@ docker exec -it projet-w3_api_1 npm run deploy
 
 - [Création du serveur AWS](/terraform)
 - [Déploiement](/ansible)
+
+
+## Projet déployé
+
+[http://35.180.197.38/](http://35.180.197.38/)

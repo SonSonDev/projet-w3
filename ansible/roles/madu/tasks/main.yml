@@ -11,6 +11,7 @@
     dest: /opt/app
     rsync_opts:
       - "--exclude=node_modules"
+  tags: ["update"]
 
 - name: Sync Back-office madu directory
   synchronize:
@@ -18,6 +19,7 @@
     dest: /opt/app
     rsync_opts:
       - "--exclude=node_modules"
+  tags: ["update"]
 
 - name: Build docker image API madu
   docker_image:
@@ -28,7 +30,7 @@
     source: build
     force_source: yes
   notify: restart docker stack
-  tags: ["build", "redeploy"]
+  tags: ["update"]
 
 - name: Build docker image Back-office madu
   docker_image:
@@ -41,7 +43,7 @@
     source: build
     force_source: yes
   notify: restart docker stack
-  tags: ["build", "redeploy"]
+  tags: ["update"]
 
 - name: Copy docker-compose configuration file
   template:

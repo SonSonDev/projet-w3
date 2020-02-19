@@ -35,9 +35,11 @@ services:
     ports:
       - "{{ application_api_port }}:3000"
     environment:
-      SECRET: "{{ api_secret }}"
+      PRISMA_SECRET: "{{ prisma_secret }}"
       PORT: 3000
       FRONT_URL: "{{ application_scheme }}://{{ application_ip }}"
+      STRIPE_SECRET_KEY: "{{ stripe_secret_key }}"
+      APP_SECRET: "{{ app_secret }}"
     entrypoint: /app/entrypoint.sh
     command: yarn start
 

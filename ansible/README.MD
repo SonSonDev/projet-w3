@@ -22,10 +22,10 @@ Remplacer les `{value}` dans les commandes suivantes avant de les executer.
 
 Installation de l'application sur le serveur AWS:
 ```sh
-ansible-playbook -i inventory/inventory madu.yml --user ubuntu --key-file "../terraform/id_rsa" -e mongo_initdb_root_username={value} -e mongo_initdb_root_password={value}  -e api_secret={value}
+ansible-playbook -i inventory/inventory madu.yml --user ubuntu --key-file "../terraform/id_rsa" -e mongo_initdb_root_username={value} -e mongo_initdb_root_password={value} -e prisma_secret={value} -e stripe_secret_key={value} -e app_secret={value}
 ```
 
 Mise à jour de l'application:
 ```sh
-ansible-playbook -i inventory/inventory madu.yml --user ubuntu -t madu --key-file "../terraform/id_rsa" -e mongo_initdb_root_username={value} -e mongo_initdb_root_password={value} -e api_secret={value}
+ansible-playbook -i inventory/inventory madu.yml --user ubuntu --key-file "../terraform/id_rsa" -e mongo_initdb_root_username={value} -e mongo_initdb_root_password={value} -e api_secret={value} -e stripe_secret_key={value} -e app_secret={value} -t update
 ```
