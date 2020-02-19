@@ -48,8 +48,3 @@
     src: templates/docker-compose.yml
     dest: /opt/app/docker-compose.yml
   notify: restart docker stack
-
-- name: restart docker stack
-  docker_compose:
-    project_src: /opt/app
-    restarted: yes

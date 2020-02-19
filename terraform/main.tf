@@ -26,13 +26,11 @@ resource "aws_default_vpc" "default" {
 resource "aws_security_group" "madu-security-group" {
   name        = "madu-security-group"
   vpc_id      = aws_default_vpc.default.id
+
   ingress {
-    # TLS (change to whatever ports you need)
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    # Please restrict your ingress to only necessary IPs and ports.
-    # Opening to 0.0.0.0/0 can lead to security vulnerabilities.
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -48,13 +46,6 @@ resource "aws_security_group" "madu-security-group" {
     to_port     = 3000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 27017
-    to_port     = 27017
-    protocol    = "tcp"
-    cidr_blocks = ["127.0.0.1/32"]
   }
 
   egress {
