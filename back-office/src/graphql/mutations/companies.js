@@ -11,6 +11,7 @@ export const CREATE_COMPANY = gql`
     $lastNameUser: String
     $emailUser: String
     $phoneUser: String
+    $emailDomains: [String!]!
     $roleUser: Role
     $isRepresentative: Boolean
   ) {
@@ -24,6 +25,7 @@ export const CREATE_COMPANY = gql`
       lastNameUser: $lastNameUser
       emailUser: $emailUser
       phoneUser: $phoneUser
+      emailDomains: $emailDomains
       roleUser: $roleUser
       isRepresentative: $isRepresentative
     ) {
@@ -45,6 +47,7 @@ export const CREATE_COMPANY = gql`
         role
         isRepresentative
       }
+      emailDomains
     }
   }
 `

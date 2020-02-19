@@ -59,11 +59,15 @@ const App = () => {
               <a className="navbar-item" href="/">
                 <LogoMadu style={{width: "64px"}}/>
               </a>
-              <div className="buttons">
-                <button className="button is-light" onClick={() => logout()}>
-                  Logout
-                </button>
+            </div>
+            <div className="header__user">
+              <div className="user-info">
+                <p className="name">{`${userData.firstName} ${userData.lastName}`}</p>
+                <p className="role">{`${userData.role === "SUPER_ADMIN" ? "Administrateur" : `Représentant de ${""}`}`}</p>
               </div>
+              <button className="button is-light" onClick={() => logout()}>
+                Logout
+              </button>
             </div>
           </header>
         )}
@@ -77,7 +81,7 @@ const App = () => {
               { userData.role === "SUPER_ADMIN" && (
                 <>
                   <li>
-                    <Link to="/clients">Clients</Link>
+                    <Link to="/clients">Utilisateurs</Link>
                   </li>
                   <li>
                     <Link to="/companies">Entreprises</Link>

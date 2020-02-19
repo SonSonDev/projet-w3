@@ -30,6 +30,10 @@ export const CHECK_AUTH = gql`
       lastName
       email
       role
+      company {
+        id
+        name
+      }
     }
   }
 `

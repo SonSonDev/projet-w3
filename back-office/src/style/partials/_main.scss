@@ -9,15 +9,6 @@
   grid-template-rows: auto 1fr;
 }
 
-.header {
-  grid-area: header;
-  height: 64px;
-  border-bottom: 1px solid $dark-10;
-  display: flex;
-  align-items: center;
-  padding: 0 24px;
-}
-
 .menu {
   grid-area: nav;
   width: 164px;
@@ -34,9 +25,4 @@
 .create, .list-page {
   padding: 64px 104px;
   min-height: 100%;
-}
-
-.navbar-brand {
-  justify-content: space-between;
-  width: 98%;
 }
