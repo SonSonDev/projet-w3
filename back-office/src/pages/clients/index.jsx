@@ -10,11 +10,11 @@ import Tabs from "../../components/Tabs"
 import Loader from "../../components/Loader"
 
 const ClientsIndex = () => {
+  const [activeTabIndex, setActiveTabIndex] = useState(0)
 
   const [clients, setClients] = useState([])
 
   const { error, loading } = useQuery(GET_USERS, {
-    variables: { role: "ADMIN" },
     fetchPolicy: "no-cache",
     onCompleted: ({ getUsers }) => setClients(getUsers),
     onError: error => console.log(error.message),
@@ -39,17 +39,39 @@ const ClientsIndex = () => {
     { title: "Prénom", key: "firstName" },
     { title: "Nom", key: "lastName" },
     { title: "Email", key: "email" },
+    { title: "Entreprise", key: "company" },
     { title: "Role", key: "role" },
     { label: "Delete", handleClick: deleteUser },
-    { label: "Edit", handleClick: () => console.log("Edit") },
     { label: "Info", handleClick: () => console.log("Info") },
   ]
 
+  let data = clients
+    .map(({ company, ...client }) => ({
+      ...client,
+      company: company ? company.name : "",
+    }))
+
+  const tabs =  [
+    { title: "All companies", filter: () => true },
+    ...data
+      .reduce((acc, cur) => {
+        if (cur.company && !acc.includes(cur.company)) {
+          acc.push(cur.company)
+        }
+        return acc
+      }, [])
+      .map(companyName => ({
+        title: companyName, filter: ({ company }) => company === companyName,
+      })),
+  ]
+
+  data = data.filter(tabs[activeTabIndex].filter)
+
   return (
     <section className="list-page">
-      <Tabs tabs={[{ title: "All clients", filter: () => true }]}/>
+      <Tabs tabs={tabs} activeTabIndex={activeTabIndex} onTabClick={setActiveTabIndex}/>
       <div className="padding16">
-        <Table data={clients} columns={columns} />
+        <Table data={data} columns={columns} />
       </div>
     </section>
   )

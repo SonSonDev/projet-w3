@@ -3,10 +3,8 @@ const { prisma } = require("./generated/prisma-client")
 
 
 const users = [
-  [ "Chrystal",   "Le Liebard",   "w3p2020g7@gmail.com",  "admin",    "SUPER_ADMIN" ],
-  [ "1",          "user",         "user_1@mail.com",      "azerty",   "USER"        ],
-  [ "2",          "user",         "user_2@mail.com",      "azerty",   "USER"        ],
-  [ "3",          "user",         "user_3@mail.com",      "azerty",   "USER"        ],
+  [ "Chrystal", "Le Liebard", "w3p2020g7@gmail.com",  "admin",    "SUPER_ADMIN" ],
+  [ "Eric",     "Priou",      "eric.priou@gmail.com", "admin",    "SUPER_ADMIN" ],
 ]
 
 const places = [
@@ -35,9 +33,9 @@ const places = [
 ]
 
 const companies = [
-  [ "company_1",      "130 rue de la pompe",  "75016",          [ "company_1.com" ] ],
-  [ "company_2",      "130 rue de la pompe",  "75016",          [ "company_2.com" ] ],
-  [ "company_3",      "130 rue de la pompe",  "75016",          [ "company_3.com" ] ],
+  [ "company_1",      "130 rue de la pompe",  "75016",          [ "company_1.com" ], "company_1_admin", "last_name", "admin_1@mail.com", "admin","0123456789"],
+  [ "company_2",      "130 rue de la pompe",  "75016",          [ "company_2.com" ], "company_2_admin", "last_name", "admin_2@mail.com", "admin","0123456789" ],
+  [ "company_3",      "130 rue de la pompe",  "75016",          [ "company_3.com" ], "company_3_admin", "last_name", "admin_3@mail.com", "admin","0123456789" ],
 ]
 
 
@@ -71,13 +69,37 @@ const populateDb = async () => {
     })
   }
 
-  for (const [ name, street, zipCode, emailDomains ] of companies) {
-    await prisma.createCompany({
+  for (const [ name, street, zipCode, emailDomains, firstNameUser, lastNameUser, emailUser, password, phoneUser ] of companies) {
+    const { id } = await prisma.createCompany({
       name,
       type: "COMPANY",
       address: { create: { street, zipCode, city: "Paris" } },
       emailDomains: { set: emailDomains },
+      users: {
+        create: {
+          firstName: firstNameUser,
+          lastName: lastNameUser,
+          email: emailUser,
+          password: await bcrypt.hash(password, 10),
+          phone: phoneUser,
+          role: "ADMIN",
+          isRepresentative: true,
+        },
+      },
     })
+    console.log(id)
+    for (let i=0; i<3; i++) {
+      await prisma.createUser({
+        firstName: `${name}_userFirstname_${i}`,
+        lastName: `${name}_userLastname_${i}`,
+        password: await bcrypt.hash("user", 10),
+        role: "USER",
+        email: `${name}_user_${i}@mail.fr`,
+        company: {
+          connect: {id},
+        },
+      })
+    }
   }
 
 }

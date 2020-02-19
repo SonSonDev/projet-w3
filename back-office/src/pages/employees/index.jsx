@@ -14,7 +14,6 @@ const EmployeesIndex = () => {
   const [users, setUsers] = useState([])
 
   const { error, loading } = useQuery(GET_USERS, {
-    variables: { role: "USER" },
     onCompleted: ({ getUsers }) => setUsers(getUsers),
     onError: error => console.log(error.message),
   })

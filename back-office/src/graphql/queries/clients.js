@@ -8,6 +8,10 @@ export const GET_USER = gql`
       lastName
       email
       role
+      company {
+        id
+        name
+      }
     }
   }
 `
@@ -20,6 +24,10 @@ export const GET_USERS = gql`
       lastName
       email
       role
+      company {
+        id
+        name
+      }
     }
   }
 `
