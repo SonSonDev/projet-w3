@@ -228,6 +228,28 @@ async function deleteUser(parent, { id }, context) {
   return await context.prisma.deleteUser({ id })
 }
 
+async function updateUser(parent, { companyId, name, type, street, zipCode, city, emailDomains }, context) {
+  return await context.prisma.updateUser({
+    where: {
+      id: companyId,
+    },
+    data: {
+      name,
+      type,
+      address: {
+        update: {
+          street,
+          zipCode,
+          city,
+        },
+      },
+      emailDomains: {
+        set: emailDomains,
+      },
+    },
+  })
+}
+
 // AUTHENTICATION
 
 async function login(parent, { email, password }, context) {
