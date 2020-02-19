@@ -13,6 +13,15 @@ type Query {
 }
 
 type Mutation {
+  updateUser(
+    userId: ID!
+    firstName: String
+    lastName: String
+    email: String
+    role: Role
+    phone: String
+  ): User
+
   createCompany(
     companyName: String
     companyType: CompanyType

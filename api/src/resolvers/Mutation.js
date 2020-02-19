@@ -228,24 +228,17 @@ async function deleteUser(parent, { id }, context) {
   return await context.prisma.deleteUser({ id })
 }
 
-async function updateUser(parent, { companyId, name, type, street, zipCode, city, emailDomains }, context) {
+async function updateUser(parent, { userId, firstName, lastName, email, role, phone }, context) {
   return await context.prisma.updateUser({
     where: {
-      id: companyId,
+      id: userId,
     },
     data: {
-      name,
-      type,
-      address: {
-        update: {
-          street,
-          zipCode,
-          city,
-        },
-      },
-      emailDomains: {
-        set: emailDomains,
-      },
+      firstName,
+      lastName,
+      email,
+      role,
+      phone,
     },
   })
 }
@@ -331,6 +324,7 @@ async function updateRepresentative(parent, { userEmail, companyId, isRepresenta
 }
 
 module.exports = {
+  updateUser,
   updateCompany,
   updatePlace,
   updateRepresentative,

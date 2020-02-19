@@ -55,3 +55,30 @@ export const UPDATE_REPRESENTATIVE = gql`
     }
   }
 `
+
+export const UPDATE_USER = gql `
+  mutation UpdateUser(
+    $userId: ID!
+    $firstName: String
+    $lastName: String
+    $email: String
+    $role: Role
+    $phone: String
+  ) {
+    updateUser(
+      userId: $userId
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      role: $role
+      phone: $phone
+    ) {
+      id
+      firstName
+      lastName
+      email
+      phone
+      role
+    }
+  }
+`
