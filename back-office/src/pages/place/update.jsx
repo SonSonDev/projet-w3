@@ -46,8 +46,8 @@ const PlaceUpdate = ({ match: { params: { id } } }) => {
           street: placeData.address.street,
           zipCode: placeData.address.zipCode,
           city: placeData.address.city,
-          type: placeData.type,
-          category: placeData.category,
+          type: placeData.type || "",
+          category: placeData.category || "",
         }}
         validationSchema={Yup.object({
           name: Yup.string(),
@@ -63,6 +63,7 @@ const PlaceUpdate = ({ match: { params: { id } } }) => {
           }, 400)
           createPlace({
             variables: {
+              id,
               name: values.name,
               street: values.street,
               zipCode: values.zipCode,

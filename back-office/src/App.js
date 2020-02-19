@@ -42,7 +42,6 @@ const App = () => {
   })
 
   const { loading, data } = useQuery(CHECK_AUTH, {
-    variables: { role: "ADMIN" },
     fetchPolicy: "no-cache",
   })
 

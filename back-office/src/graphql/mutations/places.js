@@ -46,7 +46,7 @@ export const UPDATE_PLACE = gql`
     $category: Category
   ) {
     updatePlace(
-      id: $id
+      placeId: $id
       name: $name
       street: $street
       zipCode: $zipCode
