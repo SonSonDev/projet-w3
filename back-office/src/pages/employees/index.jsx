@@ -11,19 +11,12 @@ import Loader from "../../components/Loader"
 
 const EmployeesIndex = () => {
   console.log("EmployeesIndex")
-  const [users, setUsers] = useState([])
 
-  const { error, loading } = useQuery(GET_USERS, {
-    onCompleted: ({ getUsers }) => setUsers(getUsers),
+  const { error, data: {getUsers: users} = {}, loading, refetch } = useQuery(GET_USERS, {
     onError: error => console.log(error.message),
   })
 
-  const [deleteUser] = useMutation(DELETE_USER, {
-    onCompleted: data => {
-      window.location.reload()
-      console.log(data)
-    },
-  })
+  const [deleteUser] = useMutation(DELETE_USER, { onCompleted: refetch })
 
   if (error) return <div>{error.message}</div>
 

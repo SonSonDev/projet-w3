@@ -12,20 +12,12 @@ import Loader from "../../components/Loader"
 const ClientsIndex = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0)
 
-  const [clients, setClients] = useState([])
-
-  const { error, loading } = useQuery(GET_USERS, {
+  const { error, data: { getUsers: clients } = {}, loading, refetch } = useQuery(GET_USERS, {
     fetchPolicy: "no-cache",
-    onCompleted: ({ getUsers }) => setClients(getUsers),
     onError: error => console.log(error.message),
   })
 
-  const [deleteUser] = useMutation(DELETE_USER, {
-    onCompleted: data => {
-      window.location.reload()
-      console.log(data)
-    },
-  })
+  const [deleteUser] = useMutation(DELETE_USER, { onCompleted: refetch })
 
   if (error) return <div>{error.message}</div>
 
@@ -52,7 +44,7 @@ const ClientsIndex = () => {
     }))
 
   const tabs =  [
-    { title: "All companies", filter: () => true },
+    { title: "Tout", filter: () => true },
     ...data
       .reduce((acc, cur) => {
         if (cur.company && !acc.includes(cur.company)) {

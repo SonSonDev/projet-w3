@@ -9,23 +9,22 @@ import Table from "../../components/Table"
 import Tabs from "../../components/Tabs"
 import Loader from "../../components/Loader"
 
+const categories = {
+  FOOD: "Restaurant",
+  SHOP: "Boutique",
+  ACTIVITY: "Activité",
+}
+
 const PlacesIndex = ({ history }) => {
   console.log("render PlacesIndex")
   const [activeTabIndex, setActiveTabIndex] = useState(0)
 
-  const [places, setPlaces] = useState([])
-
-  const { error, loading } = useQuery(GET_PLACES, {
-    onCompleted: ({ getPlaces }) => setPlaces(getPlaces),
+  const { error, loading, data: {getPlaces: places} = {}, refetch } = useQuery(GET_PLACES, {
     onError: error => console.log(error.message),
   })
 
-  const [deletePlace] = useMutation(DELETE_PLACE, {
-    onCompleted: data => {
-      window.location.reload()
-      console.log(data)
-    },
-  })
+  const [deletePlace] = useMutation(DELETE_PLACE, { onCompleted: refetch })
+
   if (error) return <div>{error.message}</div>
 
   if (loading) {
@@ -36,24 +35,26 @@ const PlacesIndex = ({ history }) => {
 
   const columns = [
     { title: "Nom", key: "name" },
-    { title: "Catégorie", key: "category" },
+    { title: "Catégorie", key: "categoryName" },
     { title: "Adresse", key: "address", link: address => `https://www.google.com/maps/search/?api=1&query=${encodeURI(address)}`},
     { label: "Delete", handleClick: deletePlace },
-    { label: "Edit", handleClick: ({ variables: { id } }) => history.push(`/place/${id}/update`) },
-    { label: "Info", handleClick: () => console.log("Info") },
+    { label: "Edit", handleClick: ({ variables: { id } }) => history.push(`/place/${id}/update`)},
+    { label: "Info", handleClick: ({ variables: { id } }) => history.push(`/place/${id}/info`)},
   ]
 
   const tabs = [
-    { title: "All", filter: () => true },
-    { title: "Shop", filter: ({ category }) => category === "SHOP" },
-    { title: "Activity", filter: ({ category }) => category === "ACTIVITY" },
-    { title: "Food", filter: ({ category }) => category === "FOOD" },
+    { title: "Tout", filter: () => true },
+    { title: "Boutiques", filter: ({ category }) => category === "SHOP" },
+    { title: "Activités", filter: ({ category }) => category === "ACTIVITY" },
+    { title: "Restaurants", filter: ({ category }) => category === "FOOD" },
   ]
 
   const data = places
-    .map(({ address: { street, zipCode, city }, ...place }) => ({
+    .map(({ address: { street, zipCode, city }, category, ...place }) => ({
       ...place,
       address: `${street} ${zipCode} ${city}`,
+      category,
+      categoryName: categories[category],
     }))
     .filter(tabs[activeTabIndex].filter)
 
