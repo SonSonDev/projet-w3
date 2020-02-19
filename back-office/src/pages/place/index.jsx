@@ -39,7 +39,7 @@ const PlacesIndex = () => {
     { title: "Catégorie", key: "category" },
     { title: "Adresse", key: "address", link: address => `https://www.google.com/maps/search/?api=1&query=${encodeURI(address)}`},
     { label: "Delete", handleClick: deletePlace },
-    { label: "Edit", handleClick: () => console.log("Edit") },
+    { label: "Edit", handleClick: ({variables}) => window.location.href=`/place/${variables.id}/update` },
     { label: "Info", handleClick: () => console.log("Info") },
   ]
 

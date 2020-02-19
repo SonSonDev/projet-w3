@@ -63,7 +63,7 @@ const App = () => {
             <div className="header__user">
               <div className="user-info">
                 <p className="name">{`${userData.firstName} ${userData.lastName}`}</p>
-                <p className="role">{`${userData.role === "SUPER_ADMIN" ? "Administrateur" : `Représentant de ${""}`}`}</p>
+                <p className="role">{`${userData.role === "SUPER_ADMIN" ? "Administrateur" : `Représentant de ${userData.company.name}`}`}</p>
               </div>
               <button className="button is-light" onClick={() => logout()}>
                 Logout

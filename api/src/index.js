@@ -4,11 +4,13 @@ const Query = require("./resolvers/Query")
 const Mutation = require("./resolvers/Mutation")
 const Company = require("./resolvers/Company")
 const { populateDb, clearDb } = require("./fixtures")
+const User = require("./resolvers/User")
 
 const resolvers = {
   Query,
   Mutation,
   Company,
+  User,
 }
 
 const server = new GraphQLServer({
