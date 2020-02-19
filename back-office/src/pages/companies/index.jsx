@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import PropTypes from "prop-types"
 
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { GET_COMPANIES } from "../../graphql/queries/companies"
@@ -35,7 +36,7 @@ const CompaniesIndex = ({ history }) => {
   const columns = [
     { title: "Nom", key: "name" },
     { title: "Type", key: "type" },
-    { title: "Adresse", key: "address", link: ({ address }) => `https://www.google.com/maps/search/?api=1&query=${encodeURI(address)}` },
+    { title: "Adresse", key: "address", link: address => `https://www.google.com/maps/search/?api=1&query=${encodeURI(address)}` },
     { label: "Delete", handleClick: deleteCompany },
     { label: "Edit", handleClick: ({ variables: { id } }) => history.push(`/company/${id}/update`) },
     { label: "Info", handleClick: ({ variables: { id } }) => history.push(`/company/${id}`) },
@@ -54,6 +55,12 @@ const CompaniesIndex = ({ history }) => {
       </div>
     </section>
   )
+}
+
+CompaniesIndex.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
 }
 
 export default withAuthenticationCheck(CompaniesIndex, ["SUPER_ADMIN"])

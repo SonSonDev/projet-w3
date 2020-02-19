@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-
+import PropTypes from "prop-types"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { GET_PLACES } from "../../graphql/queries/places"
 import { DELETE_PLACE } from "../../graphql/mutations/places"
@@ -9,7 +9,7 @@ import Table from "../../components/Table"
 import Tabs from "../../components/Tabs"
 import Loader from "../../components/Loader"
 
-const PlacesIndex = () => {
+const PlacesIndex = ({ history }) => {
   console.log("render PlacesIndex")
   const [activeTabIndex, setActiveTabIndex] = useState(0)
 
@@ -39,7 +39,7 @@ const PlacesIndex = () => {
     { title: "Catégorie", key: "category" },
     { title: "Adresse", key: "address", link: address => `https://www.google.com/maps/search/?api=1&query=${encodeURI(address)}`},
     { label: "Delete", handleClick: deletePlace },
-    { label: "Edit", handleClick: ({variables}) => window.location.href=`/place/${variables.id}/update` },
+    { label: "Edit", handleClick: ({ variables: { id } }) => history.push(`/place/${id}/update`) },
     { label: "Info", handleClick: () => console.log("Info") },
   ]
 
@@ -65,6 +65,12 @@ const PlacesIndex = () => {
       </div>
     </section>
   )
+}
+
+PlacesIndex.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
 }
 
 export default withAuthenticationCheck(PlacesIndex, [
