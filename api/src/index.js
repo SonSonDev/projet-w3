@@ -3,6 +3,7 @@ const { prisma } = require("./generated/prisma-client")
 const Query = require("./resolvers/Query")
 const Mutation = require("./resolvers/Mutation")
 const Company = require("./resolvers/Company")
+const { populateDb, clearDb } = require("./fixtures")
 
 const resolvers = {
   Query,
@@ -26,4 +27,8 @@ server.start({
     credentials: true,
     origin: [process.env.FRONT_URL],
   },
-},() => console.log(`Server is running on http://localhost:${process.env.PORT}`))
+}, async () => {
+  console.log(`Server is running on http://localhost:${process.env.PORT}`)
+  await clearDb()
+  await populateDb()
+})
