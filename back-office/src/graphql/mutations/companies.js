@@ -59,3 +59,45 @@ export const DELETE_COMPANY = gql`
     }
   }
 `
+
+export const UPDATE_COMPANY = gql`
+  mutation UpdateCompany(
+    $companyId: ID!
+    $name: String
+    $type: String
+    $street: String
+    $zipCode: String
+    $city: String
+    $emailDomains: [String]
+  ) {
+    updateCompany(
+      companyId: $companyId
+      name: $name
+      type: $type
+      street: $street
+      zipCode: $zipCode
+      city: $city
+      emailDomains: $emailDomains
+    ) {
+      id
+      name
+      type
+      emailDomains
+      address {
+        street
+        zipCode
+        city
+      }
+      users {
+        id
+        firstName
+        email
+        lastName
+        phone
+        password
+        role
+        isRepresentative
+      }
+    }
+  }
+`

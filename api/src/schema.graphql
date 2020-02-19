@@ -28,6 +28,16 @@ type Mutation {
     emailDomains: [String!]!
   ): Company
 
+  updateCompany(
+    companyId: ID!
+    name: String
+    type: String
+    street: String
+    zipCode: String
+    city: String
+    emailDomains: [String]
+  ): Company
+
   updateRepresentative(
     userEmail: String!
     companyId: ID!
