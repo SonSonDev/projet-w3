@@ -338,15 +338,15 @@ async function createStripeInvoice (parent, { stripeCustomerId }, context) {
   const invoiceItem = await stripe.invoiceItems.create({
     customer: stripeCustomerId,
     amount: 2500,
-    currency: 'eur',
-    description: 'One-time setup fee',
+    currency: "eur",
   })
-  const invoice = await stripe.invoices.create({
+  const { id } = await stripe.invoices.create({
     customer: stripeCustomerId,
     auto_advance: true, // auto-finalize this draft after ~1 hour
   })
+  const invoice = await stripe.invoices.finalizeInvoice(id)
   // console.log(invoice)
-  return invoice.id
+  return invoice
 }
 
 

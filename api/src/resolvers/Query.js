@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken")
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
 const { APP_SECRET, parseCookie } = require("../utils")
 
@@ -58,6 +59,13 @@ async function getTag(parent, { id }, context) {
   return await context.prisma.tags({ id })
 }
 
+async function getStripeInvoicesByCompany (parent, { id }, context) {
+  const { stripeCustomerId } = await context.prisma.company({ id })
+  const { data } = await stripe.invoices.list({ customer: stripeCustomerId })
+  // console.log(data)
+  return data
+}
+
 module.exports = {
   getPlace,
   getPlaces,
@@ -68,4 +76,5 @@ module.exports = {
   checkAuth,
   getTags,
   getTag,
+  getStripeInvoicesByCompany,
 }

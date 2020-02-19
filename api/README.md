@@ -2,4 +2,5 @@
 | role | email | password
 | --- | --- | ---
 | SUPER_ADMIN | `w3p2020g7@gmail.com` | `admin`
-| USER | `user_1@mail.com` | `azerty`
+| SUPER_ADMIN | `eric.priou@gmail.com` | `admin`
+| ADMIN | `theodore.yip@hetic.net` | `admin`

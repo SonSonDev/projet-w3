@@ -10,6 +10,7 @@ type Query {
   checkAuth: User
   getTags: [Tag]
   getTag(id: ID!): Tag
+  getStripeInvoicesByCompany(id: ID!): [StripeInvoice]
 }
 
 type Mutation {
@@ -94,7 +95,7 @@ type Mutation {
     category: Category
   ): Place
 
-  createStripeInvoice(stripeCustomerId: String!): String
+  createStripeInvoice(stripeCustomerId: String!): StripeInvoice
 }
 
 type User {
@@ -155,6 +156,18 @@ type Tag {
   name: String
   type: String
   activity: String
+}
+
+type StripeInvoice {
+  id: String!
+  created: String
+  customer: String
+  customer_email: String
+  customer_name: String
+  hosted_invoice_url: String
+  status: String
+  subscription: String
+  total: String
 }
 
 enum CompanyType {
