@@ -7,6 +7,7 @@ import { createUploadLink } from "apollo-upload-client"
 import { ApolloProvider } from "@apollo/react-hooks"
 
 import "basscss/css/basscss.min.css"
+import "remixicon/fonts/remixicon.css"
 import "./style/style.scss"
 import App from "./App"
 import * as serviceWorker from "./serviceWorker"

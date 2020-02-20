@@ -8,6 +8,18 @@ const users = [
   [ "Antoine",  "Masselot",   "antoine.masselot@hetic.net", "admin", "SUPER_ADMIN" ],
 ]
 
+const defaultTags = [
+  [ "Asiatique",  "Type de cuisine",    "FOOD" ],
+  [ "Africain",   "Type de cuisine",    "FOOD" ],
+  [ "Américain",  "Type de cuisine",    "FOOD" ],
+  [ "Européen",   "Type de cuisine",    "FOOD" ],
+  [ "Latino",     "Type de cuisine",    "FOOD" ],
+  [ "€",          "Budget",             "FOOD" ],
+  [ "€€",         "Budget",             "FOOD" ],
+  [ "€€€",        "Budget",             "FOOD" ],
+  [ "Vegan",      "Régime alimentaire", "FOOD" ],
+]
+
 const places = [
   [ "GIVEN",                                  "89 rue de Bagnolet",         "75020" ],
   [ "LE MEZZE DU CHEF",                       "80 rue de Ménilmontant",     "75020" ],
@@ -70,6 +82,16 @@ const populateDb = async () => {
     })
   }
 
+  const tags = await Promise.all(
+    defaultTags.map(([ name, type, activity ]) => (
+      prisma.createTag({
+        name,
+        type,
+        activity,
+      })
+    )),
+  )
+  // console.log(tags, tags[0].id, tags.map(({ id }) => ({ id })))
   for (const [ name, street, zipCode ] of places) {
     await prisma.createPlace({
       name,
@@ -85,6 +107,7 @@ const populateDb = async () => {
       ] },
       keywords: { set: [ "keyword_1", "keyword_2" ] },
       category: "FOOD",
+      tags: { connect: tags.map(({ id }) => ({ id })) },
     })
   }
 
@@ -137,6 +160,7 @@ const populateDb = async () => {
 
 const clearDb = async () => {
   await prisma.deleteManyUsers()
+  await prisma.deleteManyTags()
   await prisma.deleteManyPlaces()
   await prisma.deleteManyCompanies()
 }
@@ -144,6 +168,7 @@ const clearDb = async () => {
 (async function () {
   await clearDb()
   await populateDb()
+  console.log("fixtures ok")
 })()
 
 

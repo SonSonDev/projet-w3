@@ -73,6 +73,7 @@ type Mutation {
     city: String
     type: String
     category: Category
+    tags: [ID!]
   ): Place
 
   login(email: String!, password: String!): AuthPayload
@@ -93,6 +94,7 @@ type Mutation {
     city: String
     type: String
     category: Category
+    tags: [ID!]
   ): Place
 
   createStripeInvoice(stripeCustomerId: String!): StripeInvoice
@@ -128,6 +130,7 @@ type Place {
   keywords: [String!]
   category: Category
   type: String
+  tags: [Tag!]
 }
 
 type AuthPayload {
@@ -156,6 +159,7 @@ type Tag {
   name: String
   type: String
   activity: String
+  places: [Place!]
 }
 
 type StripeInvoice {

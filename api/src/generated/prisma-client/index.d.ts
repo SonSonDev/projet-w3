@@ -261,16 +261,6 @@ export type Day =
 
 export type Category = "FOOD" | "SHOP" | "ACTIVITY";
 
-export type PlaceOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "name_ASC"
-  | "name_DESC"
-  | "category_ASC"
-  | "category_DESC"
-  | "type_ASC"
-  | "type_DESC";
-
 export type TagOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -280,6 +270,16 @@ export type TagOrderByInput =
   | "type_DESC"
   | "activity_ASC"
   | "activity_DESC";
+
+export type PlaceOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "category_ASC"
+  | "category_DESC"
+  | "type_ASC"
+  | "type_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -484,6 +484,67 @@ export type PlaceWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
+export interface TagWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  type?: Maybe<String>;
+  type_not?: Maybe<String>;
+  type_in?: Maybe<String[] | String>;
+  type_not_in?: Maybe<String[] | String>;
+  type_lt?: Maybe<String>;
+  type_lte?: Maybe<String>;
+  type_gt?: Maybe<String>;
+  type_gte?: Maybe<String>;
+  type_contains?: Maybe<String>;
+  type_not_contains?: Maybe<String>;
+  type_starts_with?: Maybe<String>;
+  type_not_starts_with?: Maybe<String>;
+  type_ends_with?: Maybe<String>;
+  type_not_ends_with?: Maybe<String>;
+  activity?: Maybe<String>;
+  activity_not?: Maybe<String>;
+  activity_in?: Maybe<String[] | String>;
+  activity_not_in?: Maybe<String[] | String>;
+  activity_lt?: Maybe<String>;
+  activity_lte?: Maybe<String>;
+  activity_gt?: Maybe<String>;
+  activity_gte?: Maybe<String>;
+  activity_contains?: Maybe<String>;
+  activity_not_contains?: Maybe<String>;
+  activity_starts_with?: Maybe<String>;
+  activity_not_starts_with?: Maybe<String>;
+  activity_ends_with?: Maybe<String>;
+  activity_not_ends_with?: Maybe<String>;
+  places_some?: Maybe<PlaceWhereInput>;
+  AND?: Maybe<TagWhereInput[] | TagWhereInput>;
+}
+
 export interface PlaceWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
@@ -535,6 +596,7 @@ export interface PlaceWhereInput {
   type_not_starts_with?: Maybe<String>;
   type_ends_with?: Maybe<String>;
   type_not_ends_with?: Maybe<String>;
+  tags_some?: Maybe<TagWhereInput>;
   AND?: Maybe<PlaceWhereInput[] | PlaceWhereInput>;
 }
 
@@ -613,66 +675,6 @@ export interface HourRestrictedWhereInput {
 export type TagWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
-
-export interface TagWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  type?: Maybe<String>;
-  type_not?: Maybe<String>;
-  type_in?: Maybe<String[] | String>;
-  type_not_in?: Maybe<String[] | String>;
-  type_lt?: Maybe<String>;
-  type_lte?: Maybe<String>;
-  type_gt?: Maybe<String>;
-  type_gte?: Maybe<String>;
-  type_contains?: Maybe<String>;
-  type_not_contains?: Maybe<String>;
-  type_starts_with?: Maybe<String>;
-  type_not_starts_with?: Maybe<String>;
-  type_ends_with?: Maybe<String>;
-  type_not_ends_with?: Maybe<String>;
-  activity?: Maybe<String>;
-  activity_not?: Maybe<String>;
-  activity_in?: Maybe<String[] | String>;
-  activity_not_in?: Maybe<String[] | String>;
-  activity_lt?: Maybe<String>;
-  activity_lte?: Maybe<String>;
-  activity_gt?: Maybe<String>;
-  activity_gte?: Maybe<String>;
-  activity_contains?: Maybe<String>;
-  activity_not_contains?: Maybe<String>;
-  activity_starts_with?: Maybe<String>;
-  activity_not_starts_with?: Maybe<String>;
-  activity_ends_with?: Maybe<String>;
-  activity_not_ends_with?: Maybe<String>;
-  AND?: Maybe<TagWhereInput[] | TagWhereInput>;
-}
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
@@ -922,6 +924,7 @@ export interface PlaceCreateInput {
   keywords?: Maybe<PlaceCreatekeywordsInput>;
   category?: Maybe<Category>;
   type?: Maybe<String>;
+  tags?: Maybe<TagCreateManyWithoutPlacesInput>;
 }
 
 export interface HourCreateManyInput {
@@ -938,6 +941,18 @@ export interface PlaceCreatekeywordsInput {
   set?: Maybe<String[] | String>;
 }
 
+export interface TagCreateManyWithoutPlacesInput {
+  create?: Maybe<TagCreateWithoutPlacesInput[] | TagCreateWithoutPlacesInput>;
+  connect?: Maybe<TagWhereUniqueInput[] | TagWhereUniqueInput>;
+}
+
+export interface TagCreateWithoutPlacesInput {
+  id?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  type?: Maybe<String>;
+  activity?: Maybe<String>;
+}
+
 export interface PlaceUpdateInput {
   name?: Maybe<String>;
   address?: Maybe<AddressUpdateOneInput>;
@@ -945,6 +960,7 @@ export interface PlaceUpdateInput {
   keywords?: Maybe<PlaceUpdatekeywordsInput>;
   category?: Maybe<Category>;
   type?: Maybe<String>;
+  tags?: Maybe<TagUpdateManyWithoutPlacesInput>;
 }
 
 export interface HourUpdateManyInput {
@@ -1008,6 +1024,116 @@ export interface PlaceUpdatekeywordsInput {
   set?: Maybe<String[] | String>;
 }
 
+export interface TagUpdateManyWithoutPlacesInput {
+  create?: Maybe<TagCreateWithoutPlacesInput[] | TagCreateWithoutPlacesInput>;
+  delete?: Maybe<TagWhereUniqueInput[] | TagWhereUniqueInput>;
+  connect?: Maybe<TagWhereUniqueInput[] | TagWhereUniqueInput>;
+  set?: Maybe<TagWhereUniqueInput[] | TagWhereUniqueInput>;
+  disconnect?: Maybe<TagWhereUniqueInput[] | TagWhereUniqueInput>;
+  update?: Maybe<
+    | TagUpdateWithWhereUniqueWithoutPlacesInput[]
+    | TagUpdateWithWhereUniqueWithoutPlacesInput
+  >;
+  upsert?: Maybe<
+    | TagUpsertWithWhereUniqueWithoutPlacesInput[]
+    | TagUpsertWithWhereUniqueWithoutPlacesInput
+  >;
+  deleteMany?: Maybe<TagScalarWhereInput[] | TagScalarWhereInput>;
+  updateMany?: Maybe<
+    TagUpdateManyWithWhereNestedInput[] | TagUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface TagUpdateWithWhereUniqueWithoutPlacesInput {
+  where: TagWhereUniqueInput;
+  data: TagUpdateWithoutPlacesDataInput;
+}
+
+export interface TagUpdateWithoutPlacesDataInput {
+  name?: Maybe<String>;
+  type?: Maybe<String>;
+  activity?: Maybe<String>;
+}
+
+export interface TagUpsertWithWhereUniqueWithoutPlacesInput {
+  where: TagWhereUniqueInput;
+  update: TagUpdateWithoutPlacesDataInput;
+  create: TagCreateWithoutPlacesInput;
+}
+
+export interface TagScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  type?: Maybe<String>;
+  type_not?: Maybe<String>;
+  type_in?: Maybe<String[] | String>;
+  type_not_in?: Maybe<String[] | String>;
+  type_lt?: Maybe<String>;
+  type_lte?: Maybe<String>;
+  type_gt?: Maybe<String>;
+  type_gte?: Maybe<String>;
+  type_contains?: Maybe<String>;
+  type_not_contains?: Maybe<String>;
+  type_starts_with?: Maybe<String>;
+  type_not_starts_with?: Maybe<String>;
+  type_ends_with?: Maybe<String>;
+  type_not_ends_with?: Maybe<String>;
+  activity?: Maybe<String>;
+  activity_not?: Maybe<String>;
+  activity_in?: Maybe<String[] | String>;
+  activity_not_in?: Maybe<String[] | String>;
+  activity_lt?: Maybe<String>;
+  activity_lte?: Maybe<String>;
+  activity_gt?: Maybe<String>;
+  activity_gte?: Maybe<String>;
+  activity_contains?: Maybe<String>;
+  activity_not_contains?: Maybe<String>;
+  activity_starts_with?: Maybe<String>;
+  activity_not_starts_with?: Maybe<String>;
+  activity_ends_with?: Maybe<String>;
+  activity_not_ends_with?: Maybe<String>;
+  AND?: Maybe<TagScalarWhereInput[] | TagScalarWhereInput>;
+  OR?: Maybe<TagScalarWhereInput[] | TagScalarWhereInput>;
+  NOT?: Maybe<TagScalarWhereInput[] | TagScalarWhereInput>;
+}
+
+export interface TagUpdateManyWithWhereNestedInput {
+  where: TagScalarWhereInput;
+  data: TagUpdateManyDataInput;
+}
+
+export interface TagUpdateManyDataInput {
+  name?: Maybe<String>;
+  type?: Maybe<String>;
+  activity?: Maybe<String>;
+}
+
 export interface PlaceUpdateManyMutationInput {
   name?: Maybe<String>;
   keywords?: Maybe<PlaceUpdatekeywordsInput>;
@@ -1020,12 +1146,133 @@ export interface TagCreateInput {
   name?: Maybe<String>;
   type?: Maybe<String>;
   activity?: Maybe<String>;
+  places?: Maybe<PlaceCreateManyWithoutTagsInput>;
+}
+
+export interface PlaceCreateManyWithoutTagsInput {
+  create?: Maybe<PlaceCreateWithoutTagsInput[] | PlaceCreateWithoutTagsInput>;
+  connect?: Maybe<PlaceWhereUniqueInput[] | PlaceWhereUniqueInput>;
+}
+
+export interface PlaceCreateWithoutTagsInput {
+  id?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  address?: Maybe<AddressCreateOneInput>;
+  hours?: Maybe<HourCreateManyInput>;
+  keywords?: Maybe<PlaceCreatekeywordsInput>;
+  category?: Maybe<Category>;
+  type?: Maybe<String>;
 }
 
 export interface TagUpdateInput {
   name?: Maybe<String>;
   type?: Maybe<String>;
   activity?: Maybe<String>;
+  places?: Maybe<PlaceUpdateManyWithoutTagsInput>;
+}
+
+export interface PlaceUpdateManyWithoutTagsInput {
+  create?: Maybe<PlaceCreateWithoutTagsInput[] | PlaceCreateWithoutTagsInput>;
+  delete?: Maybe<PlaceWhereUniqueInput[] | PlaceWhereUniqueInput>;
+  connect?: Maybe<PlaceWhereUniqueInput[] | PlaceWhereUniqueInput>;
+  set?: Maybe<PlaceWhereUniqueInput[] | PlaceWhereUniqueInput>;
+  disconnect?: Maybe<PlaceWhereUniqueInput[] | PlaceWhereUniqueInput>;
+  update?: Maybe<
+    | PlaceUpdateWithWhereUniqueWithoutTagsInput[]
+    | PlaceUpdateWithWhereUniqueWithoutTagsInput
+  >;
+  upsert?: Maybe<
+    | PlaceUpsertWithWhereUniqueWithoutTagsInput[]
+    | PlaceUpsertWithWhereUniqueWithoutTagsInput
+  >;
+  deleteMany?: Maybe<PlaceScalarWhereInput[] | PlaceScalarWhereInput>;
+  updateMany?: Maybe<
+    PlaceUpdateManyWithWhereNestedInput[] | PlaceUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface PlaceUpdateWithWhereUniqueWithoutTagsInput {
+  where: PlaceWhereUniqueInput;
+  data: PlaceUpdateWithoutTagsDataInput;
+}
+
+export interface PlaceUpdateWithoutTagsDataInput {
+  name?: Maybe<String>;
+  address?: Maybe<AddressUpdateOneInput>;
+  hours?: Maybe<HourUpdateManyInput>;
+  keywords?: Maybe<PlaceUpdatekeywordsInput>;
+  category?: Maybe<Category>;
+  type?: Maybe<String>;
+}
+
+export interface PlaceUpsertWithWhereUniqueWithoutTagsInput {
+  where: PlaceWhereUniqueInput;
+  update: PlaceUpdateWithoutTagsDataInput;
+  create: PlaceCreateWithoutTagsInput;
+}
+
+export interface PlaceScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  category?: Maybe<Category>;
+  category_not?: Maybe<Category>;
+  category_in?: Maybe<Category[] | Category>;
+  category_not_in?: Maybe<Category[] | Category>;
+  type?: Maybe<String>;
+  type_not?: Maybe<String>;
+  type_in?: Maybe<String[] | String>;
+  type_not_in?: Maybe<String[] | String>;
+  type_lt?: Maybe<String>;
+  type_lte?: Maybe<String>;
+  type_gt?: Maybe<String>;
+  type_gte?: Maybe<String>;
+  type_contains?: Maybe<String>;
+  type_not_contains?: Maybe<String>;
+  type_starts_with?: Maybe<String>;
+  type_not_starts_with?: Maybe<String>;
+  type_ends_with?: Maybe<String>;
+  type_not_ends_with?: Maybe<String>;
+  AND?: Maybe<PlaceScalarWhereInput[] | PlaceScalarWhereInput>;
+  OR?: Maybe<PlaceScalarWhereInput[] | PlaceScalarWhereInput>;
+  NOT?: Maybe<PlaceScalarWhereInput[] | PlaceScalarWhereInput>;
+}
+
+export interface PlaceUpdateManyWithWhereNestedInput {
+  where: PlaceScalarWhereInput;
+  data: PlaceUpdateManyDataInput;
+}
+
+export interface PlaceUpdateManyDataInput {
+  name?: Maybe<String>;
+  keywords?: Maybe<PlaceUpdatekeywordsInput>;
+  category?: Maybe<Category>;
+  type?: Maybe<String>;
 }
 
 export interface TagUpdateManyMutationInput {
@@ -1384,6 +1631,15 @@ export interface PlacePromise extends Promise<Place>, Fragmentable {
   keywords: () => Promise<String[]>;
   category: () => Promise<Category>;
   type: () => Promise<String>;
+  tags: <T = FragmentableArray<Tag>>(args?: {
+    where?: TagWhereInput;
+    orderBy?: TagOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface PlaceSubscription
@@ -1396,6 +1652,15 @@ export interface PlaceSubscription
   keywords: () => Promise<AsyncIterator<String[]>>;
   category: () => Promise<AsyncIterator<Category>>;
   type: () => Promise<AsyncIterator<String>>;
+  tags: <T = Promise<AsyncIterator<TagSubscription>>>(args?: {
+    where?: TagWhereInput;
+    orderBy?: TagOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface PlaceNullablePromise
@@ -1408,6 +1673,15 @@ export interface PlaceNullablePromise
   keywords: () => Promise<String[]>;
   category: () => Promise<Category>;
   type: () => Promise<String>;
+  tags: <T = FragmentableArray<Tag>>(args?: {
+    where?: TagWhereInput;
+    orderBy?: TagOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface Hour {
@@ -1436,6 +1710,63 @@ export interface HourNullablePromise
   day: () => Promise<Day>;
   start: () => Promise<String>;
   end: () => Promise<String>;
+}
+
+export interface Tag {
+  id: ID_Output;
+  name?: String;
+  type?: String;
+  activity?: String;
+}
+
+export interface TagPromise extends Promise<Tag>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  type: () => Promise<String>;
+  activity: () => Promise<String>;
+  places: <T = FragmentableArray<Place>>(args?: {
+    where?: PlaceWhereInput;
+    orderBy?: PlaceOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface TagSubscription
+  extends Promise<AsyncIterator<Tag>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  type: () => Promise<AsyncIterator<String>>;
+  activity: () => Promise<AsyncIterator<String>>;
+  places: <T = Promise<AsyncIterator<PlaceSubscription>>>(args?: {
+    where?: PlaceWhereInput;
+    orderBy?: PlaceOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface TagNullablePromise extends Promise<Tag | null>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  type: () => Promise<String>;
+  activity: () => Promise<String>;
+  places: <T = FragmentableArray<Place>>(args?: {
+    where?: PlaceWhereInput;
+    orderBy?: PlaceOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface PlaceConnection {
@@ -1490,36 +1821,6 @@ export interface AggregatePlaceSubscription
   extends Promise<AsyncIterator<AggregatePlace>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface Tag {
-  id: ID_Output;
-  name?: String;
-  type?: String;
-  activity?: String;
-}
-
-export interface TagPromise extends Promise<Tag>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  type: () => Promise<String>;
-  activity: () => Promise<String>;
-}
-
-export interface TagSubscription
-  extends Promise<AsyncIterator<Tag>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  type: () => Promise<AsyncIterator<String>>;
-  activity: () => Promise<AsyncIterator<String>>;
-}
-
-export interface TagNullablePromise extends Promise<Tag | null>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  type: () => Promise<String>;
-  activity: () => Promise<String>;
 }
 
 export interface TagConnection {

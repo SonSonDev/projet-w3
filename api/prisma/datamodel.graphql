@@ -18,6 +18,7 @@ type Place {
   keywords: [String!] @scalarList(strategy: EMBEDDED)
   category: Category @relation(link: INLINE)
   type: String
+  tags: [Tag!] @relation(link: INLINE)
 }
 
 type Company {
@@ -35,6 +36,7 @@ type Tag {
   name: String
   type: String
   activity: String
+  places: [Place!]
 }
 
 type Address @embedded {

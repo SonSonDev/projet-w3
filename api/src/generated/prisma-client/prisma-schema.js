@@ -506,6 +506,7 @@ type Place {
   keywords: [String!]!
   category: Category
   type: String
+  tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag!]
 }
 
 type PlaceConnection {
@@ -522,10 +523,26 @@ input PlaceCreateInput {
   keywords: PlaceCreatekeywordsInput
   category: Category
   type: String
+  tags: TagCreateManyWithoutPlacesInput
 }
 
 input PlaceCreatekeywordsInput {
   set: [String!]
+}
+
+input PlaceCreateManyWithoutTagsInput {
+  create: [PlaceCreateWithoutTagsInput!]
+  connect: [PlaceWhereUniqueInput!]
+}
+
+input PlaceCreateWithoutTagsInput {
+  id: ID
+  name: String
+  address: AddressCreateOneInput
+  hours: HourCreateManyInput
+  keywords: PlaceCreatekeywordsInput
+  category: Category
+  type: String
 }
 
 type PlaceEdge {
@@ -552,6 +569,58 @@ type PlacePreviousValues {
   type: String
 }
 
+input PlaceScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  category: Category
+  category_not: Category
+  category_in: [Category!]
+  category_not_in: [Category!]
+  type: String
+  type_not: String
+  type_in: [String!]
+  type_not_in: [String!]
+  type_lt: String
+  type_lte: String
+  type_gt: String
+  type_gte: String
+  type_contains: String
+  type_not_contains: String
+  type_starts_with: String
+  type_not_starts_with: String
+  type_ends_with: String
+  type_not_ends_with: String
+  AND: [PlaceScalarWhereInput!]
+  OR: [PlaceScalarWhereInput!]
+  NOT: [PlaceScalarWhereInput!]
+}
+
 type PlaceSubscriptionPayload {
   mutation: MutationType!
   node: Place
@@ -575,10 +644,18 @@ input PlaceUpdateInput {
   keywords: PlaceUpdatekeywordsInput
   category: Category
   type: String
+  tags: TagUpdateManyWithoutPlacesInput
 }
 
 input PlaceUpdatekeywordsInput {
   set: [String!]
+}
+
+input PlaceUpdateManyDataInput {
+  name: String
+  keywords: PlaceUpdatekeywordsInput
+  category: Category
+  type: String
 }
 
 input PlaceUpdateManyMutationInput {
@@ -586,6 +663,43 @@ input PlaceUpdateManyMutationInput {
   keywords: PlaceUpdatekeywordsInput
   category: Category
   type: String
+}
+
+input PlaceUpdateManyWithoutTagsInput {
+  create: [PlaceCreateWithoutTagsInput!]
+  delete: [PlaceWhereUniqueInput!]
+  connect: [PlaceWhereUniqueInput!]
+  set: [PlaceWhereUniqueInput!]
+  disconnect: [PlaceWhereUniqueInput!]
+  update: [PlaceUpdateWithWhereUniqueWithoutTagsInput!]
+  upsert: [PlaceUpsertWithWhereUniqueWithoutTagsInput!]
+  deleteMany: [PlaceScalarWhereInput!]
+  updateMany: [PlaceUpdateManyWithWhereNestedInput!]
+}
+
+input PlaceUpdateManyWithWhereNestedInput {
+  where: PlaceScalarWhereInput!
+  data: PlaceUpdateManyDataInput!
+}
+
+input PlaceUpdateWithoutTagsDataInput {
+  name: String
+  address: AddressUpdateOneInput
+  hours: HourUpdateManyInput
+  keywords: PlaceUpdatekeywordsInput
+  category: Category
+  type: String
+}
+
+input PlaceUpdateWithWhereUniqueWithoutTagsInput {
+  where: PlaceWhereUniqueInput!
+  data: PlaceUpdateWithoutTagsDataInput!
+}
+
+input PlaceUpsertWithWhereUniqueWithoutTagsInput {
+  where: PlaceWhereUniqueInput!
+  update: PlaceUpdateWithoutTagsDataInput!
+  create: PlaceCreateWithoutTagsInput!
 }
 
 input PlaceWhereInput {
@@ -639,6 +753,7 @@ input PlaceWhereInput {
   type_not_starts_with: String
   type_ends_with: String
   type_not_ends_with: String
+  tags_some: TagWhereInput
   AND: [PlaceWhereInput!]
 }
 
@@ -681,6 +796,7 @@ type Tag {
   name: String
   type: String
   activity: String
+  places(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Place!]
 }
 
 type TagConnection {
@@ -690,6 +806,19 @@ type TagConnection {
 }
 
 input TagCreateInput {
+  id: ID
+  name: String
+  type: String
+  activity: String
+  places: PlaceCreateManyWithoutTagsInput
+}
+
+input TagCreateManyWithoutPlacesInput {
+  create: [TagCreateWithoutPlacesInput!]
+  connect: [TagWhereUniqueInput!]
+}
+
+input TagCreateWithoutPlacesInput {
   id: ID
   name: String
   type: String
@@ -719,6 +848,68 @@ type TagPreviousValues {
   activity: String
 }
 
+input TagScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  type: String
+  type_not: String
+  type_in: [String!]
+  type_not_in: [String!]
+  type_lt: String
+  type_lte: String
+  type_gt: String
+  type_gte: String
+  type_contains: String
+  type_not_contains: String
+  type_starts_with: String
+  type_not_starts_with: String
+  type_ends_with: String
+  type_not_ends_with: String
+  activity: String
+  activity_not: String
+  activity_in: [String!]
+  activity_not_in: [String!]
+  activity_lt: String
+  activity_lte: String
+  activity_gt: String
+  activity_gte: String
+  activity_contains: String
+  activity_not_contains: String
+  activity_starts_with: String
+  activity_not_starts_with: String
+  activity_ends_with: String
+  activity_not_ends_with: String
+  AND: [TagScalarWhereInput!]
+  OR: [TagScalarWhereInput!]
+  NOT: [TagScalarWhereInput!]
+}
+
 type TagSubscriptionPayload {
   mutation: MutationType!
   node: Tag
@@ -739,12 +930,53 @@ input TagUpdateInput {
   name: String
   type: String
   activity: String
+  places: PlaceUpdateManyWithoutTagsInput
+}
+
+input TagUpdateManyDataInput {
+  name: String
+  type: String
+  activity: String
 }
 
 input TagUpdateManyMutationInput {
   name: String
   type: String
   activity: String
+}
+
+input TagUpdateManyWithoutPlacesInput {
+  create: [TagCreateWithoutPlacesInput!]
+  delete: [TagWhereUniqueInput!]
+  connect: [TagWhereUniqueInput!]
+  set: [TagWhereUniqueInput!]
+  disconnect: [TagWhereUniqueInput!]
+  update: [TagUpdateWithWhereUniqueWithoutPlacesInput!]
+  upsert: [TagUpsertWithWhereUniqueWithoutPlacesInput!]
+  deleteMany: [TagScalarWhereInput!]
+  updateMany: [TagUpdateManyWithWhereNestedInput!]
+}
+
+input TagUpdateManyWithWhereNestedInput {
+  where: TagScalarWhereInput!
+  data: TagUpdateManyDataInput!
+}
+
+input TagUpdateWithoutPlacesDataInput {
+  name: String
+  type: String
+  activity: String
+}
+
+input TagUpdateWithWhereUniqueWithoutPlacesInput {
+  where: TagWhereUniqueInput!
+  data: TagUpdateWithoutPlacesDataInput!
+}
+
+input TagUpsertWithWhereUniqueWithoutPlacesInput {
+  where: TagWhereUniqueInput!
+  update: TagUpdateWithoutPlacesDataInput!
+  create: TagCreateWithoutPlacesInput!
 }
 
 input TagWhereInput {
@@ -804,6 +1036,7 @@ input TagWhereInput {
   activity_not_starts_with: String
   activity_ends_with: String
   activity_not_ends_with: String
+  places_some: PlaceWhereInput
   AND: [TagWhereInput!]
 }
 

@@ -6,12 +6,20 @@ import { GET_COMPANY } from "../../graphql/queries/companies"
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 import { CREATE_STRIPE_INVOICE, GET_STRIPE_INVOICES_BY_COMPANY } from "../../graphql/mutations/invoices"
 
-const CompanyInfo = ({ history, location, match: { params: { id } } }) => {
+function CompanyInfo ({ history, location, match: { params: { id } } }) {
+
   const { loading, error, data } = useQuery(GET_COMPANY, { variables: { id } })
+
   const { data: { getStripeInvoicesByCompany = [] } = {} } = useQuery(GET_STRIPE_INVOICES_BY_COMPANY, { variables: { id } })
+
   const [ createStripeInvoice ] = useMutation(CREATE_STRIPE_INVOICE, {
-    onCompleted: () => {
-      window.location.reload() // todo
+    update (cache, { data: { createStripeInvoice } }) {
+      const { getStripeInvoicesByCompany } = cache.readQuery({ query: GET_STRIPE_INVOICES_BY_COMPANY, variables: { id } })
+      // console.log([ createStripeInvoice, ...getStripeInvoicesByCompany ])
+      cache.writeQuery({
+        query: GET_STRIPE_INVOICES_BY_COMPANY, variables: { id },
+        data: { getStripeInvoicesByCompany: [ createStripeInvoice, ...getStripeInvoicesByCompany ] },
+      })
     },
   })
 
@@ -29,19 +37,27 @@ const CompanyInfo = ({ history, location, match: { params: { id } } }) => {
           <span>{street}, {zipCode} {city}</span>
         </section>
         <section className="mb4">
-          <div className="flex justify-between">
-            <h1 className="h2 bold mb2">Facturation</h1>
+          <div className="flex">
+            <h1 className="h2 bold mr1 mb2">Facturation</h1>
+            <a className="button is-white mr-auto" href={"https://dashboard.stripe.com/test/invoices"} target="_blank" rel="noopener noreferrer">
+              <span className="icon"><i className="ri-external-link-line" /></span>
+            </a>
             <button className="button" onClick={() => {
               createStripeInvoice({ variables: { stripeCustomerId } })
             }}>Créer une facture</button>
           </div>
           <ul>
             {getStripeInvoicesByCompany.map(({ id, created, hosted_invoice_url, status, total }) => (
-              <li className="flex justify-between items-center" key={id}>
+              <li className="flex justify-between items-center mb05" key={id}>
                 {(total/100).toFixed(2)}€
-                <span className="tag mx2">{status}</span>
+                <span className={[
+                  "tag is-medium",
+                  status === "paid" && "is-success",
+                ].join(" ")}>{status}</span>
                 {new Date(created*1000).toLocaleDateString()}
-                <a className="button is-small ml2" href={hosted_invoice_url} target="_blank" rel="noopener noreferrer">Prévisualiser</a>
+                <a className="button is-white ml2" href={hosted_invoice_url} target="_blank" rel="noopener noreferrer">
+                  <span className="icon"><i className="ri-eye-line" /></span>
+                </a>
               </li>
             ))}
           </ul>

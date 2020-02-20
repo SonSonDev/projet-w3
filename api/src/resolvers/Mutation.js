@@ -40,7 +40,7 @@ async function updateTag(parent, { id, name, type, activity }, context) {
 
 // PLACES
 
-async function createPlace(parent, { name, street, zipCode, city, type, category }, context) {
+async function createPlace(parent, { name, street, zipCode, city, type, category, tags }, context) {
   // const userId = getUserId(context)
   return context.prisma.createPlace({
     name,
@@ -54,6 +54,7 @@ async function createPlace(parent, { name, street, zipCode, city, type, category
         city,
       },
     },
+    tags: { connect: tags.map(id => ({ id })) },
     hours: {
       create: [
         {
