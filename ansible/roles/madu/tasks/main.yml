@@ -11,7 +11,6 @@
     dest: /opt/app
     rsync_opts:
       - "--exclude=node_modules"
-  tags: ["update"]
 
 - name: Sync Back-office madu directory
   synchronize:
@@ -19,7 +18,17 @@
     dest: /opt/app
     rsync_opts:
       - "--exclude=node_modules"
-  tags: ["update"]
+
+- name: Copy docker-compose configuration file
+  template:
+    src: templates/docker-compose.yml
+    dest: /opt/app/docker-compose.yml
+
+- name: Stop docker stack
+  docker_compose:
+    project_src: /opt/app
+    state: present
+    stopped: yes
 
 - name: Build docker image API madu
   docker_image:
@@ -29,8 +38,6 @@
     name: "{{ application_api_image }}"
     source: build
     force_source: yes
-  notify: restart docker stack
-  tags: ["update"]
 
 - name: Build docker image Back-office madu
   docker_image:
@@ -42,11 +49,8 @@
     name: "{{ application_backoffice_image }}"
     source: build
     force_source: yes
-  notify: restart docker stack
-  tags: ["update"]
 
-- name: Copy docker-compose configuration file
-  template:
-    src: templates/docker-compose.yml
-    dest: /opt/app/docker-compose.yml
-  notify: restart docker stack
+- name: Start docker stack
+  docker_compose:
+    project_src: /opt/app
+    state: present

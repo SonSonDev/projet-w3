@@ -1,6 +1,0 @@
----
-
-- name: restart docker stack
-  docker_compose:
-    project_src: /opt/app
-    restarted: yes

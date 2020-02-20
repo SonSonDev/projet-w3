@@ -1,0 +1,7 @@
+---
+
+- name: Insert user in DB
+  hosts: madu
+  become: yes
+  roles:
+    - { role: madu-user }

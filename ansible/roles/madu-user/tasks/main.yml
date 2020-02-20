@@ -1,0 +1,16 @@
+---
+
+- name: Copy insert script to instance AWS
+  template:
+    src: templates/insert.js
+    dest: /opt/app/insert.js
+
+- name: Copy script to API container
+  shell: "docker cp /opt/app/insert.js \"$(docker-compose ps -q api)\":/app/src/insert.js"
+  args:
+    chdir: /opt/app
+
+- name: Execute insert script in API container
+  shell: "docker-compose exec api node src/insert.js"
+  args:
+    chdir: /opt/app

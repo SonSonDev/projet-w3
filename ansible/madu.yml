@@ -12,4 +12,4 @@
   hosts: madu
   become: yes
   roles:
-    - { role: madu, tags: ["madu"] }
+    - { role: madu, tags: ["update"] }
