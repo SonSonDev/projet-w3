@@ -3,9 +3,9 @@ const faker = require("faker/locale/fr")
 const { prisma } = require("./generated/prisma-client")
 
 const users = [
-  [ "Chrystal", "Le Liebard", "w3p2020g7@gmail.com",        "admin", "SUPER_ADMIN" ],
-  [ "Eric",     "Priou",      "eric.priou@gmail.com",       "admin", "SUPER_ADMIN" ],
-  [ "Antoine",  "Masselot",   "antoine.masselot@hetic.net", "admin", "SUPER_ADMIN" ],
+  [ "Chrystal", "Le Liebard", "w3p2020g7@gmail.com"       , "admin", "SUPER_ADMIN" ],
+  [ "Eric"    , "Priou"     , "eric.priou@hetic.net"      , "admin", "SUPER_ADMIN" ],
+  [ "Antoine" , "Masselot"  , "antoine.masselot@hetic.net", "admin", "SUPER_ADMIN" ],
 ]
 
 const defaultTags = [

@@ -10,12 +10,8 @@ import Table from "../../components/Table"
 import Tabs from "../../components/Tabs"
 import Loader from "../../components/Loader"
 
-const companyTypes = {
-  COMPANY: "Entreprise",
-  SCHOOL: "Ecole",
-  PLACE: "Point d'intérêt",
-  COWORKING: "Espace Coworking",
-}
+import { companyTypeNames } from "../../utils/dataNames"
+
 
 const CompaniesIndex = ({ history }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0)
@@ -45,7 +41,7 @@ const CompaniesIndex = ({ history }) => {
 
   const tabs = [
     { title: "Tout", filter: () => true },
-    ...Object.entries(companyTypes).map(companyType => ({
+    ...Object.entries(companyTypeNames).map(companyType => ({
       title: companyType[1], filter: ({ type }) => type === companyType[0],
     })),
   ]
@@ -54,7 +50,7 @@ const CompaniesIndex = ({ history }) => {
     .map(({ address: { street, zipCode, city }, type, ...companies }) => ({
       ...companies,
       type,
-      typeName: companyTypes[type],
+      typeName: companyTypeNames[type],
       address: `${street} ${zipCode} ${city}`,
     }))
     .filter(tabs[activeTabIndex].filter)

@@ -1,7 +1,4 @@
-const jwt = require("jsonwebtoken")
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
-
-const { APP_SECRET, parseCookie } = require("../utils")
 
 async function getPlaces(parent, args, context) {
   return await context.prisma.places()
@@ -12,7 +9,18 @@ async function getPlace(parent, { id }, context) {
 }
 
 async function getUsers(parent, { role }, context) {
-  return await context.prisma.users({ where: { role } })
+  const user = await context.getUserData()
+  if (!user || !["SUPER_ADMIN", "ADMIN"].includes(user.role)) {
+    return []
+  }
+  const query = { where: {}}
+  if (role) {
+    query.where.role = role
+  }
+  if (user.role === "ADMIN") {
+    query.where.company = {id: user.company ? user.company.id : null }
+  }
+  return await context.prisma.users(query)
 }
 
 async function getUser(parent, { id }, context) {
@@ -28,26 +36,12 @@ async function getCompany(parent, { id }, context) {
 }
 
 async function checkAuth(parent, args, context) {
-  if (!context.request.headers.cookie) {
-    throw new Error("No cookie")
-  }
-  const token = parseCookie(context.request.headers.cookie)["x-auth-token"]
-  if (!token) {
-    throw new Error("Invalid token")
-  }
-
-  const { userId } = jwt.verify(token, APP_SECRET)
-  if (!userId) {
-    context.response.clearCookie("x-auth-token")
-    throw new Error("Invalid id")
-  }
-
-  const user = await context.prisma.user({ id: userId })
+  const user = await context.getUserData()
+  console.log(user)
   if (!user) {
     context.response.clearCookie("x-auth-token")
     throw new Error("No user found")
   }
-
   return user
 }
 

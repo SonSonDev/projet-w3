@@ -9,6 +9,8 @@ import Table from "../../components/Table"
 import Tabs from "../../components/Tabs"
 import Loader from "../../components/Loader"
 
+import { roleNames } from "../../utils/dataNames"
+
 const ClientsIndex = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0)
 
@@ -32,15 +34,17 @@ const ClientsIndex = () => {
     { title: "Nom", key: "lastName" },
     { title: "Email", key: "email" },
     { title: "Entreprise", key: "company" },
-    { title: "Role", key: "role" },
+    { title: "Role", key: "roleName" },
     { label: "Delete", handleClick: deleteUser },
     { label: "Info", handleClick: () => console.log("Info") },
   ]
 
   let data = clients
-    .map(({ company, ...client }) => ({
+    .map(({ company, role, ...client }) => ({
       ...client,
       company: company ? company.name : "",
+      roleName: roleNames[role],
+      role,
     }))
 
   const tabs =  [
