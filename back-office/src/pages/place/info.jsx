@@ -2,6 +2,7 @@ import React from "react"
 import { useMutation, useQuery } from "@apollo/react-hooks"
 
 import { GET_PLACE } from "../../graphql/queries/places"
+import { categoryNames } from "../../utils/wording"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 
@@ -11,14 +12,14 @@ function PlaceInfo ({ match: { params: { id } } }) {
 
   if (loading || error) return null
 
-  const { name, category, address: { street, zipCode, city }, keywords  } = getPlace
+  const { name, category, address: { street, zipCode, city }, keywords, tags } = getPlace
 
   return (
     <div className="clearfix py4">
       <main className="sm-col sm-col-6 px4">
         <section className="mb4">
           <h1 className="h2 bold mr3 mb2">Informations</h1>
-          <h3 className="h5 bold">{category}</h3>
+          <h3 className="h5 bold">{categoryNames[category]}</h3>
           <h2 className="h2 mb1">{name}</h2>
           <span>{street}, {zipCode} {city}</span>
         </section>
@@ -26,11 +27,16 @@ function PlaceInfo ({ match: { params: { id } } }) {
           <div className="flex">
             <h1 className="h2 bold mr1 mb2">Tags</h1>
           </div>
-          <ul>
-            {keywords.map(tag => (
-              <span className="tag is-medium mr1" key={tag}>{tag}</span>
-            ))}
-          </ul>
+          {Object.keys(tags.reduce((acc, { type }) => ({ ...acc, [type]: true }), {})).map(type => (
+            <div className="mb2" key={type}>
+              <h3 className="mb1">{type}</h3>
+              <ul>
+                {tags.filter(t => t.type === type).map(({ id, name }) => (
+                  <span className="tag is-medium mr1 mb1" key={id}>{name}</span>
+                ))}
+              </ul>
+            </div>
+          ))}
         </section>
       </main>
       <aside className="sm-col sm-col-6 px4">

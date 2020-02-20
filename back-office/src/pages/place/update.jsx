@@ -7,10 +7,14 @@ import * as Yup from "yup"
 import { useMutation, useQuery } from "@apollo/react-hooks"
 import { UPDATE_PLACE } from "../../graphql/mutations/places"
 import { GET_PLACE } from "../../graphql/queries/places"
+import { GET_TAGS } from "../../graphql/queries/tags"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 
 const PlaceUpdate = ({ match: { params: { id } } }) => {
+
+  // const { data: { getTags = [] } = {} } = useQuery(GET_TAGS)
+
   const { loading, error, data } = useQuery(GET_PLACE, { variables: { id } })
 
   console.log("PlaceUpdate")
@@ -119,12 +123,12 @@ const PlaceUpdate = ({ match: { params: { id } } }) => {
             </div>
           </div>
 
-          <div className="field">
+          {/* <div className="field">
             <label htmlFor="type" className="label">Type</label>
             <div className="control">
               <Field id="type" className="input" name="type" type="text" placeholder="Type" />
             </div>
-          </div>
+          </div> */}
 
 
           <div className="control">

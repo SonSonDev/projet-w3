@@ -8,6 +8,8 @@ import { CREATE_COMPANY } from "../../graphql/mutations/companies"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 
+import { companyTypeNames } from "../../utils/wording"
+
 const CompanyCreate = () => {
   console.log("CompanyCreate")
   const [createCompany] = useMutation(CREATE_COMPANY, {
@@ -53,10 +55,9 @@ const CompanyCreate = () => {
                 <div className="select is-fullwidth">
                   <Field as="select" id="companyType" name="companyType">
                     <option value="" disabled>Sélectionner un type</option>
-                    <option value="COMPANY">Entreprise</option>
-                    <option value="SCHOOL">Ecole</option>
-                    <option value="PLACE">Point d&apos;intérêt</option>
-                    <option value="COWORKING">Espace Coworking</option>
+                    {Object.entries(companyTypeNames).map(type => (
+                      <option value={type[0]} key={type[0]}>{type[1]}</option>
+                    ))}
                   </Field>
                 </div>
               </div>

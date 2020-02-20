@@ -9,6 +9,8 @@ import { GET_TAGS } from "../../graphql/queries/tags"
 import { CREATE_TAG } from "../../graphql/mutations/tags"
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 
+import { categoryNames } from "../../utils/wording"
+
 const PlaceCreate = () => {
 
   const { data: { getTags = [] } = {} } = useQuery(GET_TAGS)
@@ -89,9 +91,9 @@ const PlaceCreate = () => {
                 <div className="select is-fullwidth">
                   <Field as="select" id="category" name="category">
                     <option value="" disabled>Sélectionner une catégorie</option>
-                    <option value="FOOD">Restaurant</option>
-                    <option value="SHOP">Boutique</option>
-                    <option value="ACTIVITY">Activité</option>
+                    {Object.entries(categoryNames).map(category => (
+                      <option value={category[0]} key={category[0]}>{category[1]}</option>
+                    ))}
                   </Field>
                 </div>
               </div>

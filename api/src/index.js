@@ -1,4 +1,6 @@
 const { GraphQLServer } = require("graphql-yoga")
+const jwt = require("jsonwebtoken")
+
 const { prisma } = require("./generated/prisma-client")
 const Query = require("./resolvers/Query")
 const Mutation = require("./resolvers/Mutation")
@@ -6,6 +8,8 @@ const Company = require("./resolvers/Company")
 const User = require("./resolvers/User")
 const Place = require("./resolvers/Place")
 const Tag = require("./resolvers/Tag")
+
+const { APP_SECRET, parseCookie } = require("./utils")
 
 const resolvers = {
   Query,
@@ -19,13 +23,26 @@ const resolvers = {
 const server = new GraphQLServer({
   typeDefs: "./src/schema.graphql",
   resolvers,
-  context: request => {
+  context: ctx => {
+    const cookie = ctx.request.headers.cookie
     return {
-      ...request,
+      ...ctx,
       prisma,
+      getUserData: (async () => {
+        if (cookie && parseCookie(cookie)["x-auth-token"]) {
+          const token = parseCookie(cookie)["x-auth-token"]
+          const { userId } = jwt.verify(token, APP_SECRET)
+          const user = await prisma.user({ id: userId })
+          const company = await prisma.companies({ where: { users_some: { id: userId }}})
+          return {company: company[0], ...user}
+        } else {
+          return null
+        }
+      }),
     }
   },
 })
+
 server.start({
   port: process.env.PORT,
   cors: {

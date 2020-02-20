@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import PropTypes from "prop-types"
 import { useQuery, useMutation } from "@apollo/react-hooks"
+
 import { GET_PLACES } from "../../graphql/queries/places"
 import { DELETE_PLACE } from "../../graphql/mutations/places"
 
@@ -10,11 +11,7 @@ import Table from "../../components/Table"
 import Tabs from "../../components/Tabs"
 import Loader from "../../components/Loader"
 
-const categories = {
-  FOOD: "Restaurant",
-  SHOP: "Boutique",
-  ACTIVITY: "Activité",
-}
+import { categoryNames } from "../../utils/wording"
 
 const PlacesIndex = ({ history }) => {
   console.log("render PlacesIndex")
@@ -55,7 +52,7 @@ const PlacesIndex = ({ history }) => {
       ...place,
       address: `${street} ${zipCode} ${city}`,
       category,
-      categoryName: categories[category],
+      categoryName: categoryNames[category],
     }))
     .filter(tabs[activeTabIndex].filter)
 
