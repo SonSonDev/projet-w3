@@ -59,15 +59,26 @@ const App = () => {
                 <LogoMadu style={{width: "64px"}}/>
               </a>
             </div>
-            <div className="header__user">
-              <div className="user-info">
-                <p className="name">{`${userData.firstName} ${userData.lastName}`}</p>
-                <p className="role">{`${userData.role === "SUPER_ADMIN" ? "Administrateur" : `Représentant de ${userData.company.name}`}`}</p>
+
+            <div className="dropdown is-right is-hoverable">
+              <div className="dropdown-trigger">
+                <div className="flex items-center my05">
+                  <div className="right-align">
+                    <span className="has-text-grey">{`${userData.role === "SUPER_ADMIN" ? "Super Administrateur" : `Représentant de ${userData.company.name}`}`}</span>
+                    <div className="bold lh-1">{`${userData.firstName} ${userData.lastName}`}</div>
+                  </div>
+                  <span className="icon is-medium"><i className="ri-arrow-down-s-fill"/></span>
+                </div>
               </div>
-              <button className="button is-light" onClick={() => logout()}>
-                Logout
-              </button>
+
+              <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                <button onClick={logout} className="dropdown-content button is-danger is-inverted right">
+                  <span className="icon mr05"><i className="ri-logout-box-r-line"/></span>
+                  <span className="h6">Se déconnecter</span>
+                </button>
+              </div>
             </div>
+
           </header>
         )}
 
