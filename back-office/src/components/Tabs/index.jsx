@@ -19,7 +19,10 @@ const Tabs = ({
           </li>
         ))}
         { action.url && (
-          <a href={action.url} className="button is-primary go-to-right" style={{transform: "translate(-5px,-5px)"}}>{action.label}</a>
+          <a href={action.url} className="button is-primary go-to-right" style={{transform: "translate(-5px,-5px)"}}>
+            <span className="icon"><i className="ri-add-box-line"/></span>
+            <span className="">{action.label}</span>
+          </a>
         )}
       </ul>
     </div>

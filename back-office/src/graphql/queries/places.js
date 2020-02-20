@@ -18,6 +18,12 @@ export const GET_PLACE = gql`
       keywords
       type
       category
+      tags {
+        id
+        name
+        type
+        activity
+      }
     }
   }
 `

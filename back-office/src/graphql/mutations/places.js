@@ -8,6 +8,7 @@ export const CREATE_PLACE = gql`
     $city: String
     $type: String
     $category: Category
+    $tags: [ID!]
   ) {
     createPlace(
       name: $name
@@ -16,6 +17,7 @@ export const CREATE_PLACE = gql`
       city: $city
       type: $type
       category: $category
+      tags: $tags
     ) {
       id
       name
@@ -31,6 +33,12 @@ export const CREATE_PLACE = gql`
       keywords
       category
       type
+      tags {
+        id
+        name
+        type
+        activity
+      }
     }
   }
 `
