@@ -10,7 +10,7 @@ import Table from "../../components/Table"
 import Tabs from "../../components/Tabs"
 import Loader from "../../components/Loader"
 
-import { categoryNames } from "../../utils/dataNames"
+import { categoryNames } from "../../utils/wording"
 
 const PlacesIndex = ({ history }) => {
   console.log("render PlacesIndex")

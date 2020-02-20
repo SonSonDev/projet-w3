@@ -2,7 +2,7 @@ import React from "react"
 import { useMutation, useQuery } from "@apollo/react-hooks"
 
 import { GET_PLACE } from "../../graphql/queries/places"
-import { categories } from "../../utils/wording"
+import { categoryNames } from "../../utils/wording"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 
@@ -19,7 +19,7 @@ function PlaceInfo ({ match: { params: { id } } }) {
       <main className="sm-col sm-col-6 px4">
         <section className="mb4">
           <h1 className="h2 bold mr3 mb2">Informations</h1>
-          <h3 className="h5 bold">{categories[category]}</h3>
+          <h3 className="h5 bold">{categoryNames[category]}</h3>
           <h2 className="h2 mb1">{name}</h2>
           <span>{street}, {zipCode} {city}</span>
         </section>

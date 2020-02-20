@@ -9,7 +9,7 @@ import Table from "../../components/Table"
 import Tabs from "../../components/Tabs"
 import Loader from "../../components/Loader"
 
-import { roleNames } from "../../utils/dataNames"
+import { roleNames } from "../../utils/wording"
 
 const ClientsIndex = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0)

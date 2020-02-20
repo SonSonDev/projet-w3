@@ -8,7 +8,7 @@ import { CREATE_COMPANY } from "../../graphql/mutations/companies"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 
-import { companyTypeNames } from "../../utils/dataNames"
+import { companyTypeNames } from "../../utils/wording"
 
 const CompanyCreate = () => {
   console.log("CompanyCreate")

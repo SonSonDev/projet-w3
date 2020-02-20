@@ -9,7 +9,7 @@ import { GET_TAGS } from "../../graphql/queries/tags"
 import { CREATE_TAG } from "../../graphql/mutations/tags"
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 
-import { categoryNames } from "../../utils/dataNames"
+import { categoryNames } from "../../utils/wording"
 
 const PlaceCreate = () => {
 

@@ -10,7 +10,7 @@ import Table from "../../components/Table"
 import Tabs from "../../components/Tabs"
 import Loader from "../../components/Loader"
 
-import { companyTypeNames } from "../../utils/dataNames"
+import { companyTypeNames } from "../../utils/wording"
 
 
 const CompaniesIndex = ({ history }) => {
