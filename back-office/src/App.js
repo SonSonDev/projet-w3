@@ -1,5 +1,5 @@
-import React from "react"
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import React, { useState, useEffect } from "react"
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 
 import Home from "./pages/Home"
 import Login from "./pages/Login"
@@ -37,8 +37,17 @@ import { CHECK_AUTH } from "./graphql/queries/auth"
 import UserDataContext from "./utils/UserDataContext"
 
 const App = () => {
+
+  const [ dropdownActive, setDropdownActive ] = useState(false)
+  useEffect(() => {
+    const closeDropdown = () => setDropdownActive(false)
+    window.addEventListener("click", closeDropdown)
+    return () => window.removeEventListener("click", closeDropdown)
+  }, [])
+
   const [logout] = useMutation(LOGOUT, {
     onCompleted () {
+      // j’ai pas réussi ><
       window.location.href = "/"
     },
   })
@@ -85,11 +94,42 @@ const App = () => {
         )}
 
         {userData && (
-          <aside className="menu">
+          <aside className="menu px2 py3">
+
+            <div className={`dropdown ${dropdownActive && "is-active"} w100 mb2`}>
+              <div onClick={e => {
+                setDropdownActive(true)
+                e.stopPropagation()
+              }} className="dropdown-trigger w100">
+                <button className="button is-primary is-fullwidth">
+                  <span className="icon"><i className="ri-add-box-line"/></span>
+                  <span className="">Ajouter</span>
+                </button>
+              </div>
+
+              <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                <div className="dropdown-content">
+                  <Link to="/place/create" onClick={() => setDropdownActive(false)} class="dropdown-item">
+                    Ajouter une adresse
+                  </Link>
+                  {userData.role === "ADMIN" && (
+                    <Link to="/employee/create" onClick={() => setDropdownActive(false)} class="dropdown-item">
+                      Ajouter un employé
+                    </Link>
+                  )}
+                  {userData.role === "SUPER_ADMIN" && (
+                    <Link to="/company/create" onClick={() => setDropdownActive(false)} class="dropdown-item">
+                      Ajouter une entreprise
+                    </Link>
+                  )}
+                </div>
+              </div>
+            </div>
+
             <ul className="menu-list">
 
               <ItemNav links={["places", "place"]} icon="ri-store-2-line">
-                Addresses
+                Adresses
               </ItemNav>
 
               {userData.role === "ADMIN" && (

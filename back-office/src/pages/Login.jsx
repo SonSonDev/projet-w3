@@ -8,6 +8,7 @@ import { useMutation } from "@apollo/react-hooks"
 import { LOGIN } from "../graphql/mutations/auth"
 
 import UserDataContext from "../utils/UserDataContext"
+import { ReactComponent as Wordmark } from "../assets/img/logo/wordmark.svg"
 
 const Login = () => {
   const userData = useContext(UserDataContext)
@@ -27,8 +28,8 @@ const Login = () => {
     <section className="login">
       <div className="login__side"/>
       <div className="login__content">
-        <h1 className="title is-spaced">madu</h1>
-        <p className="subtitle center">Identifiez-vous pour accéder à l&apos;espace Madu de votre entreprise.</p>
+        <Wordmark width={140} height={50} />
+        <p className="center max-width-1 p3 mb2">Identifiez-vous pour accéder à l’espace de gestion de votre compte Madu.</p>
         <Formik
           initialValues={{ name: "", password: "", email: "" }}
           validationSchema={Yup.object({
@@ -60,8 +61,8 @@ const Login = () => {
                 <Field className="input" name="password" type="password" placeholder="Mot de passe"/>
               </div>
             </div>
-            <div className="control">
-              <button type="submit" className="button is-link is-fullwidth">Submit</button>
+            <div className="control mt2">
+              <button type="submit" className="button is-primary is-fullwidth">Connexion</button>
             </div>
           </Form>
         </Formik>

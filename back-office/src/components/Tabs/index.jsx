@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { Link } from "react-router-dom"
 
 const Tabs = ({
   tabs = [{ title: "All", filter: () => true }],
@@ -12,14 +13,14 @@ const Tabs = ({
       <ul>
         {tabs.map(({ title }, index) => (
           <li className={activeTabIndex === index ? "is-active" : ""} key={index}>
-            <a href="#" onClick={() => onTabClick(index)}>{title}</a>
+            <a onClick={() => onTabClick(index)}>{title}</a>
           </li>
         ))}
         { action.url && (
-          <a href={action.url} className="button is-primary go-to-right" style={{transform: "translate(-5px,-5px)"}}>
+          <Link to={action.url} className="button is-primary go-to-right" style={{transform: "translateY(-5px)"}}>
             <span className="icon"><i className="ri-add-box-line"/></span>
             <span className="">{action.label}</span>
-          </a>
+          </Link>
         )}
       </ul>
     </div>

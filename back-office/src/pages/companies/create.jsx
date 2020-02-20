@@ -28,7 +28,7 @@ const CompanyCreate = ({history}) => {
     <SubPage history={history}>
       <div className="create">
         <Formik
-          initialValues={{ companyName: "", companyType: "", streetCompany: "", zipCodeCompany: "", cityCompany: "", firstNameUser: "", lastNameUser: "", emailUser: "", phoneUser: "", emailDomains: [] }}
+          initialValues={{ companyName: "", companyType: "", streetCompany: "", zipCodeCompany: "", cityCompany: "", firstNameUser: "", lastNameUser: "", emailUser: "", phoneUser: "", emailDomains: [""] }}
           validationSchema={Yup.object({
             companyName: Yup.string(), companyType: Yup.string(), streetCompany: Yup.string(), zipCodeCompany: Yup.string(), cityCompany: Yup.string(), firstNameUser: Yup.string(), lastNameUser: Yup.string(), emailUser: Yup.string(), phoneUser: Yup.string(), roleUser: Yup.string(), isRepresentative: Yup.boolean(), emailDomains: Yup.array().of(Yup.string()),
           })}
@@ -121,24 +121,29 @@ const CompanyCreate = ({history}) => {
                     <div>
                       {values.emailDomains.map((friend, index) => (
                         <div className="field has-addons" key={index}>
+                          <p className="control">
+                            <a className="button is-static">@</a>
+                          </p>
                           <div className="control is-expanded" style={{marginBottom: "2px"}}>
                             <Field name={`emailDomains[${index}]`} className="input full-width" />
                           </div>
                           <div className="control">
-                            <button className="button" onClick={() => arrayHelpers.remove(index)}>
+                            <button className="button has-text-danger" onClick={() => arrayHelpers.remove(index)}>
                               Suppr
                             </button>
                           </div>
                         </div>
                       ))}
-                      <button type="button" onClick={() => arrayHelpers.push("")}>Ajouter un nom de domaine</button>
+                      <button className="button is-small" type="button" onClick={() => arrayHelpers.push("")}>
+                        Ajouter un nom de domaine
+                      </button>
                     </div>
                   )}
                 />
               </div>
 
-              <button type="submit" className="button is-link is-fullwidth">
-                Submit
+              <button type="submit" className="button is-primary is-fullwidth">
+                Ajouter l’entreprise
               </button>
             </Form>
           )}
