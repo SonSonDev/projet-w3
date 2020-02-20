@@ -73,7 +73,7 @@ const App = () => {
               </div>
 
               <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                <button onClick={logout} className="dropdown-content button is-danger is-inverted right">
+                <button onClick={e => e.currentTarget.blur() || logout()} className="dropdown-content button is-danger is-inverted right">
                   <span className="icon mr05"><i className="ri-logout-box-r-line"/></span>
                   <span className="h6">Se déconnecter</span>
                 </button>
@@ -94,7 +94,7 @@ const App = () => {
                 </>
               )}
               { userData.role === "ADMIN" && (
-                <ItemNav link="/companies" icon="ri-building-line">Entreprises</ItemNav>
+                <ItemNav link="/employees" icon="ri-group-line">Employés</ItemNav>
               )}
 
             </ul>

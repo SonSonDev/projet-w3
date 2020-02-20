@@ -1,22 +1,26 @@
-import React from "react";
+import React, { useState } from "react"
+import { Link, useLocation } from "react-router-dom"
 
 function ItemNav({ link, children, icon }) {
+  const { pathname } = useLocation()
+
   return (
     <li>
-      <a
-        href={link}
+      <Link
+        to={link}
+        onClick={e => e.currentTarget.blur()}
         className={[
           "button justify-left",
-          window.location.pathname === link ? "is-success is-light" : "is-white"
+          pathname === link ? "is-success is-light" : "is-white",
         ].join(" ")}
       >
         <span className="icon">
           <i className={icon} />
         </span>
         <span className="flex">{children}</span>
-      </a>
+      </Link>
     </li>
-  );
+  )
 }
 
-export default ItemNav;
+export default ItemNav
