@@ -24,3 +24,5 @@ $primary: #F98560;
 @import "../../node_modules/bulma/sass/components/_all.sass";
 @import "../../node_modules/bulma/sass/layout/_all.sass";
 @import "../../node_modules/bulma/sass/grid/_all.sass";
+
+@import 'partials/bulmaOverride';

@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { Link } from "react-router-dom"
 
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { GET_USERS } from "../../graphql/queries/clients"
@@ -28,7 +29,7 @@ const ClientsIndex = () => {
   }
 
   const columns = [
-    { title: "Prénom", key: "firstName" },
+    { title: "Prénom", key: "firstName", route: ({ id, value }) => <Link to={`/place/${id}`}>{value}</Link> },
     { title: "Nom", key: "lastName" },
     { title: "Email", key: "email" },
     { title: "Entreprise", key: "company" },

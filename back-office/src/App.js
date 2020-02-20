@@ -27,6 +27,7 @@ import CompanyEmployeeSignup from "./pages/companies/employee-signup"
 
 import NotFound from "./pages/NotFound"
 
+import ItemNav from "./components/itemNav"
 import { ReactComponent as LogoMadu } from "./assets/img/logo/full.svg"
 
 import { useMutation, useQuery } from "@apollo/react-hooks"
@@ -74,23 +75,15 @@ const App = () => {
         {userData && (
           <aside className="menu">
             <ul className="menu-list">
-              <li>
-                <Link to="/places">Adresses</Link>
-              </li>
+              <ItemNav link="/places" icon="ri-store-2-line">Addresses</ItemNav>
               { userData.role === "SUPER_ADMIN" && (
                 <>
-                  <li>
-                    <Link to="/clients">Utilisateurs</Link>
-                  </li>
-                  <li>
-                    <Link to="/companies">Entreprises</Link>
-                  </li>
+                  <ItemNav link="/clients" icon="ri-group-line">Utilisateurs</ItemNav>
+                  <ItemNav link="/companies" icon="ri-building-line">Entreprises</ItemNav>
                 </>
               )}
               { userData.role === "ADMIN" && (
-                <li>
-                  <Link to="/employees">Employés</Link>
-                </li>
+                <ItemNav link="/companies" icon="ri-building-line">Entreprises</ItemNav>
               )}
 
             </ul>

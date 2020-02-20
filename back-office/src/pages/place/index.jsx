@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { Link } from "react-router-dom"
 import PropTypes from "prop-types"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { GET_PLACES } from "../../graphql/queries/places"
@@ -34,7 +35,7 @@ const PlacesIndex = ({ history }) => {
   }
 
   const columns = [
-    { title: "Nom", key: "name" },
+    { title: "Nom", key: "name", route: ({ id, value }) => <Link to={`/place/${id}`}>{value}</Link> },
     { title: "Catégorie", key: "categoryName" },
     { title: "Adresse", key: "address", link: address => `https://www.google.com/maps/search/?api=1&query=${encodeURI(address)}`},
     { label: "Delete", handleClick: deletePlace },

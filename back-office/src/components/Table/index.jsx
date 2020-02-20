@@ -16,7 +16,7 @@ const Table = ({
   ],
 }) => {
   return (
-    <table className="table is-striped table is-bordered w100">
+    <table className="table w100">
       <thead>
         <tr>
           {columns.map(({ title, label }) => (
@@ -27,13 +27,14 @@ const Table = ({
       <tbody>
         {data.map(({ id, ...entry }) => (
           <tr key={id}>
-            {columns.map(({ key, label, handleClick, link }, i) => (
+            {columns.map(({ key, label, handleClick, link, route }, i) => (
               <td key={id + i}>
-                { link ? <a href={link(entry[key])} target="_blank" rel="noopener noreferrer">{entry[key]}</a> :
-                  key ? (entry[key] || "-" ) :
-                    (
-                      <button className="button is-small" onClick={() => handleClick({ variables: { id } })}>{label}</button>
-                    )
+                {route ? route({ id, value: entry[key] }) :
+                  link ? <a href={link(entry[key])} target="_blank" rel="noopener noreferrer">{entry[key]}</a> :
+                    key ? (entry[key] || "-") :
+                      (
+                        <button className="button is-small" onClick={() => handleClick({ variables: { id } })}>{label}</button>
+                      )
                 }
               </td>
             ))}

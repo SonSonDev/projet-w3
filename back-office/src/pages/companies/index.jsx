@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { Link } from "react-router-dom"
 import PropTypes from "prop-types"
 
 import { useQuery, useMutation } from "@apollo/react-hooks"
@@ -20,7 +21,7 @@ const companyTypes = {
 const CompaniesIndex = ({ history }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0)
 
-  const { error, data: {getCompanies: companies} = {}, loading, refetch } = useQuery(GET_COMPANIES, {
+  const { error, data: { getCompanies: companies } = {}, loading, refetch } = useQuery(GET_COMPANIES, {
     onError: error => console.log(error.message),
   })
 
@@ -30,17 +31,16 @@ const CompaniesIndex = ({ history }) => {
 
   if (loading) {
     return (
-      <Loader/>
+      <Loader />
     )
   }
 
   const columns = [
-    { title: "Nom", key: "name" },
+    { title: "Nom", key: "name", route: ({ id, value }) => <Link to={`/company/${id}`}>{value}</Link> },
     { title: "Type", key: "typeName" },
     { title: "Adresse", key: "address", link: address => `https://www.google.com/maps/search/?api=1&query=${encodeURI(address)}` },
     { label: "Delete", handleClick: deleteCompany },
     { label: "Edit", handleClick: ({ variables: { id } }) => history.push(`/company/${id}/update`) },
-    { label: "Info", handleClick: ({ variables: { id } }) => history.push(`/company/${id}`) },
   ]
 
   const tabs = [
@@ -61,7 +61,7 @@ const CompaniesIndex = ({ history }) => {
 
   return (
     <section className="list-page">
-      <Tabs tabs={tabs}  activeTabIndex={activeTabIndex} onTabClick={setActiveTabIndex} action={{label: "Ajouter une entreprise", url: "/company/create"}}/>
+      <Tabs tabs={tabs} activeTabIndex={activeTabIndex} onTabClick={setActiveTabIndex} action={{ label: "Ajouter une entreprise", url: "/company/create" }} />
       <div className="padding16">
         <Table data={data} columns={columns} />
       </div>
