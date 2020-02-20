@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { Link } from "react-router-dom"
 import PropTypes from "prop-types"
 
 import { useQuery, useMutation } from "@apollo/react-hooks"
@@ -32,9 +31,9 @@ const CompaniesIndex = ({ history }) => {
   }
 
   const columns = [
-    { title: "Nom", key: "name", route: ({ id, value }) => <Link to={`/company/${id}`}>{value}</Link> },
+    { title: "Nom", key: "name", link: id => `/company/${id}`},
     { title: "Type", key: "typeName" },
-    { title: "Adresse", key: "address", link: address => `https://www.google.com/maps/search/?api=1&query=${encodeURI(address)}` },
+    { title: "Adresse", key: "address", externalLink: address => `https://www.google.com/maps/search/?api=1&query=${encodeURI(address)}` },
     { label: "Delete", handleClick: deleteCompany },
     { label: "Edit", handleClick: ({ variables: { id } }) => history.push(`/company/${id}/update`) },
   ]

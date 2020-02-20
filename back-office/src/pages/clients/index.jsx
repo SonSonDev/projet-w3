@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { Link } from "react-router-dom"
 
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { GET_USERS } from "../../graphql/queries/clients"

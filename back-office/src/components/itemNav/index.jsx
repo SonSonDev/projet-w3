@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+import React from "react"
+import PropTypes from "prop-types"
 import { Link, useLocation } from "react-router-dom"
 
 function ItemNav({ links, children, icon }) {
@@ -20,6 +21,12 @@ function ItemNav({ links, children, icon }) {
       </Link>
     </li>
   )
+}
+
+ItemNav.propTypes = {
+  links: PropTypes.arrayOf(PropTypes.string),
+  children: PropTypes.node,
+  icon: PropTypes.string,
 }
 
 export default ItemNav

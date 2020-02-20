@@ -2,12 +2,9 @@ import React from "react"
 import PropTypes from "prop-types"
 
 const Tabs = ({
-  tabs = [
-    { title: "All", filter: () => true },
-    { title: "Shop", filter: ({ category }) => category === "SHOP" },
-  ],
+  tabs = [{ title: "All", filter: () => true }],
   activeTabIndex = 0,
-  action = { label: "ajouter une action", url: ""},
+  action = { label: "", url: ""},
   onTabClick = () => console.log("action"),
 }) => {
   return (

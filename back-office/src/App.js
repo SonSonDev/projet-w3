@@ -1,5 +1,5 @@
 import React from "react"
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 
 import Home from "./pages/Home"
 import Login from "./pages/Login"
@@ -31,7 +31,8 @@ import ItemNav from "./components/itemNav"
 import { ReactComponent as LogoMadu } from "./assets/img/logo/full.svg"
 
 import { useMutation, useQuery } from "@apollo/react-hooks"
-import { LOGOUT, CHECK_AUTH } from "./graphql/mutations/auth"
+import { LOGOUT } from "./graphql/mutations/auth"
+import { CHECK_AUTH } from "./graphql/queries/auth"
 
 import UserDataContext from "./utils/UserDataContext"
 
@@ -65,7 +66,7 @@ const App = () => {
               <div className="dropdown-trigger">
                 <div className="flex items-center my05">
                   <div className="right-align">
-                    <span className="has-text-grey">{`${userData.role === "SUPER_ADMIN" ? "Super Administrateur" : `Représentant de ${userData.company.name}`}`}</span>
+                    <span className="has-text-grey">{`${userData.role === "SUPER_ADMIN" ? "Super Administrateur" : userData.company ? `Représentant de ${userData.company.name}` : "" }`}</span>
                     <div className="bold lh-1">{`${userData.firstName} ${userData.lastName}`}</div>
                   </div>
                   <span className="icon is-medium"><i className="ri-arrow-down-s-fill"/></span>

@@ -158,7 +158,7 @@ const populateDb = async () => {
       await prisma.createUser({
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
-        email: faker.internet.email(),
+        email: faker.internet.email().toLowerCase(),
         password: await bcrypt.hash("user", 10),
         role: "USER",
         company: { connect: { id } },

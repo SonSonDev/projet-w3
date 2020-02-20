@@ -6,7 +6,7 @@ import * as Yup from "yup"
 
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { GET_COMPANY } from "../../graphql/queries/companies"
-import { CREATE_USER } from "../../graphql/mutations/clients"
+import { CREATE_USER } from "../../graphql/mutations/employees"
 
 
 function CompanyEmployeeSignup ({ match: { params: { id } } }) {
@@ -35,7 +35,7 @@ function CompanyEmployeeSignup ({ match: { params: { id } } }) {
     )
   }
 
-  if (error) {
+  if (error || !data.getCompany) {
     return (
       <div className="">
         <div className="notification" style={{marginTop: "10px", backgroundColor: "#feecf0", color: "#cc0f35"}}>
@@ -70,6 +70,7 @@ function CompanyEmployeeSignup ({ match: { params: { id } } }) {
               lastName,
               email: emailLocalPart + "@" + emailDomain,
               role: "USER",
+              companyId: id,
             },
           })
         }}

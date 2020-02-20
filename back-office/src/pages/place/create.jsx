@@ -23,7 +23,7 @@ const PlaceCreate = ({history}) => {
       const { getTags } = cache.readQuery({ query: GET_TAGS })
       cache.writeQuery({
         query: GET_TAGS,
-        data: { getTags: [ createTag, ...getTags ] }
+        data: { getTags: [ createTag, ...getTags ] },
       })
     },
   })

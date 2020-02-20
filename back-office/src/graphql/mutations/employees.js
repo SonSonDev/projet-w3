@@ -6,8 +6,9 @@ export const CREATE_USER = gql `
     $lastName: String!
     $email: String!
     $role: Role!
+    $companyId: ID
   ) {
-    createUser(firstName: $firstName, lastName: $lastName, email: $email, role: $role) {
+    createUser(firstName: $firstName, lastName: $lastName, email: $email, role: $role, companyId: $companyId) {
       token
       user{
         id

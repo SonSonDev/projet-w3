@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { Link } from "react-router-dom"
 
 const Table = ({
   data = [
@@ -27,10 +28,10 @@ const Table = ({
       <tbody>
         {data.map(({ id, ...entry }) => (
           <tr key={id}>
-            {columns.map(({ key, label, handleClick, link, route }, i) => (
+            {columns.map(({ key, label, handleClick, externalLink, link }, i) => (
               <td key={id + i}>
-                {route ? route({ id, value: entry[key] }) :
-                  link ? <a href={link(entry[key])} target="_blank" rel="noopener noreferrer">{entry[key]}</a> :
+                { link ? <Link to={link(id)}>{entry[key]}</Link> :
+                  externalLink ? <a href={externalLink(entry[key])} target="_blank" rel="noopener noreferrer">{entry[key]}</a> :
                     key ? (entry[key] || "-") :
                       (
                         <button className="button is-small" onClick={() => handleClick({ variables: { id } })}>{label}</button>

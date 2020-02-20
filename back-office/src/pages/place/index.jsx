@@ -1,5 +1,4 @@
-import React, { useState } from "react"
-import { Link } from "react-router-dom"
+import React, { useState, useContext } from "react"
 import PropTypes from "prop-types"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 
@@ -13,8 +12,10 @@ import Loader from "../../components/Loader"
 
 import { categoryNames } from "../../utils/wording"
 
-const PlacesIndex = ({ history }) => {
+import UserDataContext from "../../utils/UserDataContext"
 
+const PlacesIndex = ({ history }) => {
+  const userData = useContext(UserDataContext)
   const [activeTabIndex, setActiveTabIndex] = useState(0)
 
   const { error, loading, data: {getPlaces: places} = {}, refetch } = useQuery(GET_PLACES, {
@@ -32,12 +33,12 @@ const PlacesIndex = ({ history }) => {
   }
 
   const columns = [
-    { title: "Nom", key: "name", route: ({ id, value }) => <Link to={`/place/${id}`}>{value}</Link> },
+    { title: "Nom", key: "name", link: id => `/place/${id}`},
     { title: "Catégorie", key: "categoryName" },
-    { title: "Adresse", key: "address", link: address => `https://www.google.com/maps/search/?api=1&query=${encodeURI(address)}`},
-    { label: "Delete", handleClick: deletePlace },
+    { title: "Adresse", key: "address", externalLink: address => `https://www.google.com/maps/search/?api=1&query=${encodeURI(address)}`},
+    (userData.role === "SUPER_ADMIN") && { label: "Delete", handleClick: deletePlace },
     { label: "Edit", handleClick: ({ variables: { id } }) => history.push(`/place/${id}/update`)},
-  ]
+  ].filter(Boolean)
 
   const tabs = [
     { title: "Tout", filter: () => true },

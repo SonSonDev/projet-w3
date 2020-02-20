@@ -197,6 +197,12 @@ async function updateCompany(parent, { companyId, name, type, street, zipCode, c
 // USERS
 
 async function createUser(parent, { firstName, lastName, email, role, companyId }, context) {
+  const userData = await context.getUserData()
+
+  if (!companyId && userData && userData.company) {
+    companyId = userData.company.id
+  }
+
   let randomPassword = Math.random().toString(36).substring(5)
 
   const mailOptions = {
