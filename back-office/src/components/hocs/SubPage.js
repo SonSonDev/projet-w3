@@ -4,9 +4,12 @@ import PropTypes from "prop-types"
 const SubPage = ({history, children}) => {
   return (
     <div className="py3">
-      <button className="ml4 mb2" onClick={history.goBack}>
-        <i className="ri-arrow-go-back-fill" />
-      </button>
+      <div className="mxn1">
+        <button className="button is-small is-text ml4 mb2" onClick={history.goBack}>
+          {/* <i className="ri-arrow-go-back-fill" /> */}
+            Retour
+        </button>
+      </div>
       {children}
     </div>
   )

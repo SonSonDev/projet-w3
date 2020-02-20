@@ -86,16 +86,25 @@ const App = () => {
         {userData && (
           <aside className="menu">
             <ul className="menu-list">
-              <ItemNav link="/places" icon="ri-store-2-line">Addresses</ItemNav>
-              { userData.role === "SUPER_ADMIN" && (
-                <>
-                  <ItemNav link="/clients" icon="ri-group-line">Utilisateurs</ItemNav>
-                  <ItemNav link="/companies" icon="ri-building-line">Entreprises</ItemNav>
-                </>
+
+              <ItemNav links={["places", "place"]} icon="ri-store-2-line">
+                Addresses
+              </ItemNav>
+
+              {userData.role === "ADMIN" && (
+                <ItemNav links={["employees", "employee"]} icon="ri-group-line">
+                  Employés
+                </ItemNav>
               )}
-              { userData.role === "ADMIN" && (
-                <ItemNav link="/employees" icon="ri-group-line">Employés</ItemNav>
-              )}
+
+              {userData.role === "SUPER_ADMIN" && <>
+                <ItemNav links={["clients", "client"]} icon="ri-group-line">
+                  Utilisateurs
+                </ItemNav>
+                <ItemNav links={["companies", "company"]} icon="ri-building-line">
+                  Entreprises
+                </ItemNav>
+              </>}
 
             </ul>
           </aside>

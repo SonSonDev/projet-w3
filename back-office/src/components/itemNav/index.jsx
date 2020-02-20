@@ -1,17 +1,16 @@
 import React, { useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 
-function ItemNav({ link, children, icon }) {
+function ItemNav({ links, children, icon }) {
   const { pathname } = useLocation()
-
   return (
     <li>
       <Link
-        to={link}
+        to={"/" + links[0]}
         onClick={e => e.currentTarget.blur()}
         className={[
           "button justify-left",
-          pathname === link ? "is-success is-light" : "is-white",
+          pathname.split("/").some(bit => links.includes(bit)) ? "is-success is-light" : "is-white",
         ].join(" ")}
       >
         <span className="icon">

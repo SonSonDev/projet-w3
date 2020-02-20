@@ -55,7 +55,8 @@ function CompanyInfo ({ history, location, match: { params: { id } } }) {
                   {(total/100).toFixed(2)}€
                   <span className={[
                     "tag is-medium",
-                    status === "paid" && "is-success",
+                    status === "open" && "is-warning is-light",
+                    status === "paid" && "is-success is-light",
                   ].join(" ")}>{status}</span>
                   {new Date(created*1000).toLocaleDateString()}
                   <a className="button is-white ml2" href={hosted_invoice_url} target="_blank" rel="noopener noreferrer">

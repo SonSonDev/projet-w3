@@ -14,7 +14,7 @@ import Loader from "../../components/Loader"
 import { categoryNames } from "../../utils/wording"
 
 const PlacesIndex = ({ history }) => {
-  console.log("render PlacesIndex")
+
   const [activeTabIndex, setActiveTabIndex] = useState(0)
 
   const { error, loading, data: {getPlaces: places} = {}, refetch } = useQuery(GET_PLACES, {
