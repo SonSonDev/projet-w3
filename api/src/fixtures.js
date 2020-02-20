@@ -1,10 +1,11 @@
 const bcrypt = require("bcryptjs")
+const faker = require("faker/locale/fr")
 const { prisma } = require("./generated/prisma-client")
 
-
 const users = [
-  [ "Chrystal", "Le Liebard", "w3p2020g7@gmail.com",  "admin",    "SUPER_ADMIN" ],
-  [ "Eric",     "Priou",      "eric.priou@gmail.com", "admin",    "SUPER_ADMIN" ],
+  [ "Chrystal", "Le Liebard", "w3p2020g7@gmail.com",        "admin", "SUPER_ADMIN" ],
+  [ "Eric",     "Priou",      "eric.priou@gmail.com",       "admin", "SUPER_ADMIN" ],
+  [ "Antoine",  "Masselot",   "antoine.masselot@hetic.net", "admin", "SUPER_ADMIN" ],
 ]
 
 const places = [
@@ -87,6 +88,24 @@ const populateDb = async () => {
     })
   }
 
+  for (let i = 0; i < Math.floor(Math.random() * 20 + 20); i++) {
+    await prisma.createPlace({
+      name: faker.random.words(Math.floor(Math.random()*3)+1).split(" ").map(el => el.charAt(0).toUpperCase() + el.slice(1)).join(" "),
+      address: { create: { street: `${Math.floor(Math.random()*300)+1} ${faker.address.streetName()}`, zipCode: faker.address.zipCode(), city: faker.address.city() } },
+      hours: { create: [
+        { day: "MONDAY",    start: null, end: null },
+        { day: "TUESDAY",   start: null, end: null },
+        { day: "WEDNESDAY", start: null, end: null },
+        { day: "THURSDAY",  start: null, end: null },
+        { day: "FRIDAY",    start: null, end: null },
+        { day: "SATURDAY",  start: null, end: null },
+        { day: "SUNDAY",    start: null, end: null },
+      ] },
+      keywords: { set: [ "keyword_1", "keyword_2" ] },
+      category: ["SHOP", "ACTIVITY"][Math.floor(Math.random()*2)],
+    })
+  }
+
   for (const [ name, type, [ street, zipCode, city ], [ firstName, lastName, email, phone, password ], emailDomains, stripeCustomerId ] of companies) {
     const { id } = await prisma.createCompany({
       name,
@@ -102,11 +121,11 @@ const populateDb = async () => {
       stripeCustomerId,
     })
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < Math.floor(Math.random() * 20 + 15); i++) {
       await prisma.createUser({
-        firstName: `${name}_userFirstname_${i}`,
-        lastName: `${name}_userLastname_${i}`,
-        email: `${name}_user_${i}@mail.fr`,
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        email: faker.internet.email(),
         password: await bcrypt.hash("user", 10),
         role: "USER",
         company: { connect: { id } },
@@ -122,9 +141,9 @@ const clearDb = async () => {
   await prisma.deleteManyCompanies()
 }
 
+(async function () {
+  await clearDb()
+  await populateDb()
+})()
 
-module.exports = {
-  populateDb,
-  clearDb,
-}
 

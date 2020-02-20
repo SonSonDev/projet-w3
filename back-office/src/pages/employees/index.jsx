@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { GET_USERS } from "../../graphql/queries/employees"

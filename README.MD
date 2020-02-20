@@ -21,7 +21,12 @@ docker-compose up
 
 Pour initialiser la base de donnée ou mettre à jour les modèles de données prisma:
 ```sh
-docker exec -it projet-w3_api_1 npm run deploy 
+docker-compose exec api yarn deploy 
+```
+
+Insérer des fausses données dans la base:
+```sh
+docker-compose exec api node src/fixtures.js
 ```
 
 ## Documentation
