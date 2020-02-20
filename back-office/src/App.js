@@ -27,7 +27,7 @@ import CompanyEmployeeSignup from "./pages/companies/employee-signup"
 
 import NotFound from "./pages/NotFound"
 
-import { ReactComponent as LogoMadu } from "./assets/img/logo-madu.svg"
+import { ReactComponent as LogoMadu } from "./assets/img/logo/full.svg"
 
 import { useMutation, useQuery } from "@apollo/react-hooks"
 import { LOGOUT, CHECK_AUTH } from "./graphql/mutations/auth"

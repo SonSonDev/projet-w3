@@ -7,6 +7,7 @@
     "nav main";
   grid-template-columns: auto 1fr;
   grid-template-rows: auto 1fr;
+  font-family: 'HKGrotesk-Regular';
 }
 
 .menu {
@@ -20,6 +21,7 @@
 }
 .main {
   grid-area: main;
+  overflow: auto;
 }
 
 .create, .list-page {

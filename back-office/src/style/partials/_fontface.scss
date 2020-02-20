@@ -1,0 +1,34 @@
+$fonts-dir: '../../assets/fonts';
+
+@font-face {
+  font-family: 'HKGrotesk-Regular';
+  src: url('#{$fonts-dir}/HKGrotesk-Regular.woff2') format('woff2'),
+      url('#{$fonts-dir}/HKGrotesk-Regular.woff') format('woff'),
+      url('#{$fonts-dir}/HKGrotesk-Regular.ttf') format('truetype'),
+      url('#{$fonts-dir}/HKGrotesk-Regular.eot') format('opentype'),
+      url('#{$fonts-dir}/HKGrotesk-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HKGrotesk-SemiBold';
+  src: url('#{$fonts-dir}/HKGrotesk-SemiBold.woff2') format('woff2'),
+      url('#{$fonts-dir}/HKGrotesk-SemiBold.woff') format('woff'),
+      url('#{$fonts-dir}/HKGrotesk-SemiBold.ttf') format('truetype'),
+      url('#{$fonts-dir}/HKGrotesk-SemiBold.eot') format('opentype'),
+      url('#{$fonts-dir}/HKGrotesk-SemiBold.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HKGrotesk-Bold';
+  src: url('#{$fonts-dir}/HKGrotesk-Bold.woff2') format('woff2'),
+      url('#{$fonts-dir}/HKGrotesk-Bold.woff') format('woff'),
+      url('#{$fonts-dir}/HKGrotesk-Bold.ttf') format('truetype'),
+      url('#{$fonts-dir}/HKGrotesk-Bold.eot') format('opentype'),
+      url('#{$fonts-dir}/HKGrotesk-Bold.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
