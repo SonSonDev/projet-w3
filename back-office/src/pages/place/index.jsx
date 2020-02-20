@@ -37,7 +37,6 @@ const PlacesIndex = ({ history }) => {
     { title: "Adresse", key: "address", link: address => `https://www.google.com/maps/search/?api=1&query=${encodeURI(address)}`},
     { label: "Delete", handleClick: deletePlace },
     { label: "Edit", handleClick: ({ variables: { id } }) => history.push(`/place/${id}/update`)},
-    { label: "Info", handleClick: ({ variables: { id } }) => history.push(`/place/${id}/info`)},
   ]
 
   const tabs = [

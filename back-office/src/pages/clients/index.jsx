@@ -31,13 +31,12 @@ const ClientsIndex = () => {
   }
 
   const columns = [
-    { title: "Prénom", key: "firstName", route: ({ id, value }) => <Link to={`/place/${id}`}>{value}</Link> },
+    { title: "Prénom", key: "firstName"},
     { title: "Nom", key: "lastName" },
     { title: "Email", key: "email" },
     { title: "Entreprise", key: "company" },
     { title: "Role", key: "roleName" },
     { label: "Delete", handleClick: deleteUser },
-    { label: "Info", handleClick: () => console.log("Info") },
   ]
 
   let data = clients
