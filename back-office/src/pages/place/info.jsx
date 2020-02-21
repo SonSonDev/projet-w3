@@ -22,8 +22,10 @@ function PlaceInfo ({ history, match: { params: { id } } }) {
         <main className="sm-col sm-col-6 px4">
           <section className="mb4">
             <h1 className="h2 bold mr3 mb2">Informations</h1>
-            <h3 className="h5 bold">{categoryNames[category]}</h3>
-            <h2 className="h2 mb1">{name}</h2>
+            <div className="flex items-center mb1">
+              <h2 className="h2 mr1">{name}</h2>
+              <h3 className="h5 bold tag">{categoryNames[category]}</h3>
+            </div>
             <span>{street}, {zipCode} {city}</span>
           </section>
           <section className="mb4">
@@ -45,8 +47,8 @@ function PlaceInfo ({ history, match: { params: { id } } }) {
         <aside className="sm-col sm-col-6 px4">
           <section className="mb4">
             <h1 className="h2 bold mr3 mb2">Représentant</h1>
-            {/* <h2 className="h2 mb1">{firstName} {lastName}</h2> */}
-            {/* <a className="underline">{phone}</a> */}
+            <h2 className="h2 mb1">{"Clément"} {"Mopoire"}</h2>
+            <a className="has-text-primary underline">{"0698821222"}</a>
           </section>
         </aside>
       </div>

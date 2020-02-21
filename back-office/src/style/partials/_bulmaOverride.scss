@@ -1,7 +1,10 @@
 .menu-list a {
-  font-size: 14px;
+  // font-size: 14px;
   display: flex;
   align-items: center;
+}
+.menu-list a .icon {
+  width: 2rem;
 }
 
 .justify-left {

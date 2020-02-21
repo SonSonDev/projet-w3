@@ -38,6 +38,9 @@ export const GET_COMPANIES = gql`
         city
       }
       userCount
+      stripeInvoices {
+        created
+      }
     }
   }
 `

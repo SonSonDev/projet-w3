@@ -121,6 +121,7 @@ type Company {
   emailDomains: [String!]!
   stripeCustomerId: String
   userCount: Int
+  stripeInvoices: [StripeInvoice]
 }
 
 type Place {

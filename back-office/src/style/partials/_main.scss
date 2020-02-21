@@ -12,12 +12,11 @@
 
 .menu {
   grid-area: nav;
-  width: 164px;
+  width: 180px;
   // padding: 32px 16px 0 16px;
   background-color: $white;
   border-right: 1px solid $dark-10;
   // font-size: 1.2rem;
-  
 }
 .main {
   grid-area: main;
