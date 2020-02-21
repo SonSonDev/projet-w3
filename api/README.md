@@ -10,6 +10,19 @@
 
 ![schéma](db.png)
 
+##### BASE DE DONNEES
+
+Du fait que les exigences initiales en matière de données étaient difficile à déterminer en début de projet. Une base de données NoSQL était la solution la mieux adaptée. En effet, la flexibilité de ce type de db permet d’ajouter à tout moment et très facilement, des données n’importe quand et n’importe où. Ce qui a facilité le début du développement de l’api et son évolution au fil des jours. 
+
+Performances :
+
+* En terme de performance, il faut noter que la représentation des données en collection et le résultat en flux JSON des requêtes permet de consommer les données très rapidement et facilement par les applications front, et ce, même dans les situations où le débit est faible. Toujours avec cette idée de booster les performances et de réduire le temps d’exécution des requêtes, il a été décidé de dénormalisé certaines données. Le principe de « denormalization » induit une représentation plus simple et permet donc de récupérer toutes les informations sur un élément spécifique dans une seule requête. Il n’y a donc pas besoin de liens JOIN ou de requêtes SQL complexes. Il est bon de noté que nous avons quand même respecté à minima la premiere forme normale 1FN qui spécifie que les données qui peuvent l'être, doivent être atomisées.
+Pour le nom et le prenom d'un utilisateur nous preferons par exemple une colonne nom et prenom plutot qu'une colonne fusionnant les deux, et dans le cas d'une base nosql cette logique prendra la forme d'un objet JSON avec une clé nom et prenom.
+
+Scalabilité :
+
+* Il semble que les problématiques liées à la répartition de charge posent de réels challenges sur un serveur SQL alors que les modèles de données NoSQL peuvent rendre le processus plus facile grâce à une conception native avec des fonctionnalités de « scalabilité élastique ». L’organisation des données en documents et la « denormalization » des collections permettent le partitionnement et autorise une montée en charge de la base de données sur le matériel courant déployé sur site ou dans le Cloud. Ce qui  permet une croissance pratiquement illimitée.
+
 ## Techno et Librairies
 
 - [bcryptjs](https://www.npmjs.com/package/bcryptjs)
