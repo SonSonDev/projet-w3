@@ -17,7 +17,7 @@ Du fait que les exigences initiales en matière de données étaient difficile �
 Performances :
 
 * En terme de performance, il faut noter que la représentation des données en collection et le résultat en flux JSON des requêtes permet de consommer les données très rapidement et facilement par les applications front, et ce, même dans les situations où le débit est faible. Toujours avec cette idée de booster les performances et de réduire le temps d’exécution des requêtes, il a été décidé de dénormalisé certaines données. Le principe de « denormalization » induit une représentation plus simple et permet donc de récupérer toutes les informations sur un élément spécifique dans une seule requête. Il n’y a donc pas besoin de liens JOIN ou de requêtes SQL complexes. Il est bon de noté que nous avons quand même respecté à minima la premiere forme normale 1FN qui spécifie que les données qui peuvent l'être, doivent être atomisées.
-Pour le nom et le prenom d'un utilisateur nous preferons par exemple une colonne nom et prenom plutot qu'une colonne fusionnant les deux, et dans le cas d'une base nosql cette logique prendra la forme d'un objet JSON avec une clé nom et prenom.
+Pour le nom et le prenom d'un utilisateur nous preferons par exemple une colonne nom et prenom plutot qu'une colonne fusionnant les deux, et dans le cas d'une base nosql cette logique prendra la forme d'un objet JSON avec une clé nom et une clé prenom.
 
 Scalabilité :
 
