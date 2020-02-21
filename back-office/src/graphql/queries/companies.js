@@ -37,16 +37,7 @@ export const GET_COMPANIES = gql`
         zipCode
         city
       }
-      users {
-        id
-        firstName
-        lastName
-        email
-        phone
-        password
-        role
-        isRepresentative
-      }
+      userCount
     }
   }
 `

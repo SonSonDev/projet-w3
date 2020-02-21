@@ -109,16 +109,16 @@ const App = () => {
 
               <div className="dropdown-menu" id="dropdown-menu" role="menu">
                 <div className="dropdown-content">
-                  <Link to="/place/create" onClick={() => setDropdownActive(false)} class="dropdown-item">
+                  <Link to="/place/create" onClick={() => setDropdownActive(false)} className="dropdown-item">
                     Ajouter une adresse
                   </Link>
                   {userData.role === "ADMIN" && (
-                    <Link to="/employee/create" onClick={() => setDropdownActive(false)} class="dropdown-item">
+                    <Link to="/employee/create" onClick={() => setDropdownActive(false)} className="dropdown-item">
                       Ajouter un employé
                     </Link>
                   )}
                   {userData.role === "SUPER_ADMIN" && (
-                    <Link to="/company/create" onClick={() => setDropdownActive(false)} class="dropdown-item">
+                    <Link to="/company/create" onClick={() => setDropdownActive(false)} className="dropdown-item">
                       Ajouter une entreprise
                     </Link>
                   )}

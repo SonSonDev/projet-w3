@@ -81,7 +81,7 @@ const PlaceUpdate = ({ history, match: { params: { id } } }) => {
           }}
         >
           <Form className="create__form">
-            <h1 className="title">Editer une nouvelle adresse</h1>
+            <h1 className="title">Éditer l’adresse</h1>
 
             <div className="field">
               <label htmlFor="name" className="label">Nom</label>
@@ -134,7 +134,7 @@ const PlaceUpdate = ({ history, match: { params: { id } } }) => {
 
 
             <div className="control">
-              <button type="submit" className="button is-link is-large is-fullwidth">Valider</button>
+              <button type="submit" className="button is-primary is-fullwidth">Éditer</button>
             </div>
           </Form>
         </Formik>

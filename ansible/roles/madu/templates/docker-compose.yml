@@ -24,7 +24,8 @@ services:
         databases:
           default:
             connector: mongo
-            uri: mongodb://prisma:prisma@mongo
+            uri: mongodb://{{ mongo_initdb_root_username }}:{{ mongo_initdb_root_password }}@mongo
+            port: 27017
 
   api:
     image: "{{ application_api_image }}:{{ application_api_tag }}"

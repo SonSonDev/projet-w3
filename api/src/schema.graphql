@@ -120,6 +120,7 @@ type Company {
   users: [User]
   emailDomains: [String!]!
   stripeCustomerId: String
+  userCount: Int
 }
 
 type Place {
