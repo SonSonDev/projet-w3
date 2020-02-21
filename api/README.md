@@ -23,6 +23,12 @@ Scalabilité :
 
 * Il semble que les problématiques liées à la répartition de charge posent de réels challenges sur un serveur SQL alors que les modèles de données NoSQL peuvent rendre le processus plus facile grâce à une conception native avec des fonctionnalités de « scalabilité élastique ». L’organisation des données en documents et la « denormalization » des collections permettent le partitionnement et autorise une montée en charge de la base de données sur le matériel courant déployé sur site ou dans le Cloud. Ce qui  permet une croissance pratiquement illimitée.
 
+#### Prisma 
+
+![schéma](https://www.prisma.io/static/GraphQL-c9400187ba121a4b21439c7195936094.png)
+
+Prisma est un ORM qui nous permet d’interagir d’une manière plus simple avec nos données via une syntaxe objets. Prisma est un outil pour la construction de serveurs GraphQL, ou simplement une couche de données qui transforme une base de données en une API GraphQL. L’outil est semblable aux ORM traditionnels, mais présente en plus d’autres caractéristiques et fonctionnalités que ces derniers ne possèdent pas. Le client Prisma est compatible avec l'écosystème Apollo, prend en charge par défaut les abonnements GraphQL etc... Prisma propose une API en temps réel pour chaque base de données prise en charge, permettant ainsi de nous abonner à tout événement de base de données, tel que la création, la mise à jour ou la suppression de données. L'outil prend également en charge plusieurs bases de données. Ce qui permet d'accéder à toutes ces sources de données au moyen d'une API unique, cohérente et sécurisée.
+
 ## Techno et Librairies
 
 - [bcryptjs](https://www.npmjs.com/package/bcryptjs)
