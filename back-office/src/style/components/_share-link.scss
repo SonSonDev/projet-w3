@@ -1,0 +1,39 @@
+.share-signup {
+  padding: 15px 30px;
+  border: 1px solid #dbdbdb;
+  margin-bottom: 20px;
+  display: flex;
+
+  &__link {
+    color: $primary;
+    font-weight: 600;
+    margin-left: 5px;
+  }
+
+  textarea {
+    user-select: none;
+    opacity: 0;
+    height: 0;
+    width: 0;
+    position: absolute;
+  }
+
+  button {
+    font-size: 20px;
+    border: 1px solid $primary;
+    border-radius: 2px;
+    line-height: 0;
+    margin-left: 10px;
+    padding: 3px;
+    cursor: pointer;
+    i {
+      color: $primary;
+    }
+    &:focus {
+      outline: none;
+    }
+    &:active {
+      box-shadow: 0 0 1px 1px $primary;
+    }
+  }
+}

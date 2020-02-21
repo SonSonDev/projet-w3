@@ -6,11 +6,6 @@
 @import 'partials/utils';
 @import 'partials/main';
 
-@import 'components/header';
-
-@import 'pages/login';
-@import 'pages/create';
-
 
 // bulma
 
@@ -18,6 +13,11 @@ $red: #FF6D6D;
 
 $primary: #F98560;
 
+@import 'components/header';
+@import 'components/share-link';
+
+@import 'pages/login';
+@import 'pages/create';
 
 @import "../../node_modules/bulma/sass/utilities/_all.sass";
 @import "../../node_modules/bulma/sass/base/_all.sass";

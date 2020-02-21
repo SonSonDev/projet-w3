@@ -1,4 +1,4 @@
-import React, { useMemo } from "react"
+import React, { useMemo, useContext } from "react"
 
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { GET_USERS } from "../../graphql/queries/employees"
@@ -9,8 +9,11 @@ import Table from "../../components/Table"
 import Tabs from "../../components/Tabs"
 import Loader from "../../components/Loader"
 
+import UserDataContext from "../../utils/UserDataContext"
+
 const EmployeesIndex = () => {
   console.log("EmployeesIndex")
+  const userData = useContext(UserDataContext)
 
   const { error, data: {getUsers: users} = {}, loading, refetch } = useQuery(GET_USERS, {
     onError: error => console.log(error.message),
@@ -62,8 +65,24 @@ const EmployeesIndex = () => {
     )
   }
 
+  let textArea
+
+  const shareSignupLink = (userData.role === "ADMIN" && userData.company) && `${window.location.origin}/company/${userData.company.id}/signup`
+  const copyCodeToClipboard = () => {
+    const el = textArea
+    el.select()
+    document.execCommand("copy")
+  }
+
   return (
     <section className="list-page">
+      { shareSignupLink && (
+        <div className="share-signup">
+          <p>Lien de partage: <span className="share-signup__link">{shareSignupLink}</span></p>
+          <button onClick={() => copyCodeToClipboard()}><i className="ri-clipboard-line" /></button>
+          <textarea ref={textarea => textArea = textarea} value={shareSignupLink}/>
+        </div>
+      )}
       <Tabs tabs={[{ title: "Tous les employés", filter: () => true }]} action={{label: "Ajouter un employé", url: "/employee/create"}}/>
       <Table data={users} columns={columns} />
     </section>
