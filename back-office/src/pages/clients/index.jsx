@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useMemo } from "react"
 
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { GET_USERS } from "../../graphql/queries/clients"
@@ -21,6 +21,40 @@ const ClientsIndex = () => {
 
   const [deleteUser] = useMutation(DELETE_USER, { onCompleted: refetch })
 
+  const columns = useMemo(() => [
+    {
+      Header: "Prénom",
+      accessor: "firstName",
+    },
+    {
+      Header: "Nom",
+      accessor: "lastName",
+    },
+    {
+      Header: "Email",
+      accessor: "email",
+    },
+    {
+      Header: "Entreprise",
+      accessor: ({ company }) => company && company.name,
+    },
+    {
+      Header: "Role",
+      accessor: ({ role }) => roleNames[role],
+    },
+    {
+      id: "delete",
+      Cell ({ cell: { value }, row: { original: { id } } }) {
+        return (
+          <button onClick={() => deleteUser({ variables: { id } })} className="button is-white has-text-grey">
+            <span className="icon"><i className="ri-delete-bin-line"/></span>
+          </button>
+        )
+      },
+    },
+  ], [])
+
+
   if (error) return <div>{error.message}</div>
 
   if (loading) {
@@ -29,34 +63,19 @@ const ClientsIndex = () => {
     )
   }
 
-  const columns = [
-    { title: "Prénom", key: "firstName"},
-    { title: "Nom", key: "lastName" },
-    { title: "Email", key: "email" },
-    { title: "Entreprise", key: "company" },
-    { title: "Role", key: "roleName" },
-    { label: "Delete", handleClick: deleteUser },
-  ]
-
   let data = clients
-    .map(({ company, role, ...client }) => ({
-      ...client,
-      company: company ? company.name : "",
-      roleName: roleNames[role],
-      role,
-    }))
 
   const tabs =  [
     { title: "Tout", filter: () => true },
     ...data
       .reduce((acc, cur) => {
-        if (cur.company && !acc.includes(cur.company)) {
-          acc.push(cur.company)
+        if (cur.company && cur.company.name && !acc.includes(cur.company.name)) {
+          acc.push(cur.company.name)
         }
         return acc
       }, [])
       .map(companyName => ({
-        title: companyName, filter: ({ company }) => company === companyName,
+        title: companyName, filter: ({ company }) => company && company.name === companyName,
       })),
   ]
 
@@ -65,9 +84,7 @@ const ClientsIndex = () => {
   return (
     <section className="list-page">
       <Tabs tabs={tabs} activeTabIndex={activeTabIndex} onTabClick={setActiveTabIndex}/>
-      <div className="padding16">
-        <Table data={data} columns={columns} />
-      </div>
+      <Table data={data} columns={columns} />
     </section>
   )
 }

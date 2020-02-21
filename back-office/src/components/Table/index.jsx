@@ -1,63 +1,46 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { Link } from "react-router-dom"
+import { useTable } from "react-table"
 
-const Table = ({
-  data = [
-    { id: 1, name: "name 1", email: "email 1", role: "role 1" },
-    { id: 2, name: "name 2", email: "email 2", role: "role 2" },
-    { id: 3, name: "name 3", email: "email 3", role: "role 3" },
-  ],
-  columns = [
-    { title: "Name", key: "name" },
-    { title: "Email", key: "email" },
-    { title: "Role", key: "role" },
-    { label: "Delete", handleClick: () => console.log("Delete") },
-    { label: "Edit", handleClick: () => console.log("Edit") },
-  ],
-}) => {
+
+function Table ({ columns, data }) {
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable({ columns, data })
+
   return (
-    <table className="table w100">
+    <table className="table w100" {...getTableProps()}>
       <thead>
-        <tr>
-          {columns.map(({ title, label }) => (
-            <th key={title || label}>{title}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {data.map(({ id, ...entry }) => (
-          <tr key={id}>
-            {columns.map(({ key, label, handleClick, externalLink, link }, i) => (
-              <td key={id + i}>
-                { link ? <Link to={link(id)}>{entry[key]}</Link> :
-                  externalLink ? <a href={externalLink(entry[key])} target="_blank" rel="noopener noreferrer">{entry[key]}</a> :
-                    key ? (entry[key] || "-") :
-                      (
-                        <button className="button is-small" onClick={() => handleClick({ variables: { id } })}>{label}</button>
-                      )
-                }
-              </td>
+        {headerGroups.map(headerGroup => (
+          <tr key {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map(column => (
+              <th key {...column.getHeaderProps()}>{column.render("Header")}</th>
             ))}
           </tr>
         ))}
+      </thead>
+      <tbody {...getTableBodyProps()}>
+        {rows.map((row, i) => {
+          prepareRow(row)
+          return (
+            <tr key {...row.getRowProps()}>
+              {row.cells.map(cell => {
+                return <td key {...cell.getCellProps()}>{cell.render("Cell")}</td>
+              })}
+            </tr>
+          )
+        })}
       </tbody>
     </table>
   )
 }
 
 Table.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.object,
-  ).isRequired,
-  columns: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string,
-      key: PropTypes.string,
-      label: PropTypes.string,
-      handleClick: PropTypes.func,
-    }),
-  ).isRequired,
+  data: PropTypes.array.isRequired,
+  columns: PropTypes.array.isRequired,
 }
-
 export default Table

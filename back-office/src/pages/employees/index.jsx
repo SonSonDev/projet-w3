@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { GET_USERS } from "../../graphql/queries/employees"
@@ -18,6 +18,42 @@ const EmployeesIndex = () => {
 
   const [deleteUser] = useMutation(DELETE_USER, { onCompleted: refetch })
 
+  const columns = useMemo(() => [
+    {
+      Header: "Prénom",
+      accessor: "firstName",
+    },
+    {
+      Header: "Nom",
+      accessor: "lastName",
+    },
+    {
+      Header: "Email",
+      accessor: "email",
+    },
+    // {
+    //   id: "edit",
+    //   Cell ({ cell: { value }, row: { original: { id } } }) {
+    //     return (
+    //       <Link to={`/company/${id}/update`} className="button has-text-grey is-small">
+    //         Modifier
+    //       </Link>
+    //     )
+    //   },
+    // },
+    {
+      id: "delete",
+      Cell ({ cell: { value }, row: { original: { id } } }) {
+        return (
+          <button onClick={() => deleteUser({ variables: { id } })} className="button is-white has-text-grey">
+            <span className="icon"><i className="ri-delete-bin-line"/></span>
+          </button>
+        )
+      },
+    },
+  ], [])
+
+
   if (error) return <div>{error.message}</div>
 
   if (loading) {
@@ -26,21 +62,10 @@ const EmployeesIndex = () => {
     )
   }
 
-  const columns = [
-    { title: "Prénom", key: "firstName" },
-    { title: "Nom", key: "lastName" },
-    { title: "Email", key: "email" },
-    { label: "Delete", handleClick: deleteUser },
-    { label: "Edit", handleClick: () => console.log("Edit") },
-    { label: "Info", handleClick: () => console.log("Info") },
-  ]
-
   return (
     <section className="list-page">
-      <Tabs tabs={[{ title: "All Employee", filter: () => true }]} action={{label: "Ajouter un employé", url: "/employee/create"}}/>
-      <div className="padding16">
-        <Table data={users} columns={columns} />
-      </div>
+      <Tabs tabs={[{ title: "Tous les employés", filter: () => true }]} action={{label: "Ajouter un employé", url: "/employee/create"}}/>
+      <Table data={users} columns={columns} />
     </section>
   )
 }

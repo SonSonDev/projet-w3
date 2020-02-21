@@ -1,5 +1,6 @@
-import React, { useState } from "react"
+import React, { useState, useMemo } from "react"
 import PropTypes from "prop-types"
+import { Link } from "react-router-dom"
 
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { GET_COMPANIES } from "../../graphql/queries/companies"
@@ -22,6 +23,71 @@ const CompaniesIndex = ({ history }) => {
 
   const [deleteCompany] = useMutation(DELETE_COMPANY, { onCompleted: refetch })
 
+  const columns = useMemo(() => [
+    {
+      Header: "Nom",
+      accessor: "name",
+      Cell ({ cell: { value }, row: { original: { id } } }) {
+        return (
+          <Link to={`/company/${id}`} className="has-text-primary underline">
+            {value}
+          </Link>
+        )
+      },
+    },
+    {
+      Header: "Type",
+      accessor: ({ type }) => companyTypeNames[type],
+    },
+    {
+      Header: "Utilisateurs",
+      accessor: "userCount",
+      Cell ({ cell: { value }, row: { original: { id } } }) {
+        return (
+          <div className="flex">
+            <span className="icon"><i className="ri-group-line"/></span>
+            <span>{value}</span>
+          </div>
+        )
+      },
+    },
+    {
+      Header: "Adresse",
+      accessor: ({ address: { street, zipCode, city } }) => `${street}, ${zipCode} ${city}`,
+      Cell ({ cell: { value }, row: { original: { id } } }) {
+        return (
+          <div className="flex">
+            <span className="icon has-text-grey"><i className="ri-map-pin-2-line"/></span>
+            <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURI(value)}`} className="has-text-grey underline" target="_blank" rel="noopener noreferrer">
+              {value}
+            </a>
+          </div>
+        )
+      },
+    },
+    // {
+    //   id: "edit",
+    //   Cell ({ cell: { value }, row: { original: { id } } }) {
+    //     return (
+    //       <Link to={`/company/${id}/update`} className="button has-text-grey is-small">
+    //         Modifier
+    //       </Link>
+    //     )
+    //   },
+    // },
+    {
+      id: "delete",
+      Cell ({ cell: { value }, row: { original: { id } } }) {
+        return (
+          <button onClick={() => deleteCompany({ variables: { id } })} className="button is-white has-text-grey">
+            <span className="icon"><i className="ri-delete-bin-line"/></span>
+          </button>
+        )
+      },
+    },
+  ], [])
+
+
   if (error) return <div>{error.message}</div>
 
   if (loading) {
@@ -30,13 +96,6 @@ const CompaniesIndex = ({ history }) => {
     )
   }
 
-  const columns = [
-    { title: "Nom", key: "name", link: id => `/company/${id}`},
-    { title: "Type", key: "typeName" },
-    { title: "Adresse", key: "address", externalLink: address => `https://www.google.com/maps/search/?api=1&query=${encodeURI(address)}` },
-    { label: "Delete", handleClick: deleteCompany },
-    { label: "Edit", handleClick: ({ variables: { id } }) => history.push(`/company/${id}/update`) },
-  ]
 
   const tabs = [
     { title: "Tout", filter: () => true },
@@ -45,21 +104,12 @@ const CompaniesIndex = ({ history }) => {
     })),
   ]
 
-  const data = companies
-    .map(({ address: { street, zipCode, city }, type, ...companies }) => ({
-      ...companies,
-      type,
-      typeName: companyTypeNames[type],
-      address: `${street} ${zipCode} ${city}`,
-    }))
-    .filter(tabs[activeTabIndex].filter)
+  const data = companies.filter(tabs[activeTabIndex].filter)
 
   return (
     <section className="list-page">
       <Tabs tabs={tabs} activeTabIndex={activeTabIndex} onTabClick={setActiveTabIndex} action={{ label: "Ajouter une entreprise", url: "/company/create" }} />
-      <div className="padding16">
-        <Table data={data} columns={columns} />
-      </div>
+      <Table data={data} columns={columns} />
     </section>
   )
 }
