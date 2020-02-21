@@ -29,6 +29,7 @@
     project_src: /opt/app
     state: present
     stopped: yes
+  ignore_errors: yes
 
 - name: Build docker image API madu
   docker_image:
