@@ -15,7 +15,7 @@ Dans les fichiers `ansible/inventory/group_vars/madu.yml` et `ansible/inventory/
   - création de l'image docker de l'api en node
   - création de l'image docker du back-office servi avec nginx
   - lancement du docker-compose
-- madu-user: Ajout d'un utilisateur super administrateur dans la base de donnée
+- madu-insert: Ajout d'un utilisateur super administrateur dans la base de donnée
 ---
 
 ## Mise en place du serveur
