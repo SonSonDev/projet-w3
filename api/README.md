@@ -65,7 +65,7 @@ dev:
 
 ## Lien vers l'api déployée et documentation
 
-http://35.180.197.38:3000/
+http://15.236.90.231:3000/
 
 ## Comptes
 
