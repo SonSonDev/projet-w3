@@ -38,4 +38,4 @@ docker-compose exec api node src/fixtures.js
 
 ## Projet déployé
 
-[http://35.180.197.38/](http://35.180.197.38/)
+[http://15.236.90.231/](http://15.236.90.231/)
