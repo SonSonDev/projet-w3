@@ -1,5 +1,7 @@
 #!/bin/sh
 yarn install --pure-lockfile
-yarn deploy
+apk add --no-cache bash
+./wait-for-it.sh prisma:4466 -- yarn deploy
+
 yarn token
 exec "$@"

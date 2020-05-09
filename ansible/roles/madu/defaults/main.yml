@@ -1,3 +1,0 @@
-application_prisma_port: "4466"
-application_api_port: "3000"
-application_backoffice_port: "80"

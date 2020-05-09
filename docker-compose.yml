@@ -45,8 +45,10 @@ services:
     command: yarn dev
 
   bo:
-    image: node
+    image: node:12
     restart: always
+    working_dir: /app
+    stdin_open: true
     volumes:
       - ./back-office:/app
     ports:
@@ -54,7 +56,6 @@ services:
     environment:
       REACT_APP_API_URL: http://localhost:3000
       PORT: 80
-    working_dir: /app
     entrypoint: /app/entrypoint.sh
     command: yarn start
 

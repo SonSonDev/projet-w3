@@ -1,4 +1,11 @@
-docker_users:
-  - ubuntu
+docker_username: shonhtan
 
-docker_install_compose: true
+application_scheme: http
+
+application_api_image: "{{ docker_username }}/madu-api"
+application_api_tag: latest
+application_api_port: 3000
+
+application_backoffice_image: "{{ docker_username }}/madu-backoffice"
+application_backoffice_tag: latest
+application_backoffice_port: 80

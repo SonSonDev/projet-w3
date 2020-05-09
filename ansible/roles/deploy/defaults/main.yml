@@ -1,0 +1,3 @@
+application_user: ubuntu
+application_group: "{{ application_user }}"
+application_directory: "/home/{{ application_user }}/app"

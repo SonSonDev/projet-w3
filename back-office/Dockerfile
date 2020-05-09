@@ -1,4 +1,4 @@
-FROM node:alpine as build
+FROM node:12 as build
 
 WORKDIR /home/app
 
@@ -8,8 +8,6 @@ COPY ./yarn.lock .
 RUN yarn install --production=true --pure-lockfile
 
 COPY . .
-
-ARG REACT_APP_API_URL
 
 RUN npm run build
 

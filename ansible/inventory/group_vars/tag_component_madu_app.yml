@@ -1,0 +1,13 @@
+docker_users:
+  - ubuntu
+
+docker_install_compose: true
+
+application_prisma_port: 4466
+
+mongo_initdb_root_username: mongo_username
+mongo_initdb_root_password: mongo_password
+
+stripe_secret_key: sk_test_IsNtin0fikUoK3R7auGASk3d00tgBB9GHK
+app_secret: MadUgr0up7
+prisma_secret: MadUgr0up7
