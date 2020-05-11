@@ -4,4 +4,4 @@
   hosts: tag_component_madu_app
   become: yes
   roles:
-    - { role: madu-user }
+    - { role: insert-user }
