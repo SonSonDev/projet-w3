@@ -13,7 +13,7 @@ import App from "./App"
 import * as serviceWorker from "./serviceWorker"
 
 const link = createUploadLink({
-  uri: process.env.REACT_APP_API_URL,
+  uri: process.env.REACT_APP_API_URL || `http://${window.location.host}:3000`,
   credentials: "include",
 })
 

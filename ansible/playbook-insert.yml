@@ -1,0 +1,7 @@
+---
+
+- name: Insert user in DB
+  hosts: tag_component_madu_app
+  become: yes
+  roles:
+    - { role: insert-user }

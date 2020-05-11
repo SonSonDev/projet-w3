@@ -1,8 +1,0 @@
-application_scheme: "http"
-application_ip: "insert_ip"
-
-application_api_image: "madu-api"
-application_api_tag: latest
-
-application_backoffice_image: "madu-backoffice"
-application_backoffice_tag: latest

@@ -1,10 +1,10 @@
 ---
 
 - name: Insert fixtures in DB
-  hosts: madu
+  hosts: tag_component_madu_app
   become: yes
   tasks:
   - name: Execute fixture insert script
     shell: "docker-compose exec api node src/fixtures.js"
     args:
-      chdir: /opt/app
+      chdir: /home/ubuntu/app

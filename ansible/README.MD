@@ -24,22 +24,22 @@ Remplacer les `{value}` dans les commandes suivantes avant de les executer.
 
 Installation de l'application sur le serveur AWS:
 ```sh
-ansible-playbook -i inventory/inventory madu.yml --user ubuntu --key-file "../terraform/id_rsa" -e mongo_initdb_root_username={value} -e mongo_initdb_root_password={value} -e prisma_secret={value} -e stripe_secret_key={value} -e app_secret={value}
+ansible-playbook -i inventory/ec2.py -i inventory/hosts playbook.yml --private-key ~/.ssh/id_rsa -u ubuntu  --ask-vault-pass
 ```
 
 Mise à jour de l'application:
 ```sh
-ansible-playbook -i inventory/inventory madu.yml --user ubuntu --key-file "../terraform/id_rsa" -e mongo_initdb_root_username={value} -e mongo_initdb_root_password={value} -e api_secret={value} -e stripe_secret_key={value} -e app_secret={value} -t update
+ansible-playbook -i inventory/ec2.py -i inventory/hosts playbook.yml --private-key ~/.ssh/id_rsa -u ubuntu -t deploy  --ask-vault-pass
 ```
 
-Insérer utilisateur super administrateur:
+Insérer un utilisateur avec le rôle super administrateur:
 ```sh
-ansible-playbook -i inventory/inventory madu-insert.yml --user ubuntu --key-file "../terraform/id_rsa" -e user_firstName=Antoine -e user_lastName=Masselot -e user_email=antoine.masselot@hetic.net -e user_password=admin
+ansible-playbook -i inventory/ec2.py playbook-insert.yml --private-key ~/.ssh/id_rsa -u ubuntu -e user_firstName={firstname} -e user_lastName={lastname} -e user_email={email} -e user_password={password}
 ```
 
 ---
 
 Insérer fixtures (vide puis remplit la base de données):
 ```sh
-ansible-playbook -i inventory/inventory madu-fixtures.yml --user ubuntu --key-file "../terraform/id_rsa"
+ansible-playbook -i inventory/ec2.py playbook-fixtures.yml --private-key ~/.ssh/id_rsa -u ubuntu
 ```
