@@ -32,12 +32,12 @@ function PlaceInfo ({ history, match: { params: { id } } }) {
             <div className="flex">
               <h1 className="h2 bold mr1 mb2">Tags</h1>
             </div>
-            {Object.keys(tags.reduce((acc, { type }) => ({ ...acc, [type]: true }), {})).map(type => (
+            {Object.keys(tags.reduce((acc, { type }) => ({ ...acc, [type.name]: true }), {})).map(type => (
               <div className="mb2" key={type}>
                 <h3 className="mb1">{type}</h3>
                 <ul>
-                  {tags.filter(t => t.type === type).map(({ id, name }) => (
-                    <span className="tag is-medium mr1 mb1" key={id}>{name}</span>
+                  {tags.filter(t => t.type.name === type).map(({ id, value }) => (
+                    <span className="tag is-medium mr1 mb1" key={id}>{value}</span>
                   ))}
                 </ul>
               </div>
