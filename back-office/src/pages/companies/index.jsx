@@ -67,7 +67,7 @@ const CompaniesIndex = ({ history }) => {
     },
     {
       Header: "Facturation",
-      accessor: ({ stripeInvoices: [ last ] }) => last && new Date(last.created*1000).toLocaleDateString()
+      accessor: ({ stripeInvoices: [ last ] }) => last && new Date(last.created*1000).toLocaleDateString(),
     },
     // {
     //   id: "edit",

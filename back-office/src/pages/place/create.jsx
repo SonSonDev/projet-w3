@@ -139,9 +139,9 @@ const PlaceCreate = ({history}) => {
                       <CreatableSelect
                         value={tags.filter(({ value }) => getTags.filter(t => t.type === type).find(({ id }) => value === id))}
                         options={getTags.map(({ id, name }) => ({ value: id, label: name }))}
-                        onChange={filteredTags => setFieldValue("tags", [
+                        onChange={(filteredTags = []) => setFieldValue("tags", [
                           ...tags.filter(({ value }) => getTags.filter(t => t.type !== type).find(({ id }) => value === id)),
-                          ...filteredTags,
+                          ...(filteredTags || []),
                         ])}
                         onCreateOption={name => {
                           createTag({ variables: { name, type, activity: "TEST" } })

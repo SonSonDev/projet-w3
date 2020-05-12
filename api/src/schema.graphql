@@ -8,6 +8,7 @@ type Query {
   getCompanies: [Company]
   getCompany(id: ID!): Company
   checkAuth: User
+  getTagTypes(category: Category!): [TagType]
   getTags: [Tag]
   getTag(id: ID!): Tag
   getStripeInvoicesByCompany(id: ID!): [StripeInvoice]
@@ -83,9 +84,14 @@ type Mutation {
   deleteCompany(id: ID!): Company
   deleteUser(id: ID!): User
 
-  createTag(name: String!, type: String!, activity: String!): Tag!
+  createTagType(name: String!, category: Category!, parentTagType: ID): TagType!
+  deleteTagType(id: ID!): TagType!
+  updateTagType(id: ID!, name: String!): TagType!
+
+  createTag(type: ID!, value: String!): Tag!
   deleteTag(id: ID!): Tag!
   updateTag(id: ID!): Tag!
+
   updatePlace(
     placeId: ID!
     name: String
@@ -156,11 +162,18 @@ type Hour {
   end: String
 }
 
+type TagType {
+  id: ID!
+  name: String!
+  category: Category!
+  parentTagType: TagType
+  tags: [Tag!]
+}
+
 type Tag {
   id: ID!
-  name: String
-  type: String
-  activity: String
+  type: TagType!
+  value: String!
   places: [Place!]
 }
 

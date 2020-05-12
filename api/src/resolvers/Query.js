@@ -1,4 +1,6 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
+const { queries: tagQueries } = require('./tag')
+
 
 async function getPlaces(parent, args, context) {
   return await context.prisma.places()
@@ -45,13 +47,6 @@ async function checkAuth(parent, args, context) {
   return user
 }
 
-async function getTags(parent, args, context) {
-  return await context.prisma.tags()
-}
-
-async function getTag(parent, { id }, context) {
-  return await context.prisma.tags({ id })
-}
 
 async function getStripeInvoicesByCompany (parent, { id }, context) {
   const { stripeCustomerId } = await context.prisma.company({ id })
@@ -68,7 +63,6 @@ module.exports = {
   getCompanies,
   getCompany,
   checkAuth,
-  getTags,
-  getTag,
   getStripeInvoicesByCompany,
+  ...tagQueries,
 }

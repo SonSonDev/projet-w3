@@ -10,33 +10,7 @@ const transporter = nodemailer.createTransport({
     pass: "azazazaz1",
   },
 })
-
-
-// TAGS
-async function createTag(parent, { name, type, activity }, context) {
-  return context.prisma.createTag({
-    name,
-    type,
-    activity,
-  })
-}
-
-async function deleteTag(parent, { id }, context) {
-  return await context.prisma.deleteTag({ id })
-}
-
-async function updateTag(parent, { id, name, type, activity }, context) {
-  return await context.prisma.updateTag({
-    where: {
-      id,
-    },
-    data: {
-      name,
-      type,
-      activity,
-    },
-  })
-}
+const { mutations: tagMutations } = require('./tag')
 
 // PLACES
 
@@ -372,8 +346,6 @@ module.exports = {
   logout,
   updateHour,
   updatePassword,
-  createTag,
-  deleteTag,
-  updateTag,
   createStripeInvoice,
+  ...tagMutations,
 }

@@ -7,7 +7,7 @@ const Mutation = require("./resolvers/Mutation")
 const Company = require("./resolvers/Company")
 const User = require("./resolvers/User")
 const Place = require("./resolvers/Place")
-const Tag = require("./resolvers/Tag")
+const { resolvers: tagResolvers } = require("./resolvers/tag")
 
 const { APP_SECRET, parseCookie } = require("./utils")
 
@@ -17,7 +17,7 @@ const resolvers = {
   Company,
   User,
   Place,
-  Tag,
+  ...tagResolvers,
 }
 
 const server = new GraphQLServer({
