@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import PropTypes from "prop-types"
 import { Formik, Field, FieldArray, Form } from "formik"
 import CreatableSelect from "react-select/creatable"
@@ -23,7 +23,7 @@ const PlaceCreate = ({history}) => {
       const { getTags } = cache.readQuery({ query: GET_TAGS })
       cache.writeQuery({
         query: GET_TAGS,
-        data: { getTags: [ createTag, ...getTags ] },
+        data: { getTags: [ ...getTags, createTag ] },
       })
     },
   })
@@ -78,7 +78,7 @@ const PlaceCreate = ({history}) => {
             })
           }}
         >
-          {({ values: { tags }, setFieldValue }) =>
+          {({ values: { tags, category }, setFieldValue }) =>
             <Form className="create__form">
               <h1 className="title">Ajouter une nouvelle adresse</h1>
 
@@ -95,8 +95,8 @@ const PlaceCreate = ({history}) => {
                   <div className="select is-fullwidth">
                     <Field as="select" id="category" name="category">
                       <option value="" disabled>Sélectionner une catégorie</option>
-                      {Object.entries(categoryNames).map(category => (
-                        <option value={category[0]} key={category[0]}>{category[1]}</option>
+                      {Object.entries(categoryNames).map(cat => (
+                        <option value={cat[0]} key={cat[0]}>{cat[1]}</option>
                       ))}
                     </Field>
                   </div>
@@ -123,32 +123,24 @@ const PlaceCreate = ({history}) => {
                   <Field id="city" className="input" name="city" type="text" placeholder="Ville" />
                 </div>
               </div>
-
-              {/* <div className="field">
-                <label htmlFor="type" className="label">Type</label>
-                <div className="control">
-                  <Field id="type" className="input" name="type" type="text" placeholder="Type" />
-                </div>
-              </div> */}
-
               <FieldArray name="tags">
                 <>
-                  {Object.keys(getTags.reduce((acc, { type }) => ({ ...acc, [type]: true }), {})).map(type => (
+                  {Object.entries(getTags.filter(tag => tag.type.category === category).reduce((acc, { type }) => ({ ...acc, [type.name]: type.id }), {})).map(([type, id]) => (
                     <div className="field" key={type}>
                       <label className="label">{type}</label>
                       <CreatableSelect
-                        value={tags.filter(({ value }) => getTags.filter(t => t.type === type).find(({ id }) => value === id))}
-                        options={getTags.map(({ id, name }) => ({ value: id, label: name }))}
+                        value={tags.filter(({ value }) => getTags.filter(t => t.type.name === type).find(({ id }) => value === id))}
+                        options={getTags.filter(t => t.type.name === type && t.type.category === category).filter(t => t.value).map(({ id, value }) => ({ value: id, label: value }))}
                         onChange={(filteredTags = []) => setFieldValue("tags", [
-                          ...tags.filter(({ value }) => getTags.filter(t => t.type !== type).find(({ id }) => value === id)),
-                          ...(filteredTags || []),
+                          ...tags.filter(({ value }) => getTags.filter(t => t.type.name !== type).find(({ id }) => value === id)),
+                          ...(filteredTags || []), {value: 'shit', label: 'shit' }
                         ])}
-                        onCreateOption={name => {
-                          createTag({ variables: { name, type, activity: "TEST" } })
-                        }}
+                        onCreateOption={(value) => {createTag({ variables: { value, type: id } })}}
                         isMulti
+                        onInputChange={getTags.filter(tag => tag.type.category === category).filter(t => t.value).map(({ id, value }) => ({ value: id, label: value }))}
                         isLoading={loading}
-                        filterOption={({ value }) => getTags.filter(t => t.type === type).find(({ id }) => value === id)}
+                        filterOption={({ label }, input) => label.toLowerCase().includes(input.toLowerCase())}
+                        formatCreateLabel={value => `Créer "${value}"`}
                       />
                     </div>
                   ))}

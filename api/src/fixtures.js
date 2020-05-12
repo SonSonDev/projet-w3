@@ -261,7 +261,6 @@ const populateDb = async () => {
       })
     )),
   )
-  console.log(tagTypes)
 
   const tags = await Promise.all(
     defaultTags.map(([ value, tagTypeName, category ]) => (
@@ -331,6 +330,7 @@ const populateDb = async () => {
 const clearDb = async () => {
   await prisma.deleteManyUsers()
   await prisma.deleteManyTags()
+  await prisma.deleteManyTagTypes()
   await prisma.deleteManyPlaces()
   await prisma.deleteManyCompanies()
 }
