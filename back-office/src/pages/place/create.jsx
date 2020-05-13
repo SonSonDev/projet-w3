@@ -53,11 +53,10 @@ const PlaceCreate = ({history}) => {
             tags: [],
           }}
           validationSchema={Yup.object({
-            name: Yup.string(),
-            street: Yup.string(),
-            zipCode: Yup.string(),
-            city: Yup.string(),
-            type: Yup.string(),
+            name: Yup.string().required(),
+            street: Yup.string().required(),
+            zipCode: Yup.string().required(),
+            city: Yup.string().required(),
             category: Yup.string().required(),
             tags: Yup.array(),
           })}
@@ -71,7 +70,6 @@ const PlaceCreate = ({history}) => {
                 street: values.street,
                 zipCode: values.zipCode,
                 city: values.city,
-                type: values.type,
                 category: values.category,
                 tags: values.tags.map(({ value }) => value),
               },
