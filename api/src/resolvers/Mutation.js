@@ -13,7 +13,28 @@ const transporter = nodemailer.createTransport({
 const { mutations: tagMutations } = require('./tag')
 
 // PLACES
-
+async function createPlaces (_, { places }, { prisma }) {
+  return Promise.all(
+    places.map(({ name, street, zipCode, city, type, category, tags = [] }) =>
+      prisma.createPlace({
+        name,
+        // type,
+        category,
+        address: { create: { street, zipCode, city } },
+        // tags: { connect: tags.map(id => ({ id })) },
+        hours: { create: [
+          { day: "MONDAY",    start: null, end: null },
+          { day: "TUESDAY",   start: null, end: null },
+          { day: "WEDNESDAY", start: null, end: null },
+          { day: "THURSDAY",  start: null, end: null },
+          { day: "FRIDAY",    start: null, end: null },
+          { day: "SATURDAY",  start: null, end: null },
+          { day: "SUNDAY",    start: null, end: null },
+        ] },
+      }),
+    ),
+  )
+}
 async function createPlace(parent, { name, street, zipCode, city, type, category, tags }, context) {
   // const userId = getUserId(context)
   return context.prisma.createPlace({
@@ -344,6 +365,7 @@ module.exports = {
   updatePlace,
   updateRepresentative,
   createPlace,
+  createPlaces,
   createCompany,
   createUser,
   deletePlace,

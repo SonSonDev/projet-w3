@@ -273,7 +273,7 @@ const populateDb = async () => {
             }).id
           }
         }
-      })
+      }).then(tag => ({ ...tag, category }))
     )),
   )
 
@@ -293,7 +293,7 @@ const populateDb = async () => {
       ] },
       keywords: { set: [ "keyword_1", "keyword_2" ] },
       category,
-      tags: { connect: tags.filter(() => Math.random() < 0.2).map(({ id }) => ({ id })) },
+      tags: { connect: tags.filter(t => t.category === category && Math.random() < 0.2).map(({ id }) => ({ id })) },
     })
   }
   const companiesId = []
@@ -338,7 +338,7 @@ const clearDb = async () => {
 (async function () {
   await clearDb()
   await populateDb()
-  console.log("fixtures ok")
+  console.log("db seeded!")
 })()
 
 

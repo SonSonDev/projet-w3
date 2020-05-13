@@ -1,5 +1,34 @@
 import gql from "graphql-tag"
 
+const placeFragment = gql`
+  fragment PlaceFragment on Place {
+    id
+    name
+    address {
+      street
+      zipCode
+      city
+    }
+    hours {
+      day
+      start
+      end
+    }
+    keywords
+    category
+    type
+    tags {
+      id
+      value
+      type {
+        id
+        name
+        category
+      }
+    }
+  }
+`
+
 export const CREATE_PLACE = gql`
   mutation CreatePlace(
     $name: String!
@@ -19,31 +48,19 @@ export const CREATE_PLACE = gql`
       category: $category
       tags: $tags
     ) {
-      id
-      name
-      address {
-        street
-        zipCode
-      }
-      hours {
-        day
-        start
-        end
-      }
-      keywords
-      category
-      type
-      tags {
-        id
-        value
-        type {
-          id
-          name
-          category
-        }
-      }
+      ...PlaceFragment
     }
   }
+  ${placeFragment}
+`
+
+export const CREATE_PLACES = gql`
+  mutation CreatePlaces($places: [PlaceInput!]) {
+    createPlaces(places: $places) {
+      ...PlaceFragment
+    }
+  }
+  ${placeFragment}
 `
 
 export const UPDATE_PLACE = gql`

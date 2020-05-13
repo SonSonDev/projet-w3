@@ -2,9 +2,10 @@ import React, { useState, useMemo, useContext } from "react"
 import PropTypes from "prop-types"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Link } from "react-router-dom"
+import { unparse, parse } from "papaparse"
 
 import { GET_PLACES } from "../../graphql/queries/places"
-import { DELETE_PLACE } from "../../graphql/mutations/places"
+import { DELETE_PLACE, CREATE_PLACES } from "../../graphql/mutations/places"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 import Table from "../../components/Table"
@@ -21,6 +22,16 @@ const PlacesIndex = ({ history }) => {
 
   const { error, loading, data: {getPlaces: places} = {}, refetch } = useQuery(GET_PLACES, {
     onError: error => console.log(error.message),
+  })
+
+  const [ importPlaces ] = useMutation(CREATE_PLACES, {
+    update (cache, { data: { createPlaces } }) {
+      const { getPlaces } = cache.readQuery({ query: GET_PLACES })
+      cache.writeQuery({
+        query: GET_PLACES,
+        data: { getPlaces: [ ...createPlaces, ...getPlaces ] },
+      })
+    },
   })
 
   const [deletePlace] = useMutation(DELETE_PLACE, { onCompleted: refetch })
@@ -97,7 +108,39 @@ const PlacesIndex = ({ history }) => {
 
   return (
     <section className="list-page">
-      <Tabs tabs={tabs} activeTabIndex={activeTabIndex} onTabClick={setActiveTabIndex} action={{label: "Ajouter une adresse", url: "/place/create"}}/>
+      <Tabs
+        tabs={tabs}
+        activeTabIndex={activeTabIndex}
+        onTabClick={setActiveTabIndex}
+        action={{label: "Ajouter une adresse", url: "/place/create"}}
+        DropdownContent={userData.role === "SUPER_ADMIN" && (
+          <>
+            <a className="dropdown-item">
+              <span className="icon"><i className="ri-download-2-line"/></span>
+              <span className="">Importer un .csv</span>
+              <input className="file-input pointer" type="file" name="resume" accept=".csv" onInput={e => {
+                if (!e.target.files.length) return
+                parse(e.target.files[0], {
+                  header: true,
+                  complete ({ data: places }) {
+                    importPlaces({ variables: { places } })
+                  },
+                })
+              }}/>
+            </a>
+            <a
+              className="dropdown-item"
+              href={"data:text/csv;charset=utf-8," + encodeURIComponent(unparse(
+                places.map(({ name, address: { street, zipCode, city }, category }) => ({ name, street, zipCode, city, category })),
+              ))}
+              download={`${Date.now()}.csv`}
+            >
+              <span className="icon"><i className="ri-upload-2-line"/></span>
+              <span className="">Exporter en .csv</span>
+            </a>
+          </>
+        )}
+      />
       <Table data={data} columns={columns} />
     </section>
   )
