@@ -4,19 +4,19 @@ const jwt = require("jsonwebtoken")
 const { prisma } = require("./generated/prisma-client")
 const Query = require("./resolvers/Query")
 const Mutation = require("./resolvers/Mutation")
-const Company = require("./resolvers/Company")
-const User = require("./resolvers/User")
-const Place = require("./resolvers/Place")
 const { resolvers: tagResolvers } = require("./resolvers/tag")
+const { resolvers: companyResolvers } = require("./resolvers/company")
+const { resolvers: userResolvers } = require("./resolvers/user")
+const { resolvers: placeResolvers } = require("./resolvers/place")
 
 const { APP_SECRET, parseCookie } = require("./utils")
 
 const resolvers = {
   Query,
   Mutation,
-  Company,
-  User,
-  Place,
+  ...companyResolvers,
+  ...userResolvers,
+  ...placeResolvers,
   ...tagResolvers,
 }
 

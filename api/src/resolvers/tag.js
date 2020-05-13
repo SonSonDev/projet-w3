@@ -1,4 +1,3 @@
-
 module.exports = {
   queries: {
     getTagTypes (_, { category }, { prisma }) {
