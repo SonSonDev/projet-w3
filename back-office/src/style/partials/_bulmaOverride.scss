@@ -14,3 +14,11 @@
 .table td {
   vertical-align: middle;
 }
+
+button.dropdown-item.button .icon {
+  transform: translateY(1.5px);
+}
+a.dropdown-item {
+  justify-content: start;
+  border: none;
+}

@@ -4,7 +4,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Link } from "react-router-dom"
 
 import { GET_PLACES } from "../../graphql/queries/places"
-import { DELETE_PLACE } from "../../graphql/mutations/places"
+import { DELETE_PLACE, CREATE_PLACES } from "../../graphql/mutations/places"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 import Table from "../../components/Table"
@@ -21,6 +21,16 @@ const PlacesIndex = ({ history }) => {
 
   const { error, loading, data: {getPlaces: places} = {}, refetch } = useQuery(GET_PLACES, {
     onError: error => console.log(error.message),
+  })
+
+  const [ importPlaces ] = useMutation(CREATE_PLACES, {
+    update (cache, { data: { createPlaces } }) {
+      const { getPlaces } = cache.readQuery({ query: GET_PLACES })
+      cache.writeQuery({
+        query: GET_PLACES,
+        data: { getPlaces: [ ...createPlaces, ...getPlaces ] },
+      })
+    },
   })
 
   const [deletePlace] = useMutation(DELETE_PLACE, { onCompleted: refetch })
@@ -97,7 +107,34 @@ const PlacesIndex = ({ history }) => {
 
   return (
     <section className="list-page">
-      <Tabs tabs={tabs} activeTabIndex={activeTabIndex} onTabClick={setActiveTabIndex} action={{label: "Ajouter une adresse", url: "/place/create"}}/>
+      <Tabs
+        tabs={tabs}
+        activeTabIndex={activeTabIndex}
+        onTabClick={setActiveTabIndex}
+        action={{label: "Ajouter une adresse", url: "/place/create"}}
+        DropdownContent={userData.role === "SUPER_ADMIN" && (
+          <>
+            <a className="dropdown-item">
+              <span className="icon"><i className="ri-download-2-line"/></span>
+              <span className="">Importer</span>
+              <input className="file-input pointer" type="file" name="resume" accept=".json" onInput={e => {
+                if (!e.target.files.length) return
+                const reader = new FileReader()
+                reader.onload = () => {
+                  const places = JSON.parse(reader.result)
+                    .map(({ name, address: { street, zipCode, city }, type, category, tags }) => ({ name, street, zipCode, city, type, category, tags }))
+                  importPlaces({ variables: { places } })
+                }
+                reader.readAsText(e.target.files[0])
+              }}/>
+            </a>
+            <a href={`data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(places))}`} download={`${Date.now()}.json`} className="dropdown-item">
+              <span className="icon"><i className="ri-upload-2-line"/></span>
+              <span className="">Exporter</span>
+            </a>
+          </>
+        )}
+      />
       <Table data={data} columns={columns} />
     </section>
   )

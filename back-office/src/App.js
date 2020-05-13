@@ -28,6 +28,7 @@ import CompanyEmployeeSignup from "./pages/companies/employee-signup"
 import NotFound from "./pages/NotFound"
 
 import ItemNav from "./components/itemNav"
+import Dropdown from "./components/Dropdown"
 import { ReactComponent as LogoMadu } from "./assets/img/logo/full.svg"
 
 import { useMutation, useQuery } from "@apollo/react-hooks"
@@ -38,12 +39,6 @@ import UserDataContext from "./utils/UserDataContext"
 
 const App = () => {
 
-  const [ dropdownActive, setDropdownActive ] = useState(false)
-  useEffect(() => {
-    const closeDropdown = () => setDropdownActive(false)
-    window.addEventListener("click", closeDropdown)
-    return () => window.removeEventListener("click", closeDropdown)
-  }, [])
 
   const [logout] = useMutation(LOGOUT, {
     onCompleted () {
@@ -71,8 +66,9 @@ const App = () => {
               </a>
             </div>
 
-            <div className="dropdown is-right is-hoverable">
-              <div className="dropdown-trigger">
+            <Dropdown
+              className="is-right"
+              TriggerComponent={
                 <div className="flex items-center my05">
                   <div className="right-align">
                     <span className="has-text-grey">{`${userData.role === "SUPER_ADMIN" ? "Super Administrateur" : userData.company ? `Représentant de ${userData.company.name}` : "" }`}</span>
@@ -80,15 +76,13 @@ const App = () => {
                   </div>
                   <span className="icon is-medium"><i className="ri-arrow-down-s-fill"/></span>
                 </div>
-              </div>
-
-              <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                <button onClick={e => e.currentTarget.blur() || logout()} className="dropdown-content button is-danger is-inverted right">
-                  <span className="icon mr05"><i className="ri-logout-box-r-line"/></span>
-                  <span className="h6">Se déconnecter</span>
-                </button>
-              </div>
-            </div>
+              }
+            >
+              <button onClick={e => e.currentTarget.blur() || logout()} className="dropdown-item button is-white has-text-grey-dark">
+                <span className="icon"><i className="ri-logout-box-r-line"/></span>
+                <span className="">Se déconnecter</span>
+              </button>
+            </Dropdown>
 
           </header>
         )}
@@ -96,35 +90,29 @@ const App = () => {
         {userData && (
           <aside className="menu px2 py3">
 
-            <div className={`dropdown ${dropdownActive && "is-active"} w100 mb2`}>
-              <div onClick={e => {
-                setDropdownActive(true)
-                e.stopPropagation()
-              }} className="dropdown-trigger w100">
+            <Dropdown
+              className='w100 mb2'
+              TriggerComponent={
                 <button className="button is-primary is-fullwidth">
                   <span className="icon"><i className="ri-add-box-line"/></span>
                   <span className="">Ajouter</span>
                 </button>
-              </div>
-
-              <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                <div className="dropdown-content">
-                  <Link to="/place/create" onClick={() => setDropdownActive(false)} className="dropdown-item">
-                    Ajouter une adresse
-                  </Link>
-                  {userData.role === "ADMIN" && (
-                    <Link to="/employee/create" onClick={() => setDropdownActive(false)} className="dropdown-item">
-                      Ajouter un employé
-                    </Link>
-                  )}
-                  {userData.role === "SUPER_ADMIN" && (
-                    <Link to="/company/create" onClick={() => setDropdownActive(false)} className="dropdown-item">
-                      Ajouter une entreprise
-                    </Link>
-                  )}
-                </div>
-              </div>
-            </div>
+              }
+            >
+              <Link to="/place/create" className="dropdown-item">
+                Ajouter une adresse
+              </Link>
+              {userData.role === "ADMIN" && (
+                <Link to="/employee/create" className="dropdown-item">
+                  Ajouter un employé
+                </Link>
+              )}
+              {userData.role === "SUPER_ADMIN" && (
+                <Link to="/company/create" className="dropdown-item">
+                  Ajouter une entreprise
+                </Link>
+              )}
+            </Dropdown>
 
             <ul className="menu-list">
 

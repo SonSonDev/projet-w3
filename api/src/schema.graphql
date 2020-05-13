@@ -76,6 +76,7 @@ type Mutation {
     category: Category
     tags: [ID!]
   ): Place
+  createPlaces(places: [PlaceInput!]): [Place]
 
   login(email: String!, password: String!): AuthPayload
   logout: LogoutResponse
@@ -229,4 +230,14 @@ enum Role {
   ADMIN
   MODERATOR
   USER
+}
+
+input PlaceInput {
+  name: String!
+  street: String
+  zipCode: String
+  city: String
+  type: String
+  category: Category
+  tags: [ID!]
 }
