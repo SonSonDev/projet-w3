@@ -25,44 +25,39 @@ module.exports = {
         tags: { connect: tags.map(id => ({ id })) },
         hours: {
           create: [
-            {
-              day: "MONDAY",
-              start: null,
-              end: null,
-            },
-            {
-              day: "TUESDAY",
-              start: null,
-              end: null,
-            },
-            {
-              day: "WEDNESDAY",
-              start: null,
-              end: null,
-            },
-            {
-              day: "THURSDAY",
-              start: null,
-              end: null,
-            },
-            {
-              day: "FRIDAY",
-              start: null,
-              end: null,
-            },
-            {
-              day: "SATURDAY",
-              start: null,
-              end: null,
-            },
-            {
-              day: "SUNDAY",
-              start: null,
-              end: null,
-            },
+            { day: "MONDAY",    start: null, end: null },
+            { day: "TUESDAY",   start: null, end: null },
+            { day: "WEDNESDAY", start: null, end: null },
+            { day: "THURSDAY",  start: null, end: null },
+            { day: "FRIDAY",    start: null, end: null },
+            { day: "SATURDAY",  start: null, end: null },
+            { day: "SUNDAY",    start: null, end: null },
           ],
         },
       })
+    },
+
+    async createPlaces (_, { places }, { prisma }) {
+      return Promise.all(
+        places.map(({ name, street, zipCode, city, type, category, tags = [] }) =>
+          prisma.createPlace({
+            name,
+            // type,
+            category,
+            address: { create: { street, zipCode, city } },
+            // tags: { connect: tags.map(id => ({ id })) },
+            hours: { create: [
+              { day: "MONDAY",    start: null, end: null },
+              { day: "TUESDAY",   start: null, end: null },
+              { day: "WEDNESDAY", start: null, end: null },
+              { day: "THURSDAY",  start: null, end: null },
+              { day: "FRIDAY",    start: null, end: null },
+              { day: "SATURDAY",  start: null, end: null },
+              { day: "SUNDAY",    start: null, end: null },
+            ] },
+          }),
+        ),
+      )
     },
 
     deletePlace(_, { id }, context) {
