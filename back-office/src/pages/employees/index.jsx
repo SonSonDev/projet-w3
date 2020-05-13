@@ -80,7 +80,7 @@ const EmployeesIndex = () => {
         <div className="share-signup">
           <p>Lien de partage: <span className="share-signup__link">{shareSignupLink}</span></p>
           <button onClick={() => copyCodeToClipboard()}><i className="ri-clipboard-line" /></button>
-          <textarea ref={textarea => textArea = textarea} value={shareSignupLink}/>
+          <textarea readOnly ref={textarea => textArea = textarea} value={shareSignupLink}/>
         </div>
       )}
       <Tabs tabs={[{ title: "Tous les employés", filter: () => true }]} action={{label: "Ajouter un employé", url: "/employee/create"}}/>
