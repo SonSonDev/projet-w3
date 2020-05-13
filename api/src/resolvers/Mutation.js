@@ -18,10 +18,10 @@ async function createPlaces (_, { places }, { prisma }) {
     places.map(({ name, street, zipCode, city, type, category, tags = [] }) =>
       prisma.createPlace({
         name,
-        type,
+        // type,
         category,
         address: { create: { street, zipCode, city } },
-        tags: { connect: tags.map(id => ({ id })) },
+        // tags: { connect: tags.map(id => ({ id })) },
         hours: { create: [
           { day: "MONDAY",    start: null, end: null },
           { day: "TUESDAY",   start: null, end: null },

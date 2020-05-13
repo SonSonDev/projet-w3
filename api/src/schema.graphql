@@ -237,7 +237,5 @@ input PlaceInput {
   street: String
   zipCode: String
   city: String
-  type: String
   category: Category
-  tags: [ID!]
 }

@@ -2,6 +2,7 @@ import React, { useState, useMemo, useContext } from "react"
 import PropTypes from "prop-types"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Link } from "react-router-dom"
+import { unparse, parse } from "papaparse"
 
 import { GET_PLACES } from "../../graphql/queries/places"
 import { DELETE_PLACE, CREATE_PLACES } from "../../graphql/mutations/places"
@@ -116,21 +117,26 @@ const PlacesIndex = ({ history }) => {
           <>
             <a className="dropdown-item">
               <span className="icon"><i className="ri-download-2-line"/></span>
-              <span className="">Importer</span>
-              <input className="file-input pointer" type="file" name="resume" accept=".json" onInput={e => {
+              <span className="">Importer un .csv</span>
+              <input className="file-input pointer" type="file" name="resume" accept=".csv" onInput={e => {
                 if (!e.target.files.length) return
-                const reader = new FileReader()
-                reader.onload = () => {
-                  const places = JSON.parse(reader.result)
-                    .map(({ name, address: { street, zipCode, city }, type, category, tags }) => ({ name, street, zipCode, city, type, category, tags }))
-                  importPlaces({ variables: { places } })
-                }
-                reader.readAsText(e.target.files[0])
+                parse(e.target.files[0], {
+                  header: true,
+                  complete ({ data: places }) {
+                    importPlaces({ variables: { places } })
+                  },
+                })
               }}/>
             </a>
-            <a href={`data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(places))}`} download={`${Date.now()}.json`} className="dropdown-item">
+            <a
+              className="dropdown-item"
+              href={"data:text/csv;charset=utf-8," + encodeURIComponent(unparse(
+                places.map(({ name, address: { street, zipCode, city }, category }) => ({ name, street, zipCode, city, category })),
+              ))}
+              download={`${Date.now()}.csv`}
+            >
               <span className="icon"><i className="ri-upload-2-line"/></span>
-              <span className="">Exporter</span>
+              <span className="">Exporter en .csv</span>
             </a>
           </>
         )}

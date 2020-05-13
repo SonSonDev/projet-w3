@@ -12,7 +12,7 @@ function PlaceInfo ({ history, match: { params: { id } } }) {
 
   const { loading, error, data: { getPlace = {} } = {} } = useQuery(GET_PLACE, { variables: { id } })
 
-  if (loading || error) return null
+  if (loading || error) return console.log({ loading, error }) || null
 
   const { name, category, address: { street, zipCode, city }, keywords, tags } = getPlace
 

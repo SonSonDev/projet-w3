@@ -39,13 +39,6 @@ export const GET_PLACES = gql`
         zipCode
         city
       }
-      hours {
-        day
-        start
-        end
-      }
-      keywords
-      type
       category
     }
   }
