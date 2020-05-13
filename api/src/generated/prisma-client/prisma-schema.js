@@ -96,6 +96,10 @@ type AggregateTag {
   count: Int!
 }
 
+type AggregateTagType {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -473,6 +477,12 @@ type Mutation {
   upsertTag(where: TagWhereUniqueInput!, create: TagCreateInput!, update: TagUpdateInput!): Tag!
   deleteTag(where: TagWhereUniqueInput!): Tag
   deleteManyTags(where: TagWhereInput): BatchPayload!
+  createTagType(data: TagTypeCreateInput!): TagType!
+  updateTagType(data: TagTypeUpdateInput!, where: TagTypeWhereUniqueInput!): TagType
+  updateManyTagTypes(data: TagTypeUpdateManyMutationInput!, where: TagTypeWhereInput): BatchPayload!
+  upsertTagType(where: TagTypeWhereUniqueInput!, create: TagTypeCreateInput!, update: TagTypeUpdateInput!): TagType!
+  deleteTagType(where: TagTypeWhereUniqueInput!): TagType
+  deleteManyTagTypes(where: TagTypeWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -771,6 +781,9 @@ type Query {
   tag(where: TagWhereUniqueInput!): Tag
   tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag]!
   tagsConnection(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TagConnection!
+  tagType(where: TagTypeWhereUniqueInput!): TagType
+  tagTypes(where: TagTypeWhereInput, orderBy: TagTypeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TagType]!
+  tagTypesConnection(where: TagTypeWhereInput, orderBy: TagTypeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TagTypeConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -788,14 +801,14 @@ type Subscription {
   company(where: CompanySubscriptionWhereInput): CompanySubscriptionPayload
   place(where: PlaceSubscriptionWhereInput): PlaceSubscriptionPayload
   tag(where: TagSubscriptionWhereInput): TagSubscriptionPayload
+  tagType(where: TagTypeSubscriptionWhereInput): TagTypeSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
 type Tag {
   id: ID!
-  name: String
-  type: String
-  activity: String
+  type: TagType!
+  value: String!
   places(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Place!]
 }
 
@@ -807,9 +820,8 @@ type TagConnection {
 
 input TagCreateInput {
   id: ID
-  name: String
-  type: String
-  activity: String
+  type: TagTypeCreateOneWithoutTagsInput!
+  value: String!
   places: PlaceCreateManyWithoutTagsInput
 }
 
@@ -818,11 +830,21 @@ input TagCreateManyWithoutPlacesInput {
   connect: [TagWhereUniqueInput!]
 }
 
+input TagCreateManyWithoutTypeInput {
+  create: [TagCreateWithoutTypeInput!]
+  connect: [TagWhereUniqueInput!]
+}
+
 input TagCreateWithoutPlacesInput {
   id: ID
-  name: String
-  type: String
-  activity: String
+  type: TagTypeCreateOneWithoutTagsInput!
+  value: String!
+}
+
+input TagCreateWithoutTypeInput {
+  id: ID
+  value: String!
+  places: PlaceCreateManyWithoutTagsInput
 }
 
 type TagEdge {
@@ -833,19 +855,13 @@ type TagEdge {
 enum TagOrderByInput {
   id_ASC
   id_DESC
-  name_ASC
-  name_DESC
-  type_ASC
-  type_DESC
-  activity_ASC
-  activity_DESC
+  value_ASC
+  value_DESC
 }
 
 type TagPreviousValues {
   id: ID!
-  name: String
-  type: String
-  activity: String
+  value: String!
 }
 
 input TagScalarWhereInput {
@@ -863,48 +879,20 @@ input TagScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  name: String
-  name_not: String
-  name_in: [String!]
-  name_not_in: [String!]
-  name_lt: String
-  name_lte: String
-  name_gt: String
-  name_gte: String
-  name_contains: String
-  name_not_contains: String
-  name_starts_with: String
-  name_not_starts_with: String
-  name_ends_with: String
-  name_not_ends_with: String
-  type: String
-  type_not: String
-  type_in: [String!]
-  type_not_in: [String!]
-  type_lt: String
-  type_lte: String
-  type_gt: String
-  type_gte: String
-  type_contains: String
-  type_not_contains: String
-  type_starts_with: String
-  type_not_starts_with: String
-  type_ends_with: String
-  type_not_ends_with: String
-  activity: String
-  activity_not: String
-  activity_in: [String!]
-  activity_not_in: [String!]
-  activity_lt: String
-  activity_lte: String
-  activity_gt: String
-  activity_gte: String
-  activity_contains: String
-  activity_not_contains: String
-  activity_starts_with: String
-  activity_not_starts_with: String
-  activity_ends_with: String
-  activity_not_ends_with: String
+  value: String
+  value_not: String
+  value_in: [String!]
+  value_not_in: [String!]
+  value_lt: String
+  value_lte: String
+  value_gt: String
+  value_gte: String
+  value_contains: String
+  value_not_contains: String
+  value_starts_with: String
+  value_not_starts_with: String
+  value_ends_with: String
+  value_not_ends_with: String
   AND: [TagScalarWhereInput!]
   OR: [TagScalarWhereInput!]
   NOT: [TagScalarWhereInput!]
@@ -926,60 +914,133 @@ input TagSubscriptionWhereInput {
   AND: [TagSubscriptionWhereInput!]
 }
 
-input TagUpdateInput {
+type TagType {
+  id: ID!
+  name: String!
+  category: Category!
+  parentTagType: TagType
+  tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag!]
+}
+
+type TagTypeConnection {
+  pageInfo: PageInfo!
+  edges: [TagTypeEdge]!
+  aggregate: AggregateTagType!
+}
+
+input TagTypeCreateInput {
+  id: ID
+  name: String!
+  category: Category!
+  parentTagType: TagTypeCreateOneInput
+  tags: TagCreateManyWithoutTypeInput
+}
+
+input TagTypeCreateOneInput {
+  create: TagTypeCreateInput
+  connect: TagTypeWhereUniqueInput
+}
+
+input TagTypeCreateOneWithoutTagsInput {
+  create: TagTypeCreateWithoutTagsInput
+  connect: TagTypeWhereUniqueInput
+}
+
+input TagTypeCreateWithoutTagsInput {
+  id: ID
+  name: String!
+  category: Category!
+  parentTagType: TagTypeCreateOneInput
+}
+
+type TagTypeEdge {
+  node: TagType!
+  cursor: String!
+}
+
+enum TagTypeOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  category_ASC
+  category_DESC
+}
+
+type TagTypePreviousValues {
+  id: ID!
+  name: String!
+  category: Category!
+}
+
+type TagTypeSubscriptionPayload {
+  mutation: MutationType!
+  node: TagType
+  updatedFields: [String!]
+  previousValues: TagTypePreviousValues
+}
+
+input TagTypeSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: TagTypeWhereInput
+  AND: [TagTypeSubscriptionWhereInput!]
+}
+
+input TagTypeUpdateDataInput {
   name: String
-  type: String
-  activity: String
-  places: PlaceUpdateManyWithoutTagsInput
+  category: Category
+  parentTagType: TagTypeUpdateOneInput
+  tags: TagUpdateManyWithoutTypeInput
 }
 
-input TagUpdateManyDataInput {
+input TagTypeUpdateInput {
   name: String
-  type: String
-  activity: String
+  category: Category
+  parentTagType: TagTypeUpdateOneInput
+  tags: TagUpdateManyWithoutTypeInput
 }
 
-input TagUpdateManyMutationInput {
+input TagTypeUpdateManyMutationInput {
   name: String
-  type: String
-  activity: String
+  category: Category
 }
 
-input TagUpdateManyWithoutPlacesInput {
-  create: [TagCreateWithoutPlacesInput!]
-  delete: [TagWhereUniqueInput!]
-  connect: [TagWhereUniqueInput!]
-  set: [TagWhereUniqueInput!]
-  disconnect: [TagWhereUniqueInput!]
-  update: [TagUpdateWithWhereUniqueWithoutPlacesInput!]
-  upsert: [TagUpsertWithWhereUniqueWithoutPlacesInput!]
-  deleteMany: [TagScalarWhereInput!]
-  updateMany: [TagUpdateManyWithWhereNestedInput!]
+input TagTypeUpdateOneInput {
+  create: TagTypeCreateInput
+  update: TagTypeUpdateDataInput
+  upsert: TagTypeUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: TagTypeWhereUniqueInput
 }
 
-input TagUpdateManyWithWhereNestedInput {
-  where: TagScalarWhereInput!
-  data: TagUpdateManyDataInput!
+input TagTypeUpdateOneRequiredWithoutTagsInput {
+  create: TagTypeCreateWithoutTagsInput
+  update: TagTypeUpdateWithoutTagsDataInput
+  upsert: TagTypeUpsertWithoutTagsInput
+  connect: TagTypeWhereUniqueInput
 }
 
-input TagUpdateWithoutPlacesDataInput {
+input TagTypeUpdateWithoutTagsDataInput {
   name: String
-  type: String
-  activity: String
+  category: Category
+  parentTagType: TagTypeUpdateOneInput
 }
 
-input TagUpdateWithWhereUniqueWithoutPlacesInput {
-  where: TagWhereUniqueInput!
-  data: TagUpdateWithoutPlacesDataInput!
+input TagTypeUpsertNestedInput {
+  update: TagTypeUpdateDataInput!
+  create: TagTypeCreateInput!
 }
 
-input TagUpsertWithWhereUniqueWithoutPlacesInput {
-  where: TagWhereUniqueInput!
-  update: TagUpdateWithoutPlacesDataInput!
-  create: TagCreateWithoutPlacesInput!
+input TagTypeUpsertWithoutTagsInput {
+  update: TagTypeUpdateWithoutTagsDataInput!
+  create: TagTypeCreateWithoutTagsInput!
 }
 
-input TagWhereInput {
+input TagTypeWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -1008,34 +1069,124 @@ input TagWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
-  type: String
-  type_not: String
-  type_in: [String!]
-  type_not_in: [String!]
-  type_lt: String
-  type_lte: String
-  type_gt: String
-  type_gte: String
-  type_contains: String
-  type_not_contains: String
-  type_starts_with: String
-  type_not_starts_with: String
-  type_ends_with: String
-  type_not_ends_with: String
-  activity: String
-  activity_not: String
-  activity_in: [String!]
-  activity_not_in: [String!]
-  activity_lt: String
-  activity_lte: String
-  activity_gt: String
-  activity_gte: String
-  activity_contains: String
-  activity_not_contains: String
-  activity_starts_with: String
-  activity_not_starts_with: String
-  activity_ends_with: String
-  activity_not_ends_with: String
+  category: Category
+  category_not: Category
+  category_in: [Category!]
+  category_not_in: [Category!]
+  parentTagType: TagTypeWhereInput
+  tags_some: TagWhereInput
+  AND: [TagTypeWhereInput!]
+}
+
+input TagTypeWhereUniqueInput {
+  id: ID
+}
+
+input TagUpdateInput {
+  type: TagTypeUpdateOneRequiredWithoutTagsInput
+  value: String
+  places: PlaceUpdateManyWithoutTagsInput
+}
+
+input TagUpdateManyDataInput {
+  value: String
+}
+
+input TagUpdateManyMutationInput {
+  value: String
+}
+
+input TagUpdateManyWithoutPlacesInput {
+  create: [TagCreateWithoutPlacesInput!]
+  delete: [TagWhereUniqueInput!]
+  connect: [TagWhereUniqueInput!]
+  set: [TagWhereUniqueInput!]
+  disconnect: [TagWhereUniqueInput!]
+  update: [TagUpdateWithWhereUniqueWithoutPlacesInput!]
+  upsert: [TagUpsertWithWhereUniqueWithoutPlacesInput!]
+  deleteMany: [TagScalarWhereInput!]
+  updateMany: [TagUpdateManyWithWhereNestedInput!]
+}
+
+input TagUpdateManyWithoutTypeInput {
+  create: [TagCreateWithoutTypeInput!]
+  delete: [TagWhereUniqueInput!]
+  connect: [TagWhereUniqueInput!]
+  set: [TagWhereUniqueInput!]
+  disconnect: [TagWhereUniqueInput!]
+  update: [TagUpdateWithWhereUniqueWithoutTypeInput!]
+  upsert: [TagUpsertWithWhereUniqueWithoutTypeInput!]
+  deleteMany: [TagScalarWhereInput!]
+  updateMany: [TagUpdateManyWithWhereNestedInput!]
+}
+
+input TagUpdateManyWithWhereNestedInput {
+  where: TagScalarWhereInput!
+  data: TagUpdateManyDataInput!
+}
+
+input TagUpdateWithoutPlacesDataInput {
+  type: TagTypeUpdateOneRequiredWithoutTagsInput
+  value: String
+}
+
+input TagUpdateWithoutTypeDataInput {
+  value: String
+  places: PlaceUpdateManyWithoutTagsInput
+}
+
+input TagUpdateWithWhereUniqueWithoutPlacesInput {
+  where: TagWhereUniqueInput!
+  data: TagUpdateWithoutPlacesDataInput!
+}
+
+input TagUpdateWithWhereUniqueWithoutTypeInput {
+  where: TagWhereUniqueInput!
+  data: TagUpdateWithoutTypeDataInput!
+}
+
+input TagUpsertWithWhereUniqueWithoutPlacesInput {
+  where: TagWhereUniqueInput!
+  update: TagUpdateWithoutPlacesDataInput!
+  create: TagCreateWithoutPlacesInput!
+}
+
+input TagUpsertWithWhereUniqueWithoutTypeInput {
+  where: TagWhereUniqueInput!
+  update: TagUpdateWithoutTypeDataInput!
+  create: TagCreateWithoutTypeInput!
+}
+
+input TagWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  type: TagTypeWhereInput
+  value: String
+  value_not: String
+  value_in: [String!]
+  value_not_in: [String!]
+  value_lt: String
+  value_lte: String
+  value_gt: String
+  value_gte: String
+  value_contains: String
+  value_not_contains: String
+  value_starts_with: String
+  value_not_starts_with: String
+  value_ends_with: String
+  value_not_ends_with: String
   places_some: PlaceWhereInput
   AND: [TagWhereInput!]
 }

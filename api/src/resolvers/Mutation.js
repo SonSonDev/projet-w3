@@ -10,33 +10,7 @@ const transporter = nodemailer.createTransport({
     pass: "azazazaz1",
   },
 })
-
-
-// TAGS
-async function createTag(parent, { name, type, activity }, context) {
-  return context.prisma.createTag({
-    name,
-    type,
-    activity,
-  })
-}
-
-async function deleteTag(parent, { id }, context) {
-  return await context.prisma.deleteTag({ id })
-}
-
-async function updateTag(parent, { id, name, type, activity }, context) {
-  return await context.prisma.updateTag({
-    where: {
-      id,
-    },
-    data: {
-      name,
-      type,
-      activity,
-    },
-  })
-}
+const { mutations: tagMutations } = require('./tag')
 
 // PLACES
 
@@ -101,7 +75,10 @@ async function deletePlace(parent, { id }, context) {
   return await context.prisma.deletePlace({ id })
 }
 
-async function updatePlace(parent, { placeId, name, street, zipCode, city, type, category }, context) {
+async function updatePlace(parent, { placeId, name, street, zipCode, city, type, category, tags }, context) {
+  const currentTags = await context.prisma.tags({where: { places_some: { id: placeId }}})
+  const disconnect = currentTags.filter(tag => !tags.find(id => id === tag.id)).map(({id}) => ({ id }))
+  
   return await context.prisma.updatePlace({
     where: {
       id: placeId,
@@ -111,6 +88,10 @@ async function updatePlace(parent, { placeId, name, street, zipCode, city, type,
       address: { update: { street, zipCode, city } },
       type,
       category,
+      tags: {
+        disconnect,
+        connect: tags.map(id => ({ id })) 
+      },
     },
   })
 }
@@ -372,8 +353,6 @@ module.exports = {
   logout,
   updateHour,
   updatePassword,
-  createTag,
-  deleteTag,
-  updateTag,
   createStripeInvoice,
+  ...tagMutations,
 }

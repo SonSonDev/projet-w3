@@ -20,9 +20,10 @@ export const GET_PLACE = gql`
       category
       tags {
         id
-        name
-        type
-        activity
+        value
+        type {
+          name
+        }
       }
     }
   }

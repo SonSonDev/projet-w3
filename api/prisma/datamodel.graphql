@@ -31,11 +31,18 @@ type Company {
   stripeCustomerId: String
 }
 
+type TagType {
+  id: ID! @id
+  name: String!
+  category: Category! @relation(link: INLINE)
+  parentTagType: TagType @relation(link: INLINE)
+  tags: [Tag!]
+}
+
 type Tag {
   id: ID! @id
-  name: String
-  type: String
-  activity: String
+  type: TagType! @relation(link: INLINE)
+  value: String!
   places: [Place!]
 }
 

@@ -16,26 +16,139 @@ const users = [
   [ "Antoine" , "Masselot"  , "antoine.masselot@hetic.net", "admin", "SUPER_ADMIN" ],
 ]
 
+
+const defaultTagTypes = [
+  [ 'Type',        'ACTIVITY' ],
+  [ 'Engagements', 'ACTIVITY' ],
+
+  [ 'Type',        'FOOD' ],
+  [ 'Filtres',     'FOOD' ],
+  [ 'Cuisine',     'FOOD' ],
+  [ 'Engagements', 'FOOD' ],
+
+  [ 'Type',        'SHOP' ],
+  [ 'Filtres',     'SHOP' ],
+  [ 'Engagements', 'SHOP' ],
+]
+
 const defaultTags = [
-  [ "Asiatique",    "Type de cuisine",      "FOOD" ],
-  [ "Africain",     "Type de cuisine",      "FOOD" ],
-  [ "Américain",    "Type de cuisine",      "FOOD" ],
-  [ "Européen",     "Type de cuisine",      "FOOD" ],
-  [ "Latino",       "Type de cuisine",      "FOOD" ],
-  [ "€",            "Budget",               "FOOD" ],
-  [ "€€",           "Budget",               "FOOD" ],
-  [ "€€€",          "Budget",               "FOOD" ],
-  [ "Vegan",        "Régime alimentaire",   "FOOD" ],
-  [ "Végétarien",   "Régime alimentaire",   "FOOD" ],
-  [ "Sans gluten",  "Régime alimentaire",   "FOOD" ],
-  [ "Bio",          "Régime alimentaire",   "FOOD" ],
-  [ "Hallal",       "Régime alimentaire",   "FOOD" ],
-  [ "Casher",       "Régime alimentaire",   "FOOD" ],
-  [ "Rampe d’accès extérieur",  "Accessibilité",   "FOOD" ],
-  [ "Ascenseur / Élévateur",    "Accessibilité",   "FOOD" ],
-  [ "Trottoirs adaptés",        "Accessibilité",   "FOOD" ],
-  [ "Présence d’étages",        "Accessibilité",   "FOOD" ],
-  [ "Parkings PMR à proximité", "Accessibilité",   "FOOD" ],
+  [ "Classique",                "Type", "FOOD" ],
+  [ "Fast good/Healthy",        "Type", "FOOD" ],
+  [ "Fast food",                "Type", "FOOD" ],
+  [ "Conceptuel/gastro",        "Type", "FOOD" ],
+  [ "Salon de thé/Pâtisserie",  "Type", "FOOD" ],
+
+  [ "Alimentaire",              "Type", "SHOP" ],
+  [ "Hygiène/beauté",           "Type", "SHOP" ],
+  [ "Mode",                     "Type", "SHOP" ],
+  [ "Maison",                   "Type", "SHOP" ],
+
+  [ "Cuisine/dégustation",            "Type", "ACTIVITY" ],
+  [ "Beauté/Bien-être",               "Type", "ACTIVITY" ],
+  [ "DIY/Atelier créatif",            "Type", "ACTIVITY" ],
+  [ "Sport",                          "Type", "ACTIVITY" ],
+  [ "Services quotidien/Utilitaires", "Type", "ACTIVITY" ],
+  [ "Balade/Visite",                  "Type", "ACTIVITY" ],
+
+
+  [ "Sans gluten",    "Filtres", "FOOD" ],
+  [ "Vegan",          "Filtres", "FOOD" ],
+  [ "Veggie",         "Filtres", "FOOD" ],
+  [ "Terrasse",       "Filtres", "FOOD" ],
+  [ "À emporter",     "Filtres", "FOOD" ],
+
+  [ "Sans gluten",    "Filtres", "SHOP" ],
+  [ "Vegan",          "Filtres", "SHOP" ],
+  [ "Veggie",         "Filtres", "SHOP" ],
+
+  [ "Junkfood",       "Cuisine", "FOOD" ],
+  [ "Afro",           "Cuisine", "FOOD" ],
+  [ "Asiatique",      "Cuisine", "FOOD" ],
+  [ "Indienne",       "Cuisine", "FOOD" ],
+  [ "Italienne",      "Cuisine", "FOOD" ],
+  [ "Méxicaine",      "Cuisine", "FOOD" ],
+  [ "Orientale",      "Cuisine", "FOOD" ],
+  [ "Traditionnelle", "Cuisine", "FOOD" ],
+
+  [ "Matériels/Equipement - Nature - Circuit court/Locaux",                             "Engagements", "ACTIVITY" ],
+  [ "Matériels/Equipement - Nature - Industrie biologique",                             "Engagements", "ACTIVITY" ],
+  [ "Matériels/Equipement - Nature - Industrie raisonnée",                              "Engagements", "ACTIVITY" ],
+  [ "Matériels/Equipement - Nature - Produits labelisés/éthiques",                      "Engagements", "ACTIVITY" ],
+  [ "Matériels/Equipement - Nature - Produits de saison",                               "Engagements", "ACTIVITY" ],
+  [ "Matériels/Equipement - Nature - Produits de seconde main/récup",                   "Engagements", "ACTIVITY" ],
+  [ "Matériels/Equipement - Nature - Enseignes écoresponsables",                        "Engagements", "ACTIVITY" ],
+  [ "Matériels/Equipement - Acheminement - Mutualisé",                                  "Engagements", "ACTIVITY" ],
+  [ "Matériels/Equipement - Acheminement - Zéro déchet",                                "Engagements", "ACTIVITY" ],
+  [ "Matériels/Equipement - Acheminement - Biocarburant",                               "Engagements", "ACTIVITY" ],
+  [ "Établissement - Fournisseur d'énergie verte",                                      "Engagements", "ACTIVITY" ],
+  [ "Établissement - Entretien vert",                                                   "Engagements", "ACTIVITY" ],
+  [ "Établissement - Mobilier - Seconde main",                                          "Engagements", "ACTIVITY" ],
+  [ "Établissement - Mobilier - Enseigne écoresponsable",                               "Engagements", "ACTIVITY" ],
+  [ "Établissement - Dématérialisation",                                                "Engagements", "ACTIVITY" ],
+  [ "Social - Déplacements/transports des salarié - Transports en commun",              "Engagements", "ACTIVITY" ],
+  [ "Social - Déplacements/transports des salarié - Mobilité douces",                   "Engagements", "ACTIVITY" ],
+  [ "Social - Déplacements/transports des salarié - Covoiturage",                       "Engagements", "ACTIVITY" ],
+  [ "Social - Contrats aidés, équité, diversité",                                       "Engagements", "ACTIVITY" ],
+  [ "Social - Dons à des associations - Invendus",                                      "Engagements", "ACTIVITY" ],
+  [ "Social - Dons à des associations - % de la marge",                                 "Engagements", "ACTIVITY" ],
+  [ "Social - Dons à des associations - 1 acheté / 1 donné",                            "Engagements", "ACTIVITY" ],
+  [ "Social - Dons à des associations - Partenariat Carillon",                          "Engagements", "ACTIVITY" ],
+
+  [ "Marchandise - Provenance - Circuit court/Locaux",                                  "Engagements", "SHOP" ],
+  [ "Marchandise - Provenance - Industrie biologique",                                  "Engagements", "SHOP" ],
+  [ "Marchandise - Provenance - Industrie raisonnée",                                   "Engagements", "SHOP" ],
+  [ "Marchandise - Provenance - Produits labelisés/éthiques",                           "Engagements", "SHOP" ],
+  [ "Marchandise - Provenance - Produits de saison",                                    "Engagements", "SHOP" ],
+  [ "Marchandise - Acheminement - Mutualisé",                                           "Engagements", "SHOP" ],
+  [ "Marchandise - Acheminement - Zéro déchet",                                         "Engagements", "SHOP" ],
+  [ "Marchandise - Acheminement - Biocarburant",                                        "Engagements", "SHOP" ],
+  [ "Marchandise - Emballages produits - Ramenés par le client/consigné/réutilisables", "Engagements", "SHOP" ],
+  [ "Marchandise - Emballages produits - Recyclables/à partir de produits recyclés",    "Engagements", "SHOP" ],
+  [ "Marchandise - Valorisation des invendus - Dons",                                   "Engagements", "SHOP" ],
+  [ "Marchandise - Valorisation des invendus - Partenariat",                            "Engagements", "SHOP" ],
+  [ "Marchandise - Valorisation des invendus - Compostage",                             "Engagements", "SHOP" ],
+  [ "Établissement - Fournisseur d'énergie verte",                                      "Engagements", "SHOP" ],
+  [ "Établissement - Entretien vert",                                                   "Engagements", "SHOP" ],
+  [ "Établissement - Mobilier - Seconde main",                                          "Engagements", "SHOP" ],
+  [ "Établissement - Mobilier - Enseigne écoresponsable",                               "Engagements", "SHOP" ],
+  [ "Établissement - Dématérialisation",                                                "Engagements", "SHOP" ],
+  [ "Social - Déplacements/transports des salarié - Transports en commun",              "Engagements", "SHOP" ],
+  [ "Social - Déplacements/transports des salarié - Mobilité douces",                   "Engagements", "SHOP" ],
+  [ "Social - Déplacements/transports des salarié - Covoiturage",                       "Engagements", "SHOP" ],
+  [ "Social - Contrats aidés, équité, diversité",                                       "Engagements", "SHOP" ],
+  [ "Social - Dons à des associations - Invendus",                                      "Engagements", "SHOP" ],
+  [ "Social - Dons à des associations - % de la marge",                                 "Engagements", "SHOP" ],
+  [ "Social - Dons à des associations - 1 acheté / 1 donné",                            "Engagements", "SHOP" ],
+  [ "Social - Dons à des associations - Partenariat Carillon",                          "Engagements", "SHOP" ],
+  
+  [ "Produits - Carte - Circuit court/Locaux",                                          "Engagements", "FOOD" ],
+  [ "Produits - Carte - Industrie biologique",                                          "Engagements", "FOOD" ],
+  [ "Produits - Carte - Industrie raisonnée",                                           "Engagements", "FOOD" ],
+  [ "Produits - Carte - Produits labelisés/éthiques",                                   "Engagements", "FOOD" ],
+  [ "Produits - Carte - Produits de saison",                                            "Engagements", "FOOD" ],
+  [ "Produits - Carte - Produits végétaux",                                             "Engagements", "FOOD" ],
+  [ "Produits - Acheminement - Mutualisé",                                              "Engagements", "FOOD" ],
+  [ "Produits - Acheminement - Zéro déchet",                                            "Engagements", "FOOD" ],
+  [ "Produits - Acheminement - Biocarburant",                                           "Engagements", "FOOD" ],
+  [ "Produits - Transformation - Cuisinés sur place",                                   "Engagements", "FOOD" ],
+  [ "Produits - Transformation - Emballages à emporter - Ramenés par le client",        "Engagements", "FOOD" ],
+  [ "Produits - Transformation - Emballages à emporter - Recyclables",                  "Engagements", "FOOD" ],
+  [ "Produits - Valorisation des invendus - Dons",                                      "Engagements", "FOOD" ],
+  [ "Produits - Valorisation des invendus - Partenariat",                               "Engagements", "FOOD" ],
+  [ "Produits - Valorisation des invendus - Compostage",                                "Engagements", "FOOD" ],
+  [ "Établissement - Fournisseur d'énergie verte",                                      "Engagements", "FOOD" ],
+  [ "Établissement - Entretien vert",                                                   "Engagements", "FOOD" ],
+  [ "Établissement - Mobilier - Seconde main",                                          "Engagements", "FOOD" ],
+  [ "Établissement - Mobilier - Enseigne écoresponsable",                               "Engagements", "FOOD" ],
+  [ "Établissement - Dématérialisation",                                                "Engagements", "FOOD" ],
+  [ "Social - Déplacements/transports des salarié - Transports en commun",              "Engagements", "FOOD" ],
+  [ "Social - Déplacements/transports des salarié - Mobilité douces",                   "Engagements", "FOOD" ],
+  [ "Social - Déplacements/transports des salarié - Covoiturage",                       "Engagements", "FOOD" ],
+  [ "Social - Contrats aidés, équité, diversité",                                       "Engagements", "FOOD" ],
+  [ "Social - Dons à des associations - Invendus",                                      "Engagements", "FOOD" ],
+  [ "Social - Dons à des associations - % de la marge",                                 "Engagements", "FOOD" ],
+  [ "Social - Dons à des associations - 1 acheté / 1 donné",                            "Engagements", "FOOD" ],
+  [ "Social - Dons à des associations - Partenariat Carillon",                          "Engagements", "FOOD" ],
 ]
 
 const places = [
@@ -138,15 +251,32 @@ const populateDb = async () => {
     })
   }
 
-  const tags = await Promise.all(
-    defaultTags.map(([ name, type, activity ]) => (
-      prisma.createTag({
+
+
+  const tagTypes = await Promise.all(
+    defaultTagTypes.map(([ name, category ]) => (
+      prisma.createTagType({
         name,
-        type,
-        activity,
+        category,
       })
     )),
   )
+
+  const tags = await Promise.all(
+    defaultTags.map(([ value, tagTypeName, category ]) => (
+      prisma.createTag({
+        value,
+        type: {
+          connect: {
+            id: tagTypes.find(tagType => {
+              return tagType.name === tagTypeName && tagType.category === category 
+            }).id
+          }
+        }
+      })
+    )),
+  )
+
   // console.log(tags, tags[0].id, tags.map(({ id }) => ({ id })))
   for (const [ name, street, zipCode, city, category ] of shuffle(places)) {
     await prisma.createPlace({
@@ -200,6 +330,7 @@ const populateDb = async () => {
 const clearDb = async () => {
   await prisma.deleteManyUsers()
   await prisma.deleteManyTags()
+  await prisma.deleteManyTagTypes()
   await prisma.deleteManyPlaces()
   await prisma.deleteManyCompanies()
 }
