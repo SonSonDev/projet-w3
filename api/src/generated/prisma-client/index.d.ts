@@ -16,8 +16,10 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
+  challenge: (where?: ChallengeWhereInput) => Promise<boolean>;
   company: (where?: CompanyWhereInput) => Promise<boolean>;
   place: (where?: PlaceWhereInput) => Promise<boolean>;
+  quiz: (where?: QuizWhereInput) => Promise<boolean>;
   tag: (where?: TagWhereInput) => Promise<boolean>;
   tagType: (where?: TagTypeWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
@@ -42,6 +44,25 @@ export interface Prisma {
    * Queries
    */
 
+  challenge: (where: ChallengeWhereUniqueInput) => ChallengeNullablePromise;
+  challenges: (args?: {
+    where?: ChallengeWhereInput;
+    orderBy?: ChallengeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Challenge>;
+  challengesConnection: (args?: {
+    where?: ChallengeWhereInput;
+    orderBy?: ChallengeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => ChallengeConnectionPromise;
   company: (where: CompanyWhereUniqueInput) => CompanyNullablePromise;
   companies: (args?: {
     where?: CompanyWhereInput;
@@ -80,6 +101,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => PlaceConnectionPromise;
+  quiz: (where: QuizWhereUniqueInput) => QuizNullablePromise;
+  quizzes: (args?: {
+    where?: QuizWhereInput;
+    orderBy?: QuizOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Quiz>;
+  quizzesConnection: (args?: {
+    where?: QuizWhereInput;
+    orderBy?: QuizOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => QuizConnectionPromise;
   tag: (where: TagWhereUniqueInput) => TagNullablePromise;
   tags: (args?: {
     where?: TagWhereInput;
@@ -143,6 +183,22 @@ export interface Prisma {
    * Mutations
    */
 
+  createChallenge: (data: ChallengeCreateInput) => ChallengePromise;
+  updateChallenge: (args: {
+    data: ChallengeUpdateInput;
+    where: ChallengeWhereUniqueInput;
+  }) => ChallengePromise;
+  updateManyChallenges: (args: {
+    data: ChallengeUpdateManyMutationInput;
+    where?: ChallengeWhereInput;
+  }) => BatchPayloadPromise;
+  upsertChallenge: (args: {
+    where: ChallengeWhereUniqueInput;
+    create: ChallengeCreateInput;
+    update: ChallengeUpdateInput;
+  }) => ChallengePromise;
+  deleteChallenge: (where: ChallengeWhereUniqueInput) => ChallengePromise;
+  deleteManyChallenges: (where?: ChallengeWhereInput) => BatchPayloadPromise;
   createCompany: (data: CompanyCreateInput) => CompanyPromise;
   updateCompany: (args: {
     data: CompanyUpdateInput;
@@ -175,6 +231,22 @@ export interface Prisma {
   }) => PlacePromise;
   deletePlace: (where: PlaceWhereUniqueInput) => PlacePromise;
   deleteManyPlaces: (where?: PlaceWhereInput) => BatchPayloadPromise;
+  createQuiz: (data: QuizCreateInput) => QuizPromise;
+  updateQuiz: (args: {
+    data: QuizUpdateInput;
+    where: QuizWhereUniqueInput;
+  }) => QuizPromise;
+  updateManyQuizzes: (args: {
+    data: QuizUpdateManyMutationInput;
+    where?: QuizWhereInput;
+  }) => BatchPayloadPromise;
+  upsertQuiz: (args: {
+    where: QuizWhereUniqueInput;
+    create: QuizCreateInput;
+    update: QuizUpdateInput;
+  }) => QuizPromise;
+  deleteQuiz: (where: QuizWhereUniqueInput) => QuizPromise;
+  deleteManyQuizzes: (where?: QuizWhereInput) => BatchPayloadPromise;
   createTag: (data: TagCreateInput) => TagPromise;
   updateTag: (args: {
     data: TagUpdateInput;
@@ -232,12 +304,18 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  challenge: (
+    where?: ChallengeSubscriptionWhereInput
+  ) => ChallengeSubscriptionPayloadSubscription;
   company: (
     where?: CompanySubscriptionWhereInput
   ) => CompanySubscriptionPayloadSubscription;
   place: (
     where?: PlaceSubscriptionWhereInput
   ) => PlaceSubscriptionPayloadSubscription;
+  quiz: (
+    where?: QuizSubscriptionWhereInput
+  ) => QuizSubscriptionPayloadSubscription;
   tag: (
     where?: TagSubscriptionWhereInput
   ) => TagSubscriptionPayloadSubscription;
@@ -261,6 +339,16 @@ export type CompanyType = "COMPANY" | "SCHOOL" | "PLACE" | "COWORKING";
 
 export type Role = "SUPER_ADMIN" | "ADMIN" | "MODERATOR" | "USER";
 
+export type CompanyOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "type_ASC"
+  | "type_DESC"
+  | "stripeCustomerId_ASC"
+  | "stripeCustomerId_DESC";
+
 export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -277,17 +365,31 @@ export type UserOrderByInput =
   | "role_ASC"
   | "role_DESC"
   | "isRepresentative_ASC"
-  | "isRepresentative_DESC";
+  | "isRepresentative_DESC"
+  | "points_ASC"
+  | "points_DESC";
 
-export type CompanyOrderByInput =
+export type ChallengeOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "name_ASC"
   | "name_DESC"
-  | "type_ASC"
-  | "type_DESC"
-  | "stripeCustomerId_ASC"
-  | "stripeCustomerId_DESC";
+  | "description_ASC"
+  | "description_DESC"
+  | "value_ASC"
+  | "value_DESC";
+
+export type QuizOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "question_ASC"
+  | "question_DESC"
+  | "answer_ASC"
+  | "answer_DESC"
+  | "value_ASC"
+  | "value_DESC";
 
 export type Day =
   | "MONDAY"
@@ -308,9 +410,7 @@ export type PlaceOrderByInput =
   | "name_ASC"
   | "name_DESC"
   | "category_ASC"
-  | "category_DESC"
-  | "type_ASC"
-  | "type_DESC";
+  | "category_DESC";
 
 export type TagTypeOrderByInput =
   | "id_ASC"
@@ -322,9 +422,109 @@ export type TagTypeOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type CompanyWhereUniqueInput = AtLeastOne<{
+export type ChallengeWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
+
+export interface CompanyWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  type?: Maybe<CompanyType>;
+  type_not?: Maybe<CompanyType>;
+  type_in?: Maybe<CompanyType[] | CompanyType>;
+  type_not_in?: Maybe<CompanyType[] | CompanyType>;
+  address?: Maybe<AddressWhereInput>;
+  users_some?: Maybe<UserWhereInput>;
+  stripeCustomerId?: Maybe<String>;
+  stripeCustomerId_not?: Maybe<String>;
+  stripeCustomerId_in?: Maybe<String[] | String>;
+  stripeCustomerId_not_in?: Maybe<String[] | String>;
+  stripeCustomerId_lt?: Maybe<String>;
+  stripeCustomerId_lte?: Maybe<String>;
+  stripeCustomerId_gt?: Maybe<String>;
+  stripeCustomerId_gte?: Maybe<String>;
+  stripeCustomerId_contains?: Maybe<String>;
+  stripeCustomerId_not_contains?: Maybe<String>;
+  stripeCustomerId_starts_with?: Maybe<String>;
+  stripeCustomerId_not_starts_with?: Maybe<String>;
+  stripeCustomerId_ends_with?: Maybe<String>;
+  stripeCustomerId_not_ends_with?: Maybe<String>;
+  challenges_some?: Maybe<ChallengeWhereInput>;
+  quizzes_some?: Maybe<QuizWhereInput>;
+  AND?: Maybe<CompanyWhereInput[] | CompanyWhereInput>;
+}
+
+export interface AddressWhereInput {
+  street?: Maybe<String>;
+  street_not?: Maybe<String>;
+  street_in?: Maybe<String[] | String>;
+  street_not_in?: Maybe<String[] | String>;
+  street_lt?: Maybe<String>;
+  street_lte?: Maybe<String>;
+  street_gt?: Maybe<String>;
+  street_gte?: Maybe<String>;
+  street_contains?: Maybe<String>;
+  street_not_contains?: Maybe<String>;
+  street_starts_with?: Maybe<String>;
+  street_not_starts_with?: Maybe<String>;
+  street_ends_with?: Maybe<String>;
+  street_not_ends_with?: Maybe<String>;
+  zipCode?: Maybe<String>;
+  zipCode_not?: Maybe<String>;
+  zipCode_in?: Maybe<String[] | String>;
+  zipCode_not_in?: Maybe<String[] | String>;
+  zipCode_lt?: Maybe<String>;
+  zipCode_lte?: Maybe<String>;
+  zipCode_gt?: Maybe<String>;
+  zipCode_gte?: Maybe<String>;
+  zipCode_contains?: Maybe<String>;
+  zipCode_not_contains?: Maybe<String>;
+  zipCode_starts_with?: Maybe<String>;
+  zipCode_not_starts_with?: Maybe<String>;
+  zipCode_ends_with?: Maybe<String>;
+  zipCode_not_ends_with?: Maybe<String>;
+  city?: Maybe<String>;
+  city_not?: Maybe<String>;
+  city_in?: Maybe<String[] | String>;
+  city_not_in?: Maybe<String[] | String>;
+  city_lt?: Maybe<String>;
+  city_lte?: Maybe<String>;
+  city_gt?: Maybe<String>;
+  city_gte?: Maybe<String>;
+  city_contains?: Maybe<String>;
+  city_not_contains?: Maybe<String>;
+  city_starts_with?: Maybe<String>;
+  city_not_starts_with?: Maybe<String>;
+  city_ends_with?: Maybe<String>;
+  city_not_ends_with?: Maybe<String>;
+  AND?: Maybe<AddressWhereInput[] | AddressWhereInput>;
+}
 
 export interface UserWhereInput {
   id?: Maybe<ID_Input>;
@@ -418,10 +618,20 @@ export interface UserWhereInput {
   isRepresentative?: Maybe<Boolean>;
   isRepresentative_not?: Maybe<Boolean>;
   company?: Maybe<CompanyWhereInput>;
+  points?: Maybe<Int>;
+  points_not?: Maybe<Int>;
+  points_in?: Maybe<Int[] | Int>;
+  points_not_in?: Maybe<Int[] | Int>;
+  points_lt?: Maybe<Int>;
+  points_lte?: Maybe<Int>;
+  points_gt?: Maybe<Int>;
+  points_gte?: Maybe<Int>;
+  validatedChallenges_some?: Maybe<ChallengeWhereInput>;
+  validatedQuizzes_some?: Maybe<QuizWhereInput>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
-export interface CompanyWhereInput {
+export interface ChallengeWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -450,74 +660,104 @@ export interface CompanyWhereInput {
   name_not_starts_with?: Maybe<String>;
   name_ends_with?: Maybe<String>;
   name_not_ends_with?: Maybe<String>;
-  type?: Maybe<CompanyType>;
-  type_not?: Maybe<CompanyType>;
-  type_in?: Maybe<CompanyType[] | CompanyType>;
-  type_not_in?: Maybe<CompanyType[] | CompanyType>;
-  address?: Maybe<AddressWhereInput>;
-  users_some?: Maybe<UserWhereInput>;
-  stripeCustomerId?: Maybe<String>;
-  stripeCustomerId_not?: Maybe<String>;
-  stripeCustomerId_in?: Maybe<String[] | String>;
-  stripeCustomerId_not_in?: Maybe<String[] | String>;
-  stripeCustomerId_lt?: Maybe<String>;
-  stripeCustomerId_lte?: Maybe<String>;
-  stripeCustomerId_gt?: Maybe<String>;
-  stripeCustomerId_gte?: Maybe<String>;
-  stripeCustomerId_contains?: Maybe<String>;
-  stripeCustomerId_not_contains?: Maybe<String>;
-  stripeCustomerId_starts_with?: Maybe<String>;
-  stripeCustomerId_not_starts_with?: Maybe<String>;
-  stripeCustomerId_ends_with?: Maybe<String>;
-  stripeCustomerId_not_ends_with?: Maybe<String>;
-  AND?: Maybe<CompanyWhereInput[] | CompanyWhereInput>;
+  description?: Maybe<String>;
+  description_not?: Maybe<String>;
+  description_in?: Maybe<String[] | String>;
+  description_not_in?: Maybe<String[] | String>;
+  description_lt?: Maybe<String>;
+  description_lte?: Maybe<String>;
+  description_gt?: Maybe<String>;
+  description_gte?: Maybe<String>;
+  description_contains?: Maybe<String>;
+  description_not_contains?: Maybe<String>;
+  description_starts_with?: Maybe<String>;
+  description_not_starts_with?: Maybe<String>;
+  description_ends_with?: Maybe<String>;
+  description_not_ends_with?: Maybe<String>;
+  value?: Maybe<Int>;
+  value_not?: Maybe<Int>;
+  value_in?: Maybe<Int[] | Int>;
+  value_not_in?: Maybe<Int[] | Int>;
+  value_lt?: Maybe<Int>;
+  value_lte?: Maybe<Int>;
+  value_gt?: Maybe<Int>;
+  value_gte?: Maybe<Int>;
+  companies_some?: Maybe<CompanyWhereInput>;
+  AND?: Maybe<ChallengeWhereInput[] | ChallengeWhereInput>;
 }
 
-export interface AddressWhereInput {
-  street?: Maybe<String>;
-  street_not?: Maybe<String>;
-  street_in?: Maybe<String[] | String>;
-  street_not_in?: Maybe<String[] | String>;
-  street_lt?: Maybe<String>;
-  street_lte?: Maybe<String>;
-  street_gt?: Maybe<String>;
-  street_gte?: Maybe<String>;
-  street_contains?: Maybe<String>;
-  street_not_contains?: Maybe<String>;
-  street_starts_with?: Maybe<String>;
-  street_not_starts_with?: Maybe<String>;
-  street_ends_with?: Maybe<String>;
-  street_not_ends_with?: Maybe<String>;
-  zipCode?: Maybe<String>;
-  zipCode_not?: Maybe<String>;
-  zipCode_in?: Maybe<String[] | String>;
-  zipCode_not_in?: Maybe<String[] | String>;
-  zipCode_lt?: Maybe<String>;
-  zipCode_lte?: Maybe<String>;
-  zipCode_gt?: Maybe<String>;
-  zipCode_gte?: Maybe<String>;
-  zipCode_contains?: Maybe<String>;
-  zipCode_not_contains?: Maybe<String>;
-  zipCode_starts_with?: Maybe<String>;
-  zipCode_not_starts_with?: Maybe<String>;
-  zipCode_ends_with?: Maybe<String>;
-  zipCode_not_ends_with?: Maybe<String>;
-  city?: Maybe<String>;
-  city_not?: Maybe<String>;
-  city_in?: Maybe<String[] | String>;
-  city_not_in?: Maybe<String[] | String>;
-  city_lt?: Maybe<String>;
-  city_lte?: Maybe<String>;
-  city_gt?: Maybe<String>;
-  city_gte?: Maybe<String>;
-  city_contains?: Maybe<String>;
-  city_not_contains?: Maybe<String>;
-  city_starts_with?: Maybe<String>;
-  city_not_starts_with?: Maybe<String>;
-  city_ends_with?: Maybe<String>;
-  city_not_ends_with?: Maybe<String>;
-  AND?: Maybe<AddressWhereInput[] | AddressWhereInput>;
+export interface QuizWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  question?: Maybe<String>;
+  question_not?: Maybe<String>;
+  question_in?: Maybe<String[] | String>;
+  question_not_in?: Maybe<String[] | String>;
+  question_lt?: Maybe<String>;
+  question_lte?: Maybe<String>;
+  question_gt?: Maybe<String>;
+  question_gte?: Maybe<String>;
+  question_contains?: Maybe<String>;
+  question_not_contains?: Maybe<String>;
+  question_starts_with?: Maybe<String>;
+  question_not_starts_with?: Maybe<String>;
+  question_ends_with?: Maybe<String>;
+  question_not_ends_with?: Maybe<String>;
+  answer?: Maybe<String>;
+  answer_not?: Maybe<String>;
+  answer_in?: Maybe<String[] | String>;
+  answer_not_in?: Maybe<String[] | String>;
+  answer_lt?: Maybe<String>;
+  answer_lte?: Maybe<String>;
+  answer_gt?: Maybe<String>;
+  answer_gte?: Maybe<String>;
+  answer_contains?: Maybe<String>;
+  answer_not_contains?: Maybe<String>;
+  answer_starts_with?: Maybe<String>;
+  answer_not_starts_with?: Maybe<String>;
+  answer_ends_with?: Maybe<String>;
+  answer_not_ends_with?: Maybe<String>;
+  value?: Maybe<Int>;
+  value_not?: Maybe<Int>;
+  value_in?: Maybe<Int[] | Int>;
+  value_not_in?: Maybe<Int[] | Int>;
+  value_lt?: Maybe<Int>;
+  value_lte?: Maybe<Int>;
+  value_gt?: Maybe<Int>;
+  value_gte?: Maybe<Int>;
+  companies_some?: Maybe<CompanyWhereInput>;
+  AND?: Maybe<QuizWhereInput[] | QuizWhereInput>;
 }
+
+export type CompanyWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
 export type PlaceWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
@@ -632,20 +872,6 @@ export interface PlaceWhereInput {
   category_not?: Maybe<Category>;
   category_in?: Maybe<Category[] | Category>;
   category_not_in?: Maybe<Category[] | Category>;
-  type?: Maybe<String>;
-  type_not?: Maybe<String>;
-  type_in?: Maybe<String[] | String>;
-  type_not_in?: Maybe<String[] | String>;
-  type_lt?: Maybe<String>;
-  type_lte?: Maybe<String>;
-  type_gt?: Maybe<String>;
-  type_gte?: Maybe<String>;
-  type_contains?: Maybe<String>;
-  type_not_contains?: Maybe<String>;
-  type_starts_with?: Maybe<String>;
-  type_not_starts_with?: Maybe<String>;
-  type_ends_with?: Maybe<String>;
-  type_not_ends_with?: Maybe<String>;
   tags_some?: Maybe<TagWhereInput>;
   AND?: Maybe<PlaceWhereInput[] | PlaceWhereInput>;
 }
@@ -722,6 +948,10 @@ export interface HourRestrictedWhereInput {
   AND?: Maybe<HourRestrictedWhereInput[] | HourRestrictedWhereInput>;
 }
 
+export type QuizWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
 export type TagWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
@@ -735,7 +965,22 @@ export type UserWhereUniqueInput = AtLeastOne<{
   email?: Maybe<String>;
 }>;
 
-export interface CompanyCreateInput {
+export interface ChallengeCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  description: String;
+  value: Int;
+  companies?: Maybe<CompanyCreateManyWithoutChallengesInput>;
+}
+
+export interface CompanyCreateManyWithoutChallengesInput {
+  create?: Maybe<
+    CompanyCreateWithoutChallengesInput[] | CompanyCreateWithoutChallengesInput
+  >;
+  connect?: Maybe<CompanyWhereUniqueInput[] | CompanyWhereUniqueInput>;
+}
+
+export interface CompanyCreateWithoutChallengesInput {
   id?: Maybe<ID_Input>;
   name?: Maybe<String>;
   type?: Maybe<CompanyType>;
@@ -743,6 +988,7 @@ export interface CompanyCreateInput {
   users?: Maybe<UserCreateManyWithoutCompanyInput>;
   emailDomains?: Maybe<CompanyCreateemailDomainsInput>;
   stripeCustomerId?: Maybe<String>;
+  quizzes?: Maybe<QuizCreateManyWithoutCompaniesInput>;
 }
 
 export interface AddressCreateOneInput {
@@ -771,19 +1017,131 @@ export interface UserCreateWithoutCompanyInput {
   password?: Maybe<String>;
   role?: Maybe<Role>;
   isRepresentative?: Maybe<Boolean>;
+  points?: Maybe<Int>;
+  validatedChallenges?: Maybe<ChallengeCreateManyInput>;
+  validatedQuizzes?: Maybe<QuizCreateManyInput>;
+}
+
+export interface ChallengeCreateManyInput {
+  create?: Maybe<ChallengeCreateInput[] | ChallengeCreateInput>;
+  connect?: Maybe<ChallengeWhereUniqueInput[] | ChallengeWhereUniqueInput>;
+}
+
+export interface QuizCreateManyInput {
+  create?: Maybe<QuizCreateInput[] | QuizCreateInput>;
+  connect?: Maybe<QuizWhereUniqueInput[] | QuizWhereUniqueInput>;
+}
+
+export interface QuizCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  question: String;
+  choices?: Maybe<QuizCreatechoicesInput>;
+  answer: String;
+  value: Int;
+  companies?: Maybe<CompanyCreateManyWithoutQuizzesInput>;
+}
+
+export interface QuizCreatechoicesInput {
+  set?: Maybe<String[] | String>;
+}
+
+export interface CompanyCreateManyWithoutQuizzesInput {
+  create?: Maybe<
+    CompanyCreateWithoutQuizzesInput[] | CompanyCreateWithoutQuizzesInput
+  >;
+  connect?: Maybe<CompanyWhereUniqueInput[] | CompanyWhereUniqueInput>;
+}
+
+export interface CompanyCreateWithoutQuizzesInput {
+  id?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  type?: Maybe<CompanyType>;
+  address?: Maybe<AddressCreateOneInput>;
+  users?: Maybe<UserCreateManyWithoutCompanyInput>;
+  emailDomains?: Maybe<CompanyCreateemailDomainsInput>;
+  stripeCustomerId?: Maybe<String>;
+  challenges?: Maybe<ChallengeCreateManyWithoutCompaniesInput>;
 }
 
 export interface CompanyCreateemailDomainsInput {
   set?: Maybe<String[] | String>;
 }
 
-export interface CompanyUpdateInput {
+export interface ChallengeCreateManyWithoutCompaniesInput {
+  create?: Maybe<
+    | ChallengeCreateWithoutCompaniesInput[]
+    | ChallengeCreateWithoutCompaniesInput
+  >;
+  connect?: Maybe<ChallengeWhereUniqueInput[] | ChallengeWhereUniqueInput>;
+}
+
+export interface ChallengeCreateWithoutCompaniesInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  description: String;
+  value: Int;
+}
+
+export interface QuizCreateManyWithoutCompaniesInput {
+  create?: Maybe<
+    QuizCreateWithoutCompaniesInput[] | QuizCreateWithoutCompaniesInput
+  >;
+  connect?: Maybe<QuizWhereUniqueInput[] | QuizWhereUniqueInput>;
+}
+
+export interface QuizCreateWithoutCompaniesInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  question: String;
+  choices?: Maybe<QuizCreatechoicesInput>;
+  answer: String;
+  value: Int;
+}
+
+export interface ChallengeUpdateInput {
+  name?: Maybe<String>;
+  description?: Maybe<String>;
+  value?: Maybe<Int>;
+  companies?: Maybe<CompanyUpdateManyWithoutChallengesInput>;
+}
+
+export interface CompanyUpdateManyWithoutChallengesInput {
+  create?: Maybe<
+    CompanyCreateWithoutChallengesInput[] | CompanyCreateWithoutChallengesInput
+  >;
+  delete?: Maybe<CompanyWhereUniqueInput[] | CompanyWhereUniqueInput>;
+  connect?: Maybe<CompanyWhereUniqueInput[] | CompanyWhereUniqueInput>;
+  set?: Maybe<CompanyWhereUniqueInput[] | CompanyWhereUniqueInput>;
+  disconnect?: Maybe<CompanyWhereUniqueInput[] | CompanyWhereUniqueInput>;
+  update?: Maybe<
+    | CompanyUpdateWithWhereUniqueWithoutChallengesInput[]
+    | CompanyUpdateWithWhereUniqueWithoutChallengesInput
+  >;
+  upsert?: Maybe<
+    | CompanyUpsertWithWhereUniqueWithoutChallengesInput[]
+    | CompanyUpsertWithWhereUniqueWithoutChallengesInput
+  >;
+  deleteMany?: Maybe<CompanyScalarWhereInput[] | CompanyScalarWhereInput>;
+  updateMany?: Maybe<
+    | CompanyUpdateManyWithWhereNestedInput[]
+    | CompanyUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface CompanyUpdateWithWhereUniqueWithoutChallengesInput {
+  where: CompanyWhereUniqueInput;
+  data: CompanyUpdateWithoutChallengesDataInput;
+}
+
+export interface CompanyUpdateWithoutChallengesDataInput {
   name?: Maybe<String>;
   type?: Maybe<CompanyType>;
   address?: Maybe<AddressUpdateOneInput>;
   users?: Maybe<UserUpdateManyWithoutCompanyInput>;
   emailDomains?: Maybe<CompanyUpdateemailDomainsInput>;
   stripeCustomerId?: Maybe<String>;
+  quizzes?: Maybe<QuizUpdateManyWithoutCompaniesInput>;
 }
 
 export interface AddressUpdateOneInput {
@@ -840,6 +1198,395 @@ export interface UserUpdateWithoutCompanyDataInput {
   password?: Maybe<String>;
   role?: Maybe<Role>;
   isRepresentative?: Maybe<Boolean>;
+  points?: Maybe<Int>;
+  validatedChallenges?: Maybe<ChallengeUpdateManyInput>;
+  validatedQuizzes?: Maybe<QuizUpdateManyInput>;
+}
+
+export interface ChallengeUpdateManyInput {
+  create?: Maybe<ChallengeCreateInput[] | ChallengeCreateInput>;
+  update?: Maybe<
+    | ChallengeUpdateWithWhereUniqueNestedInput[]
+    | ChallengeUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    | ChallengeUpsertWithWhereUniqueNestedInput[]
+    | ChallengeUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<ChallengeWhereUniqueInput[] | ChallengeWhereUniqueInput>;
+  connect?: Maybe<ChallengeWhereUniqueInput[] | ChallengeWhereUniqueInput>;
+  set?: Maybe<ChallengeWhereUniqueInput[] | ChallengeWhereUniqueInput>;
+  disconnect?: Maybe<ChallengeWhereUniqueInput[] | ChallengeWhereUniqueInput>;
+  deleteMany?: Maybe<ChallengeScalarWhereInput[] | ChallengeScalarWhereInput>;
+  updateMany?: Maybe<
+    | ChallengeUpdateManyWithWhereNestedInput[]
+    | ChallengeUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface ChallengeUpdateWithWhereUniqueNestedInput {
+  where: ChallengeWhereUniqueInput;
+  data: ChallengeUpdateDataInput;
+}
+
+export interface ChallengeUpdateDataInput {
+  name?: Maybe<String>;
+  description?: Maybe<String>;
+  value?: Maybe<Int>;
+  companies?: Maybe<CompanyUpdateManyWithoutChallengesInput>;
+}
+
+export interface ChallengeUpsertWithWhereUniqueNestedInput {
+  where: ChallengeWhereUniqueInput;
+  update: ChallengeUpdateDataInput;
+  create: ChallengeCreateInput;
+}
+
+export interface ChallengeScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  description?: Maybe<String>;
+  description_not?: Maybe<String>;
+  description_in?: Maybe<String[] | String>;
+  description_not_in?: Maybe<String[] | String>;
+  description_lt?: Maybe<String>;
+  description_lte?: Maybe<String>;
+  description_gt?: Maybe<String>;
+  description_gte?: Maybe<String>;
+  description_contains?: Maybe<String>;
+  description_not_contains?: Maybe<String>;
+  description_starts_with?: Maybe<String>;
+  description_not_starts_with?: Maybe<String>;
+  description_ends_with?: Maybe<String>;
+  description_not_ends_with?: Maybe<String>;
+  value?: Maybe<Int>;
+  value_not?: Maybe<Int>;
+  value_in?: Maybe<Int[] | Int>;
+  value_not_in?: Maybe<Int[] | Int>;
+  value_lt?: Maybe<Int>;
+  value_lte?: Maybe<Int>;
+  value_gt?: Maybe<Int>;
+  value_gte?: Maybe<Int>;
+  AND?: Maybe<ChallengeScalarWhereInput[] | ChallengeScalarWhereInput>;
+  OR?: Maybe<ChallengeScalarWhereInput[] | ChallengeScalarWhereInput>;
+  NOT?: Maybe<ChallengeScalarWhereInput[] | ChallengeScalarWhereInput>;
+}
+
+export interface ChallengeUpdateManyWithWhereNestedInput {
+  where: ChallengeScalarWhereInput;
+  data: ChallengeUpdateManyDataInput;
+}
+
+export interface ChallengeUpdateManyDataInput {
+  name?: Maybe<String>;
+  description?: Maybe<String>;
+  value?: Maybe<Int>;
+}
+
+export interface QuizUpdateManyInput {
+  create?: Maybe<QuizCreateInput[] | QuizCreateInput>;
+  update?: Maybe<
+    | QuizUpdateWithWhereUniqueNestedInput[]
+    | QuizUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    | QuizUpsertWithWhereUniqueNestedInput[]
+    | QuizUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<QuizWhereUniqueInput[] | QuizWhereUniqueInput>;
+  connect?: Maybe<QuizWhereUniqueInput[] | QuizWhereUniqueInput>;
+  set?: Maybe<QuizWhereUniqueInput[] | QuizWhereUniqueInput>;
+  disconnect?: Maybe<QuizWhereUniqueInput[] | QuizWhereUniqueInput>;
+  deleteMany?: Maybe<QuizScalarWhereInput[] | QuizScalarWhereInput>;
+  updateMany?: Maybe<
+    QuizUpdateManyWithWhereNestedInput[] | QuizUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface QuizUpdateWithWhereUniqueNestedInput {
+  where: QuizWhereUniqueInput;
+  data: QuizUpdateDataInput;
+}
+
+export interface QuizUpdateDataInput {
+  name?: Maybe<String>;
+  question?: Maybe<String>;
+  choices?: Maybe<QuizUpdatechoicesInput>;
+  answer?: Maybe<String>;
+  value?: Maybe<Int>;
+  companies?: Maybe<CompanyUpdateManyWithoutQuizzesInput>;
+}
+
+export interface QuizUpdatechoicesInput {
+  set?: Maybe<String[] | String>;
+}
+
+export interface CompanyUpdateManyWithoutQuizzesInput {
+  create?: Maybe<
+    CompanyCreateWithoutQuizzesInput[] | CompanyCreateWithoutQuizzesInput
+  >;
+  delete?: Maybe<CompanyWhereUniqueInput[] | CompanyWhereUniqueInput>;
+  connect?: Maybe<CompanyWhereUniqueInput[] | CompanyWhereUniqueInput>;
+  set?: Maybe<CompanyWhereUniqueInput[] | CompanyWhereUniqueInput>;
+  disconnect?: Maybe<CompanyWhereUniqueInput[] | CompanyWhereUniqueInput>;
+  update?: Maybe<
+    | CompanyUpdateWithWhereUniqueWithoutQuizzesInput[]
+    | CompanyUpdateWithWhereUniqueWithoutQuizzesInput
+  >;
+  upsert?: Maybe<
+    | CompanyUpsertWithWhereUniqueWithoutQuizzesInput[]
+    | CompanyUpsertWithWhereUniqueWithoutQuizzesInput
+  >;
+  deleteMany?: Maybe<CompanyScalarWhereInput[] | CompanyScalarWhereInput>;
+  updateMany?: Maybe<
+    | CompanyUpdateManyWithWhereNestedInput[]
+    | CompanyUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface CompanyUpdateWithWhereUniqueWithoutQuizzesInput {
+  where: CompanyWhereUniqueInput;
+  data: CompanyUpdateWithoutQuizzesDataInput;
+}
+
+export interface CompanyUpdateWithoutQuizzesDataInput {
+  name?: Maybe<String>;
+  type?: Maybe<CompanyType>;
+  address?: Maybe<AddressUpdateOneInput>;
+  users?: Maybe<UserUpdateManyWithoutCompanyInput>;
+  emailDomains?: Maybe<CompanyUpdateemailDomainsInput>;
+  stripeCustomerId?: Maybe<String>;
+  challenges?: Maybe<ChallengeUpdateManyWithoutCompaniesInput>;
+}
+
+export interface CompanyUpdateemailDomainsInput {
+  set?: Maybe<String[] | String>;
+}
+
+export interface ChallengeUpdateManyWithoutCompaniesInput {
+  create?: Maybe<
+    | ChallengeCreateWithoutCompaniesInput[]
+    | ChallengeCreateWithoutCompaniesInput
+  >;
+  delete?: Maybe<ChallengeWhereUniqueInput[] | ChallengeWhereUniqueInput>;
+  connect?: Maybe<ChallengeWhereUniqueInput[] | ChallengeWhereUniqueInput>;
+  set?: Maybe<ChallengeWhereUniqueInput[] | ChallengeWhereUniqueInput>;
+  disconnect?: Maybe<ChallengeWhereUniqueInput[] | ChallengeWhereUniqueInput>;
+  update?: Maybe<
+    | ChallengeUpdateWithWhereUniqueWithoutCompaniesInput[]
+    | ChallengeUpdateWithWhereUniqueWithoutCompaniesInput
+  >;
+  upsert?: Maybe<
+    | ChallengeUpsertWithWhereUniqueWithoutCompaniesInput[]
+    | ChallengeUpsertWithWhereUniqueWithoutCompaniesInput
+  >;
+  deleteMany?: Maybe<ChallengeScalarWhereInput[] | ChallengeScalarWhereInput>;
+  updateMany?: Maybe<
+    | ChallengeUpdateManyWithWhereNestedInput[]
+    | ChallengeUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface ChallengeUpdateWithWhereUniqueWithoutCompaniesInput {
+  where: ChallengeWhereUniqueInput;
+  data: ChallengeUpdateWithoutCompaniesDataInput;
+}
+
+export interface ChallengeUpdateWithoutCompaniesDataInput {
+  name?: Maybe<String>;
+  description?: Maybe<String>;
+  value?: Maybe<Int>;
+}
+
+export interface ChallengeUpsertWithWhereUniqueWithoutCompaniesInput {
+  where: ChallengeWhereUniqueInput;
+  update: ChallengeUpdateWithoutCompaniesDataInput;
+  create: ChallengeCreateWithoutCompaniesInput;
+}
+
+export interface CompanyUpsertWithWhereUniqueWithoutQuizzesInput {
+  where: CompanyWhereUniqueInput;
+  update: CompanyUpdateWithoutQuizzesDataInput;
+  create: CompanyCreateWithoutQuizzesInput;
+}
+
+export interface CompanyScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  type?: Maybe<CompanyType>;
+  type_not?: Maybe<CompanyType>;
+  type_in?: Maybe<CompanyType[] | CompanyType>;
+  type_not_in?: Maybe<CompanyType[] | CompanyType>;
+  stripeCustomerId?: Maybe<String>;
+  stripeCustomerId_not?: Maybe<String>;
+  stripeCustomerId_in?: Maybe<String[] | String>;
+  stripeCustomerId_not_in?: Maybe<String[] | String>;
+  stripeCustomerId_lt?: Maybe<String>;
+  stripeCustomerId_lte?: Maybe<String>;
+  stripeCustomerId_gt?: Maybe<String>;
+  stripeCustomerId_gte?: Maybe<String>;
+  stripeCustomerId_contains?: Maybe<String>;
+  stripeCustomerId_not_contains?: Maybe<String>;
+  stripeCustomerId_starts_with?: Maybe<String>;
+  stripeCustomerId_not_starts_with?: Maybe<String>;
+  stripeCustomerId_ends_with?: Maybe<String>;
+  stripeCustomerId_not_ends_with?: Maybe<String>;
+  AND?: Maybe<CompanyScalarWhereInput[] | CompanyScalarWhereInput>;
+  OR?: Maybe<CompanyScalarWhereInput[] | CompanyScalarWhereInput>;
+  NOT?: Maybe<CompanyScalarWhereInput[] | CompanyScalarWhereInput>;
+}
+
+export interface CompanyUpdateManyWithWhereNestedInput {
+  where: CompanyScalarWhereInput;
+  data: CompanyUpdateManyDataInput;
+}
+
+export interface CompanyUpdateManyDataInput {
+  name?: Maybe<String>;
+  type?: Maybe<CompanyType>;
+  emailDomains?: Maybe<CompanyUpdateemailDomainsInput>;
+  stripeCustomerId?: Maybe<String>;
+}
+
+export interface QuizUpsertWithWhereUniqueNestedInput {
+  where: QuizWhereUniqueInput;
+  update: QuizUpdateDataInput;
+  create: QuizCreateInput;
+}
+
+export interface QuizScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  question?: Maybe<String>;
+  question_not?: Maybe<String>;
+  question_in?: Maybe<String[] | String>;
+  question_not_in?: Maybe<String[] | String>;
+  question_lt?: Maybe<String>;
+  question_lte?: Maybe<String>;
+  question_gt?: Maybe<String>;
+  question_gte?: Maybe<String>;
+  question_contains?: Maybe<String>;
+  question_not_contains?: Maybe<String>;
+  question_starts_with?: Maybe<String>;
+  question_not_starts_with?: Maybe<String>;
+  question_ends_with?: Maybe<String>;
+  question_not_ends_with?: Maybe<String>;
+  answer?: Maybe<String>;
+  answer_not?: Maybe<String>;
+  answer_in?: Maybe<String[] | String>;
+  answer_not_in?: Maybe<String[] | String>;
+  answer_lt?: Maybe<String>;
+  answer_lte?: Maybe<String>;
+  answer_gt?: Maybe<String>;
+  answer_gte?: Maybe<String>;
+  answer_contains?: Maybe<String>;
+  answer_not_contains?: Maybe<String>;
+  answer_starts_with?: Maybe<String>;
+  answer_not_starts_with?: Maybe<String>;
+  answer_ends_with?: Maybe<String>;
+  answer_not_ends_with?: Maybe<String>;
+  value?: Maybe<Int>;
+  value_not?: Maybe<Int>;
+  value_in?: Maybe<Int[] | Int>;
+  value_not_in?: Maybe<Int[] | Int>;
+  value_lt?: Maybe<Int>;
+  value_lte?: Maybe<Int>;
+  value_gt?: Maybe<Int>;
+  value_gte?: Maybe<Int>;
+  AND?: Maybe<QuizScalarWhereInput[] | QuizScalarWhereInput>;
+  OR?: Maybe<QuizScalarWhereInput[] | QuizScalarWhereInput>;
+  NOT?: Maybe<QuizScalarWhereInput[] | QuizScalarWhereInput>;
+}
+
+export interface QuizUpdateManyWithWhereNestedInput {
+  where: QuizScalarWhereInput;
+  data: QuizUpdateManyDataInput;
+}
+
+export interface QuizUpdateManyDataInput {
+  name?: Maybe<String>;
+  question?: Maybe<String>;
+  choices?: Maybe<QuizUpdatechoicesInput>;
+  answer?: Maybe<String>;
+  value?: Maybe<Int>;
 }
 
 export interface UserUpsertWithWhereUniqueWithoutCompanyInput {
@@ -939,6 +1686,14 @@ export interface UserScalarWhereInput {
   role_not_in?: Maybe<Role[] | Role>;
   isRepresentative?: Maybe<Boolean>;
   isRepresentative_not?: Maybe<Boolean>;
+  points?: Maybe<Int>;
+  points_not?: Maybe<Int>;
+  points_in?: Maybe<Int[] | Int>;
+  points_not_in?: Maybe<Int[] | Int>;
+  points_lt?: Maybe<Int>;
+  points_lte?: Maybe<Int>;
+  points_gt?: Maybe<Int>;
+  points_gte?: Maybe<Int>;
   AND?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
   OR?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
   NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
@@ -957,10 +1712,83 @@ export interface UserUpdateManyDataInput {
   password?: Maybe<String>;
   role?: Maybe<Role>;
   isRepresentative?: Maybe<Boolean>;
+  points?: Maybe<Int>;
 }
 
-export interface CompanyUpdateemailDomainsInput {
-  set?: Maybe<String[] | String>;
+export interface QuizUpdateManyWithoutCompaniesInput {
+  create?: Maybe<
+    QuizCreateWithoutCompaniesInput[] | QuizCreateWithoutCompaniesInput
+  >;
+  delete?: Maybe<QuizWhereUniqueInput[] | QuizWhereUniqueInput>;
+  connect?: Maybe<QuizWhereUniqueInput[] | QuizWhereUniqueInput>;
+  set?: Maybe<QuizWhereUniqueInput[] | QuizWhereUniqueInput>;
+  disconnect?: Maybe<QuizWhereUniqueInput[] | QuizWhereUniqueInput>;
+  update?: Maybe<
+    | QuizUpdateWithWhereUniqueWithoutCompaniesInput[]
+    | QuizUpdateWithWhereUniqueWithoutCompaniesInput
+  >;
+  upsert?: Maybe<
+    | QuizUpsertWithWhereUniqueWithoutCompaniesInput[]
+    | QuizUpsertWithWhereUniqueWithoutCompaniesInput
+  >;
+  deleteMany?: Maybe<QuizScalarWhereInput[] | QuizScalarWhereInput>;
+  updateMany?: Maybe<
+    QuizUpdateManyWithWhereNestedInput[] | QuizUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface QuizUpdateWithWhereUniqueWithoutCompaniesInput {
+  where: QuizWhereUniqueInput;
+  data: QuizUpdateWithoutCompaniesDataInput;
+}
+
+export interface QuizUpdateWithoutCompaniesDataInput {
+  name?: Maybe<String>;
+  question?: Maybe<String>;
+  choices?: Maybe<QuizUpdatechoicesInput>;
+  answer?: Maybe<String>;
+  value?: Maybe<Int>;
+}
+
+export interface QuizUpsertWithWhereUniqueWithoutCompaniesInput {
+  where: QuizWhereUniqueInput;
+  update: QuizUpdateWithoutCompaniesDataInput;
+  create: QuizCreateWithoutCompaniesInput;
+}
+
+export interface CompanyUpsertWithWhereUniqueWithoutChallengesInput {
+  where: CompanyWhereUniqueInput;
+  update: CompanyUpdateWithoutChallengesDataInput;
+  create: CompanyCreateWithoutChallengesInput;
+}
+
+export interface ChallengeUpdateManyMutationInput {
+  name?: Maybe<String>;
+  description?: Maybe<String>;
+  value?: Maybe<Int>;
+}
+
+export interface CompanyCreateInput {
+  id?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  type?: Maybe<CompanyType>;
+  address?: Maybe<AddressCreateOneInput>;
+  users?: Maybe<UserCreateManyWithoutCompanyInput>;
+  emailDomains?: Maybe<CompanyCreateemailDomainsInput>;
+  stripeCustomerId?: Maybe<String>;
+  challenges?: Maybe<ChallengeCreateManyWithoutCompaniesInput>;
+  quizzes?: Maybe<QuizCreateManyWithoutCompaniesInput>;
+}
+
+export interface CompanyUpdateInput {
+  name?: Maybe<String>;
+  type?: Maybe<CompanyType>;
+  address?: Maybe<AddressUpdateOneInput>;
+  users?: Maybe<UserUpdateManyWithoutCompanyInput>;
+  emailDomains?: Maybe<CompanyUpdateemailDomainsInput>;
+  stripeCustomerId?: Maybe<String>;
+  challenges?: Maybe<ChallengeUpdateManyWithoutCompaniesInput>;
+  quizzes?: Maybe<QuizUpdateManyWithoutCompaniesInput>;
 }
 
 export interface CompanyUpdateManyMutationInput {
@@ -975,9 +1803,7 @@ export interface PlaceCreateInput {
   name?: Maybe<String>;
   address?: Maybe<AddressCreateOneInput>;
   hours?: Maybe<HourCreateManyInput>;
-  keywords?: Maybe<PlaceCreatekeywordsInput>;
   category?: Maybe<Category>;
-  type?: Maybe<String>;
   tags?: Maybe<TagCreateManyWithoutPlacesInput>;
 }
 
@@ -989,10 +1815,6 @@ export interface HourCreateInput {
   day?: Maybe<Day>;
   start?: Maybe<String>;
   end?: Maybe<String>;
-}
-
-export interface PlaceCreatekeywordsInput {
-  set?: Maybe<String[] | String>;
 }
 
 export interface TagCreateManyWithoutPlacesInput {
@@ -1052,18 +1874,14 @@ export interface PlaceCreateWithoutTagsInput {
   name?: Maybe<String>;
   address?: Maybe<AddressCreateOneInput>;
   hours?: Maybe<HourCreateManyInput>;
-  keywords?: Maybe<PlaceCreatekeywordsInput>;
   category?: Maybe<Category>;
-  type?: Maybe<String>;
 }
 
 export interface PlaceUpdateInput {
   name?: Maybe<String>;
   address?: Maybe<AddressUpdateOneInput>;
   hours?: Maybe<HourUpdateManyInput>;
-  keywords?: Maybe<PlaceUpdatekeywordsInput>;
   category?: Maybe<Category>;
-  type?: Maybe<String>;
   tags?: Maybe<TagUpdateManyWithoutPlacesInput>;
 }
 
@@ -1122,10 +1940,6 @@ export interface HourUpdateManyDataInput {
   day?: Maybe<Day>;
   start?: Maybe<String>;
   end?: Maybe<String>;
-}
-
-export interface PlaceUpdatekeywordsInput {
-  set?: Maybe<String[] | String>;
 }
 
 export interface TagUpdateManyWithoutPlacesInput {
@@ -1246,9 +2060,7 @@ export interface PlaceUpdateWithoutTagsDataInput {
   name?: Maybe<String>;
   address?: Maybe<AddressUpdateOneInput>;
   hours?: Maybe<HourUpdateManyInput>;
-  keywords?: Maybe<PlaceUpdatekeywordsInput>;
   category?: Maybe<Category>;
-  type?: Maybe<String>;
 }
 
 export interface PlaceUpsertWithWhereUniqueWithoutTagsInput {
@@ -1290,20 +2102,6 @@ export interface PlaceScalarWhereInput {
   category_not?: Maybe<Category>;
   category_in?: Maybe<Category[] | Category>;
   category_not_in?: Maybe<Category[] | Category>;
-  type?: Maybe<String>;
-  type_not?: Maybe<String>;
-  type_in?: Maybe<String[] | String>;
-  type_not_in?: Maybe<String[] | String>;
-  type_lt?: Maybe<String>;
-  type_lte?: Maybe<String>;
-  type_gt?: Maybe<String>;
-  type_gte?: Maybe<String>;
-  type_contains?: Maybe<String>;
-  type_not_contains?: Maybe<String>;
-  type_starts_with?: Maybe<String>;
-  type_not_starts_with?: Maybe<String>;
-  type_ends_with?: Maybe<String>;
-  type_not_ends_with?: Maybe<String>;
   AND?: Maybe<PlaceScalarWhereInput[] | PlaceScalarWhereInput>;
   OR?: Maybe<PlaceScalarWhereInput[] | PlaceScalarWhereInput>;
   NOT?: Maybe<PlaceScalarWhereInput[] | PlaceScalarWhereInput>;
@@ -1316,9 +2114,7 @@ export interface PlaceUpdateManyWithWhereNestedInput {
 
 export interface PlaceUpdateManyDataInput {
   name?: Maybe<String>;
-  keywords?: Maybe<PlaceUpdatekeywordsInput>;
   category?: Maybe<Category>;
-  type?: Maybe<String>;
 }
 
 export interface TagUpsertWithWhereUniqueWithoutTypeInput {
@@ -1388,9 +2184,24 @@ export interface TagUpsertWithWhereUniqueWithoutPlacesInput {
 
 export interface PlaceUpdateManyMutationInput {
   name?: Maybe<String>;
-  keywords?: Maybe<PlaceUpdatekeywordsInput>;
   category?: Maybe<Category>;
-  type?: Maybe<String>;
+}
+
+export interface QuizUpdateInput {
+  name?: Maybe<String>;
+  question?: Maybe<String>;
+  choices?: Maybe<QuizUpdatechoicesInput>;
+  answer?: Maybe<String>;
+  value?: Maybe<Int>;
+  companies?: Maybe<CompanyUpdateManyWithoutQuizzesInput>;
+}
+
+export interface QuizUpdateManyMutationInput {
+  name?: Maybe<String>;
+  question?: Maybe<String>;
+  choices?: Maybe<QuizUpdatechoicesInput>;
+  answer?: Maybe<String>;
+  value?: Maybe<Int>;
 }
 
 export interface TagCreateInput {
@@ -1432,6 +2243,9 @@ export interface UserCreateInput {
   role?: Maybe<Role>;
   isRepresentative?: Maybe<Boolean>;
   company?: Maybe<CompanyCreateOneWithoutUsersInput>;
+  points?: Maybe<Int>;
+  validatedChallenges?: Maybe<ChallengeCreateManyInput>;
+  validatedQuizzes?: Maybe<QuizCreateManyInput>;
 }
 
 export interface CompanyCreateOneWithoutUsersInput {
@@ -1446,6 +2260,8 @@ export interface CompanyCreateWithoutUsersInput {
   address?: Maybe<AddressCreateOneInput>;
   emailDomains?: Maybe<CompanyCreateemailDomainsInput>;
   stripeCustomerId?: Maybe<String>;
+  challenges?: Maybe<ChallengeCreateManyWithoutCompaniesInput>;
+  quizzes?: Maybe<QuizCreateManyWithoutCompaniesInput>;
 }
 
 export interface UserUpdateInput {
@@ -1457,6 +2273,9 @@ export interface UserUpdateInput {
   role?: Maybe<Role>;
   isRepresentative?: Maybe<Boolean>;
   company?: Maybe<CompanyUpdateOneWithoutUsersInput>;
+  points?: Maybe<Int>;
+  validatedChallenges?: Maybe<ChallengeUpdateManyInput>;
+  validatedQuizzes?: Maybe<QuizUpdateManyInput>;
 }
 
 export interface CompanyUpdateOneWithoutUsersInput {
@@ -1474,6 +2293,8 @@ export interface CompanyUpdateWithoutUsersDataInput {
   address?: Maybe<AddressUpdateOneInput>;
   emailDomains?: Maybe<CompanyUpdateemailDomainsInput>;
   stripeCustomerId?: Maybe<String>;
+  challenges?: Maybe<ChallengeUpdateManyWithoutCompaniesInput>;
+  quizzes?: Maybe<QuizUpdateManyWithoutCompaniesInput>;
 }
 
 export interface CompanyUpsertWithoutUsersInput {
@@ -1489,6 +2310,18 @@ export interface UserUpdateManyMutationInput {
   password?: Maybe<String>;
   role?: Maybe<Role>;
   isRepresentative?: Maybe<Boolean>;
+  points?: Maybe<Int>;
+}
+
+export interface ChallengeSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ChallengeWhereInput>;
+  AND?: Maybe<
+    ChallengeSubscriptionWhereInput[] | ChallengeSubscriptionWhereInput
+  >;
 }
 
 export interface CompanySubscriptionWhereInput {
@@ -1507,6 +2340,15 @@ export interface PlaceSubscriptionWhereInput {
   updatedFields_contains_some?: Maybe<String[] | String>;
   node?: Maybe<PlaceWhereInput>;
   AND?: Maybe<PlaceSubscriptionWhereInput[] | PlaceSubscriptionWhereInput>;
+}
+
+export interface QuizSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<QuizWhereInput>;
+  AND?: Maybe<QuizSubscriptionWhereInput[] | QuizSubscriptionWhereInput>;
 }
 
 export interface TagSubscriptionWhereInput {
@@ -1540,6 +2382,65 @@ export interface NodeNode {
   id: ID_Output;
 }
 
+export interface Challenge {
+  id: ID_Output;
+  name: String;
+  description: String;
+  value: Int;
+}
+
+export interface ChallengePromise extends Promise<Challenge>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  description: () => Promise<String>;
+  value: () => Promise<Int>;
+  companies: <T = FragmentableArray<Company>>(args?: {
+    where?: CompanyWhereInput;
+    orderBy?: CompanyOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface ChallengeSubscription
+  extends Promise<AsyncIterator<Challenge>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  value: () => Promise<AsyncIterator<Int>>;
+  companies: <T = Promise<AsyncIterator<CompanySubscription>>>(args?: {
+    where?: CompanyWhereInput;
+    orderBy?: CompanyOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface ChallengeNullablePromise
+  extends Promise<Challenge | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  description: () => Promise<String>;
+  value: () => Promise<Int>;
+  companies: <T = FragmentableArray<Company>>(args?: {
+    where?: CompanyWhereInput;
+    orderBy?: CompanyOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
 export interface Company {
   id: ID_Output;
   name?: String;
@@ -1565,6 +2466,24 @@ export interface CompanyPromise extends Promise<Company>, Fragmentable {
   }) => T;
   emailDomains: () => Promise<String[]>;
   stripeCustomerId: () => Promise<String>;
+  challenges: <T = FragmentableArray<Challenge>>(args?: {
+    where?: ChallengeWhereInput;
+    orderBy?: ChallengeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  quizzes: <T = FragmentableArray<Quiz>>(args?: {
+    where?: QuizWhereInput;
+    orderBy?: QuizOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface CompanySubscription
@@ -1585,6 +2504,24 @@ export interface CompanySubscription
   }) => T;
   emailDomains: () => Promise<AsyncIterator<String[]>>;
   stripeCustomerId: () => Promise<AsyncIterator<String>>;
+  challenges: <T = Promise<AsyncIterator<ChallengeSubscription>>>(args?: {
+    where?: ChallengeWhereInput;
+    orderBy?: ChallengeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  quizzes: <T = Promise<AsyncIterator<QuizSubscription>>>(args?: {
+    where?: QuizWhereInput;
+    orderBy?: QuizOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface CompanyNullablePromise
@@ -1605,6 +2542,24 @@ export interface CompanyNullablePromise
   }) => T;
   emailDomains: () => Promise<String[]>;
   stripeCustomerId: () => Promise<String>;
+  challenges: <T = FragmentableArray<Challenge>>(args?: {
+    where?: ChallengeWhereInput;
+    orderBy?: ChallengeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  quizzes: <T = FragmentableArray<Quiz>>(args?: {
+    where?: QuizWhereInput;
+    orderBy?: QuizOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface Address {
@@ -1644,6 +2599,7 @@ export interface User {
   password?: String;
   role?: Role;
   isRepresentative?: Boolean;
+  points?: Int;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
@@ -1656,6 +2612,25 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   role: () => Promise<Role>;
   isRepresentative: () => Promise<Boolean>;
   company: <T = CompanyPromise>() => T;
+  points: () => Promise<Int>;
+  validatedChallenges: <T = FragmentableArray<Challenge>>(args?: {
+    where?: ChallengeWhereInput;
+    orderBy?: ChallengeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  validatedQuizzes: <T = FragmentableArray<Quiz>>(args?: {
+    where?: QuizWhereInput;
+    orderBy?: QuizOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface UserSubscription
@@ -1670,6 +2645,27 @@ export interface UserSubscription
   role: () => Promise<AsyncIterator<Role>>;
   isRepresentative: () => Promise<AsyncIterator<Boolean>>;
   company: <T = CompanySubscription>() => T;
+  points: () => Promise<AsyncIterator<Int>>;
+  validatedChallenges: <
+    T = Promise<AsyncIterator<ChallengeSubscription>>
+  >(args?: {
+    where?: ChallengeWhereInput;
+    orderBy?: ChallengeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  validatedQuizzes: <T = Promise<AsyncIterator<QuizSubscription>>>(args?: {
+    where?: QuizWhereInput;
+    orderBy?: QuizOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface UserNullablePromise
@@ -1684,27 +2680,113 @@ export interface UserNullablePromise
   role: () => Promise<Role>;
   isRepresentative: () => Promise<Boolean>;
   company: <T = CompanyPromise>() => T;
+  points: () => Promise<Int>;
+  validatedChallenges: <T = FragmentableArray<Challenge>>(args?: {
+    where?: ChallengeWhereInput;
+    orderBy?: ChallengeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  validatedQuizzes: <T = FragmentableArray<Quiz>>(args?: {
+    where?: QuizWhereInput;
+    orderBy?: QuizOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
-export interface CompanyConnection {
+export interface Quiz {
+  id: ID_Output;
+  name: String;
+  question: String;
+  choices: String[];
+  answer: String;
+  value: Int;
+}
+
+export interface QuizPromise extends Promise<Quiz>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  question: () => Promise<String>;
+  choices: () => Promise<String[]>;
+  answer: () => Promise<String>;
+  value: () => Promise<Int>;
+  companies: <T = FragmentableArray<Company>>(args?: {
+    where?: CompanyWhereInput;
+    orderBy?: CompanyOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface QuizSubscription
+  extends Promise<AsyncIterator<Quiz>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  question: () => Promise<AsyncIterator<String>>;
+  choices: () => Promise<AsyncIterator<String[]>>;
+  answer: () => Promise<AsyncIterator<String>>;
+  value: () => Promise<AsyncIterator<Int>>;
+  companies: <T = Promise<AsyncIterator<CompanySubscription>>>(args?: {
+    where?: CompanyWhereInput;
+    orderBy?: CompanyOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface QuizNullablePromise
+  extends Promise<Quiz | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  question: () => Promise<String>;
+  choices: () => Promise<String[]>;
+  answer: () => Promise<String>;
+  value: () => Promise<Int>;
+  companies: <T = FragmentableArray<Company>>(args?: {
+    where?: CompanyWhereInput;
+    orderBy?: CompanyOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface ChallengeConnection {
   pageInfo: PageInfo;
-  edges: CompanyEdge[];
+  edges: ChallengeEdge[];
 }
 
-export interface CompanyConnectionPromise
-  extends Promise<CompanyConnection>,
+export interface ChallengeConnectionPromise
+  extends Promise<ChallengeConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<CompanyEdge>>() => T;
-  aggregate: <T = AggregateCompanyPromise>() => T;
+  edges: <T = FragmentableArray<ChallengeEdge>>() => T;
+  aggregate: <T = AggregateChallengePromise>() => T;
 }
 
-export interface CompanyConnectionSubscription
-  extends Promise<AsyncIterator<CompanyConnection>>,
+export interface ChallengeConnectionSubscription
+  extends Promise<AsyncIterator<ChallengeConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<CompanyEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateCompanySubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ChallengeEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateChallengeSubscription>() => T;
 }
 
 export interface PageInfo {
@@ -1728,6 +2810,62 @@ export interface PageInfoSubscription
   hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
   startCursor: () => Promise<AsyncIterator<String>>;
   endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ChallengeEdge {
+  node: Challenge;
+  cursor: String;
+}
+
+export interface ChallengeEdgePromise
+  extends Promise<ChallengeEdge>,
+    Fragmentable {
+  node: <T = ChallengePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ChallengeEdgeSubscription
+  extends Promise<AsyncIterator<ChallengeEdge>>,
+    Fragmentable {
+  node: <T = ChallengeSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateChallenge {
+  count: Int;
+}
+
+export interface AggregateChallengePromise
+  extends Promise<AggregateChallenge>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateChallengeSubscription
+  extends Promise<AsyncIterator<AggregateChallenge>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface CompanyConnection {
+  pageInfo: PageInfo;
+  edges: CompanyEdge[];
+}
+
+export interface CompanyConnectionPromise
+  extends Promise<CompanyConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<CompanyEdge>>() => T;
+  aggregate: <T = AggregateCompanyPromise>() => T;
+}
+
+export interface CompanyConnectionSubscription
+  extends Promise<AsyncIterator<CompanyConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CompanyEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCompanySubscription>() => T;
 }
 
 export interface CompanyEdge {
@@ -1768,9 +2906,7 @@ export interface Place {
   name?: String;
   address?: Address | null;
   hours?: <T = FragmentableArray<Hour>>() => T;
-  keywords: String[];
   category?: Category;
-  type?: String;
 }
 
 export interface PlacePromise extends Promise<Place>, Fragmentable {
@@ -1778,9 +2914,7 @@ export interface PlacePromise extends Promise<Place>, Fragmentable {
   name: () => Promise<String>;
   address: <T = AddressPromise>() => T;
   hours: <T = FragmentableArray<Hour>>() => T;
-  keywords: () => Promise<String[]>;
   category: () => Promise<Category>;
-  type: () => Promise<String>;
   tags: <T = FragmentableArray<Tag>>(args?: {
     where?: TagWhereInput;
     orderBy?: TagOrderByInput;
@@ -1799,9 +2933,7 @@ export interface PlaceSubscription
   name: () => Promise<AsyncIterator<String>>;
   address: <T = AddressSubscription>() => T;
   hours: <T = Promise<AsyncIterator<HourSubscription>>>() => T;
-  keywords: () => Promise<AsyncIterator<String[]>>;
   category: () => Promise<AsyncIterator<Category>>;
-  type: () => Promise<AsyncIterator<String>>;
   tags: <T = Promise<AsyncIterator<TagSubscription>>>(args?: {
     where?: TagWhereInput;
     orderBy?: TagOrderByInput;
@@ -1820,9 +2952,7 @@ export interface PlaceNullablePromise
   name: () => Promise<String>;
   address: <T = AddressPromise>() => T;
   hours: <T = FragmentableArray<Hour>>() => T;
-  keywords: () => Promise<String[]>;
   category: () => Promise<Category>;
-  type: () => Promise<String>;
   tags: <T = FragmentableArray<Tag>>(args?: {
     where?: TagWhereInput;
     orderBy?: TagOrderByInput;
@@ -2026,6 +3156,60 @@ export interface AggregatePlaceSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
+export interface QuizConnection {
+  pageInfo: PageInfo;
+  edges: QuizEdge[];
+}
+
+export interface QuizConnectionPromise
+  extends Promise<QuizConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<QuizEdge>>() => T;
+  aggregate: <T = AggregateQuizPromise>() => T;
+}
+
+export interface QuizConnectionSubscription
+  extends Promise<AsyncIterator<QuizConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<QuizEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateQuizSubscription>() => T;
+}
+
+export interface QuizEdge {
+  node: Quiz;
+  cursor: String;
+}
+
+export interface QuizEdgePromise extends Promise<QuizEdge>, Fragmentable {
+  node: <T = QuizPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface QuizEdgeSubscription
+  extends Promise<AsyncIterator<QuizEdge>>,
+    Fragmentable {
+  node: <T = QuizSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateQuiz {
+  count: Int;
+}
+
+export interface AggregateQuizPromise
+  extends Promise<AggregateQuiz>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateQuizSubscription
+  extends Promise<AsyncIterator<AggregateQuiz>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
 export interface TagConnection {
   pageInfo: PageInfo;
   edges: TagEdge[];
@@ -2204,6 +3388,56 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
+export interface ChallengeSubscriptionPayload {
+  mutation: MutationType;
+  node: Challenge;
+  updatedFields: String[];
+  previousValues: ChallengePreviousValues;
+}
+
+export interface ChallengeSubscriptionPayloadPromise
+  extends Promise<ChallengeSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ChallengePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ChallengePreviousValuesPromise>() => T;
+}
+
+export interface ChallengeSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ChallengeSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ChallengeSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ChallengePreviousValuesSubscription>() => T;
+}
+
+export interface ChallengePreviousValues {
+  id: ID_Output;
+  name: String;
+  description: String;
+  value: Int;
+}
+
+export interface ChallengePreviousValuesPromise
+  extends Promise<ChallengePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  description: () => Promise<String>;
+  value: () => Promise<Int>;
+}
+
+export interface ChallengePreviousValuesSubscription
+  extends Promise<AsyncIterator<ChallengePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  value: () => Promise<AsyncIterator<Int>>;
+}
+
 export interface CompanySubscriptionPayload {
   mutation: MutationType;
   node: Company;
@@ -2285,9 +3519,7 @@ export interface PlaceSubscriptionPayloadSubscription
 export interface PlacePreviousValues {
   id: ID_Output;
   name?: String;
-  keywords: String[];
   category?: Category;
-  type?: String;
 }
 
 export interface PlacePreviousValuesPromise
@@ -2295,9 +3527,7 @@ export interface PlacePreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
-  keywords: () => Promise<String[]>;
   category: () => Promise<Category>;
-  type: () => Promise<String>;
 }
 
 export interface PlacePreviousValuesSubscription
@@ -2305,9 +3535,63 @@ export interface PlacePreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
-  keywords: () => Promise<AsyncIterator<String[]>>;
   category: () => Promise<AsyncIterator<Category>>;
-  type: () => Promise<AsyncIterator<String>>;
+}
+
+export interface QuizSubscriptionPayload {
+  mutation: MutationType;
+  node: Quiz;
+  updatedFields: String[];
+  previousValues: QuizPreviousValues;
+}
+
+export interface QuizSubscriptionPayloadPromise
+  extends Promise<QuizSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = QuizPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = QuizPreviousValuesPromise>() => T;
+}
+
+export interface QuizSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<QuizSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = QuizSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = QuizPreviousValuesSubscription>() => T;
+}
+
+export interface QuizPreviousValues {
+  id: ID_Output;
+  name: String;
+  question: String;
+  choices: String[];
+  answer: String;
+  value: Int;
+}
+
+export interface QuizPreviousValuesPromise
+  extends Promise<QuizPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  question: () => Promise<String>;
+  choices: () => Promise<String[]>;
+  answer: () => Promise<String>;
+  value: () => Promise<Int>;
+}
+
+export interface QuizPreviousValuesSubscription
+  extends Promise<AsyncIterator<QuizPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  question: () => Promise<AsyncIterator<String>>;
+  choices: () => Promise<AsyncIterator<String[]>>;
+  answer: () => Promise<AsyncIterator<String>>;
+  value: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface TagSubscriptionPayload {
@@ -2435,6 +3719,7 @@ export interface UserPreviousValues {
   password?: String;
   role?: Role;
   isRepresentative?: Boolean;
+  points?: Int;
 }
 
 export interface UserPreviousValuesPromise
@@ -2448,6 +3733,7 @@ export interface UserPreviousValuesPromise
   password: () => Promise<String>;
   role: () => Promise<Role>;
   isRepresentative: () => Promise<Boolean>;
+  points: () => Promise<Int>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -2461,6 +3747,7 @@ export interface UserPreviousValuesSubscription
   password: () => Promise<AsyncIterator<String>>;
   role: () => Promise<AsyncIterator<Role>>;
   isRepresentative: () => Promise<AsyncIterator<Boolean>>;
+  points: () => Promise<AsyncIterator<Int>>;
 }
 
 /*
@@ -2475,14 +3762,14 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string;
 
 /*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
-
-/*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
 */
 export type Int = number;
+
+/*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
 
 export type Long = string;
 
@@ -2518,6 +3805,14 @@ export const models: Model[] = [
   {
     name: "Hour",
     embedded: true
+  },
+  {
+    name: "Quiz",
+    embedded: false
+  },
+  {
+    name: "Challenge",
+    embedded: false
   },
   {
     name: "CompanyType",

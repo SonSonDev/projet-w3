@@ -1,5 +1,5 @@
 const bcrypt = require("bcryptjs")
-const { transporter, emailTemplate } = require('../utils')
+const { transporter, emailTemplate } = require("../utils")
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
 
@@ -66,6 +66,35 @@ const createCompany = async (_, args, context) => {
   }
 }
 
+const setCompanyChallenges = async (_, { id }, context) => {
+  const curChallenges = (await context.prisma.company({ id }).challenges())
+    .map(el => ({id: el.id }))
+  const newChallenges = (await context.prisma.challenges())
+    .sort(() => Math.random() - 0.5)
+    .reduce((acc, cur) => {
+      if(acc.length < 3 && !curChallenges.find(c => c.id === cur.id)) acc.push({ id: cur.id })
+      return acc
+    }, [])
+
+  //empty users validated challenges
+  const users = await context.prisma.company({ id }).users()
+  users.forEach(await async function ({id}) {
+    const ids = (await context.prisma.user({ id }).validatedChallenges()).map(c => ({ id: c.id }))
+    await context.prisma.updateUser({
+      where: { id },
+      data: { validatedChallenges: { disconnect: ids }},
+    })
+  })
+
+  return await context.prisma.updateCompany({
+    where: { id },
+    data: { challenges: {
+      disconnect: curChallenges,
+      connect: newChallenges,
+    }},
+  })
+}
+
 module.exports = {
   queries: {
     getCompanies(_, args, context) {
@@ -100,6 +129,13 @@ module.exports = {
     deleteCompany(_, { id }, context) {
       return context.prisma.deleteCompany({ id })
     },
+
+    setCompanyChallenges,
+
+    async setAllCompaniesChallenges(parent, args, context) {
+      const ids = (await context.prisma.companies()).map(c => c.id)
+      return await Promise.all(ids.map(async id => await setCompanyChallenges(parent, { id }, context)))
+    },
   },
   resolvers: {
     Company: {
@@ -119,6 +155,10 @@ module.exports = {
       async stripeInvoices ({ stripeCustomerId }, args, context) {
         const { data } = await stripe.invoices.list({ customer: stripeCustomerId })
         return data
+      },
+
+      challenges (parent, args, context) {
+        return context.prisma.company({ id: parent.id }).challenges()
       },
     },
   },

@@ -1,9 +1,11 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
-const { queries: tagQueries } = require('./tag')
-const { queries: placeQueries } = require('./place')
-const { queries: userQueries } = require('./user')
-const { queries: companyQueries } = require('./company')
-const { queries: authQueries } = require('./auth')
+const { queries: tagQueries } = require("./tag")
+const { queries: placeQueries } = require("./place")
+const { queries: userQueries } = require("./user")
+const { queries: companyQueries } = require("./company")
+const { queries: challengeQueries } = require("./challenge")
+const { queries: quizQueries } = require("./quiz")
+const { queries: authQueries } = require("./auth")
 
 //
 
@@ -21,5 +23,7 @@ module.exports = {
   ...companyQueries,
   ...userQueries,
   ...tagQueries,
+  ...challengeQueries,
+  ...quizQueries,
   ...authQueries,
 }

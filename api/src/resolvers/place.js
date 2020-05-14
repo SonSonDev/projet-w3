@@ -9,12 +9,10 @@ module.exports = {
     },
   },
   mutations: {
-    createPlace(_, { name, street, zipCode, city, type, category, tags }, context) {
+    createPlace(_, { name, street, zipCode, city, category, tags }, context) {
       return context.prisma.createPlace({
         name,
-        type,
         category,
-        keywords: { set: ["1", "2", "3"] },
         address: {
           create: {
             street,
@@ -39,10 +37,9 @@ module.exports = {
 
     async createPlaces (_, { places }, { prisma }) {
       return Promise.all(
-        places.map(({ name, street, zipCode, city, type, category, tags = [] }) =>
+        places.map(({ name, street, zipCode, city, category, tags = [] }) =>
           prisma.createPlace({
             name,
-            // type,
             category,
             address: { create: { street, zipCode, city } },
             // tags: { connect: tags.map(id => ({ id })) },
@@ -67,7 +64,7 @@ module.exports = {
     async updatePlace(_, { placeId, name, street, zipCode, city, type, category, tags }, context) {
       const currentTags = await context.prisma.tags({where: { places_some: { id: placeId }}})
       const disconnect = currentTags.filter(tag => !tags.find(id => id === tag.id)).map(({id}) => ({ id }))
-      
+
       return await context.prisma.updatePlace({
         where: {
           id: placeId,
@@ -79,7 +76,7 @@ module.exports = {
           category,
           tags: {
             disconnect,
-            connect: tags.map(id => ({ id })) 
+            connect: tags.map(id => ({ id })),
           },
         },
       })

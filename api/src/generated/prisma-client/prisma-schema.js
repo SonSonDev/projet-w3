@@ -84,11 +84,19 @@ input AddressWhereInput {
   AND: [AddressWhereInput!]
 }
 
+type AggregateChallenge {
+  count: Int!
+}
+
 type AggregateCompany {
   count: Int!
 }
 
 type AggregatePlace {
+  count: Int!
+}
+
+type AggregateQuiz {
   count: Int!
 }
 
@@ -114,6 +122,282 @@ enum Category {
   ACTIVITY
 }
 
+type Challenge {
+  id: ID!
+  name: String!
+  description: String!
+  value: Int!
+  companies(where: CompanyWhereInput, orderBy: CompanyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Company!]
+}
+
+type ChallengeConnection {
+  pageInfo: PageInfo!
+  edges: [ChallengeEdge]!
+  aggregate: AggregateChallenge!
+}
+
+input ChallengeCreateInput {
+  id: ID
+  name: String!
+  description: String!
+  value: Int!
+  companies: CompanyCreateManyWithoutChallengesInput
+}
+
+input ChallengeCreateManyInput {
+  create: [ChallengeCreateInput!]
+  connect: [ChallengeWhereUniqueInput!]
+}
+
+input ChallengeCreateManyWithoutCompaniesInput {
+  create: [ChallengeCreateWithoutCompaniesInput!]
+  connect: [ChallengeWhereUniqueInput!]
+}
+
+input ChallengeCreateWithoutCompaniesInput {
+  id: ID
+  name: String!
+  description: String!
+  value: Int!
+}
+
+type ChallengeEdge {
+  node: Challenge!
+  cursor: String!
+}
+
+enum ChallengeOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  description_ASC
+  description_DESC
+  value_ASC
+  value_DESC
+}
+
+type ChallengePreviousValues {
+  id: ID!
+  name: String!
+  description: String!
+  value: Int!
+}
+
+input ChallengeScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  value: Int
+  value_not: Int
+  value_in: [Int!]
+  value_not_in: [Int!]
+  value_lt: Int
+  value_lte: Int
+  value_gt: Int
+  value_gte: Int
+  AND: [ChallengeScalarWhereInput!]
+  OR: [ChallengeScalarWhereInput!]
+  NOT: [ChallengeScalarWhereInput!]
+}
+
+type ChallengeSubscriptionPayload {
+  mutation: MutationType!
+  node: Challenge
+  updatedFields: [String!]
+  previousValues: ChallengePreviousValues
+}
+
+input ChallengeSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ChallengeWhereInput
+  AND: [ChallengeSubscriptionWhereInput!]
+}
+
+input ChallengeUpdateDataInput {
+  name: String
+  description: String
+  value: Int
+  companies: CompanyUpdateManyWithoutChallengesInput
+}
+
+input ChallengeUpdateInput {
+  name: String
+  description: String
+  value: Int
+  companies: CompanyUpdateManyWithoutChallengesInput
+}
+
+input ChallengeUpdateManyDataInput {
+  name: String
+  description: String
+  value: Int
+}
+
+input ChallengeUpdateManyInput {
+  create: [ChallengeCreateInput!]
+  update: [ChallengeUpdateWithWhereUniqueNestedInput!]
+  upsert: [ChallengeUpsertWithWhereUniqueNestedInput!]
+  delete: [ChallengeWhereUniqueInput!]
+  connect: [ChallengeWhereUniqueInput!]
+  set: [ChallengeWhereUniqueInput!]
+  disconnect: [ChallengeWhereUniqueInput!]
+  deleteMany: [ChallengeScalarWhereInput!]
+  updateMany: [ChallengeUpdateManyWithWhereNestedInput!]
+}
+
+input ChallengeUpdateManyMutationInput {
+  name: String
+  description: String
+  value: Int
+}
+
+input ChallengeUpdateManyWithoutCompaniesInput {
+  create: [ChallengeCreateWithoutCompaniesInput!]
+  delete: [ChallengeWhereUniqueInput!]
+  connect: [ChallengeWhereUniqueInput!]
+  set: [ChallengeWhereUniqueInput!]
+  disconnect: [ChallengeWhereUniqueInput!]
+  update: [ChallengeUpdateWithWhereUniqueWithoutCompaniesInput!]
+  upsert: [ChallengeUpsertWithWhereUniqueWithoutCompaniesInput!]
+  deleteMany: [ChallengeScalarWhereInput!]
+  updateMany: [ChallengeUpdateManyWithWhereNestedInput!]
+}
+
+input ChallengeUpdateManyWithWhereNestedInput {
+  where: ChallengeScalarWhereInput!
+  data: ChallengeUpdateManyDataInput!
+}
+
+input ChallengeUpdateWithoutCompaniesDataInput {
+  name: String
+  description: String
+  value: Int
+}
+
+input ChallengeUpdateWithWhereUniqueNestedInput {
+  where: ChallengeWhereUniqueInput!
+  data: ChallengeUpdateDataInput!
+}
+
+input ChallengeUpdateWithWhereUniqueWithoutCompaniesInput {
+  where: ChallengeWhereUniqueInput!
+  data: ChallengeUpdateWithoutCompaniesDataInput!
+}
+
+input ChallengeUpsertWithWhereUniqueNestedInput {
+  where: ChallengeWhereUniqueInput!
+  update: ChallengeUpdateDataInput!
+  create: ChallengeCreateInput!
+}
+
+input ChallengeUpsertWithWhereUniqueWithoutCompaniesInput {
+  where: ChallengeWhereUniqueInput!
+  update: ChallengeUpdateWithoutCompaniesDataInput!
+  create: ChallengeCreateWithoutCompaniesInput!
+}
+
+input ChallengeWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  value: Int
+  value_not: Int
+  value_in: [Int!]
+  value_not_in: [Int!]
+  value_lt: Int
+  value_lte: Int
+  value_gt: Int
+  value_gte: Int
+  companies_some: CompanyWhereInput
+  AND: [ChallengeWhereInput!]
+}
+
+input ChallengeWhereUniqueInput {
+  id: ID
+}
+
 type Company {
   id: ID!
   name: String
@@ -122,6 +406,8 @@ type Company {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   emailDomains: [String!]!
   stripeCustomerId: String
+  challenges(where: ChallengeWhereInput, orderBy: ChallengeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Challenge!]
+  quizzes(where: QuizWhereInput, orderBy: QuizOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Quiz!]
 }
 
 type CompanyConnection {
@@ -142,11 +428,45 @@ input CompanyCreateInput {
   users: UserCreateManyWithoutCompanyInput
   emailDomains: CompanyCreateemailDomainsInput
   stripeCustomerId: String
+  challenges: ChallengeCreateManyWithoutCompaniesInput
+  quizzes: QuizCreateManyWithoutCompaniesInput
+}
+
+input CompanyCreateManyWithoutChallengesInput {
+  create: [CompanyCreateWithoutChallengesInput!]
+  connect: [CompanyWhereUniqueInput!]
+}
+
+input CompanyCreateManyWithoutQuizzesInput {
+  create: [CompanyCreateWithoutQuizzesInput!]
+  connect: [CompanyWhereUniqueInput!]
 }
 
 input CompanyCreateOneWithoutUsersInput {
   create: CompanyCreateWithoutUsersInput
   connect: CompanyWhereUniqueInput
+}
+
+input CompanyCreateWithoutChallengesInput {
+  id: ID
+  name: String
+  type: CompanyType
+  address: AddressCreateOneInput
+  users: UserCreateManyWithoutCompanyInput
+  emailDomains: CompanyCreateemailDomainsInput
+  stripeCustomerId: String
+  quizzes: QuizCreateManyWithoutCompaniesInput
+}
+
+input CompanyCreateWithoutQuizzesInput {
+  id: ID
+  name: String
+  type: CompanyType
+  address: AddressCreateOneInput
+  users: UserCreateManyWithoutCompanyInput
+  emailDomains: CompanyCreateemailDomainsInput
+  stripeCustomerId: String
+  challenges: ChallengeCreateManyWithoutCompaniesInput
 }
 
 input CompanyCreateWithoutUsersInput {
@@ -156,6 +476,8 @@ input CompanyCreateWithoutUsersInput {
   address: AddressCreateOneInput
   emailDomains: CompanyCreateemailDomainsInput
   stripeCustomerId: String
+  challenges: ChallengeCreateManyWithoutCompaniesInput
+  quizzes: QuizCreateManyWithoutCompaniesInput
 }
 
 type CompanyEdge {
@@ -180,6 +502,58 @@ type CompanyPreviousValues {
   type: CompanyType
   emailDomains: [String!]!
   stripeCustomerId: String
+}
+
+input CompanyScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  type: CompanyType
+  type_not: CompanyType
+  type_in: [CompanyType!]
+  type_not_in: [CompanyType!]
+  stripeCustomerId: String
+  stripeCustomerId_not: String
+  stripeCustomerId_in: [String!]
+  stripeCustomerId_not_in: [String!]
+  stripeCustomerId_lt: String
+  stripeCustomerId_lte: String
+  stripeCustomerId_gt: String
+  stripeCustomerId_gte: String
+  stripeCustomerId_contains: String
+  stripeCustomerId_not_contains: String
+  stripeCustomerId_starts_with: String
+  stripeCustomerId_not_starts_with: String
+  stripeCustomerId_ends_with: String
+  stripeCustomerId_not_ends_with: String
+  AND: [CompanyScalarWhereInput!]
+  OR: [CompanyScalarWhereInput!]
+  NOT: [CompanyScalarWhereInput!]
 }
 
 type CompanySubscriptionPayload {
@@ -216,6 +590,15 @@ input CompanyUpdateInput {
   users: UserUpdateManyWithoutCompanyInput
   emailDomains: CompanyUpdateemailDomainsInput
   stripeCustomerId: String
+  challenges: ChallengeUpdateManyWithoutCompaniesInput
+  quizzes: QuizUpdateManyWithoutCompaniesInput
+}
+
+input CompanyUpdateManyDataInput {
+  name: String
+  type: CompanyType
+  emailDomains: CompanyUpdateemailDomainsInput
+  stripeCustomerId: String
 }
 
 input CompanyUpdateManyMutationInput {
@@ -223,6 +606,35 @@ input CompanyUpdateManyMutationInput {
   type: CompanyType
   emailDomains: CompanyUpdateemailDomainsInput
   stripeCustomerId: String
+}
+
+input CompanyUpdateManyWithoutChallengesInput {
+  create: [CompanyCreateWithoutChallengesInput!]
+  delete: [CompanyWhereUniqueInput!]
+  connect: [CompanyWhereUniqueInput!]
+  set: [CompanyWhereUniqueInput!]
+  disconnect: [CompanyWhereUniqueInput!]
+  update: [CompanyUpdateWithWhereUniqueWithoutChallengesInput!]
+  upsert: [CompanyUpsertWithWhereUniqueWithoutChallengesInput!]
+  deleteMany: [CompanyScalarWhereInput!]
+  updateMany: [CompanyUpdateManyWithWhereNestedInput!]
+}
+
+input CompanyUpdateManyWithoutQuizzesInput {
+  create: [CompanyCreateWithoutQuizzesInput!]
+  delete: [CompanyWhereUniqueInput!]
+  connect: [CompanyWhereUniqueInput!]
+  set: [CompanyWhereUniqueInput!]
+  disconnect: [CompanyWhereUniqueInput!]
+  update: [CompanyUpdateWithWhereUniqueWithoutQuizzesInput!]
+  upsert: [CompanyUpsertWithWhereUniqueWithoutQuizzesInput!]
+  deleteMany: [CompanyScalarWhereInput!]
+  updateMany: [CompanyUpdateManyWithWhereNestedInput!]
+}
+
+input CompanyUpdateManyWithWhereNestedInput {
+  where: CompanyScalarWhereInput!
+  data: CompanyUpdateManyDataInput!
 }
 
 input CompanyUpdateOneWithoutUsersInput {
@@ -234,17 +646,61 @@ input CompanyUpdateOneWithoutUsersInput {
   connect: CompanyWhereUniqueInput
 }
 
+input CompanyUpdateWithoutChallengesDataInput {
+  name: String
+  type: CompanyType
+  address: AddressUpdateOneInput
+  users: UserUpdateManyWithoutCompanyInput
+  emailDomains: CompanyUpdateemailDomainsInput
+  stripeCustomerId: String
+  quizzes: QuizUpdateManyWithoutCompaniesInput
+}
+
+input CompanyUpdateWithoutQuizzesDataInput {
+  name: String
+  type: CompanyType
+  address: AddressUpdateOneInput
+  users: UserUpdateManyWithoutCompanyInput
+  emailDomains: CompanyUpdateemailDomainsInput
+  stripeCustomerId: String
+  challenges: ChallengeUpdateManyWithoutCompaniesInput
+}
+
 input CompanyUpdateWithoutUsersDataInput {
   name: String
   type: CompanyType
   address: AddressUpdateOneInput
   emailDomains: CompanyUpdateemailDomainsInput
   stripeCustomerId: String
+  challenges: ChallengeUpdateManyWithoutCompaniesInput
+  quizzes: QuizUpdateManyWithoutCompaniesInput
+}
+
+input CompanyUpdateWithWhereUniqueWithoutChallengesInput {
+  where: CompanyWhereUniqueInput!
+  data: CompanyUpdateWithoutChallengesDataInput!
+}
+
+input CompanyUpdateWithWhereUniqueWithoutQuizzesInput {
+  where: CompanyWhereUniqueInput!
+  data: CompanyUpdateWithoutQuizzesDataInput!
 }
 
 input CompanyUpsertWithoutUsersInput {
   update: CompanyUpdateWithoutUsersDataInput!
   create: CompanyCreateWithoutUsersInput!
+}
+
+input CompanyUpsertWithWhereUniqueWithoutChallengesInput {
+  where: CompanyWhereUniqueInput!
+  update: CompanyUpdateWithoutChallengesDataInput!
+  create: CompanyCreateWithoutChallengesInput!
+}
+
+input CompanyUpsertWithWhereUniqueWithoutQuizzesInput {
+  where: CompanyWhereUniqueInput!
+  update: CompanyUpdateWithoutQuizzesDataInput!
+  create: CompanyCreateWithoutQuizzesInput!
 }
 
 input CompanyWhereInput {
@@ -296,6 +752,8 @@ input CompanyWhereInput {
   stripeCustomerId_not_starts_with: String
   stripeCustomerId_ends_with: String
   stripeCustomerId_not_ends_with: String
+  challenges_some: ChallengeWhereInput
+  quizzes_some: QuizWhereInput
   AND: [CompanyWhereInput!]
 }
 
@@ -459,6 +917,12 @@ input HourWhereInput {
 scalar Long
 
 type Mutation {
+  createChallenge(data: ChallengeCreateInput!): Challenge!
+  updateChallenge(data: ChallengeUpdateInput!, where: ChallengeWhereUniqueInput!): Challenge
+  updateManyChallenges(data: ChallengeUpdateManyMutationInput!, where: ChallengeWhereInput): BatchPayload!
+  upsertChallenge(where: ChallengeWhereUniqueInput!, create: ChallengeCreateInput!, update: ChallengeUpdateInput!): Challenge!
+  deleteChallenge(where: ChallengeWhereUniqueInput!): Challenge
+  deleteManyChallenges(where: ChallengeWhereInput): BatchPayload!
   createCompany(data: CompanyCreateInput!): Company!
   updateCompany(data: CompanyUpdateInput!, where: CompanyWhereUniqueInput!): Company
   updateManyCompanies(data: CompanyUpdateManyMutationInput!, where: CompanyWhereInput): BatchPayload!
@@ -471,6 +935,12 @@ type Mutation {
   upsertPlace(where: PlaceWhereUniqueInput!, create: PlaceCreateInput!, update: PlaceUpdateInput!): Place!
   deletePlace(where: PlaceWhereUniqueInput!): Place
   deleteManyPlaces(where: PlaceWhereInput): BatchPayload!
+  createQuiz(data: QuizCreateInput!): Quiz!
+  updateQuiz(data: QuizUpdateInput!, where: QuizWhereUniqueInput!): Quiz
+  updateManyQuizzes(data: QuizUpdateManyMutationInput!, where: QuizWhereInput): BatchPayload!
+  upsertQuiz(where: QuizWhereUniqueInput!, create: QuizCreateInput!, update: QuizUpdateInput!): Quiz!
+  deleteQuiz(where: QuizWhereUniqueInput!): Quiz
+  deleteManyQuizzes(where: QuizWhereInput): BatchPayload!
   createTag(data: TagCreateInput!): Tag!
   updateTag(data: TagUpdateInput!, where: TagWhereUniqueInput!): Tag
   updateManyTags(data: TagUpdateManyMutationInput!, where: TagWhereInput): BatchPayload!
@@ -513,9 +983,7 @@ type Place {
   name: String
   address: Address
   hours: [Hour!]
-  keywords: [String!]!
   category: Category
-  type: String
   tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag!]
 }
 
@@ -530,14 +998,8 @@ input PlaceCreateInput {
   name: String
   address: AddressCreateOneInput
   hours: HourCreateManyInput
-  keywords: PlaceCreatekeywordsInput
   category: Category
-  type: String
   tags: TagCreateManyWithoutPlacesInput
-}
-
-input PlaceCreatekeywordsInput {
-  set: [String!]
 }
 
 input PlaceCreateManyWithoutTagsInput {
@@ -550,9 +1012,7 @@ input PlaceCreateWithoutTagsInput {
   name: String
   address: AddressCreateOneInput
   hours: HourCreateManyInput
-  keywords: PlaceCreatekeywordsInput
   category: Category
-  type: String
 }
 
 type PlaceEdge {
@@ -567,16 +1027,12 @@ enum PlaceOrderByInput {
   name_DESC
   category_ASC
   category_DESC
-  type_ASC
-  type_DESC
 }
 
 type PlacePreviousValues {
   id: ID!
   name: String
-  keywords: [String!]!
   category: Category
-  type: String
 }
 
 input PlaceScalarWhereInput {
@@ -612,20 +1068,6 @@ input PlaceScalarWhereInput {
   category_not: Category
   category_in: [Category!]
   category_not_in: [Category!]
-  type: String
-  type_not: String
-  type_in: [String!]
-  type_not_in: [String!]
-  type_lt: String
-  type_lte: String
-  type_gt: String
-  type_gte: String
-  type_contains: String
-  type_not_contains: String
-  type_starts_with: String
-  type_not_starts_with: String
-  type_ends_with: String
-  type_not_ends_with: String
   AND: [PlaceScalarWhereInput!]
   OR: [PlaceScalarWhereInput!]
   NOT: [PlaceScalarWhereInput!]
@@ -651,28 +1093,18 @@ input PlaceUpdateInput {
   name: String
   address: AddressUpdateOneInput
   hours: HourUpdateManyInput
-  keywords: PlaceUpdatekeywordsInput
   category: Category
-  type: String
   tags: TagUpdateManyWithoutPlacesInput
-}
-
-input PlaceUpdatekeywordsInput {
-  set: [String!]
 }
 
 input PlaceUpdateManyDataInput {
   name: String
-  keywords: PlaceUpdatekeywordsInput
   category: Category
-  type: String
 }
 
 input PlaceUpdateManyMutationInput {
   name: String
-  keywords: PlaceUpdatekeywordsInput
   category: Category
-  type: String
 }
 
 input PlaceUpdateManyWithoutTagsInput {
@@ -696,9 +1128,7 @@ input PlaceUpdateWithoutTagsDataInput {
   name: String
   address: AddressUpdateOneInput
   hours: HourUpdateManyInput
-  keywords: PlaceUpdatekeywordsInput
   category: Category
-  type: String
 }
 
 input PlaceUpdateWithWhereUniqueWithoutTagsInput {
@@ -749,20 +1179,6 @@ input PlaceWhereInput {
   category_not: Category
   category_in: [Category!]
   category_not_in: [Category!]
-  type: String
-  type_not: String
-  type_in: [String!]
-  type_not_in: [String!]
-  type_lt: String
-  type_lte: String
-  type_gt: String
-  type_gte: String
-  type_contains: String
-  type_not_contains: String
-  type_starts_with: String
-  type_not_starts_with: String
-  type_ends_with: String
-  type_not_ends_with: String
   tags_some: TagWhereInput
   AND: [PlaceWhereInput!]
 }
@@ -772,12 +1188,18 @@ input PlaceWhereUniqueInput {
 }
 
 type Query {
+  challenge(where: ChallengeWhereUniqueInput!): Challenge
+  challenges(where: ChallengeWhereInput, orderBy: ChallengeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Challenge]!
+  challengesConnection(where: ChallengeWhereInput, orderBy: ChallengeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ChallengeConnection!
   company(where: CompanyWhereUniqueInput!): Company
   companies(where: CompanyWhereInput, orderBy: CompanyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Company]!
   companiesConnection(where: CompanyWhereInput, orderBy: CompanyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CompanyConnection!
   place(where: PlaceWhereUniqueInput!): Place
   places(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Place]!
   placesConnection(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PlaceConnection!
+  quiz(where: QuizWhereUniqueInput!): Quiz
+  quizzes(where: QuizWhereInput, orderBy: QuizOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Quiz]!
+  quizzesConnection(where: QuizWhereInput, orderBy: QuizOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): QuizConnection!
   tag(where: TagWhereUniqueInput!): Tag
   tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag]!
   tagsConnection(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TagConnection!
@@ -790,6 +1212,338 @@ type Query {
   node(id: ID!): Node
 }
 
+type Quiz {
+  id: ID!
+  name: String!
+  question: String!
+  choices: [String!]!
+  answer: String!
+  value: Int!
+  companies(where: CompanyWhereInput, orderBy: CompanyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Company!]
+}
+
+type QuizConnection {
+  pageInfo: PageInfo!
+  edges: [QuizEdge]!
+  aggregate: AggregateQuiz!
+}
+
+input QuizCreatechoicesInput {
+  set: [String!]
+}
+
+input QuizCreateInput {
+  id: ID
+  name: String!
+  question: String!
+  choices: QuizCreatechoicesInput
+  answer: String!
+  value: Int!
+  companies: CompanyCreateManyWithoutQuizzesInput
+}
+
+input QuizCreateManyInput {
+  create: [QuizCreateInput!]
+  connect: [QuizWhereUniqueInput!]
+}
+
+input QuizCreateManyWithoutCompaniesInput {
+  create: [QuizCreateWithoutCompaniesInput!]
+  connect: [QuizWhereUniqueInput!]
+}
+
+input QuizCreateWithoutCompaniesInput {
+  id: ID
+  name: String!
+  question: String!
+  choices: QuizCreatechoicesInput
+  answer: String!
+  value: Int!
+}
+
+type QuizEdge {
+  node: Quiz!
+  cursor: String!
+}
+
+enum QuizOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  question_ASC
+  question_DESC
+  answer_ASC
+  answer_DESC
+  value_ASC
+  value_DESC
+}
+
+type QuizPreviousValues {
+  id: ID!
+  name: String!
+  question: String!
+  choices: [String!]!
+  answer: String!
+  value: Int!
+}
+
+input QuizScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  question: String
+  question_not: String
+  question_in: [String!]
+  question_not_in: [String!]
+  question_lt: String
+  question_lte: String
+  question_gt: String
+  question_gte: String
+  question_contains: String
+  question_not_contains: String
+  question_starts_with: String
+  question_not_starts_with: String
+  question_ends_with: String
+  question_not_ends_with: String
+  answer: String
+  answer_not: String
+  answer_in: [String!]
+  answer_not_in: [String!]
+  answer_lt: String
+  answer_lte: String
+  answer_gt: String
+  answer_gte: String
+  answer_contains: String
+  answer_not_contains: String
+  answer_starts_with: String
+  answer_not_starts_with: String
+  answer_ends_with: String
+  answer_not_ends_with: String
+  value: Int
+  value_not: Int
+  value_in: [Int!]
+  value_not_in: [Int!]
+  value_lt: Int
+  value_lte: Int
+  value_gt: Int
+  value_gte: Int
+  AND: [QuizScalarWhereInput!]
+  OR: [QuizScalarWhereInput!]
+  NOT: [QuizScalarWhereInput!]
+}
+
+type QuizSubscriptionPayload {
+  mutation: MutationType!
+  node: Quiz
+  updatedFields: [String!]
+  previousValues: QuizPreviousValues
+}
+
+input QuizSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: QuizWhereInput
+  AND: [QuizSubscriptionWhereInput!]
+}
+
+input QuizUpdatechoicesInput {
+  set: [String!]
+}
+
+input QuizUpdateDataInput {
+  name: String
+  question: String
+  choices: QuizUpdatechoicesInput
+  answer: String
+  value: Int
+  companies: CompanyUpdateManyWithoutQuizzesInput
+}
+
+input QuizUpdateInput {
+  name: String
+  question: String
+  choices: QuizUpdatechoicesInput
+  answer: String
+  value: Int
+  companies: CompanyUpdateManyWithoutQuizzesInput
+}
+
+input QuizUpdateManyDataInput {
+  name: String
+  question: String
+  choices: QuizUpdatechoicesInput
+  answer: String
+  value: Int
+}
+
+input QuizUpdateManyInput {
+  create: [QuizCreateInput!]
+  update: [QuizUpdateWithWhereUniqueNestedInput!]
+  upsert: [QuizUpsertWithWhereUniqueNestedInput!]
+  delete: [QuizWhereUniqueInput!]
+  connect: [QuizWhereUniqueInput!]
+  set: [QuizWhereUniqueInput!]
+  disconnect: [QuizWhereUniqueInput!]
+  deleteMany: [QuizScalarWhereInput!]
+  updateMany: [QuizUpdateManyWithWhereNestedInput!]
+}
+
+input QuizUpdateManyMutationInput {
+  name: String
+  question: String
+  choices: QuizUpdatechoicesInput
+  answer: String
+  value: Int
+}
+
+input QuizUpdateManyWithoutCompaniesInput {
+  create: [QuizCreateWithoutCompaniesInput!]
+  delete: [QuizWhereUniqueInput!]
+  connect: [QuizWhereUniqueInput!]
+  set: [QuizWhereUniqueInput!]
+  disconnect: [QuizWhereUniqueInput!]
+  update: [QuizUpdateWithWhereUniqueWithoutCompaniesInput!]
+  upsert: [QuizUpsertWithWhereUniqueWithoutCompaniesInput!]
+  deleteMany: [QuizScalarWhereInput!]
+  updateMany: [QuizUpdateManyWithWhereNestedInput!]
+}
+
+input QuizUpdateManyWithWhereNestedInput {
+  where: QuizScalarWhereInput!
+  data: QuizUpdateManyDataInput!
+}
+
+input QuizUpdateWithoutCompaniesDataInput {
+  name: String
+  question: String
+  choices: QuizUpdatechoicesInput
+  answer: String
+  value: Int
+}
+
+input QuizUpdateWithWhereUniqueNestedInput {
+  where: QuizWhereUniqueInput!
+  data: QuizUpdateDataInput!
+}
+
+input QuizUpdateWithWhereUniqueWithoutCompaniesInput {
+  where: QuizWhereUniqueInput!
+  data: QuizUpdateWithoutCompaniesDataInput!
+}
+
+input QuizUpsertWithWhereUniqueNestedInput {
+  where: QuizWhereUniqueInput!
+  update: QuizUpdateDataInput!
+  create: QuizCreateInput!
+}
+
+input QuizUpsertWithWhereUniqueWithoutCompaniesInput {
+  where: QuizWhereUniqueInput!
+  update: QuizUpdateWithoutCompaniesDataInput!
+  create: QuizCreateWithoutCompaniesInput!
+}
+
+input QuizWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  question: String
+  question_not: String
+  question_in: [String!]
+  question_not_in: [String!]
+  question_lt: String
+  question_lte: String
+  question_gt: String
+  question_gte: String
+  question_contains: String
+  question_not_contains: String
+  question_starts_with: String
+  question_not_starts_with: String
+  question_ends_with: String
+  question_not_ends_with: String
+  answer: String
+  answer_not: String
+  answer_in: [String!]
+  answer_not_in: [String!]
+  answer_lt: String
+  answer_lte: String
+  answer_gt: String
+  answer_gte: String
+  answer_contains: String
+  answer_not_contains: String
+  answer_starts_with: String
+  answer_not_starts_with: String
+  answer_ends_with: String
+  answer_not_ends_with: String
+  value: Int
+  value_not: Int
+  value_in: [Int!]
+  value_not_in: [Int!]
+  value_lt: Int
+  value_lte: Int
+  value_gt: Int
+  value_gte: Int
+  companies_some: CompanyWhereInput
+  AND: [QuizWhereInput!]
+}
+
+input QuizWhereUniqueInput {
+  id: ID
+}
+
 enum Role {
   SUPER_ADMIN
   ADMIN
@@ -798,8 +1552,10 @@ enum Role {
 }
 
 type Subscription {
+  challenge(where: ChallengeSubscriptionWhereInput): ChallengeSubscriptionPayload
   company(where: CompanySubscriptionWhereInput): CompanySubscriptionPayload
   place(where: PlaceSubscriptionWhereInput): PlaceSubscriptionPayload
+  quiz(where: QuizSubscriptionWhereInput): QuizSubscriptionPayload
   tag(where: TagSubscriptionWhereInput): TagSubscriptionPayload
   tagType(where: TagTypeSubscriptionWhereInput): TagTypeSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
@@ -1205,6 +1961,9 @@ type User {
   role: Role
   isRepresentative: Boolean
   company: Company
+  points: Int
+  validatedChallenges(where: ChallengeWhereInput, orderBy: ChallengeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Challenge!]
+  validatedQuizzes(where: QuizWhereInput, orderBy: QuizOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Quiz!]
 }
 
 type UserConnection {
@@ -1223,6 +1982,9 @@ input UserCreateInput {
   role: Role
   isRepresentative: Boolean
   company: CompanyCreateOneWithoutUsersInput
+  points: Int
+  validatedChallenges: ChallengeCreateManyInput
+  validatedQuizzes: QuizCreateManyInput
 }
 
 input UserCreateManyWithoutCompanyInput {
@@ -1239,6 +2001,9 @@ input UserCreateWithoutCompanyInput {
   password: String
   role: Role
   isRepresentative: Boolean
+  points: Int
+  validatedChallenges: ChallengeCreateManyInput
+  validatedQuizzes: QuizCreateManyInput
 }
 
 type UserEdge {
@@ -1263,6 +2028,8 @@ enum UserOrderByInput {
   role_DESC
   isRepresentative_ASC
   isRepresentative_DESC
+  points_ASC
+  points_DESC
 }
 
 type UserPreviousValues {
@@ -1274,6 +2041,7 @@ type UserPreviousValues {
   password: String
   role: Role
   isRepresentative: Boolean
+  points: Int
 }
 
 input UserScalarWhereInput {
@@ -1367,6 +2135,14 @@ input UserScalarWhereInput {
   role_not_in: [Role!]
   isRepresentative: Boolean
   isRepresentative_not: Boolean
+  points: Int
+  points_not: Int
+  points_in: [Int!]
+  points_not_in: [Int!]
+  points_lt: Int
+  points_lte: Int
+  points_gt: Int
+  points_gte: Int
   AND: [UserScalarWhereInput!]
   OR: [UserScalarWhereInput!]
   NOT: [UserScalarWhereInput!]
@@ -1397,6 +2173,9 @@ input UserUpdateInput {
   role: Role
   isRepresentative: Boolean
   company: CompanyUpdateOneWithoutUsersInput
+  points: Int
+  validatedChallenges: ChallengeUpdateManyInput
+  validatedQuizzes: QuizUpdateManyInput
 }
 
 input UserUpdateManyDataInput {
@@ -1407,6 +2186,7 @@ input UserUpdateManyDataInput {
   password: String
   role: Role
   isRepresentative: Boolean
+  points: Int
 }
 
 input UserUpdateManyMutationInput {
@@ -1417,6 +2197,7 @@ input UserUpdateManyMutationInput {
   password: String
   role: Role
   isRepresentative: Boolean
+  points: Int
 }
 
 input UserUpdateManyWithoutCompanyInput {
@@ -1444,6 +2225,9 @@ input UserUpdateWithoutCompanyDataInput {
   password: String
   role: Role
   isRepresentative: Boolean
+  points: Int
+  validatedChallenges: ChallengeUpdateManyInput
+  validatedQuizzes: QuizUpdateManyInput
 }
 
 input UserUpdateWithWhereUniqueWithoutCompanyInput {
@@ -1549,6 +2333,16 @@ input UserWhereInput {
   isRepresentative: Boolean
   isRepresentative_not: Boolean
   company: CompanyWhereInput
+  points: Int
+  points_not: Int
+  points_in: [Int!]
+  points_not_in: [Int!]
+  points_lt: Int
+  points_lte: Int
+  points_gt: Int
+  points_gte: Int
+  validatedChallenges_some: ChallengeWhereInput
+  validatedQuizzes_some: QuizWhereInput
   AND: [UserWhereInput!]
 }
 

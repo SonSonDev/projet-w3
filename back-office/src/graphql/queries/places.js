@@ -15,8 +15,6 @@ export const GET_PLACE = gql`
         start
         end
       }
-      keywords
-      type
       category
       tags {
         id

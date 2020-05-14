@@ -11,6 +11,8 @@ type Query {
   getTagTypes(category: Category!): [TagType]
   getTags: [Tag]
   getTag(id: ID!): Tag
+  getChallenges: [Challenge]
+  getChallenge(id: ID!): Challenge
   getStripeInvoicesByCompany(id: ID!): [StripeInvoice]
 }
 
@@ -50,6 +52,12 @@ type Mutation {
     emailDomains: [String]
   ): Company
 
+  setCompanyChallenges(
+    id: ID!
+  ): Company
+
+  setAllCompaniesChallenges: [Company]
+
   updateRepresentative(
     userEmail: String!
     companyId: ID!
@@ -74,7 +82,6 @@ type Mutation {
     street: String
     zipCode: String
     city: String
-    type: String
     category: Category
     tags: [ID!]
   ): Place
@@ -101,10 +108,31 @@ type Mutation {
     street: String
     zipCode: String
     city: String
-    type: String
     category: Category
     tags: [ID!]
   ): Place
+
+  createChallenge(
+    name: String!
+    description: String!
+    value: Int!
+  ): Challenge
+
+  updateChallenge(
+    id: ID!
+    name: String!
+    description: String!
+    value: Int!
+  ): Challenge
+
+  deleteChallenge(
+    id: ID!
+  ): Challenge
+
+  validateChallenge(
+    userId: ID!
+    challengeId: ID!
+  ): User
 
   createStripeInvoice(stripeCustomerId: String!): StripeInvoice
 }
@@ -119,6 +147,9 @@ type User {
   role: Role
   company: Company
   isRepresentative: Boolean
+  points: Int
+  validatedChallenges: [Challenge]
+  validatedQuizzes: [Quiz]
 }
 
 type Company {
@@ -132,6 +163,8 @@ type Company {
   userCount: Int
   representativeUser: User
   stripeInvoices: [StripeInvoice]
+  challenges: [Challenge]
+  quizzes: [Quiz]
 }
 
 type Place {
@@ -139,9 +172,7 @@ type Place {
   name: String
   address: Address
   hours: [Hour!]
-  keywords: [String!]
   category: Category
-  type: String
   tags: [Tag!]
 }
 
@@ -179,6 +210,24 @@ type Tag {
   type: TagType!
   value: String!
   places: [Place!]
+}
+
+type Quiz {
+  id: ID!
+  name: String!
+  question: String!
+  choices: [String!]
+  answer: String!
+  value: Int!
+  companies: [Company]
+}
+
+type Challenge {
+  id: ID!
+  name: String!
+  description: String!
+  value: Int!
+  companies: [Company]
 }
 
 type StripeInvoice {

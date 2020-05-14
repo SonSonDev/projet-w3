@@ -14,9 +14,7 @@ const placeFragment = gql`
       start
       end
     }
-    keywords
     category
-    type
     tags {
       id
       value
@@ -35,7 +33,6 @@ export const CREATE_PLACE = gql`
     $street: String
     $zipCode: String
     $city: String
-    $type: String
     $category: Category
     $tags: [ID!]
   ) {
@@ -44,7 +41,6 @@ export const CREATE_PLACE = gql`
       street: $street
       zipCode: $zipCode
       city: $city
-      type: $type
       category: $category
       tags: $tags
     ) {
@@ -70,7 +66,6 @@ export const UPDATE_PLACE = gql`
     $street: String
     $zipCode: String
     $city: String
-    $type: String
     $category: Category
     $tags: [ID!]
   ) {
@@ -80,7 +75,6 @@ export const UPDATE_PLACE = gql`
       street: $street
       zipCode: $zipCode
       city: $city
-      type: $type
       category: $category
       tags: $tags
     ) {
@@ -95,9 +89,7 @@ export const UPDATE_PLACE = gql`
         start
         end
       }
-      keywords
       category
-      type
       tags {
         value
       }
@@ -119,9 +111,7 @@ export const DELETE_PLACE = gql`
         start
         end
       }
-      keywords
       category
-      type
     }
   }
 `
