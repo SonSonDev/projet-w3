@@ -3,7 +3,7 @@ const faker = require("faker/locale/fr")
 const { prisma } = require("./generated/prisma-client")
 
 function shuffle(array) {
-  return array.sort(() => Math.random() - 0.5);
+  return array.sort(() => Math.random() - 0.5)
 }
 
 function randomFromArray(array) {
@@ -18,17 +18,17 @@ const users = [
 
 
 const defaultTagTypes = [
-  [ 'Type',        'ACTIVITY' ],
-  [ 'Engagements', 'ACTIVITY' ],
+  [ "Type",        "ACTIVITY" ],
+  [ "Engagements", "ACTIVITY" ],
 
-  [ 'Type',        'FOOD' ],
-  [ 'Filtres',     'FOOD' ],
-  [ 'Cuisine',     'FOOD' ],
-  [ 'Engagements', 'FOOD' ],
+  [ "Type",        "FOOD" ],
+  [ "Filtres",     "FOOD" ],
+  [ "Cuisine",     "FOOD" ],
+  [ "Engagements", "FOOD" ],
 
-  [ 'Type',        'SHOP' ],
-  [ 'Filtres',     'SHOP' ],
-  [ 'Engagements', 'SHOP' ],
+  [ "Type",        "SHOP" ],
+  [ "Filtres",     "SHOP" ],
+  [ "Engagements", "SHOP" ],
 ]
 
 const defaultTags = [
@@ -120,7 +120,7 @@ const defaultTags = [
   [ "Social - Dons à des associations - % de la marge",                                 "Engagements", "SHOP" ],
   [ "Social - Dons à des associations - 1 acheté / 1 donné",                            "Engagements", "SHOP" ],
   [ "Social - Dons à des associations - Partenariat Carillon",                          "Engagements", "SHOP" ],
-  
+
   [ "Produits - Carte - Circuit court/Locaux",                                          "Engagements", "FOOD" ],
   [ "Produits - Carte - Industrie biologique",                                          "Engagements", "FOOD" ],
   [ "Produits - Carte - Industrie raisonnée",                                           "Engagements", "FOOD" ],
@@ -238,6 +238,23 @@ const companies = [
   ],
 ]
 
+const challenges = [
+  ["Vider sa corbeille de mails",                   "Clique sur un bouton.",                                                                 1],
+  ["Utilise moins ta voiture",                      "Va au travail à pied, c'est bon pour la santé.",                                       10],
+  ["Mange ton déjeuner froid",                      "Ne fais pas chauffer ou cuire ton manger, ça consomme l'énergie Mako.",               100],
+  ["Parle avec 3 villageois",                       "Ne parle pas par internet, va les voir en vrai.",                                      50],
+  ["Porter le même slip toute la semaine",          "Fais moins de machine, tu économises de l'eau et de l'énergie.",                      500],
+  ["Arrose tes plantes avec de l'eau de pluie",     "Place des seaux des sur ton toit pour récolter de l'eau pour arroser tes plantes.",  1000],
+  ["Débranche tes appareils non utilisés",          "Débranche ta TV et tes consoles de jeux si tu ne les utilises pas.",                   50],
+  ["Ne prends pas l'ascenseur aujourd'hui",         "Si c'est possible, prends l'escalier.",                                                50],
+  ["Écris avec un stylo écoresponsable",            "...",                                                                                  10],
+  ["Récolte de l'eau de pluie",                     "Récolte de l'eau de pluie.",                                                         1500],
+  ["Ne charge pas tes appareils pendant la nuit",   "Evite d'atteindre le 100% de batterie de tes appareils électroniques.",               400],
+  ["Acheter une gourde en inox",                    "Acheter une gourde en inox et arrêter les bouteilles d’eau en plastique.",            300],
+  ["Speedrun douche",                               "Prendre une douche de 5 minutes top chrono.",                                         100],
+  ["Utiliser un sac réutilisable pour tes courses", "...",                                                                                 200],
+  ["Mettre une plante sur le bureau",               "...",                                                                                1000],
+]
 
 const populateDb = async () => {
 
@@ -250,8 +267,6 @@ const populateDb = async () => {
       role,
     })
   }
-
-
 
   const tagTypes = await Promise.all(
     defaultTagTypes.map(([ name, category ]) => (
@@ -269,10 +284,10 @@ const populateDb = async () => {
         type: {
           connect: {
             id: tagTypes.find(tagType => {
-              return tagType.name === tagTypeName && tagType.category === category 
-            }).id
-          }
-        }
+              return tagType.name === tagTypeName && tagType.category === category
+            }).id,
+          },
+        },
       }).then(tag => ({ ...tag, category }))
     )),
   )
@@ -291,7 +306,6 @@ const populateDb = async () => {
         { day: "SATURDAY",  start: null, end: null },
         { day: "SUNDAY",    start: null, end: null },
       ] },
-      keywords: { set: [ "keyword_1", "keyword_2" ] },
       category,
       tags: { connect: tags.filter(t => t.category === category && Math.random() < 0.2).map(({ id }) => ({ id })) },
     })
@@ -325,6 +339,9 @@ const populateDb = async () => {
     })
   }
 
+  for (const [ name, description, value ] of challenges) {
+    await prisma.createChallenge({ name, description, value })
+  }
 }
 
 const clearDb = async () => {
@@ -333,6 +350,7 @@ const clearDb = async () => {
   await prisma.deleteManyTagTypes()
   await prisma.deleteManyPlaces()
   await prisma.deleteManyCompanies()
+  await prisma.deleteManyChallenges()
 }
 
 (async function () {

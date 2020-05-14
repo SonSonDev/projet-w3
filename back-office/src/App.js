@@ -25,6 +25,9 @@ import CompanyUpdate from "./pages/companies/update"
 import CompanyInfo from "./pages/companies/info"
 import CompanyEmployeeSignup from "./pages/companies/employee-signup"
 
+import ChallengesIndex from "./pages/challenges/index"
+import ChallengeCreate from "./pages/challenges/create"
+
 import NotFound from "./pages/NotFound"
 
 import ItemNav from "./components/itemNav"
@@ -133,6 +136,9 @@ const App = () => {
                 <ItemNav links={["companies", "company"]} icon="ri-building-line">
                   Entreprises
                 </ItemNav>
+                <ItemNav links={["challenges", "challenge"]} icon="ri-flag-2-line">
+                  Défis
+                </ItemNav>
               </>}
 
             </ul>
@@ -166,6 +172,8 @@ const App = () => {
               <Route exact path="/company/:id" component={CompanyInfo} />
               <Route path="/company/:id/signup" component={CompanyEmployeeSignup} />
 
+              <Route exact path="/challenge/create" component={ChallengeCreate} />
+              <Route exact path="/challenges/" component={ChallengesIndex} />
               <Route component={NotFound} />
 
             </Switch>

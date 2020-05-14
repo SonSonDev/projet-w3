@@ -14,7 +14,7 @@ function PlaceInfo ({ history, match: { params: { id } } }) {
 
   if (loading || error) return console.log({ loading, error }) || null
 
-  const { name, category, address: { street, zipCode, city }, keywords, tags } = getPlace
+  const { name, category, address: { street, zipCode, city }, tags } = getPlace
 
   return (
     <SubPage history={history}>

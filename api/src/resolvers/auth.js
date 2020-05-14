@@ -11,7 +11,7 @@ module.exports = {
         throw new Error("No user found")
       }
       return user
-    }
+    },
   },
   mutations: {
     async login(_, { email, password }, context) {

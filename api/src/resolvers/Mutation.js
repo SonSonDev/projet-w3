@@ -1,10 +1,12 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 const { getAuthenticatedUser } = require("../utils")
-const { mutations: companyMutation } = require('./company')
-const { mutations: userMutation } = require('./user')
-const { mutations: placeMutation } = require('./place')
-const { mutations: tagMutations } = require('./tag')
-const { mutations: authMutation } = require('./auth')
+const { mutations: companyMutation } = require("./company")
+const { mutations: userMutation } = require("./user")
+const { mutations: placeMutation } = require("./place")
+const { mutations: tagMutations } = require("./tag")
+const { mutations: challengeMutations } = require("./challenge")
+const { mutations: quizMutations } = require("./quiz")
+const { mutations: authMutation } = require("./auth")
 
 async function updateHour(_, { id, day, start, end }, context) {
   return await context.prisma.updatePlace({
@@ -29,7 +31,7 @@ async function createStripeInvoice (_, { stripeCustomerId }, context) {
   const user = await getAuthenticatedUser(context)
   if (user.role !== "SUPER_ADMIN") throw new Error("Not authorized")
 
-  const invoiceItem = await stripe.invoiceItems.create({
+  await stripe.invoiceItems.create({
     customer: stripeCustomerId,
     amount: 2500,
     currency: "eur",
@@ -49,5 +51,7 @@ module.exports = {
   ...userMutation,
   ...placeMutation,
   ...tagMutations,
+  ...challengeMutations,
+  ...quizMutations,
   ...authMutation,
 }

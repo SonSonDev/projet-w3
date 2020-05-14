@@ -33,6 +33,14 @@ var models = [
     embedded: true
   },
   {
+    name: "Quiz",
+    embedded: false
+  },
+  {
+    name: "Challenge",
+    embedded: false
+  },
+  {
     name: "CompanyType",
     embedded: false
   },

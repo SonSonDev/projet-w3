@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
-const { APP_SECRET, transporter, emailTemplate } = require('../utils')
+const { APP_SECRET, transporter, emailTemplate } = require("../utils")
 
 
 const createUser = async (returnToken, { firstName, lastName, email, role, companyId }, context) => {
@@ -49,10 +49,10 @@ module.exports = {
       }
       return await context.prisma.users(query)
     },
-    
+
     getUser(_, { id }, context) {
       return context.prisma.user({ id })
-    }
+    },
   },
   mutations: {
     async createUser(_, args, context) {
@@ -94,11 +94,35 @@ module.exports = {
       console.log(update)
       return update
     },
+
+    async validateChallenge (_, { userId, challengeId }, context) {
+      const user = await context.prisma.user({ id: userId })
+      const challenge = (await context.prisma.user({ id: userId })
+        .company()
+        .challenges({ where: { id: challengeId }}))[0]
+      const validatedChallenge = (await context.prisma.user({ id: userId }).validatedChallenges({ where: { id: challengeId }})).length
+      console.log(validatedChallenge)
+      if (!challenge || validatedChallenge) {
+        return user
+      } else {
+        return await context.prisma.updateUser({
+          where: { id: userId },
+          data: {
+            points: user.points + challenge.value,
+            validatedChallenges: { connect: { id: challengeId }},
+          },
+        })
+      }
+    },
   },
   resolvers: {
     User: {
       company(parent, args, context) {
         return context.prisma.user({ id: parent.id }).company()
+      },
+
+      validatedChallenges(parent, args, context) {
+        return context.prisma.user({ id: parent.id }).validatedChallenges()
       },
     },
   },

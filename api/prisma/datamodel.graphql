@@ -8,6 +8,9 @@ type User {
   role: Role
   isRepresentative: Boolean @default(value: false)
   company: Company @relation(link: INLINE)
+  points: Int
+  validatedChallenges: [Challenge] @relation(link: INLINE)
+  validatedQuizzes: [Quiz] @relation(link: INLINE)
 }
 
 type Place {
@@ -15,9 +18,7 @@ type Place {
   name: String
   address: Address
   hours: [Hour!]
-  keywords: [String!] @scalarList(strategy: EMBEDDED)
   category: Category @relation(link: INLINE)
-  type: String
   tags: [Tag!] @relation(link: INLINE)
 }
 
@@ -29,6 +30,8 @@ type Company {
   users: [User]
   emailDomains: [String!]! @scalarList(strategy: EMBEDDED)
   stripeCustomerId: String
+  challenges: [Challenge] @relation(link: INLINE)
+  quizzes: [Quiz] @relation(link: INLINE)
 }
 
 type TagType {
@@ -56,6 +59,24 @@ type Hour @embedded {
   day: Day
   start: String
   end: String
+}
+
+type Quiz {
+  id: ID! @id
+  name: String!
+  question: String!
+  choices: [String!]
+  answer: String!
+  value: Int!
+  companies: [Company]
+}
+
+type Challenge {
+  id: ID! @id
+  name: String!
+  description: String!
+  value: Int!
+  companies: [Company]
 }
 
 enum CompanyType {
