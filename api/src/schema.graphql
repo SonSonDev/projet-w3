@@ -38,6 +38,7 @@ type Mutation {
     isRepresentative: Boolean
     emailDomains: [String!]!
   ): Company
+  createCompanies(companies: [CompanyInput!]): [Company]
 
   updateCompany(
     companyId: ID!
@@ -128,6 +129,7 @@ type Company {
   emailDomains: [String!]!
   stripeCustomerId: String
   userCount: Int
+  representativeUser: User
   stripeInvoices: [StripeInvoice]
 }
 
@@ -232,10 +234,26 @@ enum Role {
   USER
 }
 
+
 input PlaceInput {
   name: String!
   street: String
   zipCode: String
   city: String
   category: Category
+}
+
+input CompanyInput {
+  companyName: String
+  companyType: CompanyType
+  streetCompany: String
+  zipCodeCompany: String
+  cityCompany: String
+  firstNameUser: String
+  lastNameUser: String
+  emailUser: String
+  phoneUser: String
+  roleUser: Role
+  isRepresentative: Boolean
+  emailDomains: [String!]!
 }

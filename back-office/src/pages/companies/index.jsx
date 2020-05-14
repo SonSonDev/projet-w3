@@ -3,8 +3,8 @@ import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { GET_COMPANIES } from "../../graphql/queries/companies"
-import { DELETE_COMPANY } from "../../graphql/mutations/companies"
+import { GET_COMPANIES } from "../../graphql/company"
+import { DELETE_COMPANY, CREATE_COMPANIES } from "../../graphql/company"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 import Index from "../../components/Index"
@@ -17,6 +17,16 @@ const CompaniesIndex = ({ history }) => {
 
   const { error, data: { getCompanies: companies } = {}, loading, refetch } = useQuery(GET_COMPANIES, {
     onError: error => console.log(error.message),
+  })
+
+  const [ importCompanies ] = useMutation(CREATE_COMPANIES, {
+    update (cache, { data: { createCompanies } }) {
+      const { getCompanies } = cache.readQuery({ query: GET_COMPANIES })
+      cache.writeQuery({
+        query: GET_COMPANIES,
+        data: { getCompanies: [ ...createCompanies, ...getCompanies ] },
+      })
+    },
   })
 
   const [deleteCompany] = useMutation(DELETE_COMPANY, { onCompleted: refetch })
@@ -112,6 +122,10 @@ const CompaniesIndex = ({ history }) => {
       {{
         slug: "company",
         entity: "entreprise",
+        onImport: ({ data: companies }) => importCompanies({ variables: {
+          companies: companies.map(({ isRepresentative, ...rest }) => ({ isRepresentative: Boolean(isRepresentative), ...rest })),
+        } }),
+        onExport: ({ name: companyName, type: companyType, address: { street: streetCompany, zipCode: zipCodeCompany, city: cityCompany }, representativeUser: { firstName: firstNameUser, lastName: lastNameUser, email: emailUser, phone: phoneUser, role: roleUser, isRepresentative }, emailDomains }) => ({ companyName, companyType, streetCompany, zipCodeCompany, cityCompany, firstNameUser, lastNameUser, emailUser, phoneUser, emailDomains, roleUser, isRepresentative }),
       }}
     </Index>
   )

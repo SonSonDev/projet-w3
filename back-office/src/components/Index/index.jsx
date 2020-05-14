@@ -41,10 +41,7 @@ function Index ({ data, columns, tabs, children: { slug, entity, genre, onImport
                 <span className="">Importer un .csv</span>
                 <input className="file-input pointer" type="file" name="resume" accept=".csv" onInput={e => {
                   if (!e.target.files.length) return
-                  parse(e.target.files[0], {
-                    header: true,
-                    complete: onImport,
-                  })
+                  parse(e.target.files[0], { complete: onImport, header: true })
                 }}/>
               </a>
               <a
@@ -52,7 +49,7 @@ function Index ({ data, columns, tabs, children: { slug, entity, genre, onImport
                 href={"data:text/csv;charset=utf-8," + encodeURIComponent(
                   unparse(data.map(onExport)),
                 )}
-                download={`${entity}(${data.length})${Date.now()}.csv`}
+                download={`${Date.now()}_${entity}s(${data.length}).csv`}
               >
                 <span className="icon"><i className="ri-upload-2-line"/></span>
                 <span className="">Exporter en .csv</span>

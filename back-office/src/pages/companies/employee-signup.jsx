@@ -5,7 +5,7 @@ import { Formik, Field, Form } from "formik"
 import * as Yup from "yup"
 
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { GET_COMPANY } from "../../graphql/queries/companies"
+import { GET_COMPANY } from "../../graphql/company"
 import { CREATE_USER } from "../../graphql/mutations/employees"
 
 

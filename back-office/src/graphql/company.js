@@ -1,5 +1,63 @@
 import gql from "graphql-tag"
 
+
+const companyFragment = gql`
+  fragment CompanyFragment on Company {
+    id
+    name
+    type
+    address {
+      street
+      zipCode
+      city
+    }
+    users {
+      id
+      firstName
+      email
+      lastName
+      phone
+      role
+      isRepresentative
+    }
+    emailDomains
+    userCount
+    representativeUser {
+      id
+      firstName
+      email
+      lastName
+      phone
+      role
+      isRepresentative
+    }
+    stripeCustomerId
+    stripeInvoices {
+      created
+    }
+  }
+`
+
+
+export const GET_COMPANY = gql`
+  query GetCompany($id: ID!) {
+    getCompany(id: $id) {
+      ...CompanyFragment
+    }
+  }
+  ${companyFragment}
+`
+
+export const GET_COMPANIES = gql`
+  query GetCompanies {
+    getCompanies {
+      ...CompanyFragment
+    }
+  }
+  ${companyFragment}
+`
+
+
 export const CREATE_COMPANY = gql`
   mutation CreateCompany(
     $companyName: String
@@ -29,27 +87,19 @@ export const CREATE_COMPANY = gql`
       roleUser: $roleUser
       isRepresentative: $isRepresentative
     ) {
-      id
-      name
-      type
-      address {
-        street
-        zipCode
-        city
-      }
-      users {
-        id
-        firstName
-        email
-        lastName
-        phone
-        password
-        role
-        isRepresentative
-      }
-      emailDomains
+      ...CompanyFragment
     }
   }
+  ${companyFragment}
+`
+
+export const CREATE_COMPANIES = gql`
+  mutation CreateCompanies($companies: [CompanyInput!]) {
+    createCompanies(companies: $companies) {
+      ...CompanyFragment
+    }
+  }
+  ${companyFragment}
 `
 
 export const DELETE_COMPANY = gql`
@@ -79,25 +129,8 @@ export const UPDATE_COMPANY = gql`
       city: $city
       emailDomains: $emailDomains
     ) {
-      id
-      name
-      type
-      emailDomains
-      address {
-        street
-        zipCode
-        city
-      }
-      users {
-        id
-        firstName
-        email
-        lastName
-        phone
-        password
-        role
-        isRepresentative
-      }
+      ...CompanyFragment
     }
   }
+  ${companyFragment}
 `

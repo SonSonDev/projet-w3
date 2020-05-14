@@ -4,7 +4,7 @@ import { Formik, Field, Form, FieldArray } from "formik"
 import * as Yup from "yup"
 
 import { useMutation } from "@apollo/react-hooks"
-import { CREATE_COMPANY } from "../../graphql/mutations/companies"
+import { CREATE_COMPANY } from "../../graphql/company"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 import SubPage from "../../components/hocs/SubPage"
@@ -32,11 +32,11 @@ const CompanyCreate = ({history}) => {
           validationSchema={Yup.object({
             companyName: Yup.string(), companyType: Yup.string(), streetCompany: Yup.string(), zipCodeCompany: Yup.string(), cityCompany: Yup.string(), firstNameUser: Yup.string(), lastNameUser: Yup.string(), emailUser: Yup.string(), phoneUser: Yup.string(), roleUser: Yup.string(), isRepresentative: Yup.boolean(), emailDomains: Yup.array().of(Yup.string()),
           })}
-          onSubmit={(values, { setSubmitting }) => {
+          onSubmit={({ companyName, companyType, streetCompany, zipCodeCompany, cityCompany, firstNameUser, lastNameUser, emailUser, phoneUser, emailDomains }, { setSubmitting }) => {
             setTimeout(() => {
               setSubmitting(false)
               createCompany({
-                variables: { companyName: values.companyName, companyType: values.companyType, streetCompany: values.streetCompany, zipCodeCompany: values.zipCodeCompany, cityCompany: values.cityCompany, firstNameUser: values.firstNameUser, lastNameUser: values.lastNameUser, emailUser: values.emailUser, phoneUser: values.phoneUser, emailDomains: values.emailDomains, roleUser: "ADMIN", isRepresentative: true },
+                variables: { companyName, companyType, streetCompany, zipCodeCompany, cityCompany, firstNameUser, lastNameUser, emailUser, phoneUser, emailDomains, roleUser: "ADMIN", isRepresentative: true },
               })
             }, 400)
           }}>

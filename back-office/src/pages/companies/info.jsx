@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 
-import { GET_COMPANY } from "../../graphql/queries/companies"
+import { GET_COMPANY } from "../../graphql/company"
 import { CREATE_STRIPE_INVOICE, GET_STRIPE_INVOICES_BY_COMPANY } from "../../graphql/mutations/invoices"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
