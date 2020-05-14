@@ -8,8 +8,7 @@ import { GET_PLACES } from "../../graphql/queries/places"
 import { DELETE_PLACE, CREATE_PLACES } from "../../graphql/mutations/places"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
-import Table from "../../components/Table"
-import Tabs from "../../components/Tabs"
+import Index from "../../components/Index"
 import Loader from "../../components/Loader"
 
 import { categoryNames } from "../../utils/wording"
@@ -18,7 +17,6 @@ import UserDataContext from "../../utils/UserDataContext"
 
 const PlacesIndex = ({ history }) => {
   const userData = useContext(UserDataContext)
-  const [activeTabIndex, setActiveTabIndex] = useState(0)
 
   const { error, loading, data: {getPlaces: places} = {}, refetch } = useQuery(GET_PLACES, {
     onError: error => console.log(error.message),
@@ -98,51 +96,21 @@ const PlacesIndex = ({ history }) => {
   }
 
   const tabs = [
-    { title: "Tout", filter: () => true },
+    { title: "Aucun", filter: () => true },
     { title: "Boutiques", filter: ({ category }) => category === "SHOP" },
     { title: "Activités", filter: ({ category }) => category === "ACTIVITY" },
     { title: "Restaurants", filter: ({ category }) => category === "FOOD" },
   ]
 
-  const data = places.filter(tabs[activeTabIndex].filter)
-
   return (
-    <section className="list-page">
-      <Tabs
-        tabs={tabs}
-        activeTabIndex={activeTabIndex}
-        onTabClick={setActiveTabIndex}
-        action={{label: "Ajouter une adresse", url: "/place/create"}}
-        DropdownContent={userData.role === "SUPER_ADMIN" && (
-          <>
-            <a className="dropdown-item">
-              <span className="icon"><i className="ri-download-2-line"/></span>
-              <span className="">Importer un .csv</span>
-              <input className="file-input pointer" type="file" name="resume" accept=".csv" onInput={e => {
-                if (!e.target.files.length) return
-                parse(e.target.files[0], {
-                  header: true,
-                  complete ({ data: places }) {
-                    importPlaces({ variables: { places } })
-                  },
-                })
-              }}/>
-            </a>
-            <a
-              className="dropdown-item"
-              href={"data:text/csv;charset=utf-8," + encodeURIComponent(unparse(
-                places.map(({ name, address: { street, zipCode, city }, category }) => ({ name, street, zipCode, city, category })),
-              ))}
-              download={`${Date.now()}.csv`}
-            >
-              <span className="icon"><i className="ri-upload-2-line"/></span>
-              <span className="">Exporter en .csv</span>
-            </a>
-          </>
-        )}
-      />
-      <Table data={data} columns={columns} />
-    </section>
+    <Index data={places} columns={columns} tabs={tabs}>
+      {{
+        slug: "place",
+        entity: "adresse",
+        onImport: ({ data: places }) => importPlaces({ variables: { places } }),
+        onExport: ({ name, address: { street, zipCode, city }, category }) => ({ name, street, zipCode, city, category }),
+      }}
+    </Index>
   )
 }
 

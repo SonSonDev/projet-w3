@@ -5,14 +5,12 @@ import { GET_USERS } from "../../graphql/queries/clients"
 import { DELETE_USER } from "../../graphql/mutations/clients"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
-import Table from "../../components/Table"
-import Tabs from "../../components/Tabs"
+import Index from "../../components/Index"
 import Loader from "../../components/Loader"
 
 import { roleNames } from "../../utils/wording"
 
 const ClientsIndex = () => {
-  const [activeTabIndex, setActiveTabIndex] = useState(0)
 
   const { error, data: { getUsers: clients } = {}, loading, refetch } = useQuery(GET_USERS, {
     fetchPolicy: "no-cache",
@@ -66,7 +64,7 @@ const ClientsIndex = () => {
   let data = clients
 
   const tabs =  [
-    { title: "Tout", filter: () => true },
+    { title: "Aucun", filter: () => true },
     ...data
       .reduce((acc, cur) => {
         if (cur.company && cur.company.name && !acc.includes(cur.company.name)) {
@@ -79,13 +77,12 @@ const ClientsIndex = () => {
       })),
   ]
 
-  data = data.filter(tabs[activeTabIndex].filter)
-
   return (
-    <section className="list-page">
-      <Tabs tabs={tabs} activeTabIndex={activeTabIndex} onTabClick={setActiveTabIndex}/>
-      <Table data={data} columns={columns} />
-    </section>
+    <Index data={clients} columns={columns} tabs={tabs}>
+      {{
+        entity: "utilisateur",
+      }}
+    </Index>
   )
 }
 

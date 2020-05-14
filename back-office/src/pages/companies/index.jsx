@@ -7,15 +7,13 @@ import { GET_COMPANIES } from "../../graphql/queries/companies"
 import { DELETE_COMPANY } from "../../graphql/mutations/companies"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
-import Table from "../../components/Table"
-import Tabs from "../../components/Tabs"
+import Index from "../../components/Index"
 import Loader from "../../components/Loader"
 
 import { companyTypeNames } from "../../utils/wording"
 
 
 const CompaniesIndex = ({ history }) => {
-  const [activeTabIndex, setActiveTabIndex] = useState(0)
 
   const { error, data: { getCompanies: companies } = {}, loading, refetch } = useQuery(GET_COMPANIES, {
     onError: error => console.log(error.message),
@@ -102,19 +100,20 @@ const CompaniesIndex = ({ history }) => {
 
 
   const tabs = [
-    { title: "Tout", filter: () => true },
+    { title: "Aucun", filter: () => true },
     ...Object.entries(companyTypeNames).map(companyType => ({
       title: companyType[1], filter: ({ type }) => type === companyType[0],
     })),
   ]
 
-  const data = companies.filter(tabs[activeTabIndex].filter)
 
   return (
-    <section className="list-page">
-      <Tabs tabs={tabs} activeTabIndex={activeTabIndex} onTabClick={setActiveTabIndex} action={{ label: "Ajouter une entreprise", url: "/company/create" }} />
-      <Table data={data} columns={columns} />
-    </section>
+    <Index data={companies} columns={columns} tabs={tabs}>
+      {{
+        slug: "company",
+        entity: "entreprise",
+      }}
+    </Index>
   )
 }
 

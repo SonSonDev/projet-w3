@@ -12,7 +12,10 @@ export default function Dropdown ({ className, TriggerComponent, children }) {
 
   return (
     <div className={`dropdown ${dropdownActive && "is-active"} ${className}`}>
-      <div onClick={() => setTimeout(() => setDropdownActive(true))} className="dropdown-trigger w100 pointer">
+      <div
+        onClick={() => !dropdownActive && setTimeout(() => setDropdownActive(true))}
+        className="dropdown-trigger w100 pointer"
+      >
         {TriggerComponent}
       </div>
 

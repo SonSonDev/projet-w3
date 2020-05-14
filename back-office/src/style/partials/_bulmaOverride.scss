@@ -22,3 +22,7 @@ a.dropdown-item {
   justify-content: start;
   border: none;
 }
+
+.select:not(.is-multiple):not(.is-loading)::after {
+  border-color: $dark-10;
+}

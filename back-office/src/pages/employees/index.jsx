@@ -5,14 +5,13 @@ import { GET_USERS } from "../../graphql/queries/employees"
 import { DELETE_USER } from "../../graphql/mutations/clients"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
-import Table from "../../components/Table"
-import Tabs from "../../components/Tabs"
+import Index from "../../components/Index"
 import Loader from "../../components/Loader"
 
 import UserDataContext from "../../utils/UserDataContext"
 
 const EmployeesIndex = () => {
-  console.log("EmployeesIndex")
+
   const userData = useContext(UserDataContext)
 
   const { error, data: {getUsers: users} = {}, loading, refetch } = useQuery(GET_USERS, {
@@ -75,17 +74,21 @@ const EmployeesIndex = () => {
   }
 
   return (
-    <section className="list-page">
+    <div className="">
       { shareSignupLink && (
-        <div className="share-signup">
+        <div className="share-signup border-bottom">
           <p>Lien de partage: <span className="share-signup__link">{shareSignupLink}</span></p>
           <button onClick={() => copyCodeToClipboard()}><i className="ri-clipboard-line" /></button>
           <textarea readOnly ref={textarea => textArea = textarea} value={shareSignupLink}/>
         </div>
       )}
-      <Tabs tabs={[{ title: "Tous les employés", filter: () => true }]} action={{label: "Ajouter un employé", url: "/employee/create"}}/>
-      <Table data={users} columns={columns} />
-    </section>
+      <Index data={users} columns={columns} tabs={[{ title: "Aucun", filter: () => true }]}>
+        {{
+          slug: "employee",
+          entity: "employé", genre: "M",
+        }}
+      </Index>
+    </div>
   )
 }
 

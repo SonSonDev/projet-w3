@@ -88,7 +88,7 @@ const App = () => {
         )}
 
         {userData && (
-          <aside className="menu px2 py3">
+          <aside className="menu px2 py2">
 
             <Dropdown
               className='w100 mb2'
