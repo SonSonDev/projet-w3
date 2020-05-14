@@ -1,8 +1,7 @@
 import React, { useState, useMemo } from "react"
 
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { GET_USERS } from "../../graphql/queries/clients"
-import { DELETE_USER } from "../../graphql/mutations/clients"
+import { GET_USERS, DELETE_USER } from "../../graphql/user"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 import Index from "../../components/Index"

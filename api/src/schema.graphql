@@ -67,6 +67,7 @@ type Mutation {
     role: Role!
     companyId: ID
   ): AuthPayload
+  createUsers(users: [UserInput!]): [User]
 
   createPlace(
     name: String!
@@ -256,4 +257,12 @@ input CompanyInput {
   roleUser: Role
   isRepresentative: Boolean
   emailDomains: [String!]!
+}
+
+input UserInput {
+  firstName: String
+  lastName: String
+  email: String!
+  role: Role!
+  companyId: ID
 }

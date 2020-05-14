@@ -4,7 +4,7 @@ import { Formik, Field, Form } from "formik"
 import * as Yup from "yup"
 
 import { useMutation } from "@apollo/react-hooks"
-import { CREATE_USER } from "../../graphql/mutations/clients"
+import { CREATE_USER } from "../../graphql/user"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 

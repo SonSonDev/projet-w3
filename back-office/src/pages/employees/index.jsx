@@ -1,8 +1,7 @@
 import React, { useMemo, useContext } from "react"
 
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { GET_USERS } from "../../graphql/queries/employees"
-import { DELETE_USER } from "../../graphql/mutations/clients"
+import { GET_USERS, DELETE_USER, CREATE_USERS } from "../../graphql/user"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 import Index from "../../components/Index"
@@ -16,6 +15,16 @@ const EmployeesIndex = () => {
 
   const { error, data: {getUsers: users} = {}, loading, refetch } = useQuery(GET_USERS, {
     onError: error => console.log(error.message),
+  })
+
+  const [ importUsers ] = useMutation(CREATE_USERS, {
+    update (cache, { data: { createUsers } }) {
+      const { getUsers } = cache.readQuery({ query: GET_USERS })
+      cache.writeQuery({
+        query: GET_USERS,
+        data: { getUsers: [ ...createUsers, ...getUsers ] },
+      })
+    },
   })
 
   const [deleteUser] = useMutation(DELETE_USER, { onCompleted: refetch })
@@ -86,6 +95,8 @@ const EmployeesIndex = () => {
         {{
           slug: "employee",
           entity: "employé", genre: "M",
+          onImport: ({ data: users }) => importUsers({ variables: { users: users.map(user => ({ ...user, role: "USER" })) } }),
+          onExport: ({ firstName, lastName, email }) => ({ firstName, lastName, email }),
         }}
       </Index>
     </div>

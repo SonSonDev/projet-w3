@@ -17,15 +17,19 @@ const createCompany = async (_, args, context) => {
 
   const hashPassword = await bcrypt.hash(randomPassword, 10)
 
-  const representativeUser = await context.prisma.createUser({
-    firstName: args.firstNameUser,
-    lastName: args.lastNameUser,
-    email: args.emailUser,
-    password: hashPassword,
-    phone: args.phoneUser,
-    role: args.roleUser,
-    isRepresentative: args.isRepresentative,
-  })
+  const representativeUser = (
+    await context.prisma.user({ email: args.emailUser })
+  ) || (
+    await context.prisma.createUser({
+      firstName: args.firstNameUser,
+      lastName: args.lastNameUser,
+      email: args.emailUser,
+      password: hashPassword,
+      phone: args.phoneUser,
+      role: args.roleUser,
+      isRepresentative: args.isRepresentative,
+    })
+  )
 
   const stripeCustomer = await stripe.customers.create({
     name: args.companyName,

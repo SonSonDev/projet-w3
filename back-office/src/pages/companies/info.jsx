@@ -28,8 +28,8 @@ function CompanyInfo ({ history, location, match: { params: { id } } }) {
 
   if (loading || error) return null
 
-  const { getCompany: { name, type, address: { street, zipCode, city }, users, emailDomains, stripeCustomerId } } = data
-  const { firstName, lastName, email, phone } = users.find(({ isRepresentative }) => isRepresentative)
+  const { getCompany: { name, type, address: { street, zipCode, city }, users, emailDomains, stripeCustomerId, representativeUser } } = data
+  const { firstName, lastName, email, phone } = representativeUser
   return (
     <SubPage history={history}>
       <div>

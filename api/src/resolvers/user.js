@@ -2,6 +2,37 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const { APP_SECRET, transporter, emailTemplate } = require('../utils')
 
+
+const createUser = async (returnToken, { firstName, lastName, email, role, companyId }, context) => {
+  const userData = await context.getUserData()
+
+  if (!companyId && userData && userData.company) {
+    companyId = userData.company.id
+  }
+
+  const randomPassword = Math.random().toString(36).substring(5)
+  const hashPassword = await bcrypt.hash(randomPassword, 10)
+
+  const user = await context.prisma.createUser({
+    firstName: firstName,
+    lastName: lastName,
+    password: hashPassword,
+    role: role,
+    email: email,
+    company: {
+      connect: { id: companyId },
+    },
+  })
+  transporter.sendMail({
+    from: "madu.group7@gmail.com",
+    to: email,
+    subject: "Votre mot de passe madu",
+    html: emailTemplate(`${firstName} ${lastName}`, randomPassword),
+  }, console.log)
+
+  return user
+}
+
 module.exports = {
   queries: {
     async getUsers(_, { role }, context) {
@@ -24,48 +55,17 @@ module.exports = {
     }
   },
   mutations: {
-    async createUser(_, { firstName, lastName, email, role, companyId }, context) {
-      const userData = await context.getUserData()
-
-      if (!companyId && userData && userData.company) {
-        companyId = userData.company.id
-      }
-
-      let randomPassword = Math.random().toString(36).substring(5)
-
-      const mailOptions = {
-        from: "madu.group7@gmail.com",
-        to: email,
-        subject: "Votre mot de passe madu",
-        html: emailTemplate(`${firstName} ${lastName}`, randomPassword),
-      }
-
-      const hashPassword = await bcrypt.hash(randomPassword, 10)
-
-      const user = await context.prisma.createUser({
-        firstName: firstName,
-        lastName: lastName,
-        password: hashPassword,
-        role: role,
-        email: email,
-        company: {
-          connect: { id: companyId },
-        },
-      })
-      transporter.sendMail(mailOptions, function (err, info) {
-        if (err) console.log(err)
-        else console.log(info)
-      })
-
+    async createUser(_, args, context) {
+      const user = await createUser(true, args, context)
       const token = jwt.sign({ userId: user.id }, APP_SECRET)
-
-      return {
-        token,
-        user,
-      }
+      return { token, user }
+    },
+    createUsers (_, { users }, context) {
+      return Promise.all(users.map(user => createUser(false, user, context)))
     },
 
-    deleteUser(_, { id }, context) {
+    async deleteUser(_, { id }, context) {
+      await context.prisma.deleteManyCompanies({ users_some: { id, isRepresentative: true } })
       return context.prisma.deleteUser({ id })
     },
 

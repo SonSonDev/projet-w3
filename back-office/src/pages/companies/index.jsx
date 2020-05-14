@@ -123,9 +123,9 @@ const CompaniesIndex = ({ history }) => {
         slug: "company",
         entity: "entreprise",
         onImport: ({ data: companies }) => importCompanies({ variables: {
-          companies: companies.map(({ isRepresentative, ...rest }) => ({ isRepresentative: Boolean(isRepresentative), ...rest })),
+          companies: companies.map(company => ({ ...company, roleUser: "ADMIN", isRepresentative: true })),
         } }),
-        onExport: ({ name: companyName, type: companyType, address: { street: streetCompany, zipCode: zipCodeCompany, city: cityCompany }, representativeUser: { firstName: firstNameUser, lastName: lastNameUser, email: emailUser, phone: phoneUser, role: roleUser, isRepresentative }, emailDomains }) => ({ companyName, companyType, streetCompany, zipCodeCompany, cityCompany, firstNameUser, lastNameUser, emailUser, phoneUser, emailDomains, roleUser, isRepresentative }),
+        onExport: ({ name: companyName, type: companyType, address: { street: streetCompany, zipCode: zipCodeCompany, city: cityCompany }, representativeUser: { firstName: firstNameUser, lastName: lastNameUser, email: emailUser, phone: phoneUser }, emailDomains }) => ({ companyName, companyType, streetCompany, zipCodeCompany, cityCompany, firstNameUser, lastNameUser, emailUser, phoneUser, emailDomains }),
       }}
     </Index>
   )

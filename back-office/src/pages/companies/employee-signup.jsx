@@ -6,7 +6,7 @@ import * as Yup from "yup"
 
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { GET_COMPANY } from "../../graphql/company"
-import { CREATE_USER } from "../../graphql/mutations/employees"
+import { CREATE_USER } from "../../graphql/user"
 
 
 function CompanyEmployeeSignup ({ match: { params: { id } } }) {
