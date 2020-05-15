@@ -8,8 +8,7 @@ type Query {
   getCompanies: [Company]
   getCompany(id: ID!): Company
   checkAuth: User
-  getTagTypes(category: Category!): [TagType]
-  getTags: [Tag]
+  getTags(where: TagInput): [Tag]
   getTag(id: ID!): Tag
   getChallenges: [Challenge]
   getChallenge(id: ID!): Challenge
@@ -94,13 +93,9 @@ type Mutation {
   deleteCompany(id: ID!): Company
   deleteUser(id: ID!): User
 
-  createTagType(name: String!, category: Category!, parentTagType: ID): TagType!
-  deleteTagType(id: ID!): TagType!
-  updateTagType(id: ID!, name: String!): TagType!
-
-  createTag(type: ID!, value: String!): Tag!
+  createTag(label: String!, children: [ID!], category: Category!): Tag!
   deleteTag(id: ID!): Tag!
-  updateTag(id: ID!): Tag!
+  updateTag(id: ID!, label: String!, children: [ID!], category: Category!): Tag!
 
   updatePlace(
     placeId: ID!
@@ -197,19 +192,13 @@ type Hour {
   end: String
 }
 
-type TagType {
-  id: ID!
-  name: String!
-  category: Category!
-  parentTagType: TagType
-  tags: [Tag!]
-}
-
 type Tag {
   id: ID!
-  type: TagType!
-  value: String!
-  places: [Place!]
+  label: String!
+  children: [Tag!]
+  root: Boolean
+  leaf: Boolean
+  category: Category!
 }
 
 type Quiz {
@@ -314,4 +303,12 @@ input UserInput {
   email: String!
   role: Role!
   companyId: ID
+}
+
+input TagInput {
+  id: ID
+  label: String
+  root: Boolean
+  leaf: Boolean
+  category: Category
 }

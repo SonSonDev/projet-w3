@@ -1,5 +1,6 @@
 import gql from "graphql-tag"
 
+
 const placeFragment = gql`
   fragment PlaceFragment on Place {
     id
@@ -17,12 +18,31 @@ const placeFragment = gql`
     category
     tags {
       id
-      value
-      type {
-        id
-        name
-        category
+      label
+    }
+  }
+`
+
+export const GET_PLACE = gql`
+  query getPlace($id: ID!) {
+    getPlace(id: $id) {
+      ...PlaceFragment
+    }
+  }
+  ${placeFragment}
+`
+
+export const GET_PLACES = gql`
+  query getPlaces {
+    getPlaces {
+      id
+      name
+      address {
+        street
+        zipCode
+        city
       }
+      category
     }
   }
 `
@@ -78,40 +98,16 @@ export const UPDATE_PLACE = gql`
       category: $category
       tags: $tags
     ) {
-      id
-      name
-      address {
-        street
-        zipCode
-      }
-      hours {
-        day
-        start
-        end
-      }
-      category
-      tags {
-        value
-      }
+      ...PlaceFragment
     }
   }
+  ${placeFragment}
 `
 
 export const DELETE_PLACE = gql`
   mutation DeletePlace($id: ID!) {
     deletePlace(id: $id) {
       id
-      name
-      address {
-        street
-        zipCode
-      }
-      hours {
-        day
-        start
-        end
-      }
-      category
     }
   }
 `

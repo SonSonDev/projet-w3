@@ -6,10 +6,8 @@ import CreatableSelect from "react-select/creatable"
 import * as Yup from "yup"
 
 import { useMutation, useQuery } from "@apollo/react-hooks"
-import { UPDATE_PLACE } from "../../graphql/mutations/places"
-import { GET_PLACE } from "../../graphql/queries/places"
-import { GET_TAGS } from "../../graphql/queries/tags"
-import { CREATE_TAG } from "../../graphql/mutations/tags"
+import { UPDATE_PLACE, GET_PLACE } from "../../graphql/place"
+import { GET_TAGS, CREATE_TAG } from "../../graphql/tag"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 import SubPage from "../../components/hocs/SubPage"

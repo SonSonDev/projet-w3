@@ -34,19 +34,14 @@ type Company {
   quizzes: [Quiz] @relation(link: INLINE)
 }
 
-type TagType {
-  id: ID! @id
-  name: String!
-  category: Category! @relation(link: INLINE)
-  parentTagType: TagType @relation(link: INLINE)
-  tags: [Tag!]
-}
 
 type Tag {
   id: ID! @id
-  type: TagType! @relation(link: INLINE)
-  value: String!
-  places: [Place!]
+  label: String!
+  children: [Tag!] @relation(link: INLINE)
+  root: Boolean
+  leaf: Boolean
+  category: Category! @relation(link: INLINE)
 }
 
 type Address @embedded {

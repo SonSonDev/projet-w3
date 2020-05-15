@@ -17,10 +17,6 @@ var models = [
     embedded: false
   },
   {
-    name: "TagType",
-    embedded: false
-  },
-  {
     name: "Tag",
     embedded: false
   },

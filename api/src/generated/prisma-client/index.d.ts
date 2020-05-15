@@ -21,7 +21,6 @@ export interface Exists {
   place: (where?: PlaceWhereInput) => Promise<boolean>;
   quiz: (where?: QuizWhereInput) => Promise<boolean>;
   tag: (where?: TagWhereInput) => Promise<boolean>;
-  tagType: (where?: TagTypeWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -139,25 +138,6 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => TagConnectionPromise;
-  tagType: (where: TagTypeWhereUniqueInput) => TagTypeNullablePromise;
-  tagTypes: (args?: {
-    where?: TagTypeWhereInput;
-    orderBy?: TagTypeOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => FragmentableArray<TagType>;
-  tagTypesConnection: (args?: {
-    where?: TagTypeWhereInput;
-    orderBy?: TagTypeOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => TagTypeConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -263,22 +243,6 @@ export interface Prisma {
   }) => TagPromise;
   deleteTag: (where: TagWhereUniqueInput) => TagPromise;
   deleteManyTags: (where?: TagWhereInput) => BatchPayloadPromise;
-  createTagType: (data: TagTypeCreateInput) => TagTypePromise;
-  updateTagType: (args: {
-    data: TagTypeUpdateInput;
-    where: TagTypeWhereUniqueInput;
-  }) => TagTypePromise;
-  updateManyTagTypes: (args: {
-    data: TagTypeUpdateManyMutationInput;
-    where?: TagTypeWhereInput;
-  }) => BatchPayloadPromise;
-  upsertTagType: (args: {
-    where: TagTypeWhereUniqueInput;
-    create: TagTypeCreateInput;
-    update: TagTypeUpdateInput;
-  }) => TagTypePromise;
-  deleteTagType: (where: TagTypeWhereUniqueInput) => TagTypePromise;
-  deleteManyTagTypes: (where?: TagTypeWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -319,9 +283,6 @@ export interface Subscription {
   tag: (
     where?: TagSubscriptionWhereInput
   ) => TagSubscriptionPayloadSubscription;
-  tagType: (
-    where?: TagTypeSubscriptionWhereInput
-  ) => TagTypeSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -402,17 +363,19 @@ export type Day =
 
 export type Category = "FOOD" | "SHOP" | "ACTIVITY";
 
-export type TagOrderByInput = "id_ASC" | "id_DESC" | "value_ASC" | "value_DESC";
-
-export type PlaceOrderByInput =
+export type TagOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "name_ASC"
-  | "name_DESC"
+  | "label_ASC"
+  | "label_DESC"
+  | "root_ASC"
+  | "root_DESC"
+  | "leaf_ASC"
+  | "leaf_DESC"
   | "category_ASC"
   | "category_DESC";
 
-export type TagTypeOrderByInput =
+export type PlaceOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "name_ASC"
@@ -778,61 +741,30 @@ export interface TagWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  type?: Maybe<TagTypeWhereInput>;
-  value?: Maybe<String>;
-  value_not?: Maybe<String>;
-  value_in?: Maybe<String[] | String>;
-  value_not_in?: Maybe<String[] | String>;
-  value_lt?: Maybe<String>;
-  value_lte?: Maybe<String>;
-  value_gt?: Maybe<String>;
-  value_gte?: Maybe<String>;
-  value_contains?: Maybe<String>;
-  value_not_contains?: Maybe<String>;
-  value_starts_with?: Maybe<String>;
-  value_not_starts_with?: Maybe<String>;
-  value_ends_with?: Maybe<String>;
-  value_not_ends_with?: Maybe<String>;
-  places_some?: Maybe<PlaceWhereInput>;
-  AND?: Maybe<TagWhereInput[] | TagWhereInput>;
-}
-
-export interface TagTypeWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
+  label?: Maybe<String>;
+  label_not?: Maybe<String>;
+  label_in?: Maybe<String[] | String>;
+  label_not_in?: Maybe<String[] | String>;
+  label_lt?: Maybe<String>;
+  label_lte?: Maybe<String>;
+  label_gt?: Maybe<String>;
+  label_gte?: Maybe<String>;
+  label_contains?: Maybe<String>;
+  label_not_contains?: Maybe<String>;
+  label_starts_with?: Maybe<String>;
+  label_not_starts_with?: Maybe<String>;
+  label_ends_with?: Maybe<String>;
+  label_not_ends_with?: Maybe<String>;
+  children_some?: Maybe<TagWhereInput>;
+  root?: Maybe<Boolean>;
+  root_not?: Maybe<Boolean>;
+  leaf?: Maybe<Boolean>;
+  leaf_not?: Maybe<Boolean>;
   category?: Maybe<Category>;
   category_not?: Maybe<Category>;
   category_in?: Maybe<Category[] | Category>;
   category_not_in?: Maybe<Category[] | Category>;
-  parentTagType?: Maybe<TagTypeWhereInput>;
-  tags_some?: Maybe<TagWhereInput>;
-  AND?: Maybe<TagTypeWhereInput[] | TagTypeWhereInput>;
+  AND?: Maybe<TagWhereInput[] | TagWhereInput>;
 }
 
 export interface PlaceWhereInput {
@@ -953,10 +885,6 @@ export type QuizWhereUniqueInput = AtLeastOne<{
 }>;
 
 export type TagWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export type TagTypeWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
@@ -1804,7 +1732,7 @@ export interface PlaceCreateInput {
   address?: Maybe<AddressCreateOneInput>;
   hours?: Maybe<HourCreateManyInput>;
   category?: Maybe<Category>;
-  tags?: Maybe<TagCreateManyWithoutPlacesInput>;
+  tags?: Maybe<TagCreateManyInput>;
 }
 
 export interface HourCreateManyInput {
@@ -1817,64 +1745,18 @@ export interface HourCreateInput {
   end?: Maybe<String>;
 }
 
-export interface TagCreateManyWithoutPlacesInput {
-  create?: Maybe<TagCreateWithoutPlacesInput[] | TagCreateWithoutPlacesInput>;
+export interface TagCreateManyInput {
+  create?: Maybe<TagCreateInput[] | TagCreateInput>;
   connect?: Maybe<TagWhereUniqueInput[] | TagWhereUniqueInput>;
 }
 
-export interface TagCreateWithoutPlacesInput {
+export interface TagCreateInput {
   id?: Maybe<ID_Input>;
-  type: TagTypeCreateOneWithoutTagsInput;
-  value: String;
-}
-
-export interface TagTypeCreateOneWithoutTagsInput {
-  create?: Maybe<TagTypeCreateWithoutTagsInput>;
-  connect?: Maybe<TagTypeWhereUniqueInput>;
-}
-
-export interface TagTypeCreateWithoutTagsInput {
-  id?: Maybe<ID_Input>;
-  name: String;
+  label: String;
+  children?: Maybe<TagCreateManyInput>;
+  root?: Maybe<Boolean>;
+  leaf?: Maybe<Boolean>;
   category: Category;
-  parentTagType?: Maybe<TagTypeCreateOneInput>;
-}
-
-export interface TagTypeCreateOneInput {
-  create?: Maybe<TagTypeCreateInput>;
-  connect?: Maybe<TagTypeWhereUniqueInput>;
-}
-
-export interface TagTypeCreateInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  category: Category;
-  parentTagType?: Maybe<TagTypeCreateOneInput>;
-  tags?: Maybe<TagCreateManyWithoutTypeInput>;
-}
-
-export interface TagCreateManyWithoutTypeInput {
-  create?: Maybe<TagCreateWithoutTypeInput[] | TagCreateWithoutTypeInput>;
-  connect?: Maybe<TagWhereUniqueInput[] | TagWhereUniqueInput>;
-}
-
-export interface TagCreateWithoutTypeInput {
-  id?: Maybe<ID_Input>;
-  value: String;
-  places?: Maybe<PlaceCreateManyWithoutTagsInput>;
-}
-
-export interface PlaceCreateManyWithoutTagsInput {
-  create?: Maybe<PlaceCreateWithoutTagsInput[] | PlaceCreateWithoutTagsInput>;
-  connect?: Maybe<PlaceWhereUniqueInput[] | PlaceWhereUniqueInput>;
-}
-
-export interface PlaceCreateWithoutTagsInput {
-  id?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  address?: Maybe<AddressCreateOneInput>;
-  hours?: Maybe<HourCreateManyInput>;
-  category?: Maybe<Category>;
 }
 
 export interface PlaceUpdateInput {
@@ -1882,7 +1764,7 @@ export interface PlaceUpdateInput {
   address?: Maybe<AddressUpdateOneInput>;
   hours?: Maybe<HourUpdateManyInput>;
   category?: Maybe<Category>;
-  tags?: Maybe<TagUpdateManyWithoutPlacesInput>;
+  tags?: Maybe<TagUpdateManyInput>;
 }
 
 export interface HourUpdateManyInput {
@@ -1942,185 +1824,41 @@ export interface HourUpdateManyDataInput {
   end?: Maybe<String>;
 }
 
-export interface TagUpdateManyWithoutPlacesInput {
-  create?: Maybe<TagCreateWithoutPlacesInput[] | TagCreateWithoutPlacesInput>;
+export interface TagUpdateManyInput {
+  create?: Maybe<TagCreateInput[] | TagCreateInput>;
+  update?: Maybe<
+    TagUpdateWithWhereUniqueNestedInput[] | TagUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    TagUpsertWithWhereUniqueNestedInput[] | TagUpsertWithWhereUniqueNestedInput
+  >;
   delete?: Maybe<TagWhereUniqueInput[] | TagWhereUniqueInput>;
   connect?: Maybe<TagWhereUniqueInput[] | TagWhereUniqueInput>;
   set?: Maybe<TagWhereUniqueInput[] | TagWhereUniqueInput>;
   disconnect?: Maybe<TagWhereUniqueInput[] | TagWhereUniqueInput>;
-  update?: Maybe<
-    | TagUpdateWithWhereUniqueWithoutPlacesInput[]
-    | TagUpdateWithWhereUniqueWithoutPlacesInput
-  >;
-  upsert?: Maybe<
-    | TagUpsertWithWhereUniqueWithoutPlacesInput[]
-    | TagUpsertWithWhereUniqueWithoutPlacesInput
-  >;
   deleteMany?: Maybe<TagScalarWhereInput[] | TagScalarWhereInput>;
   updateMany?: Maybe<
     TagUpdateManyWithWhereNestedInput[] | TagUpdateManyWithWhereNestedInput
   >;
 }
 
-export interface TagUpdateWithWhereUniqueWithoutPlacesInput {
+export interface TagUpdateWithWhereUniqueNestedInput {
   where: TagWhereUniqueInput;
-  data: TagUpdateWithoutPlacesDataInput;
+  data: TagUpdateDataInput;
 }
 
-export interface TagUpdateWithoutPlacesDataInput {
-  type?: Maybe<TagTypeUpdateOneRequiredWithoutTagsInput>;
-  value?: Maybe<String>;
-}
-
-export interface TagTypeUpdateOneRequiredWithoutTagsInput {
-  create?: Maybe<TagTypeCreateWithoutTagsInput>;
-  update?: Maybe<TagTypeUpdateWithoutTagsDataInput>;
-  upsert?: Maybe<TagTypeUpsertWithoutTagsInput>;
-  connect?: Maybe<TagTypeWhereUniqueInput>;
-}
-
-export interface TagTypeUpdateWithoutTagsDataInput {
-  name?: Maybe<String>;
+export interface TagUpdateDataInput {
+  label?: Maybe<String>;
+  children?: Maybe<TagUpdateManyInput>;
+  root?: Maybe<Boolean>;
+  leaf?: Maybe<Boolean>;
   category?: Maybe<Category>;
-  parentTagType?: Maybe<TagTypeUpdateOneInput>;
 }
 
-export interface TagTypeUpdateOneInput {
-  create?: Maybe<TagTypeCreateInput>;
-  update?: Maybe<TagTypeUpdateDataInput>;
-  upsert?: Maybe<TagTypeUpsertNestedInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<TagTypeWhereUniqueInput>;
-}
-
-export interface TagTypeUpdateDataInput {
-  name?: Maybe<String>;
-  category?: Maybe<Category>;
-  parentTagType?: Maybe<TagTypeUpdateOneInput>;
-  tags?: Maybe<TagUpdateManyWithoutTypeInput>;
-}
-
-export interface TagUpdateManyWithoutTypeInput {
-  create?: Maybe<TagCreateWithoutTypeInput[] | TagCreateWithoutTypeInput>;
-  delete?: Maybe<TagWhereUniqueInput[] | TagWhereUniqueInput>;
-  connect?: Maybe<TagWhereUniqueInput[] | TagWhereUniqueInput>;
-  set?: Maybe<TagWhereUniqueInput[] | TagWhereUniqueInput>;
-  disconnect?: Maybe<TagWhereUniqueInput[] | TagWhereUniqueInput>;
-  update?: Maybe<
-    | TagUpdateWithWhereUniqueWithoutTypeInput[]
-    | TagUpdateWithWhereUniqueWithoutTypeInput
-  >;
-  upsert?: Maybe<
-    | TagUpsertWithWhereUniqueWithoutTypeInput[]
-    | TagUpsertWithWhereUniqueWithoutTypeInput
-  >;
-  deleteMany?: Maybe<TagScalarWhereInput[] | TagScalarWhereInput>;
-  updateMany?: Maybe<
-    TagUpdateManyWithWhereNestedInput[] | TagUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface TagUpdateWithWhereUniqueWithoutTypeInput {
+export interface TagUpsertWithWhereUniqueNestedInput {
   where: TagWhereUniqueInput;
-  data: TagUpdateWithoutTypeDataInput;
-}
-
-export interface TagUpdateWithoutTypeDataInput {
-  value?: Maybe<String>;
-  places?: Maybe<PlaceUpdateManyWithoutTagsInput>;
-}
-
-export interface PlaceUpdateManyWithoutTagsInput {
-  create?: Maybe<PlaceCreateWithoutTagsInput[] | PlaceCreateWithoutTagsInput>;
-  delete?: Maybe<PlaceWhereUniqueInput[] | PlaceWhereUniqueInput>;
-  connect?: Maybe<PlaceWhereUniqueInput[] | PlaceWhereUniqueInput>;
-  set?: Maybe<PlaceWhereUniqueInput[] | PlaceWhereUniqueInput>;
-  disconnect?: Maybe<PlaceWhereUniqueInput[] | PlaceWhereUniqueInput>;
-  update?: Maybe<
-    | PlaceUpdateWithWhereUniqueWithoutTagsInput[]
-    | PlaceUpdateWithWhereUniqueWithoutTagsInput
-  >;
-  upsert?: Maybe<
-    | PlaceUpsertWithWhereUniqueWithoutTagsInput[]
-    | PlaceUpsertWithWhereUniqueWithoutTagsInput
-  >;
-  deleteMany?: Maybe<PlaceScalarWhereInput[] | PlaceScalarWhereInput>;
-  updateMany?: Maybe<
-    PlaceUpdateManyWithWhereNestedInput[] | PlaceUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface PlaceUpdateWithWhereUniqueWithoutTagsInput {
-  where: PlaceWhereUniqueInput;
-  data: PlaceUpdateWithoutTagsDataInput;
-}
-
-export interface PlaceUpdateWithoutTagsDataInput {
-  name?: Maybe<String>;
-  address?: Maybe<AddressUpdateOneInput>;
-  hours?: Maybe<HourUpdateManyInput>;
-  category?: Maybe<Category>;
-}
-
-export interface PlaceUpsertWithWhereUniqueWithoutTagsInput {
-  where: PlaceWhereUniqueInput;
-  update: PlaceUpdateWithoutTagsDataInput;
-  create: PlaceCreateWithoutTagsInput;
-}
-
-export interface PlaceScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  category?: Maybe<Category>;
-  category_not?: Maybe<Category>;
-  category_in?: Maybe<Category[] | Category>;
-  category_not_in?: Maybe<Category[] | Category>;
-  AND?: Maybe<PlaceScalarWhereInput[] | PlaceScalarWhereInput>;
-  OR?: Maybe<PlaceScalarWhereInput[] | PlaceScalarWhereInput>;
-  NOT?: Maybe<PlaceScalarWhereInput[] | PlaceScalarWhereInput>;
-}
-
-export interface PlaceUpdateManyWithWhereNestedInput {
-  where: PlaceScalarWhereInput;
-  data: PlaceUpdateManyDataInput;
-}
-
-export interface PlaceUpdateManyDataInput {
-  name?: Maybe<String>;
-  category?: Maybe<Category>;
-}
-
-export interface TagUpsertWithWhereUniqueWithoutTypeInput {
-  where: TagWhereUniqueInput;
-  update: TagUpdateWithoutTypeDataInput;
-  create: TagCreateWithoutTypeInput;
+  update: TagUpdateDataInput;
+  create: TagCreateInput;
 }
 
 export interface TagScalarWhereInput {
@@ -2138,20 +1876,28 @@ export interface TagScalarWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  value?: Maybe<String>;
-  value_not?: Maybe<String>;
-  value_in?: Maybe<String[] | String>;
-  value_not_in?: Maybe<String[] | String>;
-  value_lt?: Maybe<String>;
-  value_lte?: Maybe<String>;
-  value_gt?: Maybe<String>;
-  value_gte?: Maybe<String>;
-  value_contains?: Maybe<String>;
-  value_not_contains?: Maybe<String>;
-  value_starts_with?: Maybe<String>;
-  value_not_starts_with?: Maybe<String>;
-  value_ends_with?: Maybe<String>;
-  value_not_ends_with?: Maybe<String>;
+  label?: Maybe<String>;
+  label_not?: Maybe<String>;
+  label_in?: Maybe<String[] | String>;
+  label_not_in?: Maybe<String[] | String>;
+  label_lt?: Maybe<String>;
+  label_lte?: Maybe<String>;
+  label_gt?: Maybe<String>;
+  label_gte?: Maybe<String>;
+  label_contains?: Maybe<String>;
+  label_not_contains?: Maybe<String>;
+  label_starts_with?: Maybe<String>;
+  label_not_starts_with?: Maybe<String>;
+  label_ends_with?: Maybe<String>;
+  label_not_ends_with?: Maybe<String>;
+  root?: Maybe<Boolean>;
+  root_not?: Maybe<Boolean>;
+  leaf?: Maybe<Boolean>;
+  leaf_not?: Maybe<Boolean>;
+  category?: Maybe<Category>;
+  category_not?: Maybe<Category>;
+  category_in?: Maybe<Category[] | Category>;
+  category_not_in?: Maybe<Category[] | Category>;
   AND?: Maybe<TagScalarWhereInput[] | TagScalarWhereInput>;
   OR?: Maybe<TagScalarWhereInput[] | TagScalarWhereInput>;
   NOT?: Maybe<TagScalarWhereInput[] | TagScalarWhereInput>;
@@ -2163,23 +1909,10 @@ export interface TagUpdateManyWithWhereNestedInput {
 }
 
 export interface TagUpdateManyDataInput {
-  value?: Maybe<String>;
-}
-
-export interface TagTypeUpsertNestedInput {
-  update: TagTypeUpdateDataInput;
-  create: TagTypeCreateInput;
-}
-
-export interface TagTypeUpsertWithoutTagsInput {
-  update: TagTypeUpdateWithoutTagsDataInput;
-  create: TagTypeCreateWithoutTagsInput;
-}
-
-export interface TagUpsertWithWhereUniqueWithoutPlacesInput {
-  where: TagWhereUniqueInput;
-  update: TagUpdateWithoutPlacesDataInput;
-  create: TagCreateWithoutPlacesInput;
+  label?: Maybe<String>;
+  root?: Maybe<Boolean>;
+  leaf?: Maybe<Boolean>;
+  category?: Maybe<Category>;
 }
 
 export interface PlaceUpdateManyMutationInput {
@@ -2204,32 +1937,18 @@ export interface QuizUpdateManyMutationInput {
   value?: Maybe<Int>;
 }
 
-export interface TagCreateInput {
-  id?: Maybe<ID_Input>;
-  type: TagTypeCreateOneWithoutTagsInput;
-  value: String;
-  places?: Maybe<PlaceCreateManyWithoutTagsInput>;
-}
-
 export interface TagUpdateInput {
-  type?: Maybe<TagTypeUpdateOneRequiredWithoutTagsInput>;
-  value?: Maybe<String>;
-  places?: Maybe<PlaceUpdateManyWithoutTagsInput>;
+  label?: Maybe<String>;
+  children?: Maybe<TagUpdateManyInput>;
+  root?: Maybe<Boolean>;
+  leaf?: Maybe<Boolean>;
+  category?: Maybe<Category>;
 }
 
 export interface TagUpdateManyMutationInput {
-  value?: Maybe<String>;
-}
-
-export interface TagTypeUpdateInput {
-  name?: Maybe<String>;
-  category?: Maybe<Category>;
-  parentTagType?: Maybe<TagTypeUpdateOneInput>;
-  tags?: Maybe<TagUpdateManyWithoutTypeInput>;
-}
-
-export interface TagTypeUpdateManyMutationInput {
-  name?: Maybe<String>;
+  label?: Maybe<String>;
+  root?: Maybe<Boolean>;
+  leaf?: Maybe<Boolean>;
   category?: Maybe<Category>;
 }
 
@@ -2358,15 +2077,6 @@ export interface TagSubscriptionWhereInput {
   updatedFields_contains_some?: Maybe<String[] | String>;
   node?: Maybe<TagWhereInput>;
   AND?: Maybe<TagSubscriptionWhereInput[] | TagSubscriptionWhereInput>;
-}
-
-export interface TagTypeSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<TagTypeWhereInput>;
-  AND?: Maybe<TagTypeSubscriptionWhereInput[] | TagTypeSubscriptionWhereInput>;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -2994,112 +2704,63 @@ export interface HourNullablePromise
 
 export interface Tag {
   id: ID_Output;
-  value: String;
+  label: String;
+  root?: Boolean;
+  leaf?: Boolean;
+  category: Category;
 }
 
 export interface TagPromise extends Promise<Tag>, Fragmentable {
   id: () => Promise<ID_Output>;
-  type: <T = TagTypePromise>() => T;
-  value: () => Promise<String>;
-  places: <T = FragmentableArray<Place>>(args?: {
-    where?: PlaceWhereInput;
-    orderBy?: PlaceOrderByInput;
+  label: () => Promise<String>;
+  children: <T = FragmentableArray<Tag>>(args?: {
+    where?: TagWhereInput;
+    orderBy?: TagOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
   }) => T;
+  root: () => Promise<Boolean>;
+  leaf: () => Promise<Boolean>;
+  category: () => Promise<Category>;
 }
 
 export interface TagSubscription
   extends Promise<AsyncIterator<Tag>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  type: <T = TagTypeSubscription>() => T;
-  value: () => Promise<AsyncIterator<String>>;
-  places: <T = Promise<AsyncIterator<PlaceSubscription>>>(args?: {
-    where?: PlaceWhereInput;
-    orderBy?: PlaceOrderByInput;
+  label: () => Promise<AsyncIterator<String>>;
+  children: <T = Promise<AsyncIterator<TagSubscription>>>(args?: {
+    where?: TagWhereInput;
+    orderBy?: TagOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
   }) => T;
+  root: () => Promise<AsyncIterator<Boolean>>;
+  leaf: () => Promise<AsyncIterator<Boolean>>;
+  category: () => Promise<AsyncIterator<Category>>;
 }
 
 export interface TagNullablePromise extends Promise<Tag | null>, Fragmentable {
   id: () => Promise<ID_Output>;
-  type: <T = TagTypePromise>() => T;
-  value: () => Promise<String>;
-  places: <T = FragmentableArray<Place>>(args?: {
-    where?: PlaceWhereInput;
-    orderBy?: PlaceOrderByInput;
+  label: () => Promise<String>;
+  children: <T = FragmentableArray<Tag>>(args?: {
+    where?: TagWhereInput;
+    orderBy?: TagOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
   }) => T;
-}
-
-export interface TagType {
-  id: ID_Output;
-  name: String;
-  category: Category;
-}
-
-export interface TagTypePromise extends Promise<TagType>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
+  root: () => Promise<Boolean>;
+  leaf: () => Promise<Boolean>;
   category: () => Promise<Category>;
-  parentTagType: <T = TagTypePromise>() => T;
-  tags: <T = FragmentableArray<Tag>>(args?: {
-    where?: TagWhereInput;
-    orderBy?: TagOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface TagTypeSubscription
-  extends Promise<AsyncIterator<TagType>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  category: () => Promise<AsyncIterator<Category>>;
-  parentTagType: <T = TagTypeSubscription>() => T;
-  tags: <T = Promise<AsyncIterator<TagSubscription>>>(args?: {
-    where?: TagWhereInput;
-    orderBy?: TagOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface TagTypeNullablePromise
-  extends Promise<TagType | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  category: () => Promise<Category>;
-  parentTagType: <T = TagTypePromise>() => T;
-  tags: <T = FragmentableArray<Tag>>(args?: {
-    where?: TagWhereInput;
-    orderBy?: TagOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
 }
 
 export interface PlaceConnection {
@@ -3260,60 +2921,6 @@ export interface AggregateTagPromise
 
 export interface AggregateTagSubscription
   extends Promise<AsyncIterator<AggregateTag>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface TagTypeConnection {
-  pageInfo: PageInfo;
-  edges: TagTypeEdge[];
-}
-
-export interface TagTypeConnectionPromise
-  extends Promise<TagTypeConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<TagTypeEdge>>() => T;
-  aggregate: <T = AggregateTagTypePromise>() => T;
-}
-
-export interface TagTypeConnectionSubscription
-  extends Promise<AsyncIterator<TagTypeConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<TagTypeEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateTagTypeSubscription>() => T;
-}
-
-export interface TagTypeEdge {
-  node: TagType;
-  cursor: String;
-}
-
-export interface TagTypeEdgePromise extends Promise<TagTypeEdge>, Fragmentable {
-  node: <T = TagTypePromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface TagTypeEdgeSubscription
-  extends Promise<AsyncIterator<TagTypeEdge>>,
-    Fragmentable {
-  node: <T = TagTypeSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateTagType {
-  count: Int;
-}
-
-export interface AggregateTagTypePromise
-  extends Promise<AggregateTagType>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateTagTypeSubscription
-  extends Promise<AsyncIterator<AggregateTagType>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -3621,67 +3228,29 @@ export interface TagSubscriptionPayloadSubscription
 
 export interface TagPreviousValues {
   id: ID_Output;
-  value: String;
+  label: String;
+  root?: Boolean;
+  leaf?: Boolean;
+  category: Category;
 }
 
 export interface TagPreviousValuesPromise
   extends Promise<TagPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  value: () => Promise<String>;
+  label: () => Promise<String>;
+  root: () => Promise<Boolean>;
+  leaf: () => Promise<Boolean>;
+  category: () => Promise<Category>;
 }
 
 export interface TagPreviousValuesSubscription
   extends Promise<AsyncIterator<TagPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  value: () => Promise<AsyncIterator<String>>;
-}
-
-export interface TagTypeSubscriptionPayload {
-  mutation: MutationType;
-  node: TagType;
-  updatedFields: String[];
-  previousValues: TagTypePreviousValues;
-}
-
-export interface TagTypeSubscriptionPayloadPromise
-  extends Promise<TagTypeSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = TagTypePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = TagTypePreviousValuesPromise>() => T;
-}
-
-export interface TagTypeSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<TagTypeSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = TagTypeSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = TagTypePreviousValuesSubscription>() => T;
-}
-
-export interface TagTypePreviousValues {
-  id: ID_Output;
-  name: String;
-  category: Category;
-}
-
-export interface TagTypePreviousValuesPromise
-  extends Promise<TagTypePreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  category: () => Promise<Category>;
-}
-
-export interface TagTypePreviousValuesSubscription
-  extends Promise<AsyncIterator<TagTypePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
+  label: () => Promise<AsyncIterator<String>>;
+  root: () => Promise<AsyncIterator<Boolean>>;
+  leaf: () => Promise<AsyncIterator<Boolean>>;
   category: () => Promise<AsyncIterator<Category>>;
 }
 
@@ -3788,10 +3357,6 @@ export const models: Model[] = [
   },
   {
     name: "Company",
-    embedded: false
-  },
-  {
-    name: "TagType",
     embedded: false
   },
   {

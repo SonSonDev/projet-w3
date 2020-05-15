@@ -4,8 +4,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Link } from "react-router-dom"
 import { unparse, parse } from "papaparse"
 
-import { GET_PLACES } from "../../graphql/queries/places"
-import { DELETE_PLACE, CREATE_PLACES } from "../../graphql/mutations/places"
+import { GET_PLACES, DELETE_PLACE, CREATE_PLACES } from "../../graphql/place"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 import Index from "../../components/Index"

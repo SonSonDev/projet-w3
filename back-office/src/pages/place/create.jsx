@@ -5,9 +5,8 @@ import CreatableSelect from "react-select/creatable"
 import * as Yup from "yup"
 
 import { useMutation, useQuery, useLazyQuery } from "@apollo/react-hooks"
-import { CREATE_PLACE } from "../../graphql/mutations/places"
-import { GET_TAGS } from "../../graphql/queries/tags"
-import { CREATE_TAG } from "../../graphql/mutations/tags"
+import { CREATE_PLACE } from "../../graphql/place"
+import { GET_TAGS, CREATE_TAG } from "../../graphql/tag"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 import SubPage from "../../components/hocs/SubPage"
@@ -16,13 +15,16 @@ import { categoryNames } from "../../utils/wording"
 
 const PlaceCreate = ({history}) => {
 
-  const { data: { getTags = [] } = {} } = useQuery(GET_TAGS)
+  const { data: { getTags = [] } = {} } = useQuery(GET_TAGS, {
+    variables: { where: { leaf: true } },
+  })
 
   const [ createTag, { loading } ] = useMutation(CREATE_TAG, {
     update (cache, { data: { createTag } }) {
-      const { getTags } = cache.readQuery({ query: GET_TAGS })
+      const { getTags } = cache.readQuery({ query: GET_TAGS, variables: { where: { leaf: true } } })
       cache.writeQuery({
         query: GET_TAGS,
+        variables: { where: { leaf: true } },
         data: { getTags: [ ...getTags, createTag ] },
       })
     },
