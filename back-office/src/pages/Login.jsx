@@ -50,19 +50,19 @@ const Login = () => {
           }}>
           <Form className="login__form">
             <div className="field">
-              <label htmlFor="email" className="label">Adresse email</label>
+              <label htmlFor="email" className="label">Adresse mail</label>
               <div className="control">
-                <Field className="input" name="email" type="email" placeholder="Adresse email" />
+                <Field className="input" name="email" type="email" />
               </div>
             </div>
             <div className="field">
               <label htmlFor="password" className="label">Mot de passe</label>
               <div className="control">
-                <Field className="input" name="password" type="password" placeholder="Mot de passe"/>
+                <Field className="input" name="password" type="password" />
               </div>
             </div>
-            <div className="control mt2">
-              <button type="submit" className="button is-primary is-fullwidth">Connexion</button>
+            <div className="control my3">
+              <button type="submit" className="button is-primary is-fullwidth bold is-medium">Connexion</button>
             </div>
           </Form>
         </Formik>

@@ -15,9 +15,6 @@
   vertical-align: middle;
 }
 
-.dropdown-item .icon {
-  transform: translateY(1.5px);
-}
 a.dropdown-item {
   justify-content: start;
   border: none;
@@ -25,4 +22,37 @@ a.dropdown-item {
 
 .select:not(.is-multiple):not(.is-loading)::after {
   border-color: $dark-10;
+}
+
+// .label:not(:last-child) {
+//   margin-bottom: 2px;
+// }
+
+.buttons.has-addons {
+  label.button.is-success.is-light {
+    border-color: $border;
+  }
+}
+
+.dropdown-item .icon,
+.control > .checkbox.flex > input,
+td .icon {
+  transform: translateY(1.5px);
+}
+
+input[type="time"] {
+  width: auto;
+  &::-webkit-clear-button {
+    -webkit-appearance: none;
+  }
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+}
+
+.notification:not(:last-child), .message:not(:last-child) {
+  // margin: initial;
+  &.mb3 { 
+    margin-bottom: 2rem;
+  }
 }

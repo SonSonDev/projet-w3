@@ -19,19 +19,19 @@ function Index ({ data, columns, tabs, children: { slug, entity, genre, onImport
 
   return (
     <main className="">
-      <div className="px3 py2 flex justify-between items-end border-bottom">
-        <h1 className="is-size-4 bold">{data.length} {entity}s</h1>
+      <div className="px3 py2 flex justify-between border-bottom">
+        <h1 className="is-size-3 bold my05">{data.length} {entity}s</h1>
 
         <div className={`buttons go-to-right ${!slug && "hidden"}`}>
-          <Link to={`/${slug}/create`} className="button is-primary">
-            <span className="icon"><i className="ri-add-box-line"/></span>
+          <Link to={`/${slug}/create`} className="button is-primary bold">
+            {/* <span className="icon"><i className="ri-add-box-line"/></span> */}
             <span className="">{`Ajouter ${genre === "M" ? "un" : "une"} ${entity}`}</span>
           </Link>
           {onExport && (
             <Dropdown
               className="is-right"
               TriggerComponent={
-                <button className="button is-light">
+                <button className="button is-success is-light">
                   <span className='icon'><i className='ri-more-fill'/></span>
                 </button>
               }
@@ -73,7 +73,7 @@ function Index ({ data, columns, tabs, children: { slug, entity, genre, onImport
           </div>
 
           <div className="control has-icons-right">
-            <input value={search} onChange={e => setSearch(e.target.value)} className="input" placeholder="Rechercher"/>
+            <input value={search} onChange={e => setSearch(e.target.value)} className="input message" placeholder="Rechercher"/>
             <span className="icon is-right"><i className="ri-search-line"/></span>
           </div>
         </div>

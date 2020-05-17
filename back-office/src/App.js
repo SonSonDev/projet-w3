@@ -18,6 +18,7 @@ import PlacesIndex from "./pages/place/index"
 import PlaceCreate from "./pages/place/create"
 import PlaceUpdate from "./pages/place/update"
 import PlaceInfo from "./pages/place/info"
+import PlaceForm from "./pages/place/form"
 
 import CompaniesIndex from "./pages/companies/index"
 import CompanyCreate from "./pages/companies/create"
@@ -74,7 +75,7 @@ const App = () => {
               TriggerComponent={
                 <div className="flex items-center my05">
                   <div className="right-align">
-                    <span className="has-text-grey">{`${userData.role === "SUPER_ADMIN" ? "Super Administrateur" : userData.company ? `Représentant de ${userData.company.name}` : "" }`}</span>
+                    <span className="is-size-6 has-text-grey">{`${userData.role === "SUPER_ADMIN" ? "Super Administrateur" : userData.company ? `Représentant de ${userData.company.name}` : "" }`}</span>
                     <div className="bold lh-1">{`${userData.firstName} ${userData.lastName}`}</div>
                   </div>
                   <span className="icon is-medium"><i className="ri-arrow-down-s-fill"/></span>
@@ -93,7 +94,7 @@ const App = () => {
         {userData && (
           <aside className="menu px2 py2">
 
-            <Dropdown
+            {/* <Dropdown
               className='w100 mb2'
               TriggerComponent={
                 <button className="button is-primary is-fullwidth">
@@ -115,13 +116,9 @@ const App = () => {
                   Ajouter une entreprise
                 </Link>
               )}
-            </Dropdown>
+            </Dropdown> */}
 
             <ul className="menu-list">
-
-              <ItemNav links={["places", "place"]} icon="ri-store-2-line">
-                Adresses
-              </ItemNav>
 
               {userData.role === "ADMIN" && (
                 <ItemNav links={["employees", "employee"]} icon="ri-group-line">
@@ -130,11 +127,14 @@ const App = () => {
               )}
 
               {userData.role === "SUPER_ADMIN" && <>
+                <ItemNav links={["companies", "company"]} icon="ri-building-line">
+                  Clients
+                </ItemNav>
+                <ItemNav links={["places", "place"]} icon="ri-map-pin-line">
+                  Adresses
+                </ItemNav>
                 <ItemNav links={["clients", "client"]} icon="ri-group-line">
                   Utilisateurs
-                </ItemNav>
-                <ItemNav links={["companies", "company"]} icon="ri-building-line">
-                  Entreprises
                 </ItemNav>
                 <ItemNav links={["challenges", "challenge"]} icon="ri-flag-2-line">
                   Défis
@@ -156,9 +156,9 @@ const App = () => {
               <Route path="/client/:id/update" component={ClientUpdate} />
               <Route path="/client/:id" component={ClientInfo} />
 
-              <Route exact path="/place/create" component={PlaceCreate} />
               <Route exact path="/places" component={PlacesIndex} />
-              <Route path="/place/:id/update" component={PlaceUpdate} />
+              <Route exact path="/place/create" render={props => <PlaceForm {...props} create />} />
+              <Route path="/place/:id/update"render={props => <PlaceForm {...props} edit />} />
               <Route path="/place/:id" component={PlaceInfo} />
 
               <Route exact path="/employee/create" component={EmployeeCreate} />
