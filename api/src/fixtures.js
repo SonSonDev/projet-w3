@@ -32,6 +32,11 @@ const defaultTags = {
       "Vegan",
       "Veggie",
     ],
+    "Prix": [
+      "€",
+      "€€",
+      "€€€",
+    ],
     "Engagements": {
       "Matériels/Equipement": {
         "Nature": [
@@ -74,6 +79,11 @@ const defaultTags = {
       "Hygiène/beauté",
       "Mode",
       "Maison",
+    ],
+    "Prix": [
+      "€",
+      "€€",
+      "€€€",
     ],
     "Engagements": {
       "Marchandise": {
@@ -142,6 +152,11 @@ const defaultTags = {
       "Veggie",
       "Terrasse",
       "À emporter",
+    ],
+    "Prix": [
+      "€",
+      "€€",
+      "€€€",
     ],
     "Engagements": {
       "Produits": {
@@ -308,7 +323,7 @@ const createTagInput = (tagObject, category, root) =>
   }))
 
 
-const populateDb = async () => {
+async function populateDb () {
 
   for (const [ firstName, lastName, email, password, role ] of users) {
     await prisma.createUser({
@@ -331,18 +346,30 @@ const populateDb = async () => {
   for (const [ name, street, zipCode, city, category ] of shuffle(places)) {
     await prisma.createPlace({
       name,
+      category,
       address: { create: { street, zipCode, city } },
+      user: { create: {
+        email: faker.internet.email(),
+        phone: faker.phone.phoneNumber(),
+        role: "PLACE",
+      } },
+      social: { create: {
+        website: faker.internet.url(),
+        facebook: faker.internet.url(),
+        instagram: faker.internet.url(),
+      } },
+      headline: faker.lorem.sentence(),
+      description: faker.lorem.paragraph(),
       hours: { create: [
-        { day: "MONDAY",    start: null, end: null },
-        { day: "TUESDAY",   start: null, end: null },
-        { day: "WEDNESDAY", start: null, end: null },
-        { day: "THURSDAY",  start: null, end: null },
-        { day: "FRIDAY",    start: null, end: null },
+        { day: "MONDAY",    start: "09:00", end: "19:00" },
+        { day: "TUESDAY",   start: "09:00", end: "19:00" },
+        { day: "WEDNESDAY", start: "09:00", end: "19:00" },
+        { day: "THURSDAY",  start: "09:00", end: "19:00" },
+        { day: "FRIDAY",    start: "09:00", end: "19:00" },
         { day: "SATURDAY",  start: null, end: null },
         { day: "SUNDAY",    start: null, end: null },
       ] },
-      category,
-      tags: { connect: tags.filter(t => t.category === category && Math.random() < 0.2).map(({ id }) => ({ id })) },
+      tags: { connect: tags.filter(t => t.category === category && Math.random() < 0.15).map(({ id }) => ({ id })) },
     })
   }
   const companiesId = []

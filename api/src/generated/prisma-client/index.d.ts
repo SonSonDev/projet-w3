@@ -298,7 +298,7 @@ export interface ClientConstructor<T> {
 
 export type CompanyType = "COMPANY" | "SCHOOL" | "PLACE" | "COWORKING";
 
-export type Role = "SUPER_ADMIN" | "ADMIN" | "MODERATOR" | "USER";
+export type Role = "SUPER_ADMIN" | "ADMIN" | "MODERATOR" | "USER" | "PLACE";
 
 export type CompanyOrderByInput =
   | "id_ASC"
@@ -352,6 +352,8 @@ export type QuizOrderByInput =
   | "value_ASC"
   | "value_DESC";
 
+export type Category = "FOOD" | "SHOP" | "ACTIVITY";
+
 export type Day =
   | "MONDAY"
   | "TUESDAY"
@@ -360,8 +362,6 @@ export type Day =
   | "FRIDAY"
   | "SATURDAY"
   | "SUNDAY";
-
-export type Category = "FOOD" | "SHOP" | "ACTIVITY";
 
 export type TagOrderByInput =
   | "id_ASC"
@@ -381,7 +381,11 @@ export type PlaceOrderByInput =
   | "name_ASC"
   | "name_DESC"
   | "category_ASC"
-  | "category_DESC";
+  | "category_DESC"
+  | "headline_ASC"
+  | "headline_DESC"
+  | "description_ASC"
+  | "description_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -724,6 +728,7 @@ export type CompanyWhereUniqueInput = AtLeastOne<{
 
 export type PlaceWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
+  name?: Maybe<String>;
 }>;
 
 export interface TagWhereInput {
@@ -796,16 +801,92 @@ export interface PlaceWhereInput {
   name_not_starts_with?: Maybe<String>;
   name_ends_with?: Maybe<String>;
   name_not_ends_with?: Maybe<String>;
-  address?: Maybe<AddressWhereInput>;
-  hours_some?: Maybe<HourWhereInput>;
-  hours_every?: Maybe<HourRestrictedWhereInput>;
-  hours_none?: Maybe<HourRestrictedWhereInput>;
   category?: Maybe<Category>;
   category_not?: Maybe<Category>;
   category_in?: Maybe<Category[] | Category>;
   category_not_in?: Maybe<Category[] | Category>;
+  address?: Maybe<AddressWhereInput>;
+  user?: Maybe<UserWhereInput>;
+  social?: Maybe<SocialWhereInput>;
+  headline?: Maybe<String>;
+  headline_not?: Maybe<String>;
+  headline_in?: Maybe<String[] | String>;
+  headline_not_in?: Maybe<String[] | String>;
+  headline_lt?: Maybe<String>;
+  headline_lte?: Maybe<String>;
+  headline_gt?: Maybe<String>;
+  headline_gte?: Maybe<String>;
+  headline_contains?: Maybe<String>;
+  headline_not_contains?: Maybe<String>;
+  headline_starts_with?: Maybe<String>;
+  headline_not_starts_with?: Maybe<String>;
+  headline_ends_with?: Maybe<String>;
+  headline_not_ends_with?: Maybe<String>;
+  description?: Maybe<String>;
+  description_not?: Maybe<String>;
+  description_in?: Maybe<String[] | String>;
+  description_not_in?: Maybe<String[] | String>;
+  description_lt?: Maybe<String>;
+  description_lte?: Maybe<String>;
+  description_gt?: Maybe<String>;
+  description_gte?: Maybe<String>;
+  description_contains?: Maybe<String>;
+  description_not_contains?: Maybe<String>;
+  description_starts_with?: Maybe<String>;
+  description_not_starts_with?: Maybe<String>;
+  description_ends_with?: Maybe<String>;
+  description_not_ends_with?: Maybe<String>;
+  hours_some?: Maybe<HourWhereInput>;
+  hours_every?: Maybe<HourRestrictedWhereInput>;
+  hours_none?: Maybe<HourRestrictedWhereInput>;
   tags_some?: Maybe<TagWhereInput>;
   AND?: Maybe<PlaceWhereInput[] | PlaceWhereInput>;
+}
+
+export interface SocialWhereInput {
+  website?: Maybe<String>;
+  website_not?: Maybe<String>;
+  website_in?: Maybe<String[] | String>;
+  website_not_in?: Maybe<String[] | String>;
+  website_lt?: Maybe<String>;
+  website_lte?: Maybe<String>;
+  website_gt?: Maybe<String>;
+  website_gte?: Maybe<String>;
+  website_contains?: Maybe<String>;
+  website_not_contains?: Maybe<String>;
+  website_starts_with?: Maybe<String>;
+  website_not_starts_with?: Maybe<String>;
+  website_ends_with?: Maybe<String>;
+  website_not_ends_with?: Maybe<String>;
+  facebook?: Maybe<String>;
+  facebook_not?: Maybe<String>;
+  facebook_in?: Maybe<String[] | String>;
+  facebook_not_in?: Maybe<String[] | String>;
+  facebook_lt?: Maybe<String>;
+  facebook_lte?: Maybe<String>;
+  facebook_gt?: Maybe<String>;
+  facebook_gte?: Maybe<String>;
+  facebook_contains?: Maybe<String>;
+  facebook_not_contains?: Maybe<String>;
+  facebook_starts_with?: Maybe<String>;
+  facebook_not_starts_with?: Maybe<String>;
+  facebook_ends_with?: Maybe<String>;
+  facebook_not_ends_with?: Maybe<String>;
+  instagram?: Maybe<String>;
+  instagram_not?: Maybe<String>;
+  instagram_in?: Maybe<String[] | String>;
+  instagram_not_in?: Maybe<String[] | String>;
+  instagram_lt?: Maybe<String>;
+  instagram_lte?: Maybe<String>;
+  instagram_gt?: Maybe<String>;
+  instagram_gte?: Maybe<String>;
+  instagram_contains?: Maybe<String>;
+  instagram_not_contains?: Maybe<String>;
+  instagram_starts_with?: Maybe<String>;
+  instagram_not_starts_with?: Maybe<String>;
+  instagram_ends_with?: Maybe<String>;
+  instagram_not_ends_with?: Maybe<String>;
+  AND?: Maybe<SocialWhereInput[] | SocialWhereInput>;
 }
 
 export interface HourWhereInput {
@@ -1728,11 +1809,61 @@ export interface CompanyUpdateManyMutationInput {
 
 export interface PlaceCreateInput {
   id?: Maybe<ID_Input>;
-  name?: Maybe<String>;
+  name: String;
+  category: Category;
   address?: Maybe<AddressCreateOneInput>;
+  user?: Maybe<UserCreateOneInput>;
+  social?: Maybe<SocialCreateOneInput>;
+  headline?: Maybe<String>;
+  description?: Maybe<String>;
   hours?: Maybe<HourCreateManyInput>;
-  category?: Maybe<Category>;
   tags?: Maybe<TagCreateManyInput>;
+}
+
+export interface UserCreateOneInput {
+  create?: Maybe<UserCreateInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  email?: Maybe<String>;
+  phone?: Maybe<String>;
+  password?: Maybe<String>;
+  role?: Maybe<Role>;
+  isRepresentative?: Maybe<Boolean>;
+  company?: Maybe<CompanyCreateOneWithoutUsersInput>;
+  points?: Maybe<Int>;
+  validatedChallenges?: Maybe<ChallengeCreateManyInput>;
+  validatedQuizzes?: Maybe<QuizCreateManyInput>;
+}
+
+export interface CompanyCreateOneWithoutUsersInput {
+  create?: Maybe<CompanyCreateWithoutUsersInput>;
+  connect?: Maybe<CompanyWhereUniqueInput>;
+}
+
+export interface CompanyCreateWithoutUsersInput {
+  id?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  type?: Maybe<CompanyType>;
+  address?: Maybe<AddressCreateOneInput>;
+  emailDomains?: Maybe<CompanyCreateemailDomainsInput>;
+  stripeCustomerId?: Maybe<String>;
+  challenges?: Maybe<ChallengeCreateManyWithoutCompaniesInput>;
+  quizzes?: Maybe<QuizCreateManyWithoutCompaniesInput>;
+}
+
+export interface SocialCreateOneInput {
+  create?: Maybe<SocialCreateInput>;
+}
+
+export interface SocialCreateInput {
+  website?: Maybe<String>;
+  facebook?: Maybe<String>;
+  instagram?: Maybe<String>;
 }
 
 export interface HourCreateManyInput {
@@ -1761,10 +1892,85 @@ export interface TagCreateInput {
 
 export interface PlaceUpdateInput {
   name?: Maybe<String>;
-  address?: Maybe<AddressUpdateOneInput>;
-  hours?: Maybe<HourUpdateManyInput>;
   category?: Maybe<Category>;
+  address?: Maybe<AddressUpdateOneInput>;
+  user?: Maybe<UserUpdateOneInput>;
+  social?: Maybe<SocialUpdateOneInput>;
+  headline?: Maybe<String>;
+  description?: Maybe<String>;
+  hours?: Maybe<HourUpdateManyInput>;
   tags?: Maybe<TagUpdateManyInput>;
+}
+
+export interface UserUpdateOneInput {
+  create?: Maybe<UserCreateInput>;
+  update?: Maybe<UserUpdateDataInput>;
+  upsert?: Maybe<UserUpsertNestedInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateDataInput {
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  email?: Maybe<String>;
+  phone?: Maybe<String>;
+  password?: Maybe<String>;
+  role?: Maybe<Role>;
+  isRepresentative?: Maybe<Boolean>;
+  company?: Maybe<CompanyUpdateOneWithoutUsersInput>;
+  points?: Maybe<Int>;
+  validatedChallenges?: Maybe<ChallengeUpdateManyInput>;
+  validatedQuizzes?: Maybe<QuizUpdateManyInput>;
+}
+
+export interface CompanyUpdateOneWithoutUsersInput {
+  create?: Maybe<CompanyCreateWithoutUsersInput>;
+  update?: Maybe<CompanyUpdateWithoutUsersDataInput>;
+  upsert?: Maybe<CompanyUpsertWithoutUsersInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<CompanyWhereUniqueInput>;
+}
+
+export interface CompanyUpdateWithoutUsersDataInput {
+  name?: Maybe<String>;
+  type?: Maybe<CompanyType>;
+  address?: Maybe<AddressUpdateOneInput>;
+  emailDomains?: Maybe<CompanyUpdateemailDomainsInput>;
+  stripeCustomerId?: Maybe<String>;
+  challenges?: Maybe<ChallengeUpdateManyWithoutCompaniesInput>;
+  quizzes?: Maybe<QuizUpdateManyWithoutCompaniesInput>;
+}
+
+export interface CompanyUpsertWithoutUsersInput {
+  update: CompanyUpdateWithoutUsersDataInput;
+  create: CompanyCreateWithoutUsersInput;
+}
+
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
+}
+
+export interface SocialUpdateOneInput {
+  create?: Maybe<SocialCreateInput>;
+  update?: Maybe<SocialUpdateDataInput>;
+  upsert?: Maybe<SocialUpsertNestedInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+}
+
+export interface SocialUpdateDataInput {
+  website?: Maybe<String>;
+  facebook?: Maybe<String>;
+  instagram?: Maybe<String>;
+}
+
+export interface SocialUpsertNestedInput {
+  update: SocialUpdateDataInput;
+  create: SocialCreateInput;
 }
 
 export interface HourUpdateManyInput {
@@ -1918,6 +2124,8 @@ export interface TagUpdateManyDataInput {
 export interface PlaceUpdateManyMutationInput {
   name?: Maybe<String>;
   category?: Maybe<Category>;
+  headline?: Maybe<String>;
+  description?: Maybe<String>;
 }
 
 export interface QuizUpdateInput {
@@ -1952,37 +2160,6 @@ export interface TagUpdateManyMutationInput {
   category?: Maybe<Category>;
 }
 
-export interface UserCreateInput {
-  id?: Maybe<ID_Input>;
-  firstName?: Maybe<String>;
-  lastName?: Maybe<String>;
-  email?: Maybe<String>;
-  phone?: Maybe<String>;
-  password?: Maybe<String>;
-  role?: Maybe<Role>;
-  isRepresentative?: Maybe<Boolean>;
-  company?: Maybe<CompanyCreateOneWithoutUsersInput>;
-  points?: Maybe<Int>;
-  validatedChallenges?: Maybe<ChallengeCreateManyInput>;
-  validatedQuizzes?: Maybe<QuizCreateManyInput>;
-}
-
-export interface CompanyCreateOneWithoutUsersInput {
-  create?: Maybe<CompanyCreateWithoutUsersInput>;
-  connect?: Maybe<CompanyWhereUniqueInput>;
-}
-
-export interface CompanyCreateWithoutUsersInput {
-  id?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  type?: Maybe<CompanyType>;
-  address?: Maybe<AddressCreateOneInput>;
-  emailDomains?: Maybe<CompanyCreateemailDomainsInput>;
-  stripeCustomerId?: Maybe<String>;
-  challenges?: Maybe<ChallengeCreateManyWithoutCompaniesInput>;
-  quizzes?: Maybe<QuizCreateManyWithoutCompaniesInput>;
-}
-
 export interface UserUpdateInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
@@ -1995,30 +2172,6 @@ export interface UserUpdateInput {
   points?: Maybe<Int>;
   validatedChallenges?: Maybe<ChallengeUpdateManyInput>;
   validatedQuizzes?: Maybe<QuizUpdateManyInput>;
-}
-
-export interface CompanyUpdateOneWithoutUsersInput {
-  create?: Maybe<CompanyCreateWithoutUsersInput>;
-  update?: Maybe<CompanyUpdateWithoutUsersDataInput>;
-  upsert?: Maybe<CompanyUpsertWithoutUsersInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<CompanyWhereUniqueInput>;
-}
-
-export interface CompanyUpdateWithoutUsersDataInput {
-  name?: Maybe<String>;
-  type?: Maybe<CompanyType>;
-  address?: Maybe<AddressUpdateOneInput>;
-  emailDomains?: Maybe<CompanyUpdateemailDomainsInput>;
-  stripeCustomerId?: Maybe<String>;
-  challenges?: Maybe<ChallengeUpdateManyWithoutCompaniesInput>;
-  quizzes?: Maybe<QuizUpdateManyWithoutCompaniesInput>;
-}
-
-export interface CompanyUpsertWithoutUsersInput {
-  update: CompanyUpdateWithoutUsersDataInput;
-  create: CompanyCreateWithoutUsersInput;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -2613,18 +2766,25 @@ export interface AggregateCompanySubscription
 
 export interface Place {
   id: ID_Output;
-  name?: String;
+  name: String;
+  category: Category;
   address?: Address | null;
+  social?: Social | null;
+  headline?: String;
+  description?: String;
   hours?: <T = FragmentableArray<Hour>>() => T;
-  category?: Category;
 }
 
 export interface PlacePromise extends Promise<Place>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
-  address: <T = AddressPromise>() => T;
-  hours: <T = FragmentableArray<Hour>>() => T;
   category: () => Promise<Category>;
+  address: <T = AddressPromise>() => T;
+  user: <T = UserPromise>() => T;
+  social: <T = SocialPromise>() => T;
+  headline: () => Promise<String>;
+  description: () => Promise<String>;
+  hours: <T = FragmentableArray<Hour>>() => T;
   tags: <T = FragmentableArray<Tag>>(args?: {
     where?: TagWhereInput;
     orderBy?: TagOrderByInput;
@@ -2641,9 +2801,13 @@ export interface PlaceSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
-  address: <T = AddressSubscription>() => T;
-  hours: <T = Promise<AsyncIterator<HourSubscription>>>() => T;
   category: () => Promise<AsyncIterator<Category>>;
+  address: <T = AddressSubscription>() => T;
+  user: <T = UserSubscription>() => T;
+  social: <T = SocialSubscription>() => T;
+  headline: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  hours: <T = Promise<AsyncIterator<HourSubscription>>>() => T;
   tags: <T = Promise<AsyncIterator<TagSubscription>>>(args?: {
     where?: TagWhereInput;
     orderBy?: TagOrderByInput;
@@ -2660,9 +2824,13 @@ export interface PlaceNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
-  address: <T = AddressPromise>() => T;
-  hours: <T = FragmentableArray<Hour>>() => T;
   category: () => Promise<Category>;
+  address: <T = AddressPromise>() => T;
+  user: <T = UserPromise>() => T;
+  social: <T = SocialPromise>() => T;
+  headline: () => Promise<String>;
+  description: () => Promise<String>;
+  hours: <T = FragmentableArray<Hour>>() => T;
   tags: <T = FragmentableArray<Tag>>(args?: {
     where?: TagWhereInput;
     orderBy?: TagOrderByInput;
@@ -2672,6 +2840,34 @@ export interface PlaceNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+}
+
+export interface Social {
+  website?: String;
+  facebook?: String;
+  instagram?: String;
+}
+
+export interface SocialPromise extends Promise<Social>, Fragmentable {
+  website: () => Promise<String>;
+  facebook: () => Promise<String>;
+  instagram: () => Promise<String>;
+}
+
+export interface SocialSubscription
+  extends Promise<AsyncIterator<Social>>,
+    Fragmentable {
+  website: () => Promise<AsyncIterator<String>>;
+  facebook: () => Promise<AsyncIterator<String>>;
+  instagram: () => Promise<AsyncIterator<String>>;
+}
+
+export interface SocialNullablePromise
+  extends Promise<Social | null>,
+    Fragmentable {
+  website: () => Promise<String>;
+  facebook: () => Promise<String>;
+  instagram: () => Promise<String>;
 }
 
 export interface Hour {
@@ -3125,8 +3321,10 @@ export interface PlaceSubscriptionPayloadSubscription
 
 export interface PlacePreviousValues {
   id: ID_Output;
-  name?: String;
-  category?: Category;
+  name: String;
+  category: Category;
+  headline?: String;
+  description?: String;
 }
 
 export interface PlacePreviousValuesPromise
@@ -3135,6 +3333,8 @@ export interface PlacePreviousValuesPromise
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   category: () => Promise<Category>;
+  headline: () => Promise<String>;
+  description: () => Promise<String>;
 }
 
 export interface PlacePreviousValuesSubscription
@@ -3143,6 +3343,8 @@ export interface PlacePreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   category: () => Promise<AsyncIterator<Category>>;
+  headline: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
 }
 
 export interface QuizSubscriptionPayload {
@@ -3369,6 +3571,10 @@ export const models: Model[] = [
   },
   {
     name: "Hour",
+    embedded: true
+  },
+  {
+    name: "Social",
     embedded: true
   },
   {

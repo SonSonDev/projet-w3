@@ -15,10 +15,14 @@ type User {
 
 type Place {
   id: ID! @id
-  name: String
+  name: String! @unique
+  category: Category! @relation(link: INLINE)
   address: Address
+  user: User @relation(link: INLINE)
+  social: Social
+  headline: String
+  description: String
   hours: [Hour!]
-  category: Category @relation(link: INLINE)
   tags: [Tag!] @relation(link: INLINE)
 }
 
@@ -54,6 +58,12 @@ type Hour @embedded {
   day: Day
   start: String
   end: String
+}
+
+type Social @embedded {
+  website: String
+  facebook: String
+  instagram: String
 }
 
 type Quiz {
@@ -102,4 +112,5 @@ enum Role {
   ADMIN
   MODERATOR
   USER
+  PLACE
 }

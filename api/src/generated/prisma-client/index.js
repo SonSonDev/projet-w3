@@ -29,6 +29,10 @@ var models = [
     embedded: true
   },
   {
+    name: "Social",
+    embedded: true
+  },
+  {
     name: "Quiz",
     embedded: false
   },

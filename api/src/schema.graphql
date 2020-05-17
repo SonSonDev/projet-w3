@@ -1,8 +1,8 @@
 scalar Date
 
 type Query {
-  getPlaces: [Place]
-  getPlace(id: ID!): Place
+  getPlaces(where: PlaceInput): [Place]
+  getPlace(where: PlaceInputUnique): Place
   getUsers(role: Role): [User]
   getUser(id: ID!): User
   getCompanies: [Company]
@@ -76,20 +76,14 @@ type Mutation {
   ): AuthPayload
   createUsers(users: [UserInput!]): [User]
 
-  createPlace(
-    name: String!
-    street: String
-    zipCode: String
-    city: String
-    category: Category
-    tags: [ID!]
-  ): Place
-  createPlaces(places: [PlaceInput!]): [Place]
+  createPlace(data: PlaceInput!): Place
+  updatePlace(where: PlaceInputUnique!, data: PlaceInput!): Place
+  deletePlace(where: PlaceInputUnique!): Place
+  upsertPlaces(data: [PlaceInput!]): [Place]
 
   login(email: String!, password: String!): AuthPayload
   logout: LogoutResponse
 
-  deletePlace(id: ID!): Place
   deleteCompany(id: ID!): Company
   deleteUser(id: ID!): User
 
@@ -97,15 +91,6 @@ type Mutation {
   deleteTag(id: ID!): Tag!
   updateTag(id: ID!, label: String!, children: [ID!], category: Category!): Tag!
 
-  updatePlace(
-    placeId: ID!
-    name: String
-    street: String
-    zipCode: String
-    city: String
-    category: Category
-    tags: [ID!]
-  ): Place
 
   createChallenge(
     name: String!
@@ -164,10 +149,14 @@ type Company {
 
 type Place {
   id: ID!
-  name: String
+  name: String!
+  category: Category!
   address: Address
+  user: User
+  social: Social
+  headline: String
+  description: String
   hours: [Hour!]
-  category: Category
   tags: [Tag!]
 }
 
@@ -271,15 +260,30 @@ enum Role {
   ADMIN
   MODERATOR
   USER
+  PLACE
 }
 
+type Social {
+  website: String
+  facebook: String
+  instagram: String
+}
 
 input PlaceInput {
   name: String!
-  street: String
-  zipCode: String
-  city: String
-  category: Category
+  category: Category!
+  address: AddressInput
+  user: UserInput
+  social: SocialInput
+  headline: String
+  description: String
+  hours: [HourInput!]
+  tags: [TagInput!]
+}
+
+input PlaceInputUnique {
+  id: ID
+  name: String
 }
 
 input CompanyInput {
@@ -301,6 +305,7 @@ input UserInput {
   firstName: String
   lastName: String
   email: String!
+  phone: String
   role: Role!
   companyId: ID
 }
@@ -311,4 +316,22 @@ input TagInput {
   root: Boolean
   leaf: Boolean
   category: Category
+}
+
+input AddressInput {
+  street: String
+  zipCode: String
+  city: String
+}
+
+input SocialInput {
+  website: String
+  facebook: String
+  instagram: String
+}
+
+input HourInput {
+  day: Day
+  start: String
+  end: String
 }

@@ -1,91 +1,75 @@
+
+const makePlaceInput = async ({ name, category, address, user: { email, phone, role }, social, headline, description, hours, tags = [] }, prisma) => {
+  return {
+    name,
+    category,
+    address: { create: address },
+    user: {
+      ...await prisma.user({ email })
+        ? { connect: { email } }
+        : { create: { email, phone, role } }
+    },
+    social: { create: social },
+    headline,
+    description,
+    hours: { create: hours },
+    // tags: { connect: tags },
+    ...tags.length && {
+      tags: {
+        connect: (await prisma.tags({
+          where: {
+            ...tags[0].id && { id_in: tags.map(({ id }) => id) },
+            ...tags[0].label && { label_in: tags.map(({ label }) => label) },
+            category,
+          },
+        })).map(({ id }) => ({ id })),
+      },
+    },
+  }
+}
+
+
 module.exports = {
   queries: {
-    getPlaces(_, args, context) {
-      return context.prisma.places()
+    getPlaces (_, { where }, { prisma }) {
+      return prisma.places(where)
     },
-
-    getPlace(_, { id }, context) {
-      return context.prisma.place({ id })
+    getPlace (_, { where }, { prisma }) {
+      return prisma.place(where)
     },
   },
   mutations: {
-    createPlace(_, { name, street, zipCode, city, category, tags }, context) {
-      return context.prisma.createPlace({
-        name,
-        category,
-        address: {
-          create: {
-            street,
-            zipCode,
-            city,
-          },
-        },
-        tags: { connect: tags.map(id => ({ id })) },
-        hours: {
-          create: [
-            { day: "MONDAY",    start: null, end: null },
-            { day: "TUESDAY",   start: null, end: null },
-            { day: "WEDNESDAY", start: null, end: null },
-            { day: "THURSDAY",  start: null, end: null },
-            { day: "FRIDAY",    start: null, end: null },
-            { day: "SATURDAY",  start: null, end: null },
-            { day: "SUNDAY",    start: null, end: null },
-          ],
-        },
-      })
+    async createPlace (_, { data: place }, { prisma }) {
+      const data = await makePlaceInput(place, prisma)
+      console.log(JSON.stringify(data, null, 2))
+      return prisma.createPlace(data)
+    },
+    async updatePlace(_, { where, data: place }, { prisma }) {
+      const data = await makePlaceInput(place, prisma)
+      return prisma.updatePlace({ where, data })
+    },
+    async deletePlace(_, { where }, { prisma }) {
+      return prisma.deletePlace(where)
+    },
+    async upsertPlaces(_, { data: places }, { prisma }) {
+      return Promise.all(places.map(async place => {
+        const data = await makePlaceInput(place, prisma)
+        return prisma.upsertPlace({
+          where: { name: place.name },
+          create: data,
+          update: data,
+        })
+      }))
     },
 
-    async createPlaces (_, { places }, { prisma }) {
-      return Promise.all(
-        places.map(({ name, street, zipCode, city, category, tags = [] }) =>
-          prisma.createPlace({
-            name,
-            category,
-            address: { create: { street, zipCode, city } },
-            // tags: { connect: tags.map(id => ({ id })) },
-            hours: { create: [
-              { day: "MONDAY",    start: null, end: null },
-              { day: "TUESDAY",   start: null, end: null },
-              { day: "WEDNESDAY", start: null, end: null },
-              { day: "THURSDAY",  start: null, end: null },
-              { day: "FRIDAY",    start: null, end: null },
-              { day: "SATURDAY",  start: null, end: null },
-              { day: "SUNDAY",    start: null, end: null },
-            ] },
-          }),
-        ),
-      )
-    },
-
-    deletePlace(_, { id }, context) {
-      return context.prisma.deletePlace({ id })
-    },
-
-    async updatePlace(_, { placeId, name, street, zipCode, city, type, category, tags }, context) {
-      const currentTags = await context.prisma.tags({where: { places_some: { id: placeId }}})
-      const disconnect = currentTags.filter(tag => !tags.find(id => id === tag.id)).map(({id}) => ({ id }))
-
-      return await context.prisma.updatePlace({
-        where: {
-          id: placeId,
-        },
-        data: {
-          name,
-          address: { update: { street, zipCode, city } },
-          type,
-          category,
-          tags: {
-            disconnect,
-            connect: tags.map(id => ({ id })),
-          },
-        },
-      })
-    },
   },
   resolvers: {
     Place: {
-      tags (parent, args, context) {
-        return context.prisma.place({ id: parent.id }).tags()
+      tags ({ id }, {}, { prisma }) {
+        return prisma.place({ id }).tags()
+      },
+      user ({ id }, {}, { prisma }) {
+        return prisma.place({ id }).user()
       },
     },
   },

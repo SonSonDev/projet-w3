@@ -970,10 +970,14 @@ type PageInfo {
 
 type Place {
   id: ID!
-  name: String
+  name: String!
+  category: Category!
   address: Address
+  user: User
+  social: Social
+  headline: String
+  description: String
   hours: [Hour!]
-  category: Category
   tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag!]
 }
 
@@ -985,10 +989,14 @@ type PlaceConnection {
 
 input PlaceCreateInput {
   id: ID
-  name: String
+  name: String!
+  category: Category!
   address: AddressCreateOneInput
+  user: UserCreateOneInput
+  social: SocialCreateOneInput
+  headline: String
+  description: String
   hours: HourCreateManyInput
-  category: Category
   tags: TagCreateManyInput
 }
 
@@ -1004,12 +1012,18 @@ enum PlaceOrderByInput {
   name_DESC
   category_ASC
   category_DESC
+  headline_ASC
+  headline_DESC
+  description_ASC
+  description_DESC
 }
 
 type PlacePreviousValues {
   id: ID!
-  name: String
-  category: Category
+  name: String!
+  category: Category!
+  headline: String
+  description: String
 }
 
 type PlaceSubscriptionPayload {
@@ -1030,15 +1044,21 @@ input PlaceSubscriptionWhereInput {
 
 input PlaceUpdateInput {
   name: String
-  address: AddressUpdateOneInput
-  hours: HourUpdateManyInput
   category: Category
+  address: AddressUpdateOneInput
+  user: UserUpdateOneInput
+  social: SocialUpdateOneInput
+  headline: String
+  description: String
+  hours: HourUpdateManyInput
   tags: TagUpdateManyInput
 }
 
 input PlaceUpdateManyMutationInput {
   name: String
   category: Category
+  headline: String
+  description: String
 }
 
 input PlaceWhereInput {
@@ -1070,20 +1090,51 @@ input PlaceWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
-  address: AddressWhereInput
-  hours_some: HourWhereInput
-  hours_every: HourRestrictedWhereInput
-  hours_none: HourRestrictedWhereInput
   category: Category
   category_not: Category
   category_in: [Category!]
   category_not_in: [Category!]
+  address: AddressWhereInput
+  user: UserWhereInput
+  social: SocialWhereInput
+  headline: String
+  headline_not: String
+  headline_in: [String!]
+  headline_not_in: [String!]
+  headline_lt: String
+  headline_lte: String
+  headline_gt: String
+  headline_gte: String
+  headline_contains: String
+  headline_not_contains: String
+  headline_starts_with: String
+  headline_not_starts_with: String
+  headline_ends_with: String
+  headline_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  hours_some: HourWhereInput
+  hours_every: HourRestrictedWhereInput
+  hours_none: HourRestrictedWhereInput
   tags_some: TagWhereInput
   AND: [PlaceWhereInput!]
 }
 
 input PlaceWhereUniqueInput {
   id: ID
+  name: String
 }
 
 type Query {
@@ -1445,6 +1496,88 @@ enum Role {
   ADMIN
   MODERATOR
   USER
+  PLACE
+}
+
+type Social {
+  website: String
+  facebook: String
+  instagram: String
+}
+
+input SocialCreateInput {
+  website: String
+  facebook: String
+  instagram: String
+}
+
+input SocialCreateOneInput {
+  create: SocialCreateInput
+}
+
+input SocialUpdateDataInput {
+  website: String
+  facebook: String
+  instagram: String
+}
+
+input SocialUpdateOneInput {
+  create: SocialCreateInput
+  update: SocialUpdateDataInput
+  upsert: SocialUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+}
+
+input SocialUpsertNestedInput {
+  update: SocialUpdateDataInput!
+  create: SocialCreateInput!
+}
+
+input SocialWhereInput {
+  website: String
+  website_not: String
+  website_in: [String!]
+  website_not_in: [String!]
+  website_lt: String
+  website_lte: String
+  website_gt: String
+  website_gte: String
+  website_contains: String
+  website_not_contains: String
+  website_starts_with: String
+  website_not_starts_with: String
+  website_ends_with: String
+  website_not_ends_with: String
+  facebook: String
+  facebook_not: String
+  facebook_in: [String!]
+  facebook_not_in: [String!]
+  facebook_lt: String
+  facebook_lte: String
+  facebook_gt: String
+  facebook_gte: String
+  facebook_contains: String
+  facebook_not_contains: String
+  facebook_starts_with: String
+  facebook_not_starts_with: String
+  facebook_ends_with: String
+  facebook_not_ends_with: String
+  instagram: String
+  instagram_not: String
+  instagram_in: [String!]
+  instagram_not_in: [String!]
+  instagram_lt: String
+  instagram_lte: String
+  instagram_gt: String
+  instagram_gte: String
+  instagram_contains: String
+  instagram_not_contains: String
+  instagram_starts_with: String
+  instagram_not_starts_with: String
+  instagram_ends_with: String
+  instagram_not_ends_with: String
+  AND: [SocialWhereInput!]
 }
 
 type Subscription {
@@ -1713,6 +1846,11 @@ input UserCreateManyWithoutCompanyInput {
   connect: [UserWhereUniqueInput!]
 }
 
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
 input UserCreateWithoutCompanyInput {
   id: ID
   firstName: String
@@ -1885,6 +2023,20 @@ input UserSubscriptionWhereInput {
   AND: [UserSubscriptionWhereInput!]
 }
 
+input UserUpdateDataInput {
+  firstName: String
+  lastName: String
+  email: String
+  phone: String
+  password: String
+  role: Role
+  isRepresentative: Boolean
+  company: CompanyUpdateOneWithoutUsersInput
+  points: Int
+  validatedChallenges: ChallengeUpdateManyInput
+  validatedQuizzes: QuizUpdateManyInput
+}
+
 input UserUpdateInput {
   firstName: String
   lastName: String
@@ -1938,6 +2090,15 @@ input UserUpdateManyWithWhereNestedInput {
   data: UserUpdateManyDataInput!
 }
 
+input UserUpdateOneInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: UserWhereUniqueInput
+}
+
 input UserUpdateWithoutCompanyDataInput {
   firstName: String
   lastName: String
@@ -1954,6 +2115,11 @@ input UserUpdateWithoutCompanyDataInput {
 input UserUpdateWithWhereUniqueWithoutCompanyInput {
   where: UserWhereUniqueInput!
   data: UserUpdateWithoutCompanyDataInput!
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserUpsertWithWhereUniqueWithoutCompanyInput {
