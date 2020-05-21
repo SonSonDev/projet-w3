@@ -140,7 +140,7 @@ function Fields ({ children = [], helpers: { register, watch, errors }, level = 
 }
 
 
-export default function Form ({ form, onSubmit, onCancel, onDelete, loading, children }) {
+export default function Form ({ form, onSubmit, onCancel, onDelete, submitting, children }) {
   const { handleSubmit, register, watch, errors } = useForm(children)
 
   return (
@@ -148,7 +148,7 @@ export default function Form ({ form, onSubmit, onCancel, onDelete, loading, chi
       <div className='column is-two-fifths'>
         <Fields helpers={{ register, watch, errors }}>{form(watch())}</Fields>
         {onDelete && (
-          <a onClick={onDelete} className={[ "button has-text-danger bold", loading && "is-loading" ].join(" ")}>
+          <a onClick={onDelete} className={[ "button has-text-danger bold", submitting && "is-loading" ].join(" ")}>
             Supprimer
           </a>
         )}
@@ -156,7 +156,7 @@ export default function Form ({ form, onSubmit, onCancel, onDelete, loading, chi
       <div className='column'>
         <div className='buttons fixed bottom-0 pb3 pl3'>
           <a onClick={onCancel} className='button bold'>Annuler</a>
-          <button type='submit' className={[ "button is-primary bold", loading && "is-loading" ].join(" ")}>
+          <button type='submit' className={[ "button is-primary bold", submitting && "is-loading" ].join(" ")}>
             Valider
           </button>
         </div>

@@ -169,7 +169,9 @@ function PlaceForm ({ history,  match: { params: { id } } }) {
   return (
     <main>
       <div className="px3 py2 border-bottom">
-        <h1 className="is-size-3 bold my05">Ajouter une nouvelle adresse</h1>
+        <h1 className="is-size-3 bold my05">
+          {id ? "Modifier une adresse" : "Ajouter une nouvelle adresse"}
+        </h1>
       </div>
       <div className='p3'>
         {(getPlaceLoading || getTagsLoading) ? (
@@ -180,7 +182,7 @@ function PlaceForm ({ history,  match: { params: { id } } }) {
             onSubmit={onSubmit}
             onDelete={onDelete}
             onCancel={() => history.goBack()}
-            loading={createPlaceLoading || updatePlaceLoading || deletePlaceLoading}
+            submitting={createPlaceLoading || updatePlaceLoading || deletePlaceLoading}
           >
             {{ defaultValues }}
           </Form>

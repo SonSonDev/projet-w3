@@ -161,7 +161,8 @@ const App = () => {
                 <Route path="/client/:id" component={ClientInfo} />
 
                 <Route exact path="/places" component={PlacesIndex} />
-                <Route path="/place/:id" component={PlaceForm} />
+                <Route path="/place/create" component={PlaceForm} />
+                <Route path="/place/:id/edit" component={PlaceForm} />
 
                 <Route exact path="/employee/create" component={EmployeeCreate} />
                 <Route exact path="/employees" component={EmployeesIndex} />

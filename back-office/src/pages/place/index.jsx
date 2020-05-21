@@ -40,7 +40,7 @@ const PlacesIndex = ({ history }) => {
       accessor: "name",
       Cell ({ cell: { value }, row: { original: { id } } }) {
         return (
-          <Link to={`/place/${id}`} className="has-text-primary underline bold">
+          <Link to={`/place/${id}/edit`} className="has-text-primary underline bold">
             {value}
           </Link>
         )
@@ -114,36 +114,34 @@ const PlacesIndex = ({ history }) => {
   ]
 
   return (
-    <>
-      <Index data={places} columns={columns} tabs={tabs}>
-        {{
-          add: "Ajouter adresse",
-          slug: "place",
-          entity: "adresse",
-          onImport: async ({ data }) => {
-            try {
-              await upsertPlaces({
-                variables: {
-                  data: data.map(({ street, zipCode, city, email, phone, website, facebook, instagram, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY, tags, ...rest }) => console.log(tags) || ({
-                    ...rest,
-                    address: { street, zipCode, city },
-                    user: { email, phone, role: "PLACE" },
-                    social: { website, facebook, instagram },
-                    hours: Object.entries({ MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY }).map(([ day, [ start, end ]]) => ({ day, start, end })),
-                    tags: tags.split(",").map(label => ({ label })),
-                  })),
-                },
-              })
-              setToast({ type: "success" })
-            } catch (error) {
-              setToast({ type: "danger" })
-              console.log(error, { ...error })
-            }
-          },
-          onExport: ({ name, category, address: { street, zipCode, city }, user: { email, phone }, social: { website, facebook, instagram }, headline, description, hours, tags }) => ({ name, category, street, zipCode, city, email, phone, website, facebook, instagram, headline, description, ...Object.fromEntries(hours.map(({ day, start, end }) => [ day, [ start, end ] ])), tags: tags.map(({ label }) => label) }),
-        }}
-      </Index>
-    </>
+    <Index data={places} columns={columns} tabs={tabs}>
+      {{
+        add: "Ajouter adresse",
+        slug: "place",
+        entity: "adresse",
+        onImport: async ({ data }) => {
+          try {
+            await upsertPlaces({
+              variables: {
+                data: data.map(({ street, zipCode, city, email, phone, website, facebook, instagram, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY, tags, ...rest }) => console.log(tags) || ({
+                  ...rest,
+                  address: { street, zipCode, city },
+                  user: { email, phone, role: "PLACE" },
+                  social: { website, facebook, instagram },
+                  hours: Object.entries({ MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY }).map(([ day, [ start, end ]]) => ({ day, start, end })),
+                  tags: tags.split(",").map(label => ({ label })),
+                })),
+              },
+            })
+            setToast({ type: "success" })
+          } catch (error) {
+            setToast({ type: "danger" })
+            console.log(error, { ...error })
+          }
+        },
+        onExport: ({ name, category, address: { street, zipCode, city }, user: { email, phone }, social: { website, facebook, instagram }, headline, description, hours, tags }) => ({ name, category, street, zipCode, city, email, phone, website, facebook, instagram, headline, description, ...Object.fromEntries(hours.map(({ day, start, end }) => [ day, [ start, end ] ])), tags: tags.map(({ label }) => label) }),
+      }}
+    </Index>
   )
 }
 
