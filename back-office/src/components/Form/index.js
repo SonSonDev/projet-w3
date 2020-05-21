@@ -42,7 +42,11 @@ function Fields ({ children = [], helpers: { register, watch, errors }, level = 
               <i className={collapsed ? "ri-arrow-right-s-line" : "ri-arrow-down-s-line"}/>
             </span>
           )}
-          <span>{label} {collapsed && collapsible && !!watch(key)?.length && `(${watch(key).length})`}</span>
+          <span>
+            {label}
+            {collapsed && collapsible && !!watch(key)?.length && ` (${watch(key).length})`}
+            {error && <span className='has-text-danger'>*</span>}
+          </span>
         </label>
         {children && (
           <Fields helpers={{ register, watch, errors }} level={level + 1} path={key ? [ ...path, key ] : path}>
@@ -53,7 +57,7 @@ function Fields ({ children = [], helpers: { register, watch, errors }, level = 
           switch (type) {
           case "T": return (
             <div className={fieldClassName()}>
-              <input name={key} ref={register({ required })} className={[ "input", error && "is-danger" ].join(" ")} {...attributes} />
+              <input name={key} ref={register({ required })} className={[ "input", false && "is-danger" ].join(" ")} {...attributes} />
             </div>
           )
           case "TT": return (
@@ -64,7 +68,7 @@ function Fields ({ children = [], helpers: { register, watch, errors }, level = 
           case "R": return (
             <div className={fieldClassName("buttons has-addons")}>
               {options.map(({ value, label }) => (
-                <label className={[ "button", watch(key) === value && "is-success is-light", error && "is-danger is-outlined" ].join(" ")} key={value}>
+                <label className={[ "button", watch(key) === value && "is-success is-light", false && "is-danger is-outlined" ].join(" ")} key={value}>
                   <input type="radio" value={value} name={key} ref={register({ required })} className={[ "mr05 display-none" ].join(" ")} {...attributes} />
                   {label}
                 </label>

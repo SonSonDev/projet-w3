@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from "react"
+import { Link } from "react-router-dom"
 
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { GET_USERS, DELETE_USER } from "../../graphql/user"
@@ -20,35 +21,49 @@ const ClientsIndex = () => {
 
   const columns = useMemo(() => [
     {
-      Header: "Prénom",
-      accessor: "firstName",
-    },
-    {
       Header: "Nom",
       accessor: "lastName",
     },
     {
-      Header: "Email",
-      accessor: "email",
+      Header: "Prénom",
+      accessor: "firstName",
     },
     {
       Header: "Entreprise",
-      accessor: ({ company }) => company && company.name,
+      accessor: "company",
+      Cell ({ cell: { value } }) {
+        return value ? (
+          <Link to={`/company/${value?.id}`} className="has-text-primary underline bold">
+            {value?.name}
+          </Link>
+        ) : <span>-</span>
+      },
     },
     {
       Header: "Role",
       accessor: ({ role }) => roleNames[role],
     },
     {
-      id: "delete",
-      Cell ({ cell: { value }, row: { original: { id } } }) {
+      Header: "Email",
+      accessor: "email",
+      Cell ({ cell: { value } }) {
         return (
-          <button onClick={() => deleteUser({ variables: { id } })} className="button is-white has-text-grey">
-            <span className="icon"><i className="ri-delete-bin-line"/></span>
-          </button>
+          <a href={`mailto:${value}`} className="has-text-primary underline bold">
+            {value}
+          </a>
         )
       },
     },
+    // {
+    //   id: "delete",
+    //   Cell ({ cell: { value }, row: { original: { id } } }) {
+    //     return (
+    //       <button onClick={() => deleteUser({ variables: { id } })} className="button is-white has-text-grey">
+    //         <span className="icon"><i className="ri-delete-bin-line"/></span>
+    //       </button>
+    //     )
+    //   },
+    // },
   ], [])
 
 
@@ -64,20 +79,25 @@ const ClientsIndex = () => {
 
   const tabs =  [
     { title: "Aucun", filter: () => true },
-    ...data
-      .reduce((acc, cur) => {
-        if (cur.company && cur.company.name && !acc.includes(cur.company.name)) {
-          acc.push(cur.company.name)
-        }
-        return acc
-      }, [])
-      .map(companyName => ({
-        title: companyName, filter: ({ company }) => company && company.name === companyName,
+    ...Object.entries(roleNames)
+      .filter(([ key ]) => key !== "PLACE")
+      .map(([ key, label ]) => ({
+        title: label, filter: ({ role }) => role === key,
       })),
+    // ...data
+      // .reduce((acc, cur) => {
+      //   if (cur.company && cur.company.name && !acc.includes(cur.company.name)) {
+      //     acc.push(cur.company.name)
+      //   }
+      //   return acc
+      // }, [])
+      // .map(companyName => ({
+      //   title: companyName, filter: ({ company }) => company && company.name === companyName,
+      // })),
   ]
 
   return (
-    <Index data={clients} columns={columns} tabs={tabs}>
+    <Index data={clients.filter(({ role }) => role !== "PLACE")} columns={columns} tabs={tabs}>
       {{
         entity: "utilisateur",
       }}

@@ -37,7 +37,7 @@ const Login = () => {
             email: Yup.string().required(),
           })}
           onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
+            // setTimeout(() => {
               setSubmitting(false)
               login({
                 variables: {
@@ -46,7 +46,7 @@ const Login = () => {
                   email: values.email,
                 },
               })
-            }, 400)
+            // }, 400)
           }}>
           <Form className="login__form">
             <div className="field">

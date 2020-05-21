@@ -1,6 +1,8 @@
 .login {
   display: flex;
-  min-height: 100%;
+  min-height: 100vh;
+  margin-top: -4rem;
+  margin-left: -180px;
   
   &__side {
     flex: 1;
