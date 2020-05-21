@@ -12,9 +12,11 @@ import Loader from "../../components/Loader"
 import { categories } from "../../utils/wording"
 
 import UserDataContext from "../../utils/UserDataContext"
+import ToastContext from "../../utils/ToastContext"
 
 const PlacesIndex = ({ history }) => {
   // const userData = useContext(UserDataContext)
+  const { setToast } = useContext(ToastContext)
 
   const { error, loading, data: {getPlaces: places} = {}, refetch } = useQuery(GET_PLACES, {
     onError: error => console.log(error.message),
@@ -38,7 +40,7 @@ const PlacesIndex = ({ history }) => {
       accessor: "name",
       Cell ({ cell: { value }, row: { original: { id } } }) {
         return (
-          <Link to={`/place/${id}/update`} className="has-text-primary underline bold">
+          <Link to={`/place/${id}`} className="has-text-primary underline bold">
             {value}
           </Link>
         )
@@ -129,22 +131,18 @@ const PlacesIndex = ({ history }) => {
                     social: { website, facebook, instagram },
                     hours: Object.entries({ MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY }).map(([ day, [ start, end ]]) => ({ day, start, end })),
                     tags: tags.split(",").map(label => ({ label })),
-                  }))
-                }
+                  })),
+                },
               })
-
+              setToast({ type: "success" })
             } catch (error) {
+              setToast({ type: "danger" })
               console.log(error, { ...error })
             }
           },
           onExport: ({ name, category, address: { street, zipCode, city }, user: { email, phone }, social: { website, facebook, instagram }, headline, description, hours, tags }) => ({ name, category, street, zipCode, city, email, phone, website, facebook, instagram, headline, description, ...Object.fromEntries(hours.map(({ day, start, end }) => [ day, [ start, end ] ])), tags: tags.map(({ label }) => label) }),
         }}
       </Index>
-      {upsertPlacesError && (
-        <div className='toast message is-danger fixed z1 bottom-0 left-0 ml3 pr3 mb3'>
-          <div className='message-body'>Une erreur est survenue.</div>
-        </div>
-      )}
     </>
   )
 }

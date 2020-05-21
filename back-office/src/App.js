@@ -40,6 +40,7 @@ import { LOGOUT } from "./graphql/mutations/auth"
 import { CHECK_AUTH } from "./graphql/queries/auth"
 
 import UserDataContext from "./utils/UserDataContext"
+import ToastContext from "./utils/ToastContext"
 
 const App = () => {
 
@@ -54,6 +55,8 @@ const App = () => {
   const { loading, data } = useQuery(CHECK_AUTH, {
     fetchPolicy: "no-cache",
   })
+
+  const [ toast, setToast ] = useState(null)
 
   if (loading) return <div/>
 
@@ -146,38 +149,45 @@ const App = () => {
         )}
 
         <UserDataContext.Provider value={userData}>
-          <div className="main">
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/login" component={Login} />
+          <ToastContext.Provider value={{ setToast: ({ type, message }) => setToast({ type, message, key: Date.now() }) }}>
+            <div className="main">
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/login" component={Login} />
 
-              <Route exact path="/client/create" component={ClientCreate} />
-              <Route exact path="/clients" component={ClientsIndex} />
-              <Route path="/client/:id/update" component={ClientUpdate} />
-              <Route path="/client/:id" component={ClientInfo} />
+                <Route exact path="/client/create" component={ClientCreate} />
+                <Route exact path="/clients" component={ClientsIndex} />
+                <Route path="/client/:id/update" component={ClientUpdate} />
+                <Route path="/client/:id" component={ClientInfo} />
 
-              <Route exact path="/places" component={PlacesIndex} />
-              <Route exact path="/place/create" render={props => <PlaceForm {...props} create />} />
-              <Route path="/place/:id/update"render={props => <PlaceForm {...props} edit />} />
-              <Route path="/place/:id" component={PlaceInfo} />
+                <Route exact path="/places" component={PlacesIndex} />
+                <Route path="/place/:id" component={PlaceForm} />
 
-              <Route exact path="/employee/create" component={EmployeeCreate} />
-              <Route exact path="/employees" component={EmployeesIndex} />
-              <Route path="/employee/:id/update" component={EmployeeUpdate} />
-              <Route path="/employee/:id" component={EmployeeInfo} />
+                <Route exact path="/employee/create" component={EmployeeCreate} />
+                <Route exact path="/employees" component={EmployeesIndex} />
+                <Route path="/employee/:id/update" component={EmployeeUpdate} />
+                <Route path="/employee/:id" component={EmployeeInfo} />
 
-              <Route exact path="/company/create" component={CompanyCreate} />
-              <Route exact path="/companies/" component={CompaniesIndex} />
-              <Route path="/company/:id/update" component={CompanyUpdate} />
-              <Route exact path="/company/:id" component={CompanyInfo} />
-              <Route path="/company/:id/signup" component={CompanyEmployeeSignup} />
+                <Route exact path="/company/create" component={CompanyCreate} />
+                <Route exact path="/companies/" component={CompaniesIndex} />
+                <Route path="/company/:id/update" component={CompanyUpdate} />
+                <Route exact path="/company/:id" component={CompanyInfo} />
+                <Route path="/company/:id/signup" component={CompanyEmployeeSignup} />
 
-              <Route exact path="/challenge/create" component={ChallengeCreate} />
-              <Route exact path="/challenges/" component={ChallengesIndex} />
-              <Route component={NotFound} />
+                <Route exact path="/challenge/create" component={ChallengeCreate} />
+                <Route exact path="/challenges/" component={ChallengesIndex} />
+                <Route component={NotFound} />
 
-            </Switch>
-          </div>
+              </Switch>
+              {toast && (
+                <div className={[ "toast message fixed z1 bottom-0 left-0 ml3 pr3 mb3", toast.type === "success" ? "is-success" : "is-danger" ].join(" ")} key={toast.key}>
+                  <div className='message-body'>
+                    {toast.message || (toast.type === "success" ? "Opération terminée" : "Une erreur est survenue")}
+                  </div>
+                </div>
+              )}
+            </div>
+          </ToastContext.Provider>
         </UserDataContext.Provider>
       </Router>
     </section>

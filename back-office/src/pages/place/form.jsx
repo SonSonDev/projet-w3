@@ -1,12 +1,14 @@
-import React from "react"
+import React, { useContext } from "react"
 import { useMutation, useQuery } from "@apollo/react-hooks"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
+import ToastContext from "../../utils/ToastContext"
 import { CREATE_PLACE, GET_PLACES, GET_PLACE, UPDATE_PLACE, DELETE_PLACE } from "../../graphql/place"
 import { GET_TAGS } from "../../graphql/tag"
 import { categories, hours } from "../../utils/wording"
 
 import Form from "../../components/Form"
+import Loader from "../../components/Loader"
 
 
 const autofill = on => on && ({
@@ -33,20 +35,24 @@ const getTagsFlattened = tags => Object.values(tags)
   .map(val => Array.isArray(val) ? val : getTagsFlattened(val))
   .flat().filter(Boolean)
 
+const getTagsPopulated = (tags, tagsIds) => tags.map(({ label, children }) => ({
+  [label]: children.length && !children[0].leaf
+    ? { ...getTagsPopulated(children, tagsIds) }
+    : [ ...children.filter(({ id }) => tagsIds.includes(id)).map(({ id }) => id) ],
+})).reduce((acc, curr) => ({ ...acc, ...curr }), {})
 
 
-function PlaceForm ({ history,  match: { params: { id } }, create }) {
+function PlaceForm ({ history,  match: { params: { id } } }) {
 
-  const { data: { getPlaces } = {} } = useQuery(GET_PLACES)
+  const { setToast } = useContext(ToastContext)
 
-  const { data: { getPlace } = {}, loading } = useQuery(GET_PLACE, { variables: { where: { id } } })
+  const { data } = useQuery(GET_PLACES)
 
-  const { data: { getTags = [] } = {}, loading: getTagsLoading } = useQuery(GET_TAGS, {
-    variables: { where: { root: true } },
-  })
+  const { data: { getPlace = {} } = {}, loading: getPlaceLoading } = useQuery(GET_PLACE, { variables: { where: { id } } })
 
-  const [ createPlace, { loading: createPlaceLoading, error } ] = useMutation(CREATE_PLACE, {
-    // errorPolicy: "all",
+  const { data: { getTags = [] } = {}, loading: getTagsLoading } = useQuery(GET_TAGS, { variables: { where: { root: true } } })
+
+  const [ createPlace, { loading: createPlaceLoading, error: createPlaceError } ] = useMutation(CREATE_PLACE, {
     update (cache, { data: { createPlace } }) {
       const { getPlaces } = cache.readQuery({ query: GET_PLACES })
       cache.writeQuery({
@@ -55,17 +61,15 @@ function PlaceForm ({ history,  match: { params: { id } }, create }) {
       })
     },
   })
-
   const [ updatePlace, { loading: updatePlaceLoading, error: updatePlaceError } ] = useMutation(UPDATE_PLACE, {
     update (cache, { data: { updatePlace } }) {
-      // const { getPlace } = cache.readQuery({ query: GET_PLACE, variables: { where: { id } } })
+      const { getPlace } = cache.readQuery({ query: GET_PLACE, variables: { where: { id } } })
       cache.writeQuery({
         query: GET_PLACE,
-        data: { getPlace: updatePlace },
+        data: { getPlace: { ...getPlace, ...updatePlace } },
       })
     },
   })
-
   const [ deletePlace, { loading: deletePlaceLoading, error: deletePlaceError } ] = useMutation(DELETE_PLACE, {
     update (cache, { data: { deletePlace } }) {
       const { getPlaces } = cache.readQuery({ query: GET_PLACES })
@@ -120,53 +124,66 @@ function PlaceForm ({ history,  match: { params: { id } }, create }) {
       .map(tag => getTagsNested(tag, { type: "C", collapsible: true, className: "fade-in" })),
   ])
 
+  const onSubmit = async ({ name, user, hours, photos, tags, ...rest }) => {
+    try {
+      const data = {
+        ...rest,
+        name,
+        user: { ...user, role: "PLACE" },
+        hours: Object.values(hours).filter(({ day }) => day),
+        tags: getTagsFlattened(tags).map(id => ({ id })),
+      }
+      // console.log(data)
+      if (id) {
+        await updatePlace({ variables: { data, where: { name } } })
+      } else {
+        await createPlace({ variables: { data } })
+        history.push("/places")
+      }
+      setToast({ type: "success" })
+    } catch (error) {
+      setToast({ type: "danger" })
+      console.log(error, { ...error })
+    }
+  }
+  const onDelete = id && (async () => {
+    try {
+      await deletePlace({ variables: { where: { id } } })
+      history.push("/places")
+      setToast({ type: "success" })
+    } catch (error) {
+      setToast({ type: "danger" })
+      console.log(error, { ...error })
+    }
+  })
+
+  const defaultValues = id ? {
+    ...getPlace,
+    hours: getPlace.hours?.reduce((acc, { day, start, end }) => ({ ...acc, [day]: { day: start && end, start, end } }), {}),
+    tags: getTagsPopulated(
+      getTags.filter(({ category }) => category === getPlace.category),
+      getPlace.tags?.map(({ id }) => id),
+    ),
+  } : autofill(false)
+
   return (
     <main>
       <div className="px3 py2 border-bottom">
         <h1 className="is-size-3 bold my05">Ajouter une nouvelle adresse</h1>
       </div>
       <div className='p3'>
-        {(loading || getTagsLoading) ? (
-          null
+        {(getPlaceLoading || getTagsLoading) ? (
+          <Loader />
         ) : (
-          <Form form={form} onSubmit={async ({ name, user, hours, photos, tags, ...rest }) => {
-            try {
-              const data = {
-                ...rest,
-                name,
-                user: { ...user, role: "PLACE" },
-                hours: Object.values(hours).filter(({ day }) => day),
-                tags: getTagsFlattened(tags).map(id => ({ id })),
-              }
-              console.log(data)
-              if (id) {
-                await updatePlace({ variables: { data, where: { name } } })
-              } else {
-                await createPlace({ variables: { data } })
-                history.push("/places")
-              }
-            } catch (error) {
-              console.log(error, { ...error })
-            }
-          }} loading={createPlaceLoading || updatePlaceLoading}
-          history={history} onDelete={id && (async () => {
-            try {
-              await deletePlace({ variables: { where: { id } } })
-              history.push("/places")
-            } catch (error) {
-              console.log(error, { ...error })
-            }
-          })}>
-            {{ defaultValues: id ? {
-              ...getPlace,
-              tags: getPlace.tags.map(({ id }) => id),
-            } : autofill(false) }}
+          <Form
+            form={form}
+            onSubmit={onSubmit}
+            onDelete={onDelete}
+            onCancel={() => history.goBack()}
+            loading={createPlaceLoading || updatePlaceLoading || deletePlaceLoading}
+          >
+            {{ defaultValues }}
           </Form>
-        )}
-        {(error || updatePlaceError || deletePlaceError) && (
-          <div className='toast message is-danger fixed z1 bottom-0 left-0 ml3 pr3 mb3'>
-            <div className='message-body'>Une erreur est survenue.</div>
-          </div>
         )}
       </div>
     </main>
