@@ -23,6 +23,7 @@ type Place {
   headline: String
   description: String
   hours: [Hour!]
+
   tags: [Tag!] @relation(link: INLINE)
   photos: [Photo!] @relation(link: INLINE)
 }

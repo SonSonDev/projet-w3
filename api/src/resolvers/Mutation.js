@@ -5,7 +5,7 @@ const { mutations: userMutation } = require("./user")
 const { mutations: placeMutation } = require("./place")
 const { mutations: tagMutations } = require("./tag")
 const { mutations: challengeMutations } = require("./challenge")
-const { mutations: quizMutations } = require("./quiz")
+const { mutations: articleMutations } = require("./article")
 const { mutations: authMutation } = require("./auth")
 
 async function updateHour(_, { id, day, start, end }, context) {
@@ -52,6 +52,6 @@ module.exports = {
   ...placeMutation,
   ...tagMutations,
   ...challengeMutations,
-  ...quizMutations,
+  ...articleMutations,
   ...authMutation,
 }

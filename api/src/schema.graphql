@@ -160,6 +160,7 @@ type Place {
   headline: String
   description: String
   hours: [Hour!]
+
   tags: [Tag!]
   photos: [Photo!]
 }
@@ -195,6 +196,7 @@ type Tag {
   leaf: Boolean
   category: Category!
 }
+
 
 type Quiz {
   id: ID!

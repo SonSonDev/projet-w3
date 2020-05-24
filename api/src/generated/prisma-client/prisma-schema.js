@@ -88,6 +88,10 @@ input AddressWhereInput {
   AND: [AddressWhereInput!]
 }
 
+type AggregateArticle {
+  count: Int!
+}
+
 type AggregateChallenge {
   count: Int!
 }
@@ -104,10 +108,6 @@ type AggregatePlace {
   count: Int!
 }
 
-type AggregateQuiz {
-  count: Int!
-}
-
 type AggregateTag {
   count: Int!
 }
@@ -116,22 +116,238 @@ type AggregateUser {
   count: Int!
 }
 
-type BatchPayload {
-  count: Long!
+type AggregateValidatedQuiz {
+  count: Int!
 }
 
-enum Category {
-  FOOD
-  SHOP
-  ACTIVITY
+type Article {
+  id: ID!
+  title: String!
+  content: String!
+  picture: String
+  video: String
+  quiz: Quiz
+  date: String!
+}
+
+type ArticleConnection {
+  pageInfo: PageInfo!
+  edges: [ArticleEdge]!
+  aggregate: AggregateArticle!
+}
+
+input ArticleCreateInput {
+  id: ID
+  title: String!
+  content: String!
+  picture: String
+  video: String
+  quiz: QuizCreateOneInput
+  date: String!
+}
+
+input ArticleCreateOneInput {
+  create: ArticleCreateInput
+  connect: ArticleWhereUniqueInput
+}
+
+type ArticleEdge {
+  node: Article!
+  cursor: String!
+}
+
+enum ArticleOrderByInput {
+  id_ASC
+  id_DESC
+  title_ASC
+  title_DESC
+  content_ASC
+  content_DESC
+  picture_ASC
+  picture_DESC
+  video_ASC
+  video_DESC
+  date_ASC
+  date_DESC
+}
+
+type ArticlePreviousValues {
+  id: ID!
+  title: String!
+  content: String!
+  picture: String
+  video: String
+  date: String!
+}
+
+type ArticleSubscriptionPayload {
+  mutation: MutationType!
+  node: Article
+  updatedFields: [String!]
+  previousValues: ArticlePreviousValues
+}
+
+input ArticleSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ArticleWhereInput
+  AND: [ArticleSubscriptionWhereInput!]
+}
+
+input ArticleUpdateDataInput {
+  title: String
+  content: String
+  picture: String
+  video: String
+  quiz: QuizUpdateOneInput
+  date: String
+}
+
+input ArticleUpdateInput {
+  title: String
+  content: String
+  picture: String
+  video: String
+  quiz: QuizUpdateOneInput
+  date: String
+}
+
+input ArticleUpdateManyMutationInput {
+  title: String
+  content: String
+  picture: String
+  video: String
+  date: String
+}
+
+input ArticleUpdateOneRequiredInput {
+  create: ArticleCreateInput
+  update: ArticleUpdateDataInput
+  upsert: ArticleUpsertNestedInput
+  connect: ArticleWhereUniqueInput
+}
+
+input ArticleUpsertNestedInput {
+  update: ArticleUpdateDataInput!
+  create: ArticleCreateInput!
+}
+
+input ArticleWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  content: String
+  content_not: String
+  content_in: [String!]
+  content_not_in: [String!]
+  content_lt: String
+  content_lte: String
+  content_gt: String
+  content_gte: String
+  content_contains: String
+  content_not_contains: String
+  content_starts_with: String
+  content_not_starts_with: String
+  content_ends_with: String
+  content_not_ends_with: String
+  picture: String
+  picture_not: String
+  picture_in: [String!]
+  picture_not_in: [String!]
+  picture_lt: String
+  picture_lte: String
+  picture_gt: String
+  picture_gte: String
+  picture_contains: String
+  picture_not_contains: String
+  picture_starts_with: String
+  picture_not_starts_with: String
+  picture_ends_with: String
+  picture_not_ends_with: String
+  video: String
+  video_not: String
+  video_in: [String!]
+  video_not_in: [String!]
+  video_lt: String
+  video_lte: String
+  video_gt: String
+  video_gte: String
+  video_contains: String
+  video_not_contains: String
+  video_starts_with: String
+  video_not_starts_with: String
+  video_ends_with: String
+  video_not_ends_with: String
+  quiz: QuizWhereInput
+  date: String
+  date_not: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_lt: String
+  date_lte: String
+  date_gt: String
+  date_gte: String
+  date_contains: String
+  date_not_contains: String
+  date_starts_with: String
+  date_not_starts_with: String
+  date_ends_with: String
+  date_not_ends_with: String
+  AND: [ArticleWhereInput!]
+}
+
+input ArticleWhereUniqueInput {
+  id: ID
+}
+
+type BatchPayload {
+  count: Long!
 }
 
 type Challenge {
   id: ID!
   name: String!
   description: String!
+  category: ChallengeCategory
   value: Int!
   companies(where: CompanyWhereInput, orderBy: CompanyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Company!]
+}
+
+enum ChallengeCategory {
+  HEALTHY
+  SUPER_HEALTHY
+  HYPER_HEALTHY
+  MEGA_HEALTHY
+  ULTRA_HEALTHY
+  MAXI_HEALTHY
+  EX_HEALTHY
 }
 
 type ChallengeConnection {
@@ -144,6 +360,7 @@ input ChallengeCreateInput {
   id: ID
   name: String!
   description: String!
+  category: ChallengeCategory
   value: Int!
   companies: CompanyCreateManyWithoutChallengesInput
 }
@@ -162,6 +379,7 @@ input ChallengeCreateWithoutCompaniesInput {
   id: ID
   name: String!
   description: String!
+  category: ChallengeCategory
   value: Int!
 }
 
@@ -177,6 +395,8 @@ enum ChallengeOrderByInput {
   name_DESC
   description_ASC
   description_DESC
+  category_ASC
+  category_DESC
   value_ASC
   value_DESC
 }
@@ -185,6 +405,7 @@ type ChallengePreviousValues {
   id: ID!
   name: String!
   description: String!
+  category: ChallengeCategory
   value: Int!
 }
 
@@ -231,6 +452,10 @@ input ChallengeScalarWhereInput {
   description_not_starts_with: String
   description_ends_with: String
   description_not_ends_with: String
+  category: ChallengeCategory
+  category_not: ChallengeCategory
+  category_in: [ChallengeCategory!]
+  category_not_in: [ChallengeCategory!]
   value: Int
   value_not: Int
   value_in: [Int!]
@@ -263,6 +488,7 @@ input ChallengeSubscriptionWhereInput {
 input ChallengeUpdateDataInput {
   name: String
   description: String
+  category: ChallengeCategory
   value: Int
   companies: CompanyUpdateManyWithoutChallengesInput
 }
@@ -270,6 +496,7 @@ input ChallengeUpdateDataInput {
 input ChallengeUpdateInput {
   name: String
   description: String
+  category: ChallengeCategory
   value: Int
   companies: CompanyUpdateManyWithoutChallengesInput
 }
@@ -277,6 +504,7 @@ input ChallengeUpdateInput {
 input ChallengeUpdateManyDataInput {
   name: String
   description: String
+  category: ChallengeCategory
   value: Int
 }
 
@@ -295,6 +523,7 @@ input ChallengeUpdateManyInput {
 input ChallengeUpdateManyMutationInput {
   name: String
   description: String
+  category: ChallengeCategory
   value: Int
 }
 
@@ -318,6 +547,7 @@ input ChallengeUpdateManyWithWhereNestedInput {
 input ChallengeUpdateWithoutCompaniesDataInput {
   name: String
   description: String
+  category: ChallengeCategory
   value: Int
 }
 
@@ -386,6 +616,10 @@ input ChallengeWhereInput {
   description_not_starts_with: String
   description_ends_with: String
   description_not_ends_with: String
+  category: ChallengeCategory
+  category_not: ChallengeCategory
+  category_in: [ChallengeCategory!]
+  category_not_in: [ChallengeCategory!]
   value: Int
   value_not: Int
   value_in: [Int!]
@@ -411,7 +645,6 @@ type Company {
   emailDomains: [String!]!
   stripeCustomerId: String
   challenges(where: ChallengeWhereInput, orderBy: ChallengeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Challenge!]
-  quizzes(where: QuizWhereInput, orderBy: QuizOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Quiz!]
 }
 
 type CompanyConnection {
@@ -433,16 +666,10 @@ input CompanyCreateInput {
   emailDomains: CompanyCreateemailDomainsInput
   stripeCustomerId: String
   challenges: ChallengeCreateManyWithoutCompaniesInput
-  quizzes: QuizCreateManyWithoutCompaniesInput
 }
 
 input CompanyCreateManyWithoutChallengesInput {
   create: [CompanyCreateWithoutChallengesInput!]
-  connect: [CompanyWhereUniqueInput!]
-}
-
-input CompanyCreateManyWithoutQuizzesInput {
-  create: [CompanyCreateWithoutQuizzesInput!]
   connect: [CompanyWhereUniqueInput!]
 }
 
@@ -459,18 +686,6 @@ input CompanyCreateWithoutChallengesInput {
   users: UserCreateManyWithoutCompanyInput
   emailDomains: CompanyCreateemailDomainsInput
   stripeCustomerId: String
-  quizzes: QuizCreateManyWithoutCompaniesInput
-}
-
-input CompanyCreateWithoutQuizzesInput {
-  id: ID
-  name: String
-  type: CompanyType
-  address: AddressCreateOneInput
-  users: UserCreateManyWithoutCompanyInput
-  emailDomains: CompanyCreateemailDomainsInput
-  stripeCustomerId: String
-  challenges: ChallengeCreateManyWithoutCompaniesInput
 }
 
 input CompanyCreateWithoutUsersInput {
@@ -481,7 +696,6 @@ input CompanyCreateWithoutUsersInput {
   emailDomains: CompanyCreateemailDomainsInput
   stripeCustomerId: String
   challenges: ChallengeCreateManyWithoutCompaniesInput
-  quizzes: QuizCreateManyWithoutCompaniesInput
 }
 
 type CompanyEdge {
@@ -595,7 +809,6 @@ input CompanyUpdateInput {
   emailDomains: CompanyUpdateemailDomainsInput
   stripeCustomerId: String
   challenges: ChallengeUpdateManyWithoutCompaniesInput
-  quizzes: QuizUpdateManyWithoutCompaniesInput
 }
 
 input CompanyUpdateManyDataInput {
@@ -624,18 +837,6 @@ input CompanyUpdateManyWithoutChallengesInput {
   updateMany: [CompanyUpdateManyWithWhereNestedInput!]
 }
 
-input CompanyUpdateManyWithoutQuizzesInput {
-  create: [CompanyCreateWithoutQuizzesInput!]
-  delete: [CompanyWhereUniqueInput!]
-  connect: [CompanyWhereUniqueInput!]
-  set: [CompanyWhereUniqueInput!]
-  disconnect: [CompanyWhereUniqueInput!]
-  update: [CompanyUpdateWithWhereUniqueWithoutQuizzesInput!]
-  upsert: [CompanyUpsertWithWhereUniqueWithoutQuizzesInput!]
-  deleteMany: [CompanyScalarWhereInput!]
-  updateMany: [CompanyUpdateManyWithWhereNestedInput!]
-}
-
 input CompanyUpdateManyWithWhereNestedInput {
   where: CompanyScalarWhereInput!
   data: CompanyUpdateManyDataInput!
@@ -657,17 +858,6 @@ input CompanyUpdateWithoutChallengesDataInput {
   users: UserUpdateManyWithoutCompanyInput
   emailDomains: CompanyUpdateemailDomainsInput
   stripeCustomerId: String
-  quizzes: QuizUpdateManyWithoutCompaniesInput
-}
-
-input CompanyUpdateWithoutQuizzesDataInput {
-  name: String
-  type: CompanyType
-  address: AddressUpdateOneInput
-  users: UserUpdateManyWithoutCompanyInput
-  emailDomains: CompanyUpdateemailDomainsInput
-  stripeCustomerId: String
-  challenges: ChallengeUpdateManyWithoutCompaniesInput
 }
 
 input CompanyUpdateWithoutUsersDataInput {
@@ -677,17 +867,11 @@ input CompanyUpdateWithoutUsersDataInput {
   emailDomains: CompanyUpdateemailDomainsInput
   stripeCustomerId: String
   challenges: ChallengeUpdateManyWithoutCompaniesInput
-  quizzes: QuizUpdateManyWithoutCompaniesInput
 }
 
 input CompanyUpdateWithWhereUniqueWithoutChallengesInput {
   where: CompanyWhereUniqueInput!
   data: CompanyUpdateWithoutChallengesDataInput!
-}
-
-input CompanyUpdateWithWhereUniqueWithoutQuizzesInput {
-  where: CompanyWhereUniqueInput!
-  data: CompanyUpdateWithoutQuizzesDataInput!
 }
 
 input CompanyUpsertWithoutUsersInput {
@@ -699,12 +883,6 @@ input CompanyUpsertWithWhereUniqueWithoutChallengesInput {
   where: CompanyWhereUniqueInput!
   update: CompanyUpdateWithoutChallengesDataInput!
   create: CompanyCreateWithoutChallengesInput!
-}
-
-input CompanyUpsertWithWhereUniqueWithoutQuizzesInput {
-  where: CompanyWhereUniqueInput!
-  update: CompanyUpdateWithoutQuizzesDataInput!
-  create: CompanyCreateWithoutQuizzesInput!
 }
 
 input CompanyWhereInput {
@@ -757,7 +935,6 @@ input CompanyWhereInput {
   stripeCustomerId_ends_with: String
   stripeCustomerId_not_ends_with: String
   challenges_some: ChallengeWhereInput
-  quizzes_some: QuizWhereInput
   AND: [CompanyWhereInput!]
 }
 
@@ -921,6 +1098,12 @@ input HourWhereInput {
 scalar Long
 
 type Mutation {
+  createArticle(data: ArticleCreateInput!): Article!
+  updateArticle(data: ArticleUpdateInput!, where: ArticleWhereUniqueInput!): Article
+  updateManyArticles(data: ArticleUpdateManyMutationInput!, where: ArticleWhereInput): BatchPayload!
+  upsertArticle(where: ArticleWhereUniqueInput!, create: ArticleCreateInput!, update: ArticleUpdateInput!): Article!
+  deleteArticle(where: ArticleWhereUniqueInput!): Article
+  deleteManyArticles(where: ArticleWhereInput): BatchPayload!
   createChallenge(data: ChallengeCreateInput!): Challenge!
   updateChallenge(data: ChallengeUpdateInput!, where: ChallengeWhereUniqueInput!): Challenge
   updateManyChallenges(data: ChallengeUpdateManyMutationInput!, where: ChallengeWhereInput): BatchPayload!
@@ -945,12 +1128,6 @@ type Mutation {
   upsertPlace(where: PlaceWhereUniqueInput!, create: PlaceCreateInput!, update: PlaceUpdateInput!): Place!
   deletePlace(where: PlaceWhereUniqueInput!): Place
   deleteManyPlaces(where: PlaceWhereInput): BatchPayload!
-  createQuiz(data: QuizCreateInput!): Quiz!
-  updateQuiz(data: QuizUpdateInput!, where: QuizWhereUniqueInput!): Quiz
-  updateManyQuizzes(data: QuizUpdateManyMutationInput!, where: QuizWhereInput): BatchPayload!
-  upsertQuiz(where: QuizWhereUniqueInput!, create: QuizCreateInput!, update: QuizUpdateInput!): Quiz!
-  deleteQuiz(where: QuizWhereUniqueInput!): Quiz
-  deleteManyQuizzes(where: QuizWhereInput): BatchPayload!
   createTag(data: TagCreateInput!): Tag!
   updateTag(data: TagUpdateInput!, where: TagWhereUniqueInput!): Tag
   updateManyTags(data: TagUpdateManyMutationInput!, where: TagWhereInput): BatchPayload!
@@ -963,6 +1140,12 @@ type Mutation {
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   deleteUser(where: UserWhereUniqueInput!): User
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  createValidatedQuiz(data: ValidatedQuizCreateInput!): ValidatedQuiz!
+  updateValidatedQuiz(data: ValidatedQuizUpdateInput!, where: ValidatedQuizWhereUniqueInput!): ValidatedQuiz
+  updateManyValidatedQuizzes(data: ValidatedQuizUpdateManyMutationInput!, where: ValidatedQuizWhereInput): BatchPayload!
+  upsertValidatedQuiz(where: ValidatedQuizWhereUniqueInput!, create: ValidatedQuizCreateInput!, update: ValidatedQuizUpdateInput!): ValidatedQuiz!
+  deleteValidatedQuiz(where: ValidatedQuizWhereUniqueInput!): ValidatedQuiz
+  deleteManyValidatedQuizzes(where: ValidatedQuizWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -1163,6 +1346,12 @@ type Place {
   hours: [Hour!]
   tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag!]
   photos(where: PhotoWhereInput, orderBy: PhotoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Photo!]
+}
+
+enum PlaceCategory {
+  FOOD
+  SHOP
+  ACTIVITY
 }
 
 type PlaceConnection {
@@ -1383,6 +1572,9 @@ input PointWhereInput {
 }
 
 type Query {
+  article(where: ArticleWhereUniqueInput!): Article
+  articles(where: ArticleWhereInput, orderBy: ArticleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Article]!
+  articlesConnection(where: ArticleWhereInput, orderBy: ArticleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ArticleConnection!
   challenge(where: ChallengeWhereUniqueInput!): Challenge
   challenges(where: ChallengeWhereInput, orderBy: ChallengeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Challenge]!
   challengesConnection(where: ChallengeWhereInput, orderBy: ChallengeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ChallengeConnection!
@@ -1395,32 +1587,23 @@ type Query {
   place(where: PlaceWhereUniqueInput!): Place
   places(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Place]!
   placesConnection(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PlaceConnection!
-  quiz(where: QuizWhereUniqueInput!): Quiz
-  quizzes(where: QuizWhereInput, orderBy: QuizOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Quiz]!
-  quizzesConnection(where: QuizWhereInput, orderBy: QuizOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): QuizConnection!
   tag(where: TagWhereUniqueInput!): Tag
   tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag]!
   tagsConnection(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TagConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  validatedQuiz(where: ValidatedQuizWhereUniqueInput!): ValidatedQuiz
+  validatedQuizzes(where: ValidatedQuizWhereInput, orderBy: ValidatedQuizOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ValidatedQuiz]!
+  validatedQuizzesConnection(where: ValidatedQuizWhereInput, orderBy: ValidatedQuizOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ValidatedQuizConnection!
   node(id: ID!): Node
 }
 
 type Quiz {
-  id: ID!
-  name: String!
   question: String!
   choices: [String!]!
   answer: String!
   value: Int!
-  companies(where: CompanyWhereInput, orderBy: CompanyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Company!]
-}
-
-type QuizConnection {
-  pageInfo: PageInfo!
-  edges: [QuizEdge]!
-  aggregate: AggregateQuiz!
 }
 
 input QuizCreatechoicesInput {
@@ -1428,145 +1611,14 @@ input QuizCreatechoicesInput {
 }
 
 input QuizCreateInput {
-  id: ID
-  name: String!
-  question: String!
-  choices: QuizCreatechoicesInput
-  answer: String!
-  value: Int!
-  companies: CompanyCreateManyWithoutQuizzesInput
-}
-
-input QuizCreateManyInput {
-  create: [QuizCreateInput!]
-  connect: [QuizWhereUniqueInput!]
-}
-
-input QuizCreateManyWithoutCompaniesInput {
-  create: [QuizCreateWithoutCompaniesInput!]
-  connect: [QuizWhereUniqueInput!]
-}
-
-input QuizCreateWithoutCompaniesInput {
-  id: ID
-  name: String!
   question: String!
   choices: QuizCreatechoicesInput
   answer: String!
   value: Int!
 }
 
-type QuizEdge {
-  node: Quiz!
-  cursor: String!
-}
-
-enum QuizOrderByInput {
-  id_ASC
-  id_DESC
-  name_ASC
-  name_DESC
-  question_ASC
-  question_DESC
-  answer_ASC
-  answer_DESC
-  value_ASC
-  value_DESC
-}
-
-type QuizPreviousValues {
-  id: ID!
-  name: String!
-  question: String!
-  choices: [String!]!
-  answer: String!
-  value: Int!
-}
-
-input QuizScalarWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  name: String
-  name_not: String
-  name_in: [String!]
-  name_not_in: [String!]
-  name_lt: String
-  name_lte: String
-  name_gt: String
-  name_gte: String
-  name_contains: String
-  name_not_contains: String
-  name_starts_with: String
-  name_not_starts_with: String
-  name_ends_with: String
-  name_not_ends_with: String
-  question: String
-  question_not: String
-  question_in: [String!]
-  question_not_in: [String!]
-  question_lt: String
-  question_lte: String
-  question_gt: String
-  question_gte: String
-  question_contains: String
-  question_not_contains: String
-  question_starts_with: String
-  question_not_starts_with: String
-  question_ends_with: String
-  question_not_ends_with: String
-  answer: String
-  answer_not: String
-  answer_in: [String!]
-  answer_not_in: [String!]
-  answer_lt: String
-  answer_lte: String
-  answer_gt: String
-  answer_gte: String
-  answer_contains: String
-  answer_not_contains: String
-  answer_starts_with: String
-  answer_not_starts_with: String
-  answer_ends_with: String
-  answer_not_ends_with: String
-  value: Int
-  value_not: Int
-  value_in: [Int!]
-  value_not_in: [Int!]
-  value_lt: Int
-  value_lte: Int
-  value_gt: Int
-  value_gte: Int
-  AND: [QuizScalarWhereInput!]
-  OR: [QuizScalarWhereInput!]
-  NOT: [QuizScalarWhereInput!]
-}
-
-type QuizSubscriptionPayload {
-  mutation: MutationType!
-  node: Quiz
-  updatedFields: [String!]
-  previousValues: QuizPreviousValues
-}
-
-input QuizSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: QuizWhereInput
-  AND: [QuizSubscriptionWhereInput!]
+input QuizCreateOneInput {
+  create: QuizCreateInput
 }
 
 input QuizUpdatechoicesInput {
@@ -1574,127 +1626,26 @@ input QuizUpdatechoicesInput {
 }
 
 input QuizUpdateDataInput {
-  name: String
-  question: String
-  choices: QuizUpdatechoicesInput
-  answer: String
-  value: Int
-  companies: CompanyUpdateManyWithoutQuizzesInput
-}
-
-input QuizUpdateInput {
-  name: String
-  question: String
-  choices: QuizUpdatechoicesInput
-  answer: String
-  value: Int
-  companies: CompanyUpdateManyWithoutQuizzesInput
-}
-
-input QuizUpdateManyDataInput {
-  name: String
   question: String
   choices: QuizUpdatechoicesInput
   answer: String
   value: Int
 }
 
-input QuizUpdateManyInput {
-  create: [QuizCreateInput!]
-  update: [QuizUpdateWithWhereUniqueNestedInput!]
-  upsert: [QuizUpsertWithWhereUniqueNestedInput!]
-  delete: [QuizWhereUniqueInput!]
-  connect: [QuizWhereUniqueInput!]
-  set: [QuizWhereUniqueInput!]
-  disconnect: [QuizWhereUniqueInput!]
-  deleteMany: [QuizScalarWhereInput!]
-  updateMany: [QuizUpdateManyWithWhereNestedInput!]
+input QuizUpdateOneInput {
+  create: QuizCreateInput
+  update: QuizUpdateDataInput
+  upsert: QuizUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
 }
 
-input QuizUpdateManyMutationInput {
-  name: String
-  question: String
-  choices: QuizUpdatechoicesInput
-  answer: String
-  value: Int
-}
-
-input QuizUpdateManyWithoutCompaniesInput {
-  create: [QuizCreateWithoutCompaniesInput!]
-  delete: [QuizWhereUniqueInput!]
-  connect: [QuizWhereUniqueInput!]
-  set: [QuizWhereUniqueInput!]
-  disconnect: [QuizWhereUniqueInput!]
-  update: [QuizUpdateWithWhereUniqueWithoutCompaniesInput!]
-  upsert: [QuizUpsertWithWhereUniqueWithoutCompaniesInput!]
-  deleteMany: [QuizScalarWhereInput!]
-  updateMany: [QuizUpdateManyWithWhereNestedInput!]
-}
-
-input QuizUpdateManyWithWhereNestedInput {
-  where: QuizScalarWhereInput!
-  data: QuizUpdateManyDataInput!
-}
-
-input QuizUpdateWithoutCompaniesDataInput {
-  name: String
-  question: String
-  choices: QuizUpdatechoicesInput
-  answer: String
-  value: Int
-}
-
-input QuizUpdateWithWhereUniqueNestedInput {
-  where: QuizWhereUniqueInput!
-  data: QuizUpdateDataInput!
-}
-
-input QuizUpdateWithWhereUniqueWithoutCompaniesInput {
-  where: QuizWhereUniqueInput!
-  data: QuizUpdateWithoutCompaniesDataInput!
-}
-
-input QuizUpsertWithWhereUniqueNestedInput {
-  where: QuizWhereUniqueInput!
+input QuizUpsertNestedInput {
   update: QuizUpdateDataInput!
   create: QuizCreateInput!
 }
 
-input QuizUpsertWithWhereUniqueWithoutCompaniesInput {
-  where: QuizWhereUniqueInput!
-  update: QuizUpdateWithoutCompaniesDataInput!
-  create: QuizCreateWithoutCompaniesInput!
-}
-
 input QuizWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  name: String
-  name_not: String
-  name_in: [String!]
-  name_not_in: [String!]
-  name_lt: String
-  name_lte: String
-  name_gt: String
-  name_gte: String
-  name_contains: String
-  name_not_contains: String
-  name_starts_with: String
-  name_not_starts_with: String
-  name_ends_with: String
-  name_not_ends_with: String
   question: String
   question_not: String
   question_in: [String!]
@@ -1731,12 +1682,7 @@ input QuizWhereInput {
   value_lte: Int
   value_gt: Int
   value_gte: Int
-  companies_some: CompanyWhereInput
   AND: [QuizWhereInput!]
-}
-
-input QuizWhereUniqueInput {
-  id: ID
 }
 
 enum Role {
@@ -1829,13 +1775,14 @@ input SocialWhereInput {
 }
 
 type Subscription {
+  article(where: ArticleSubscriptionWhereInput): ArticleSubscriptionPayload
   challenge(where: ChallengeSubscriptionWhereInput): ChallengeSubscriptionPayload
   company(where: CompanySubscriptionWhereInput): CompanySubscriptionPayload
   photo(where: PhotoSubscriptionWhereInput): PhotoSubscriptionPayload
   place(where: PlaceSubscriptionWhereInput): PlaceSubscriptionPayload
-  quiz(where: QuizSubscriptionWhereInput): QuizSubscriptionPayload
   tag(where: TagSubscriptionWhereInput): TagSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  validatedQuiz(where: ValidatedQuizSubscriptionWhereInput): ValidatedQuizSubscriptionPayload
 }
 
 type Tag {
@@ -2066,7 +2013,7 @@ type User {
   company: Company
   points: Int
   validatedChallenges(where: ChallengeWhereInput, orderBy: ChallengeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Challenge!]
-  validatedQuizzes(where: QuizWhereInput, orderBy: QuizOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Quiz!]
+  validatedQuizzes(where: ValidatedQuizWhereInput, orderBy: ValidatedQuizOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ValidatedQuiz!]
 }
 
 type UserConnection {
@@ -2087,7 +2034,7 @@ input UserCreateInput {
   company: CompanyCreateOneWithoutUsersInput
   points: Int
   validatedChallenges: ChallengeCreateManyInput
-  validatedQuizzes: QuizCreateManyInput
+  validatedQuizzes: ValidatedQuizCreateManyInput
 }
 
 input UserCreateManyWithoutCompanyInput {
@@ -2111,7 +2058,7 @@ input UserCreateWithoutCompanyInput {
   isRepresentative: Boolean
   points: Int
   validatedChallenges: ChallengeCreateManyInput
-  validatedQuizzes: QuizCreateManyInput
+  validatedQuizzes: ValidatedQuizCreateManyInput
 }
 
 type UserEdge {
@@ -2297,7 +2244,7 @@ input UserUpdateInput {
   company: CompanyUpdateOneWithoutUsersInput
   points: Int
   validatedChallenges: ChallengeUpdateManyInput
-  validatedQuizzes: QuizUpdateManyInput
+  validatedQuizzes: ValidatedQuizUpdateManyInput
 }
 
 input UserUpdateManyDataInput {
@@ -2358,7 +2305,7 @@ input UserUpdateWithoutCompanyDataInput {
   isRepresentative: Boolean
   points: Int
   validatedChallenges: ChallengeUpdateManyInput
-  validatedQuizzes: QuizUpdateManyInput
+  validatedQuizzes: ValidatedQuizUpdateManyInput
 }
 
 input UserUpdateWithWhereUniqueWithoutCompanyInput {
@@ -2478,13 +2425,162 @@ input UserWhereInput {
   points_gt: Int
   points_gte: Int
   validatedChallenges_some: ChallengeWhereInput
-  validatedQuizzes_some: QuizWhereInput
+  validatedQuizzes_some: ValidatedQuizWhereInput
   AND: [UserWhereInput!]
 }
 
 input UserWhereUniqueInput {
   id: ID
   email: String
+}
+
+type ValidatedQuiz {
+  id: ID!
+  article: Article!
+  status: Boolean!
+}
+
+type ValidatedQuizConnection {
+  pageInfo: PageInfo!
+  edges: [ValidatedQuizEdge]!
+  aggregate: AggregateValidatedQuiz!
+}
+
+input ValidatedQuizCreateInput {
+  id: ID
+  article: ArticleCreateOneInput!
+  status: Boolean!
+}
+
+input ValidatedQuizCreateManyInput {
+  create: [ValidatedQuizCreateInput!]
+  connect: [ValidatedQuizWhereUniqueInput!]
+}
+
+type ValidatedQuizEdge {
+  node: ValidatedQuiz!
+  cursor: String!
+}
+
+enum ValidatedQuizOrderByInput {
+  id_ASC
+  id_DESC
+  status_ASC
+  status_DESC
+}
+
+type ValidatedQuizPreviousValues {
+  id: ID!
+  status: Boolean!
+}
+
+input ValidatedQuizScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  status: Boolean
+  status_not: Boolean
+  AND: [ValidatedQuizScalarWhereInput!]
+  OR: [ValidatedQuizScalarWhereInput!]
+  NOT: [ValidatedQuizScalarWhereInput!]
+}
+
+type ValidatedQuizSubscriptionPayload {
+  mutation: MutationType!
+  node: ValidatedQuiz
+  updatedFields: [String!]
+  previousValues: ValidatedQuizPreviousValues
+}
+
+input ValidatedQuizSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ValidatedQuizWhereInput
+  AND: [ValidatedQuizSubscriptionWhereInput!]
+}
+
+input ValidatedQuizUpdateDataInput {
+  article: ArticleUpdateOneRequiredInput
+  status: Boolean
+}
+
+input ValidatedQuizUpdateInput {
+  article: ArticleUpdateOneRequiredInput
+  status: Boolean
+}
+
+input ValidatedQuizUpdateManyDataInput {
+  status: Boolean
+}
+
+input ValidatedQuizUpdateManyInput {
+  create: [ValidatedQuizCreateInput!]
+  update: [ValidatedQuizUpdateWithWhereUniqueNestedInput!]
+  upsert: [ValidatedQuizUpsertWithWhereUniqueNestedInput!]
+  delete: [ValidatedQuizWhereUniqueInput!]
+  connect: [ValidatedQuizWhereUniqueInput!]
+  set: [ValidatedQuizWhereUniqueInput!]
+  disconnect: [ValidatedQuizWhereUniqueInput!]
+  deleteMany: [ValidatedQuizScalarWhereInput!]
+  updateMany: [ValidatedQuizUpdateManyWithWhereNestedInput!]
+}
+
+input ValidatedQuizUpdateManyMutationInput {
+  status: Boolean
+}
+
+input ValidatedQuizUpdateManyWithWhereNestedInput {
+  where: ValidatedQuizScalarWhereInput!
+  data: ValidatedQuizUpdateManyDataInput!
+}
+
+input ValidatedQuizUpdateWithWhereUniqueNestedInput {
+  where: ValidatedQuizWhereUniqueInput!
+  data: ValidatedQuizUpdateDataInput!
+}
+
+input ValidatedQuizUpsertWithWhereUniqueNestedInput {
+  where: ValidatedQuizWhereUniqueInput!
+  update: ValidatedQuizUpdateDataInput!
+  create: ValidatedQuizCreateInput!
+}
+
+input ValidatedQuizWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  article: ArticleWhereInput
+  status: Boolean
+  status_not: Boolean
+  AND: [ValidatedQuizWhereInput!]
+}
+
+input ValidatedQuizWhereUniqueInput {
+  id: ID
 }
 `
       }

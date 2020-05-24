@@ -29,6 +29,9 @@ import CompanyEmployeeSignup from "./pages/companies/employee-signup"
 import ChallengesIndex from "./pages/challenges/index"
 import ChallengeCreate from "./pages/challenges/create"
 
+import ArticlesIndex from "./pages/articles/index"
+import ArticleCreate from "./pages/articles/create"
+
 import NotFound from "./pages/NotFound"
 
 import ItemNav from "./components/itemNav"
@@ -141,6 +144,9 @@ const App = () => {
                 </ItemNav>
                 <ItemNav links={["challenges", "challenge"]} icon="ri-flag-2-line">
                   Défis
+                </ItemNav>
+                <ItemNav links={["articles", "article"]} icon="ri-article-line">
+                  Articles
                 </ItemNav>
               </>}
 

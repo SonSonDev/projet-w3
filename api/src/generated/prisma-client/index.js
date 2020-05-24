@@ -42,6 +42,10 @@ var models = [
   },
   {
     name: "Quiz",
+    embedded: true
+  },
+  {
+    name: "ValidatedQuiz",
     embedded: false
   },
   {
@@ -57,7 +61,11 @@ var models = [
     embedded: false
   },
   {
-    name: "Category",
+    name: "PlaceCategory",
+    embedded: false
+  },
+  {
+    name: "ChallengeCategory",
     embedded: false
   },
   {
