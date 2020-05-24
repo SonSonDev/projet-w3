@@ -18,6 +18,7 @@ export type Maybe<T> = T | undefined | null;
 export interface Exists {
   challenge: (where?: ChallengeWhereInput) => Promise<boolean>;
   company: (where?: CompanyWhereInput) => Promise<boolean>;
+  photo: (where?: PhotoWhereInput) => Promise<boolean>;
   place: (where?: PlaceWhereInput) => Promise<boolean>;
   quiz: (where?: QuizWhereInput) => Promise<boolean>;
   tag: (where?: TagWhereInput) => Promise<boolean>;
@@ -81,6 +82,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => CompanyConnectionPromise;
+  photo: (where: PhotoWhereUniqueInput) => PhotoNullablePromise;
+  photos: (args?: {
+    where?: PhotoWhereInput;
+    orderBy?: PhotoOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Photo>;
+  photosConnection: (args?: {
+    where?: PhotoWhereInput;
+    orderBy?: PhotoOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => PhotoConnectionPromise;
   place: (where: PlaceWhereUniqueInput) => PlaceNullablePromise;
   places: (args?: {
     where?: PlaceWhereInput;
@@ -195,6 +215,22 @@ export interface Prisma {
   }) => CompanyPromise;
   deleteCompany: (where: CompanyWhereUniqueInput) => CompanyPromise;
   deleteManyCompanies: (where?: CompanyWhereInput) => BatchPayloadPromise;
+  createPhoto: (data: PhotoCreateInput) => PhotoPromise;
+  updatePhoto: (args: {
+    data: PhotoUpdateInput;
+    where: PhotoWhereUniqueInput;
+  }) => PhotoPromise;
+  updateManyPhotos: (args: {
+    data: PhotoUpdateManyMutationInput;
+    where?: PhotoWhereInput;
+  }) => BatchPayloadPromise;
+  upsertPhoto: (args: {
+    where: PhotoWhereUniqueInput;
+    create: PhotoCreateInput;
+    update: PhotoUpdateInput;
+  }) => PhotoPromise;
+  deletePhoto: (where: PhotoWhereUniqueInput) => PhotoPromise;
+  deleteManyPhotos: (where?: PhotoWhereInput) => BatchPayloadPromise;
   createPlace: (data: PlaceCreateInput) => PlacePromise;
   updatePlace: (args: {
     data: PlaceUpdateInput;
@@ -274,6 +310,9 @@ export interface Subscription {
   company: (
     where?: CompanySubscriptionWhereInput
   ) => CompanySubscriptionPayloadSubscription;
+  photo: (
+    where?: PhotoSubscriptionWhereInput
+  ) => PhotoSubscriptionPayloadSubscription;
   place: (
     where?: PlaceSubscriptionWhereInput
   ) => PlaceSubscriptionPayloadSubscription;
@@ -351,6 +390,8 @@ export type QuizOrderByInput =
   | "answer_DESC"
   | "value_ASC"
   | "value_DESC";
+
+export type PhotoOrderByInput = "id_ASC" | "id_DESC" | "url_ASC" | "url_DESC";
 
 export type Category = "FOOD" | "SHOP" | "ACTIVITY";
 
@@ -726,6 +767,43 @@ export type CompanyWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
+export type PhotoWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  url?: Maybe<String>;
+}>;
+
+export interface PhotoWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  url?: Maybe<String>;
+  url_not?: Maybe<String>;
+  url_in?: Maybe<String[] | String>;
+  url_not_in?: Maybe<String[] | String>;
+  url_lt?: Maybe<String>;
+  url_lte?: Maybe<String>;
+  url_gt?: Maybe<String>;
+  url_gte?: Maybe<String>;
+  url_contains?: Maybe<String>;
+  url_not_contains?: Maybe<String>;
+  url_starts_with?: Maybe<String>;
+  url_not_starts_with?: Maybe<String>;
+  url_ends_with?: Maybe<String>;
+  url_not_ends_with?: Maybe<String>;
+  AND?: Maybe<PhotoWhereInput[] | PhotoWhereInput>;
+}
+
 export type PlaceWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
   name?: Maybe<String>;
@@ -840,6 +918,7 @@ export interface PlaceWhereInput {
   hours_every?: Maybe<HourRestrictedWhereInput>;
   hours_none?: Maybe<HourRestrictedWhereInput>;
   tags_some?: Maybe<TagWhereInput>;
+  photos_some?: Maybe<PhotoWhereInput>;
   AND?: Maybe<PlaceWhereInput[] | PlaceWhereInput>;
 }
 
@@ -1807,6 +1886,19 @@ export interface CompanyUpdateManyMutationInput {
   stripeCustomerId?: Maybe<String>;
 }
 
+export interface PhotoCreateInput {
+  id?: Maybe<ID_Input>;
+  url: String;
+}
+
+export interface PhotoUpdateInput {
+  url?: Maybe<String>;
+}
+
+export interface PhotoUpdateManyMutationInput {
+  url?: Maybe<String>;
+}
+
 export interface PlaceCreateInput {
   id?: Maybe<ID_Input>;
   name: String;
@@ -1818,6 +1910,7 @@ export interface PlaceCreateInput {
   description?: Maybe<String>;
   hours?: Maybe<HourCreateManyInput>;
   tags?: Maybe<TagCreateManyInput>;
+  photos?: Maybe<PhotoCreateManyInput>;
 }
 
 export interface UserCreateOneInput {
@@ -1890,6 +1983,11 @@ export interface TagCreateInput {
   category: Category;
 }
 
+export interface PhotoCreateManyInput {
+  create?: Maybe<PhotoCreateInput[] | PhotoCreateInput>;
+  connect?: Maybe<PhotoWhereUniqueInput[] | PhotoWhereUniqueInput>;
+}
+
 export interface PlaceUpdateInput {
   name?: Maybe<String>;
   category?: Maybe<Category>;
@@ -1900,6 +1998,7 @@ export interface PlaceUpdateInput {
   description?: Maybe<String>;
   hours?: Maybe<HourUpdateManyInput>;
   tags?: Maybe<TagUpdateManyInput>;
+  photos?: Maybe<PhotoUpdateManyInput>;
 }
 
 export interface UserUpdateOneInput {
@@ -2121,6 +2220,84 @@ export interface TagUpdateManyDataInput {
   category?: Maybe<Category>;
 }
 
+export interface PhotoUpdateManyInput {
+  create?: Maybe<PhotoCreateInput[] | PhotoCreateInput>;
+  update?: Maybe<
+    | PhotoUpdateWithWhereUniqueNestedInput[]
+    | PhotoUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    | PhotoUpsertWithWhereUniqueNestedInput[]
+    | PhotoUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<PhotoWhereUniqueInput[] | PhotoWhereUniqueInput>;
+  connect?: Maybe<PhotoWhereUniqueInput[] | PhotoWhereUniqueInput>;
+  set?: Maybe<PhotoWhereUniqueInput[] | PhotoWhereUniqueInput>;
+  disconnect?: Maybe<PhotoWhereUniqueInput[] | PhotoWhereUniqueInput>;
+  deleteMany?: Maybe<PhotoScalarWhereInput[] | PhotoScalarWhereInput>;
+  updateMany?: Maybe<
+    PhotoUpdateManyWithWhereNestedInput[] | PhotoUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface PhotoUpdateWithWhereUniqueNestedInput {
+  where: PhotoWhereUniqueInput;
+  data: PhotoUpdateDataInput;
+}
+
+export interface PhotoUpdateDataInput {
+  url?: Maybe<String>;
+}
+
+export interface PhotoUpsertWithWhereUniqueNestedInput {
+  where: PhotoWhereUniqueInput;
+  update: PhotoUpdateDataInput;
+  create: PhotoCreateInput;
+}
+
+export interface PhotoScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  url?: Maybe<String>;
+  url_not?: Maybe<String>;
+  url_in?: Maybe<String[] | String>;
+  url_not_in?: Maybe<String[] | String>;
+  url_lt?: Maybe<String>;
+  url_lte?: Maybe<String>;
+  url_gt?: Maybe<String>;
+  url_gte?: Maybe<String>;
+  url_contains?: Maybe<String>;
+  url_not_contains?: Maybe<String>;
+  url_starts_with?: Maybe<String>;
+  url_not_starts_with?: Maybe<String>;
+  url_ends_with?: Maybe<String>;
+  url_not_ends_with?: Maybe<String>;
+  AND?: Maybe<PhotoScalarWhereInput[] | PhotoScalarWhereInput>;
+  OR?: Maybe<PhotoScalarWhereInput[] | PhotoScalarWhereInput>;
+  NOT?: Maybe<PhotoScalarWhereInput[] | PhotoScalarWhereInput>;
+}
+
+export interface PhotoUpdateManyWithWhereNestedInput {
+  where: PhotoScalarWhereInput;
+  data: PhotoUpdateManyDataInput;
+}
+
+export interface PhotoUpdateManyDataInput {
+  url?: Maybe<String>;
+}
+
 export interface PlaceUpdateManyMutationInput {
   name?: Maybe<String>;
   category?: Maybe<Category>;
@@ -2203,6 +2380,15 @@ export interface CompanySubscriptionWhereInput {
   updatedFields_contains_some?: Maybe<String[] | String>;
   node?: Maybe<CompanyWhereInput>;
   AND?: Maybe<CompanySubscriptionWhereInput[] | CompanySubscriptionWhereInput>;
+}
+
+export interface PhotoSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<PhotoWhereInput>;
+  AND?: Maybe<PhotoSubscriptionWhereInput[] | PhotoSubscriptionWhereInput>;
 }
 
 export interface PlaceSubscriptionWhereInput {
@@ -2764,6 +2950,84 @@ export interface AggregateCompanySubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
+export interface Photo {
+  id: ID_Output;
+  url: String;
+}
+
+export interface PhotoPromise extends Promise<Photo>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  url: () => Promise<String>;
+}
+
+export interface PhotoSubscription
+  extends Promise<AsyncIterator<Photo>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  url: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PhotoNullablePromise
+  extends Promise<Photo | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  url: () => Promise<String>;
+}
+
+export interface PhotoConnection {
+  pageInfo: PageInfo;
+  edges: PhotoEdge[];
+}
+
+export interface PhotoConnectionPromise
+  extends Promise<PhotoConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PhotoEdge>>() => T;
+  aggregate: <T = AggregatePhotoPromise>() => T;
+}
+
+export interface PhotoConnectionSubscription
+  extends Promise<AsyncIterator<PhotoConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PhotoEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePhotoSubscription>() => T;
+}
+
+export interface PhotoEdge {
+  node: Photo;
+  cursor: String;
+}
+
+export interface PhotoEdgePromise extends Promise<PhotoEdge>, Fragmentable {
+  node: <T = PhotoPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PhotoEdgeSubscription
+  extends Promise<AsyncIterator<PhotoEdge>>,
+    Fragmentable {
+  node: <T = PhotoSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregatePhoto {
+  count: Int;
+}
+
+export interface AggregatePhotoPromise
+  extends Promise<AggregatePhoto>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregatePhotoSubscription
+  extends Promise<AsyncIterator<AggregatePhoto>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
 export interface Place {
   id: ID_Output;
   name: String;
@@ -2794,6 +3058,15 @@ export interface PlacePromise extends Promise<Place>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  photos: <T = FragmentableArray<Photo>>(args?: {
+    where?: PhotoWhereInput;
+    orderBy?: PhotoOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface PlaceSubscription
@@ -2817,6 +3090,15 @@ export interface PlaceSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  photos: <T = Promise<AsyncIterator<PhotoSubscription>>>(args?: {
+    where?: PhotoWhereInput;
+    orderBy?: PhotoOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface PlaceNullablePromise
@@ -2834,6 +3116,15 @@ export interface PlaceNullablePromise
   tags: <T = FragmentableArray<Tag>>(args?: {
     where?: TagWhereInput;
     orderBy?: TagOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  photos: <T = FragmentableArray<Photo>>(args?: {
+    where?: PhotoWhereInput;
+    orderBy?: PhotoOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -3294,6 +3585,50 @@ export interface CompanyPreviousValuesSubscription
   stripeCustomerId: () => Promise<AsyncIterator<String>>;
 }
 
+export interface PhotoSubscriptionPayload {
+  mutation: MutationType;
+  node: Photo;
+  updatedFields: String[];
+  previousValues: PhotoPreviousValues;
+}
+
+export interface PhotoSubscriptionPayloadPromise
+  extends Promise<PhotoSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = PhotoPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PhotoPreviousValuesPromise>() => T;
+}
+
+export interface PhotoSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PhotoSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PhotoSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PhotoPreviousValuesSubscription>() => T;
+}
+
+export interface PhotoPreviousValues {
+  id: ID_Output;
+  url: String;
+}
+
+export interface PhotoPreviousValuesPromise
+  extends Promise<PhotoPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  url: () => Promise<String>;
+}
+
+export interface PhotoPreviousValuesSubscription
+  extends Promise<AsyncIterator<PhotoPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  url: () => Promise<AsyncIterator<String>>;
+}
+
 export interface PlaceSubscriptionPayload {
   mutation: MutationType;
   node: Place;
@@ -3563,6 +3898,10 @@ export const models: Model[] = [
   },
   {
     name: "Tag",
+    embedded: false
+  },
+  {
+    name: "Photo",
     embedded: false
   },
   {

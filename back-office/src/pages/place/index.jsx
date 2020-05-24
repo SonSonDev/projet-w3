@@ -24,10 +24,10 @@ const PlacesIndex = ({ history }) => {
 
   const [ upsertPlaces, { error: upsertPlacesError } ] = useMutation(UPSERT_PLACES, {
     update (cache, { data: { upsertPlaces } }) {
-      const { getPlaces } = cache.readQuery({ query: GET_PLACES })
+      // const { getPlaces } = cache.readQuery({ query: GET_PLACES })
       cache.writeQuery({
         query: GET_PLACES,
-        data: { getPlaces: [ ...upsertPlaces, ...getPlaces ] },
+        data: { getPlaces: upsertPlaces },
       })
     },
   })
@@ -123,12 +123,13 @@ const PlacesIndex = ({ history }) => {
           try {
             await upsertPlaces({
               variables: {
-                data: data.map(({ street, zipCode, city, email, phone, website, facebook, instagram, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY, tags, ...rest }) => console.log(tags) || ({
+                data: data.map(({ street, zipCode, city, email, phone, website, facebook, instagram, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY, photos, tags, ...rest }) => console.log(tags) || ({
                   ...rest,
                   address: { street, zipCode, city },
                   user: { email, phone, role: "PLACE" },
                   social: { website, facebook, instagram },
                   hours: Object.entries({ MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY }).map(([ day, [ start, end ]]) => ({ day, start, end })),
+                  photos: photos.split(",").filter(Boolean).map(url => ({ url })),
                   tags: tags.split(",").map(label => ({ label })),
                 })),
               },
@@ -139,7 +140,7 @@ const PlacesIndex = ({ history }) => {
             console.log(error, { ...error })
           }
         },
-        onExport: ({ name, category, address: { street, zipCode, city }, user: { email, phone }, social: { website, facebook, instagram }, headline, description, hours, tags }) => ({ name, category, street, zipCode, city, email, phone, website, facebook, instagram, headline, description, ...Object.fromEntries(hours.map(({ day, start, end }) => [ day, [ start, end ] ])), tags: tags.map(({ label }) => label) }),
+        onExport: ({ name, category, address: { street, zipCode, city }, user: { email, phone }, social: { website, facebook, instagram }, headline, description, hours, photos, tags }) => ({ name, category, street, zipCode, city, email, phone, website, facebook, instagram, headline, description, ...Object.fromEntries(hours.map(({ day, start, end }) => [ day, [ start, end ] ])), photos: photos.map(({ url }) => url), tags: tags.map(({ label }) => label) }),
       }}
     </Index>
   )

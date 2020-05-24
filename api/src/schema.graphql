@@ -1,3 +1,4 @@
+scalar Upload
 scalar Date
 
 type Query {
@@ -158,6 +159,7 @@ type Place {
   description: String
   hours: [Hour!]
   tags: [Tag!]
+  photos: [Photo!]
 }
 
 type AuthPayload {
@@ -220,6 +222,11 @@ type StripeInvoice {
   total: String
 }
 
+type Photo {
+  id: String!
+  url: String!
+}
+
 enum CompanyType {
   COMPANY
   SCHOOL
@@ -279,6 +286,7 @@ input PlaceInput {
   description: String
   hours: [HourInput!]
   tags: [TagInput!]
+  photos: [PhotoInput!]
 }
 
 input PlaceInputUnique {
@@ -334,4 +342,9 @@ input HourInput {
   day: Day
   start: String
   end: String
+}
+
+input PhotoInput {
+  url: String
+  file: Upload
 }

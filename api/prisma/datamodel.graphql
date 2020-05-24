@@ -24,6 +24,7 @@ type Place {
   description: String
   hours: [Hour!]
   tags: [Tag!] @relation(link: INLINE)
+  photos: [Photo!] @relation(link: INLINE)
 }
 
 type Company {
@@ -46,6 +47,11 @@ type Tag {
   root: Boolean
   leaf: Boolean
   category: Category! @relation(link: INLINE)
+}
+
+type Photo {
+  id: ID! @id
+  url: String! @unique
 }
 
 type Address @embedded {

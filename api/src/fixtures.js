@@ -310,6 +310,10 @@ const challenges = [
   ["Mettre une plante sur le bureau",               "...",                                                                                1000],
 ]
 
+const photos = [
+  "https://madu-dev.s3.eu-west-2.amazonaws.com/default.jpg",
+]
+
 const createTagInput = (tagObject, category, root) =>
   Object.entries(tagObject).map(([ key, value ]) => ({
     label: key,
@@ -333,6 +337,10 @@ async function populateDb () {
       password: await bcrypt.hash(password, 10),
       role,
     })
+  }
+
+  for (const url of photos) {
+    await prisma.createPhoto({ url })
   }
 
   for (const category in defaultTags) {
@@ -369,6 +377,7 @@ async function populateDb () {
         { day: "SATURDAY",  start: null, end: null },
         { day: "SUNDAY",    start: null, end: null },
       ] },
+      photos: { connect: photos.map(url => ({ url })) },
       tags: { connect: tags.filter(t => t.category === category && Math.random() < 0.15).map(({ id }) => ({ id })) },
     })
   }

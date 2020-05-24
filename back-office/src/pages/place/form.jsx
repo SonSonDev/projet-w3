@@ -62,13 +62,13 @@ function PlaceForm ({ history,  match: { params: { id } } }) {
     },
   })
   const [ updatePlace, { loading: updatePlaceLoading, error: updatePlaceError } ] = useMutation(UPDATE_PLACE, {
-    update (cache, { data: { updatePlace } }) {
-      const { getPlace } = cache.readQuery({ query: GET_PLACE, variables: { where: { id } } })
-      cache.writeQuery({
-        query: GET_PLACE,
-        data: { getPlace: { ...getPlace, ...updatePlace } },
-      })
-    },
+    // update (cache, { data: { updatePlace } }) {
+    //   const { getPlace } = cache.readQuery({ query: GET_PLACE, variables: { where: { id } } })
+    //   cache.writeQuery({
+    //     query: GET_PLACE,
+    //     data: { getPlace: { ...getPlace, ...updatePlace } },
+    //   })
+    // },
   })
   const [ deletePlace, { loading: deletePlaceLoading, error: deletePlaceError } ] = useMutation(DELETE_PLACE, {
     update (cache, { data: { deletePlace } }) {
@@ -81,7 +81,7 @@ function PlaceForm ({ history,  match: { params: { id } } }) {
   })
 
 
-  const form = ({ category }) => ([
+  const form = ({ category, photos }) => ([
     {
       label: "Informations de base",
       children: [
@@ -131,6 +131,7 @@ function PlaceForm ({ history,  match: { params: { id } } }) {
         name,
         user: { ...user, role: "PLACE" },
         hours: Object.values(hours).filter(({ day }) => day),
+        photos: photos.filter(({ files, url }) => files?.length || url).map(({ files: [ file ], url }) => ({ file, url })),
         tags: getTagsFlattened(tags).map(id => ({ id })),
       }
       // console.log(data)
@@ -164,7 +165,7 @@ function PlaceForm ({ history,  match: { params: { id } } }) {
       getTags.filter(({ category }) => category === getPlace.category),
       getPlace.tags?.map(({ id }) => id),
     ),
-  } : autofill(false)
+  } : autofill(true)
 
   return (
     <main>

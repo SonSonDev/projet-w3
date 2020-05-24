@@ -92,6 +92,10 @@ type AggregateCompany {
   count: Int!
 }
 
+type AggregatePhoto {
+  count: Int!
+}
+
 type AggregatePlace {
   count: Int!
 }
@@ -925,6 +929,12 @@ type Mutation {
   upsertCompany(where: CompanyWhereUniqueInput!, create: CompanyCreateInput!, update: CompanyUpdateInput!): Company!
   deleteCompany(where: CompanyWhereUniqueInput!): Company
   deleteManyCompanies(where: CompanyWhereInput): BatchPayload!
+  createPhoto(data: PhotoCreateInput!): Photo!
+  updatePhoto(data: PhotoUpdateInput!, where: PhotoWhereUniqueInput!): Photo
+  updateManyPhotos(data: PhotoUpdateManyMutationInput!, where: PhotoWhereInput): BatchPayload!
+  upsertPhoto(where: PhotoWhereUniqueInput!, create: PhotoCreateInput!, update: PhotoUpdateInput!): Photo!
+  deletePhoto(where: PhotoWhereUniqueInput!): Photo
+  deleteManyPhotos(where: PhotoWhereInput): BatchPayload!
   createPlace(data: PlaceCreateInput!): Place!
   updatePlace(data: PlaceUpdateInput!, where: PlaceWhereUniqueInput!): Place
   updateManyPlaces(data: PlaceUpdateManyMutationInput!, where: PlaceWhereInput): BatchPayload!
@@ -968,6 +978,175 @@ type PageInfo {
   endCursor: String
 }
 
+type Photo {
+  id: ID!
+  url: String!
+}
+
+type PhotoConnection {
+  pageInfo: PageInfo!
+  edges: [PhotoEdge]!
+  aggregate: AggregatePhoto!
+}
+
+input PhotoCreateInput {
+  id: ID
+  url: String!
+}
+
+input PhotoCreateManyInput {
+  create: [PhotoCreateInput!]
+  connect: [PhotoWhereUniqueInput!]
+}
+
+type PhotoEdge {
+  node: Photo!
+  cursor: String!
+}
+
+enum PhotoOrderByInput {
+  id_ASC
+  id_DESC
+  url_ASC
+  url_DESC
+}
+
+type PhotoPreviousValues {
+  id: ID!
+  url: String!
+}
+
+input PhotoScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  url: String
+  url_not: String
+  url_in: [String!]
+  url_not_in: [String!]
+  url_lt: String
+  url_lte: String
+  url_gt: String
+  url_gte: String
+  url_contains: String
+  url_not_contains: String
+  url_starts_with: String
+  url_not_starts_with: String
+  url_ends_with: String
+  url_not_ends_with: String
+  AND: [PhotoScalarWhereInput!]
+  OR: [PhotoScalarWhereInput!]
+  NOT: [PhotoScalarWhereInput!]
+}
+
+type PhotoSubscriptionPayload {
+  mutation: MutationType!
+  node: Photo
+  updatedFields: [String!]
+  previousValues: PhotoPreviousValues
+}
+
+input PhotoSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: PhotoWhereInput
+  AND: [PhotoSubscriptionWhereInput!]
+}
+
+input PhotoUpdateDataInput {
+  url: String
+}
+
+input PhotoUpdateInput {
+  url: String
+}
+
+input PhotoUpdateManyDataInput {
+  url: String
+}
+
+input PhotoUpdateManyInput {
+  create: [PhotoCreateInput!]
+  update: [PhotoUpdateWithWhereUniqueNestedInput!]
+  upsert: [PhotoUpsertWithWhereUniqueNestedInput!]
+  delete: [PhotoWhereUniqueInput!]
+  connect: [PhotoWhereUniqueInput!]
+  set: [PhotoWhereUniqueInput!]
+  disconnect: [PhotoWhereUniqueInput!]
+  deleteMany: [PhotoScalarWhereInput!]
+  updateMany: [PhotoUpdateManyWithWhereNestedInput!]
+}
+
+input PhotoUpdateManyMutationInput {
+  url: String
+}
+
+input PhotoUpdateManyWithWhereNestedInput {
+  where: PhotoScalarWhereInput!
+  data: PhotoUpdateManyDataInput!
+}
+
+input PhotoUpdateWithWhereUniqueNestedInput {
+  where: PhotoWhereUniqueInput!
+  data: PhotoUpdateDataInput!
+}
+
+input PhotoUpsertWithWhereUniqueNestedInput {
+  where: PhotoWhereUniqueInput!
+  update: PhotoUpdateDataInput!
+  create: PhotoCreateInput!
+}
+
+input PhotoWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  url: String
+  url_not: String
+  url_in: [String!]
+  url_not_in: [String!]
+  url_lt: String
+  url_lte: String
+  url_gt: String
+  url_gte: String
+  url_contains: String
+  url_not_contains: String
+  url_starts_with: String
+  url_not_starts_with: String
+  url_ends_with: String
+  url_not_ends_with: String
+  AND: [PhotoWhereInput!]
+}
+
+input PhotoWhereUniqueInput {
+  id: ID
+  url: String
+}
+
 type Place {
   id: ID!
   name: String!
@@ -979,6 +1158,7 @@ type Place {
   description: String
   hours: [Hour!]
   tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag!]
+  photos(where: PhotoWhereInput, orderBy: PhotoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Photo!]
 }
 
 type PlaceConnection {
@@ -998,6 +1178,7 @@ input PlaceCreateInput {
   description: String
   hours: HourCreateManyInput
   tags: TagCreateManyInput
+  photos: PhotoCreateManyInput
 }
 
 type PlaceEdge {
@@ -1052,6 +1233,7 @@ input PlaceUpdateInput {
   description: String
   hours: HourUpdateManyInput
   tags: TagUpdateManyInput
+  photos: PhotoUpdateManyInput
 }
 
 input PlaceUpdateManyMutationInput {
@@ -1129,6 +1311,7 @@ input PlaceWhereInput {
   hours_every: HourRestrictedWhereInput
   hours_none: HourRestrictedWhereInput
   tags_some: TagWhereInput
+  photos_some: PhotoWhereInput
   AND: [PlaceWhereInput!]
 }
 
@@ -1144,6 +1327,9 @@ type Query {
   company(where: CompanyWhereUniqueInput!): Company
   companies(where: CompanyWhereInput, orderBy: CompanyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Company]!
   companiesConnection(where: CompanyWhereInput, orderBy: CompanyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CompanyConnection!
+  photo(where: PhotoWhereUniqueInput!): Photo
+  photos(where: PhotoWhereInput, orderBy: PhotoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Photo]!
+  photosConnection(where: PhotoWhereInput, orderBy: PhotoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PhotoConnection!
   place(where: PlaceWhereUniqueInput!): Place
   places(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Place]!
   placesConnection(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PlaceConnection!
@@ -1583,6 +1769,7 @@ input SocialWhereInput {
 type Subscription {
   challenge(where: ChallengeSubscriptionWhereInput): ChallengeSubscriptionPayload
   company(where: CompanySubscriptionWhereInput): CompanySubscriptionPayload
+  photo(where: PhotoSubscriptionWhereInput): PhotoSubscriptionPayload
   place(where: PlaceSubscriptionWhereInput): PlaceSubscriptionPayload
   quiz(where: QuizSubscriptionWhereInput): QuizSubscriptionPayload
   tag(where: TagSubscriptionWhereInput): TagSubscriptionPayload

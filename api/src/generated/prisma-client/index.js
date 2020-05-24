@@ -21,6 +21,10 @@ var models = [
     embedded: false
   },
   {
+    name: "Photo",
+    embedded: false
+  },
+  {
     name: "Address",
     embedded: true
   },

@@ -6,7 +6,7 @@ import { categories, tags, hours } from "../../utils/wording"
 import { GET_TAGS } from "../../graphql/tag"
 
 
-function Fields ({ children = [], helpers: { register, watch, errors }, level = 0, path = [] }) {
+function Fields ({ children = [], helpers: { register, watch, setValue, errors }, level = 0, path = [] }) {
   const [ collapsedChildren, setCollapsedChildren ] = useState({})
   // useEffect(() => {
   //   level === 2 && console.log(collapsedChildren, children)
@@ -49,7 +49,7 @@ function Fields ({ children = [], helpers: { register, watch, errors }, level = 
           </span>
         </label>
         {children && (
-          <Fields helpers={{ register, watch, errors }} level={level + 1} path={key ? [ ...path, key ] : path}>
+          <Fields helpers={{ register, watch, setValue, errors }} level={level + 1} path={key ? [ ...path, key ] : path}>
             {children.map(({ className, ...rest }) => ({ ...rest, className: [ className, collapsed && hasChildren && "display-none" ].join(" ") }))}
           </Fields>
         )}
@@ -118,21 +118,31 @@ function Fields ({ children = [], helpers: { register, watch, errors }, level = 
           )
           case "P": return (
             <div className={fieldClassName()}>
-              <div className="file is-boxed mb1">
-                <label className="file-label">
-                  <input className="file-input" type="file" name={key} ref={register({ required })} multiple />
-                  <span className="file-cta">
-                    <span className="file-icon"><i className="ri-upload-2-line"/></span>
-                    <span className="file-label">Uploader un fichier</span>
-                  </span>
-                </label>
-              </div>
-              {!!watch(key)?.length && [ ...watch(key) ].map(({ name }, i) => (
-                <button className='button is-white' key={`${i}@${name}`}>
-                  <span>{name}</span>
-                  <span className="icon"><i className="ri-close-line"/></span>
-                </button>
+              {[ ...watch(key)?.filter(({ files, url }) => files?.length || url) || [], {} ].map((_, i, a) => (
+                <div className={[ "file is-boxed mb2", i !== a.length-1 && "display-none" ].join(" ")} key={`${key}[${i}]`}>
+                  <label className="file-label">
+                    <input className="file-input" type="file" name={`${key}[${i}].files`} ref={register({ required })} accept="image/*" />
+                    <span className="file-cta">
+                      <span className="file-icon"><i className="ri-upload-2-line"/></span>
+                      <span className="file-label">Uploader un fichier</span>
+                    </span>
+                  </label>
+                  <input type='url' name={`${key}[${i}].url`} ref={register({ required })} hidden />
+                </div>
               ))}
+              <div className="field is-grouped is-grouped-multiline">
+                {watch(key)?.map(({ files: [ { name } = {} ] = [], url }, i) => (name || url) && (
+                  <div className='control' key={`${i}@${name}`}>
+                    <div className="tags has-addons">
+                      <span className="tag is-success is-light">{name || url.split("/").pop()}</span>
+                      <a onClick={e => {
+                        setValue(`${key}[${i}].files`, "")
+                        setValue(`${key}[${i}].url`, "")
+                      }} className="tag is-delete is-success is-light" />
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )
           }
@@ -145,12 +155,12 @@ function Fields ({ children = [], helpers: { register, watch, errors }, level = 
 
 
 export default function Form ({ form, onSubmit, onCancel, onDelete, submitting, children }) {
-  const { handleSubmit, register, watch, errors } = useForm(children)
+  const { handleSubmit, register, watch, setValue, errors } = useForm(children)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="columns">
       <div className='column is-two-fifths'>
-        <Fields helpers={{ register, watch, errors }}>{form(watch())}</Fields>
+        <Fields helpers={{ register, watch, setValue, errors }}>{form(watch({ nest: true }))}</Fields>
         {onDelete && (
           <a onClick={onDelete} className={[ "button has-text-danger bold", submitting && "is-loading" ].join(" ")}>
             Supprimer
