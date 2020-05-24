@@ -17,139 +17,193 @@ const users = [
 ]
 
 
-const defaultTagTypes = [
-  [ "Type",        "ACTIVITY" ],
-  [ "Engagements", "ACTIVITY" ],
-
-  [ "Type",        "FOOD" ],
-  [ "Filtres",     "FOOD" ],
-  [ "Cuisine",     "FOOD" ],
-  [ "Engagements", "FOOD" ],
-
-  [ "Type",        "SHOP" ],
-  [ "Filtres",     "SHOP" ],
-  [ "Engagements", "SHOP" ],
-]
-
-const defaultTags = [
-  [ "Classique",                "Type", "FOOD" ],
-  [ "Fast good/Healthy",        "Type", "FOOD" ],
-  [ "Fast food",                "Type", "FOOD" ],
-  [ "Conceptuel/gastro",        "Type", "FOOD" ],
-  [ "Salon de thé/Pâtisserie",  "Type", "FOOD" ],
-
-  [ "Alimentaire",              "Type", "SHOP" ],
-  [ "Hygiène/beauté",           "Type", "SHOP" ],
-  [ "Mode",                     "Type", "SHOP" ],
-  [ "Maison",                   "Type", "SHOP" ],
-
-  [ "Cuisine/dégustation",            "Type", "ACTIVITY" ],
-  [ "Beauté/Bien-être",               "Type", "ACTIVITY" ],
-  [ "DIY/Atelier créatif",            "Type", "ACTIVITY" ],
-  [ "Sport",                          "Type", "ACTIVITY" ],
-  [ "Services quotidien/Utilitaires", "Type", "ACTIVITY" ],
-  [ "Balade/Visite",                  "Type", "ACTIVITY" ],
-
-
-  [ "Sans gluten",    "Filtres", "FOOD" ],
-  [ "Vegan",          "Filtres", "FOOD" ],
-  [ "Veggie",         "Filtres", "FOOD" ],
-  [ "Terrasse",       "Filtres", "FOOD" ],
-  [ "À emporter",     "Filtres", "FOOD" ],
-
-  [ "Sans gluten",    "Filtres", "SHOP" ],
-  [ "Vegan",          "Filtres", "SHOP" ],
-  [ "Veggie",         "Filtres", "SHOP" ],
-
-  [ "Junkfood",       "Cuisine", "FOOD" ],
-  [ "Afro",           "Cuisine", "FOOD" ],
-  [ "Asiatique",      "Cuisine", "FOOD" ],
-  [ "Indienne",       "Cuisine", "FOOD" ],
-  [ "Italienne",      "Cuisine", "FOOD" ],
-  [ "Méxicaine",      "Cuisine", "FOOD" ],
-  [ "Orientale",      "Cuisine", "FOOD" ],
-  [ "Traditionnelle", "Cuisine", "FOOD" ],
-
-  [ "Matériels/Equipement - Nature - Circuit court/Locaux",                             "Engagements", "ACTIVITY" ],
-  [ "Matériels/Equipement - Nature - Industrie biologique",                             "Engagements", "ACTIVITY" ],
-  [ "Matériels/Equipement - Nature - Industrie raisonnée",                              "Engagements", "ACTIVITY" ],
-  [ "Matériels/Equipement - Nature - Produits labelisés/éthiques",                      "Engagements", "ACTIVITY" ],
-  [ "Matériels/Equipement - Nature - Produits de saison",                               "Engagements", "ACTIVITY" ],
-  [ "Matériels/Equipement - Nature - Produits de seconde main/récup",                   "Engagements", "ACTIVITY" ],
-  [ "Matériels/Equipement - Nature - Enseignes écoresponsables",                        "Engagements", "ACTIVITY" ],
-  [ "Matériels/Equipement - Acheminement - Mutualisé",                                  "Engagements", "ACTIVITY" ],
-  [ "Matériels/Equipement - Acheminement - Zéro déchet",                                "Engagements", "ACTIVITY" ],
-  [ "Matériels/Equipement - Acheminement - Biocarburant",                               "Engagements", "ACTIVITY" ],
-  [ "Établissement - Fournisseur d'énergie verte",                                      "Engagements", "ACTIVITY" ],
-  [ "Établissement - Entretien vert",                                                   "Engagements", "ACTIVITY" ],
-  [ "Établissement - Mobilier - Seconde main",                                          "Engagements", "ACTIVITY" ],
-  [ "Établissement - Mobilier - Enseigne écoresponsable",                               "Engagements", "ACTIVITY" ],
-  [ "Établissement - Dématérialisation",                                                "Engagements", "ACTIVITY" ],
-  [ "Social - Déplacements/transports des salarié - Transports en commun",              "Engagements", "ACTIVITY" ],
-  [ "Social - Déplacements/transports des salarié - Mobilité douces",                   "Engagements", "ACTIVITY" ],
-  [ "Social - Déplacements/transports des salarié - Covoiturage",                       "Engagements", "ACTIVITY" ],
-  [ "Social - Contrats aidés, équité, diversité",                                       "Engagements", "ACTIVITY" ],
-  [ "Social - Dons à des associations - Invendus",                                      "Engagements", "ACTIVITY" ],
-  [ "Social - Dons à des associations - % de la marge",                                 "Engagements", "ACTIVITY" ],
-  [ "Social - Dons à des associations - 1 acheté / 1 donné",                            "Engagements", "ACTIVITY" ],
-  [ "Social - Dons à des associations - Partenariat Carillon",                          "Engagements", "ACTIVITY" ],
-
-  [ "Marchandise - Provenance - Circuit court/Locaux",                                  "Engagements", "SHOP" ],
-  [ "Marchandise - Provenance - Industrie biologique",                                  "Engagements", "SHOP" ],
-  [ "Marchandise - Provenance - Industrie raisonnée",                                   "Engagements", "SHOP" ],
-  [ "Marchandise - Provenance - Produits labelisés/éthiques",                           "Engagements", "SHOP" ],
-  [ "Marchandise - Provenance - Produits de saison",                                    "Engagements", "SHOP" ],
-  [ "Marchandise - Acheminement - Mutualisé",                                           "Engagements", "SHOP" ],
-  [ "Marchandise - Acheminement - Zéro déchet",                                         "Engagements", "SHOP" ],
-  [ "Marchandise - Acheminement - Biocarburant",                                        "Engagements", "SHOP" ],
-  [ "Marchandise - Emballages produits - Ramenés par le client/consigné/réutilisables", "Engagements", "SHOP" ],
-  [ "Marchandise - Emballages produits - Recyclables/à partir de produits recyclés",    "Engagements", "SHOP" ],
-  [ "Marchandise - Valorisation des invendus - Dons",                                   "Engagements", "SHOP" ],
-  [ "Marchandise - Valorisation des invendus - Partenariat",                            "Engagements", "SHOP" ],
-  [ "Marchandise - Valorisation des invendus - Compostage",                             "Engagements", "SHOP" ],
-  [ "Établissement - Fournisseur d'énergie verte",                                      "Engagements", "SHOP" ],
-  [ "Établissement - Entretien vert",                                                   "Engagements", "SHOP" ],
-  [ "Établissement - Mobilier - Seconde main",                                          "Engagements", "SHOP" ],
-  [ "Établissement - Mobilier - Enseigne écoresponsable",                               "Engagements", "SHOP" ],
-  [ "Établissement - Dématérialisation",                                                "Engagements", "SHOP" ],
-  [ "Social - Déplacements/transports des salarié - Transports en commun",              "Engagements", "SHOP" ],
-  [ "Social - Déplacements/transports des salarié - Mobilité douces",                   "Engagements", "SHOP" ],
-  [ "Social - Déplacements/transports des salarié - Covoiturage",                       "Engagements", "SHOP" ],
-  [ "Social - Contrats aidés, équité, diversité",                                       "Engagements", "SHOP" ],
-  [ "Social - Dons à des associations - Invendus",                                      "Engagements", "SHOP" ],
-  [ "Social - Dons à des associations - % de la marge",                                 "Engagements", "SHOP" ],
-  [ "Social - Dons à des associations - 1 acheté / 1 donné",                            "Engagements", "SHOP" ],
-  [ "Social - Dons à des associations - Partenariat Carillon",                          "Engagements", "SHOP" ],
-
-  [ "Produits - Carte - Circuit court/Locaux",                                          "Engagements", "FOOD" ],
-  [ "Produits - Carte - Industrie biologique",                                          "Engagements", "FOOD" ],
-  [ "Produits - Carte - Industrie raisonnée",                                           "Engagements", "FOOD" ],
-  [ "Produits - Carte - Produits labelisés/éthiques",                                   "Engagements", "FOOD" ],
-  [ "Produits - Carte - Produits de saison",                                            "Engagements", "FOOD" ],
-  [ "Produits - Carte - Produits végétaux",                                             "Engagements", "FOOD" ],
-  [ "Produits - Acheminement - Mutualisé",                                              "Engagements", "FOOD" ],
-  [ "Produits - Acheminement - Zéro déchet",                                            "Engagements", "FOOD" ],
-  [ "Produits - Acheminement - Biocarburant",                                           "Engagements", "FOOD" ],
-  [ "Produits - Transformation - Cuisinés sur place",                                   "Engagements", "FOOD" ],
-  [ "Produits - Transformation - Emballages à emporter - Ramenés par le client",        "Engagements", "FOOD" ],
-  [ "Produits - Transformation - Emballages à emporter - Recyclables",                  "Engagements", "FOOD" ],
-  [ "Produits - Valorisation des invendus - Dons",                                      "Engagements", "FOOD" ],
-  [ "Produits - Valorisation des invendus - Partenariat",                               "Engagements", "FOOD" ],
-  [ "Produits - Valorisation des invendus - Compostage",                                "Engagements", "FOOD" ],
-  [ "Établissement - Fournisseur d'énergie verte",                                      "Engagements", "FOOD" ],
-  [ "Établissement - Entretien vert",                                                   "Engagements", "FOOD" ],
-  [ "Établissement - Mobilier - Seconde main",                                          "Engagements", "FOOD" ],
-  [ "Établissement - Mobilier - Enseigne écoresponsable",                               "Engagements", "FOOD" ],
-  [ "Établissement - Dématérialisation",                                                "Engagements", "FOOD" ],
-  [ "Social - Déplacements/transports des salarié - Transports en commun",              "Engagements", "FOOD" ],
-  [ "Social - Déplacements/transports des salarié - Mobilité douces",                   "Engagements", "FOOD" ],
-  [ "Social - Déplacements/transports des salarié - Covoiturage",                       "Engagements", "FOOD" ],
-  [ "Social - Contrats aidés, équité, diversité",                                       "Engagements", "FOOD" ],
-  [ "Social - Dons à des associations - Invendus",                                      "Engagements", "FOOD" ],
-  [ "Social - Dons à des associations - % de la marge",                                 "Engagements", "FOOD" ],
-  [ "Social - Dons à des associations - 1 acheté / 1 donné",                            "Engagements", "FOOD" ],
-  [ "Social - Dons à des associations - Partenariat Carillon",                          "Engagements", "FOOD" ],
-]
+const defaultTags = {
+  ACTIVITY: {
+    "Type d'activité/loisir": [
+      "Cuisine/dégustation",
+      "Beauté/Bien-être",
+      "DIY/Atelier créatif",
+      "Sport",
+      "Services quotidien/Utilitaires",
+      "Balade/Visite",
+    ],
+    "Régime alimentaire": [
+      "Sans gluten",
+      "Vegan",
+      "Veggie",
+    ],
+    "Prix": [
+      "€",
+      "€€",
+      "€€€",
+    ],
+    "Engagements": {
+      "Matériels/Equipement": {
+        "Nature": [
+          "Circuit court/Locaux",
+          "Industrie biologique",
+          "Industrie raisonnée",
+          "Produits labelisés/éthiques",
+          "Produits de saison",
+          "Produits de seconde main/récup",
+          "Enseignes écoresponsables",
+        ],
+        "Acheminement": [
+          "Mutualisé",
+          "Zéro déchet",
+          "Biocarburant",
+        ],
+      },
+      "Établissement": [
+        "Fournisseur d'énergie verte",
+        "Entretien vert",
+        "Mobilier - Seconde main",
+        "Mobilier - Enseigne écoresponsable",
+        "Dématérialisation",
+      ],
+      "Social": [
+        "Déplacements/transports des salarié - Transports en commun",
+        "Déplacements/transports des salarié - Mobilité douces",
+        "Déplacements/transports des salarié - Covoiturage",
+        "Contrats aidés, équité, diversité",
+        "Dons à des associations - Invendus",
+        "Dons à des associations - % de la marge",
+        "Dons à des associations - 1 acheté / 1 donné",
+        "Dons à des associations - Partenariat Carillon",
+      ],
+    },
+  },
+  SHOP: {
+    "Type de boutique": [
+      "Alimentaire",
+      "Hygiène/beauté",
+      "Mode",
+      "Maison",
+    ],
+    "Prix": [
+      "€",
+      "€€",
+      "€€€",
+    ],
+    "Engagements": {
+      "Marchandise": {
+        "Provenance": [
+          "Circuit court/Locaux",
+          "Industrie biologique",
+          "Industrie raisonnée",
+          "Produits labelisés/éthiques",
+          "Produits de saison",
+        ],
+        "Acheminement": [
+          "Mutualisé",
+          "Zéro déchet",
+          "Biocarburant",
+        ],
+        "Emballages produits": [
+          "Ramenés par le client/consigné/réutilisables",
+          "Recyclables/à partir de produits recyclés",
+        ],
+        "Valorisation des invendus": [
+          "Dons",
+          "Partenariat",
+          "Compostage",
+        ],
+      },
+      "Établissement": [
+        "Fournisseur d'énergie verte",
+        "Entretien vert",
+        "Mobilier - Seconde main",
+        "Mobilier - Enseigne écoresponsable",
+        "Dématérialisation",
+      ],
+      "Social": [
+        "Déplacements/transports des salarié - Transports en commun",
+        "Déplacements/transports des salarié - Mobilité douces",
+        "Déplacements/transports des salarié - Covoiturage",
+        "Contrats aidés, équité, diversité",
+        "Dons à des associations - Invendus",
+        "Dons à des associations - % de la marge",
+        "Dons à des associations - 1 acheté / 1 donné",
+        "Dons à des associations - Partenariat Carillon",
+      ],
+    },
+  },
+  FOOD: {
+    "Type de restaurant": [
+      "Classique",
+      "Fast good/Healthy",
+      "Fast food",
+      "Conceptuel/gastro",
+      "Salon de thé/Pâtisserie",
+    ],
+    "Type de cuisine": [
+      "Junkfood",
+      "Afro",
+      "Asiatique",
+      "Indienne",
+      "Italienne",
+      "Méxicaine",
+      "Orientale",
+      "Traditionnelle",
+    ],
+    "Régime alimentaire": [
+      "Sans gluten",
+      "Vegan",
+      "Veggie",
+      "Terrasse",
+      "À emporter",
+    ],
+    "Prix": [
+      "€",
+      "€€",
+      "€€€",
+    ],
+    "Engagements": {
+      "Produits": {
+        "Carte": [
+          "Circuit court/Locaux",
+          "Industrie biologique",
+          "Industrie raisonnée",
+          "Produits labelisés/éthiques",
+          "Produits de saison",
+          "Produits végétaux",
+        ],
+        "Acheminement": [
+          "Mutualisé",
+          "Zéro déchet",
+          "Biocarburant",
+        ],
+        "Transformation": [
+          "Cuisinés sur place",
+          "Emballages à emporter - Ramenés par le client",
+          "Emballages à emporter - Recyclables",
+        ],
+        "Valorisation des invendus": [
+          "Dons",
+          "Partenariat",
+          "Compostage",
+        ],
+      },
+      "Établissement": [
+        "Fournisseur d'énergie verte",
+        "Entretien vert",
+        "Mobilier - Seconde main",
+        "Mobilier - Enseigne écoresponsable",
+        "Dématérialisation",
+      ],
+      "Social": [
+        "Déplacements/transports des salarié - Transports en commun",
+        "Déplacements/transports des salarié - Mobilité douces",
+        "Déplacements/transports des salarié - Covoiturage",
+        "Contrats aidés, équité, diversité",
+        "Dons à des associations - Invendus",
+        "Dons à des associations - % de la marge",
+        "Dons à des associations - 1 acheté / 1 donné",
+        "Dons à des associations - Partenariat Carillon",
+      ],
+    },
+  },
+}
 
 const places = [
   [ "Given",                                  "89 rue de Bagnolet",         "75020", "Paris", "FOOD" ],
@@ -256,7 +310,24 @@ const challenges = [
   ["Mettre une plante sur le bureau",               "...",                                                                                1000],
 ]
 
-const populateDb = async () => {
+const photos = [
+  "https://madu-dev.s3.eu-west-2.amazonaws.com/default.jpg",
+]
+
+const createTagInput = (tagObject, category, root) =>
+  Object.entries(tagObject).map(([ key, value ]) => ({
+    label: key,
+    children: {
+      create: Array.isArray(value)
+        ? value.map(label => ({ label, category, leaf: true }))
+        : createTagInput(value, category),
+    },
+    category,
+    root,
+  }))
+
+
+async function populateDb () {
 
   for (const [ firstName, lastName, email, password, role ] of users) {
     await prisma.createUser({
@@ -268,46 +339,46 @@ const populateDb = async () => {
     })
   }
 
-  const tagTypes = await Promise.all(
-    defaultTagTypes.map(([ name, category ]) => (
-      prisma.createTagType({
-        name,
-        category,
-      })
-    )),
-  )
+  for (const url of photos) {
+    await prisma.createPhoto({ url })
+  }
 
-  const tags = await Promise.all(
-    defaultTags.map(([ value, tagTypeName, category ]) => (
-      prisma.createTag({
-        value,
-        type: {
-          connect: {
-            id: tagTypes.find(tagType => {
-              return tagType.name === tagTypeName && tagType.category === category
-            }).id,
-          },
-        },
-      }).then(tag => ({ ...tag, category }))
-    )),
-  )
+  for (const category in defaultTags) {
+    await Promise.all(
+      createTagInput(defaultTags[category], category, true)
+        .map(tagInput => prisma.createTag(tagInput))
+    )
+  }
+  const tags = await prisma.tags({ where: { leaf: true } })
 
-  // console.log(tags, tags[0].id, tags.map(({ id }) => ({ id })))
   for (const [ name, street, zipCode, city, category ] of shuffle(places)) {
     await prisma.createPlace({
       name,
+      category,
       address: { create: { street, zipCode, city } },
+      user: { create: {
+        email: faker.internet.email(),
+        phone: faker.phone.phoneNumber(),
+        role: "PLACE",
+      } },
+      social: { create: {
+        website: faker.internet.url(),
+        facebook: faker.internet.url(),
+        instagram: faker.internet.url(),
+      } },
+      headline: faker.lorem.sentence(),
+      description: faker.lorem.paragraph(),
       hours: { create: [
-        { day: "MONDAY",    start: null, end: null },
-        { day: "TUESDAY",   start: null, end: null },
-        { day: "WEDNESDAY", start: null, end: null },
-        { day: "THURSDAY",  start: null, end: null },
-        { day: "FRIDAY",    start: null, end: null },
+        { day: "MONDAY",    start: "09:00", end: "19:00" },
+        { day: "TUESDAY",   start: "09:00", end: "19:00" },
+        { day: "WEDNESDAY", start: "09:00", end: "19:00" },
+        { day: "THURSDAY",  start: "09:00", end: "19:00" },
+        { day: "FRIDAY",    start: "09:00", end: "19:00" },
         { day: "SATURDAY",  start: null, end: null },
         { day: "SUNDAY",    start: null, end: null },
       ] },
-      category,
-      tags: { connect: tags.filter(t => t.category === category && Math.random() < 0.2).map(({ id }) => ({ id })) },
+      photos: { connect: photos.map(url => ({ url })) },
+      tags: { connect: tags.filter(t => t.category === category && Math.random() < 0.15).map(({ id }) => ({ id })) },
     })
   }
   const companiesId = []
@@ -347,7 +418,6 @@ const populateDb = async () => {
 const clearDb = async () => {
   await prisma.deleteManyUsers()
   await prisma.deleteManyTags()
-  await prisma.deleteManyTagTypes()
   await prisma.deleteManyPlaces()
   await prisma.deleteManyCompanies()
   await prisma.deleteManyChallenges()

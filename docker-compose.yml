@@ -26,7 +26,7 @@ services:
             uri: mongodb://prisma:prisma@mongo
 
   api:
-    image: node:alpine
+    image: node:12-alpine
     restart: always
     working_dir: /app
     depends_on:
@@ -41,6 +41,8 @@ services:
       FRONT_URL: http://localhost
       STRIPE_SECRET_KEY: "${STRIPE_SECRET_KEY}"
       APP_SECRET: "${APP_SECRET}"
+      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+      AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
     entrypoint: /app/entrypoint.sh
     command: yarn dev
 

@@ -37,7 +37,7 @@ const CompaniesIndex = ({ history }) => {
       accessor: "name",
       Cell ({ cell: { value }, row: { original: { id } } }) {
         return (
-          <Link to={`/company/${id}`} className="has-text-primary underline">
+          <Link to={`/company/${id}`} className="has-text-primary underline bold">
             {value}
           </Link>
         )
@@ -48,12 +48,12 @@ const CompaniesIndex = ({ history }) => {
       accessor: ({ type }) => companyTypeNames[type],
     },
     {
-      Header: "Utilisateurs",
+      Header: "Membres",
       accessor: "userCount",
       Cell ({ cell: { value }, row: { original: { id } } }) {
         return (
           <div className="flex">
-            <span className="icon"><i className="ri-group-line"/></span>
+            <span className="icon is-small mr05 has-text-grey"><i className="ri-group-line"/></span>
             <span>{value}</span>
           </div>
         )
@@ -65,11 +65,22 @@ const CompaniesIndex = ({ history }) => {
       Cell ({ cell: { value }, row: { original: { id } } }) {
         return (
           <div className="flex">
-            <span className="icon has-text-grey"><i className="ri-map-pin-2-line"/></span>
-            <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURI(value)}`} className="has-text-grey underline" target="_blank" rel="noopener noreferrer">
+            <span className="icon is-small mr05 has-text-grey"><i className="ri-map-pin-2-line"/></span>
+            <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURI(value)}`} className="has-text-grey-darker" target="_blank" rel="noopener noreferrer">
               {value}
             </a>
           </div>
+        )
+      },
+    },
+    {
+      Header: "Contact",
+      accessor: ({ representativeUser: { email } }) => email,
+      Cell ({ cell: { value } }) {
+        return (
+          <a href={`mailto:${value}`} className="has-text-primary underline bold">
+            {value}
+          </a>
         )
       },
     },
@@ -87,16 +98,16 @@ const CompaniesIndex = ({ history }) => {
     //     )
     //   },
     // },
-    {
-      id: "delete",
-      Cell ({ cell: { value }, row: { original: { id } } }) {
-        return (
-          <button onClick={() => deleteCompany({ variables: { id } })} className="button is-white has-text-grey">
-            <span className="icon"><i className="ri-delete-bin-line"/></span>
-          </button>
-        )
-      },
-    },
+    // {
+    //   id: "delete",
+    //   Cell ({ cell: { value }, row: { original: { id } } }) {
+    //     return (
+    //       <button onClick={() => deleteCompany({ variables: { id } })} className="button is-white has-text-grey">
+    //         <span className="icon"><i className="ri-delete-bin-line"/></span>
+    //       </button>
+    //     )
+    //   },
+    // },
   ], [])
 
 

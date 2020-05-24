@@ -1,15 +1,15 @@
+scalar Upload
 scalar Date
 
 type Query {
-  getPlaces: [Place]
-  getPlace(id: ID!): Place
+  getPlaces(where: PlaceInput): [Place]
+  getPlace(where: PlaceInputUnique): Place
   getUsers(role: Role): [User]
   getUser(id: ID!): User
   getCompanies: [Company]
   getCompany(id: ID!): Company
   checkAuth: User
-  getTagTypes(category: Category!): [TagType]
-  getTags: [Tag]
+  getTags(where: TagInput): [Tag]
   getTag(id: ID!): Tag
   getChallenges: [Challenge]
   getChallenge(id: ID!): Challenge
@@ -77,40 +77,21 @@ type Mutation {
   ): AuthPayload
   createUsers(users: [UserInput!]): [User]
 
-  createPlace(
-    name: String!
-    street: String
-    zipCode: String
-    city: String
-    category: Category
-    tags: [ID!]
-  ): Place
-  createPlaces(places: [PlaceInput!]): [Place]
+  createPlace(data: PlaceInput!): Place
+  updatePlace(where: PlaceInputUnique!, data: PlaceInput!): Place
+  deletePlace(where: PlaceInputUnique!): Place
+  upsertPlaces(data: [PlaceInput!]): [Place]
 
   login(email: String!, password: String!): AuthPayload
   logout: LogoutResponse
 
-  deletePlace(id: ID!): Place
   deleteCompany(id: ID!): Company
   deleteUser(id: ID!): User
 
-  createTagType(name: String!, category: Category!, parentTagType: ID): TagType!
-  deleteTagType(id: ID!): TagType!
-  updateTagType(id: ID!, name: String!): TagType!
-
-  createTag(type: ID!, value: String!): Tag!
+  createTag(label: String!, children: [ID!], category: Category!): Tag!
   deleteTag(id: ID!): Tag!
-  updateTag(id: ID!): Tag!
+  updateTag(id: ID!, label: String!, children: [ID!], category: Category!): Tag!
 
-  updatePlace(
-    placeId: ID!
-    name: String
-    street: String
-    zipCode: String
-    city: String
-    category: Category
-    tags: [ID!]
-  ): Place
 
   createChallenge(
     name: String!
@@ -169,11 +150,16 @@ type Company {
 
 type Place {
   id: ID!
-  name: String
+  name: String!
+  category: Category!
   address: Address
+  user: User
+  social: Social
+  headline: String
+  description: String
   hours: [Hour!]
-  category: Category
   tags: [Tag!]
+  photos: [Photo!]
 }
 
 type AuthPayload {
@@ -197,19 +183,13 @@ type Hour {
   end: String
 }
 
-type TagType {
-  id: ID!
-  name: String!
-  category: Category!
-  parentTagType: TagType
-  tags: [Tag!]
-}
-
 type Tag {
   id: ID!
-  type: TagType!
-  value: String!
-  places: [Place!]
+  label: String!
+  children: [Tag!]
+  root: Boolean
+  leaf: Boolean
+  category: Category!
 }
 
 type Quiz {
@@ -240,6 +220,11 @@ type StripeInvoice {
   status: String
   subscription: String
   total: String
+}
+
+type Photo {
+  id: String!
+  url: String!
 }
 
 enum CompanyType {
@@ -282,15 +267,31 @@ enum Role {
   ADMIN
   MODERATOR
   USER
+  PLACE
 }
 
+type Social {
+  website: String
+  facebook: String
+  instagram: String
+}
 
 input PlaceInput {
   name: String!
-  street: String
-  zipCode: String
-  city: String
-  category: Category
+  category: Category!
+  address: AddressInput
+  user: UserInput
+  social: SocialInput
+  headline: String
+  description: String
+  hours: [HourInput!]
+  tags: [TagInput!]
+  photos: [PhotoInput!]
+}
+
+input PlaceInputUnique {
+  id: ID
+  name: String
 }
 
 input CompanyInput {
@@ -312,6 +313,38 @@ input UserInput {
   firstName: String
   lastName: String
   email: String!
+  phone: String
   role: Role!
   companyId: ID
+}
+
+input TagInput {
+  id: ID
+  label: String
+  root: Boolean
+  leaf: Boolean
+  category: Category
+}
+
+input AddressInput {
+  street: String
+  zipCode: String
+  city: String
+}
+
+input SocialInput {
+  website: String
+  facebook: String
+  instagram: String
+}
+
+input HourInput {
+  day: Day
+  start: String
+  end: String
+}
+
+input PhotoInput {
+  url: String
+  file: Upload
 }

@@ -13,12 +13,12 @@ function Table ({ columns, data }) {
   } = useTable({ columns, data })
 
   return (
-    <table className="table w100" {...getTableProps()}>
+    <table className="table is-bordered is-size-6 w100" {...getTableProps()}>
       <thead>
         {headerGroups.map(headerGroup => (
-          <tr key {...headerGroup.getHeaderGroupProps()}>
+          <tr key className="notification" {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
-              <th key {...column.getHeaderProps()}>{column.render("Header")}</th>
+              <th key className="has-text-grey" {...column.getHeaderProps()}>{column.render("Header")}</th>
             ))}
           </tr>
         ))}

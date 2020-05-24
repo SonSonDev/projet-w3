@@ -2,37 +2,37 @@ import React, { useState, useMemo, useContext } from "react"
 import PropTypes from "prop-types"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Link } from "react-router-dom"
-import { unparse, parse } from "papaparse"
 
-import { GET_PLACES } from "../../graphql/queries/places"
-import { DELETE_PLACE, CREATE_PLACES } from "../../graphql/mutations/places"
+import { GET_PLACES, DELETE_PLACE, UPSERT_PLACES } from "../../graphql/place"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 import Index from "../../components/Index"
 import Loader from "../../components/Loader"
 
-import { categoryNames } from "../../utils/wording"
+import { categories } from "../../utils/wording"
 
 import UserDataContext from "../../utils/UserDataContext"
+import ToastContext from "../../utils/ToastContext"
 
 const PlacesIndex = ({ history }) => {
-  const userData = useContext(UserDataContext)
+  // const userData = useContext(UserDataContext)
+  const { setToast } = useContext(ToastContext)
 
   const { error, loading, data: {getPlaces: places} = {}, refetch } = useQuery(GET_PLACES, {
     onError: error => console.log(error.message),
   })
 
-  const [ importPlaces ] = useMutation(CREATE_PLACES, {
-    update (cache, { data: { createPlaces } }) {
-      const { getPlaces } = cache.readQuery({ query: GET_PLACES })
+  const [ upsertPlaces, { error: upsertPlacesError } ] = useMutation(UPSERT_PLACES, {
+    update (cache, { data: { upsertPlaces } }) {
+      // const { getPlaces } = cache.readQuery({ query: GET_PLACES })
       cache.writeQuery({
         query: GET_PLACES,
-        data: { getPlaces: [ ...createPlaces, ...getPlaces ] },
+        data: { getPlaces: upsertPlaces },
       })
     },
   })
 
-  const [deletePlace] = useMutation(DELETE_PLACE, { onCompleted: refetch })
+  // const [deletePlace] = useMutation(DELETE_PLACE, { onCompleted: refetch })
 
   const columns = useMemo(() => [
     {
@@ -40,7 +40,7 @@ const PlacesIndex = ({ history }) => {
       accessor: "name",
       Cell ({ cell: { value }, row: { original: { id } } }) {
         return (
-          <Link to={`/place/${id}`} className="has-text-primary underline">
+          <Link to={`/place/${id}/edit`} className="has-text-primary underline bold">
             {value}
           </Link>
         )
@@ -48,7 +48,7 @@ const PlacesIndex = ({ history }) => {
     },
     {
       Header: "Catégorie",
-      accessor: ({ category }) => categoryNames[category],
+      accessor: ({ category }) => categories[category],
     },
     {
       Header: "Adresse",
@@ -56,34 +56,45 @@ const PlacesIndex = ({ history }) => {
       Cell ({ cell: { value }, row: { original: { id } } }) {
         return (
           <div className="flex">
-            <span className="icon has-text-grey"><i className="ri-map-pin-2-line"/></span>
-            <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURI(value)}`} className="has-text-grey underline" target="_blank" rel="noopener noreferrer">
+            <span className="icon is-small mr05 has-text-grey"><i className="ri-map-pin-2-line"/></span>
+            <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURI(value)}`} className="has-text-grey-darker" target="_blank" rel="noopener noreferrer">
               {value}
             </a>
           </div>
         )
       },
     },
-    userData.role === "SUPER_ADMIN" && {
-      id: "edit",
-      Cell ({ cell: { value }, row: { original: { id } } }) {
+    {
+      Header: "Contact",
+      accessor: ({ user: { email } }) => email,
+      Cell ({ cell: { value } }) {
         return (
-          <Link to={`/place/${id}/update`} className="button has-text-grey is-small">
-            Modifier
-          </Link>
+          <a href={`mailto:${value}`} className="has-text-primary underline bold">
+            {value}
+          </a>
         )
       },
     },
-    userData.role === "SUPER_ADMIN" && {
-      id: "delete",
-      Cell ({ cell: { value }, row: { original: { id } } }) {
-        return (
-          <button onClick={() => deletePlace({ variables: { id } })} className="button is-white has-text-grey">
-            <span className="icon"><i className="ri-delete-bin-line"/></span>
-          </button>
-        )
-      },
-    },
+    // userData.role === "SUPER_ADMIN" && {
+    //   id: "edit",
+    //   Cell ({ cell: { value }, row: { original: { id } } }) {
+    //     return (
+    //       <Link to={`/place/${id}/update`} className="button has-text-grey is-small">
+    //         Modifier
+    //       </Link>
+    //     )
+    //   },
+    // },
+    // userData.role === "SUPER_ADMIN" && {
+    //   id: "delete",
+    //   Cell ({ cell: { value }, row: { original: { id } } }) {
+    //     return (
+    //       <button onClick={() => deletePlace({ variables: { id } })} className="button is-white has-text-grey">
+    //         <span className="icon"><i className="ri-delete-bin-line"/></span>
+    //       </button>
+    //     )
+    //   },
+    // },
   ].filter(Boolean), [])
 
 
@@ -105,10 +116,31 @@ const PlacesIndex = ({ history }) => {
   return (
     <Index data={places} columns={columns} tabs={tabs}>
       {{
+        add: "Ajouter adresse",
         slug: "place",
         entity: "adresse",
-        onImport: ({ data: places }) => importPlaces({ variables: { places } }),
-        onExport: ({ name, address: { street, zipCode, city }, category }) => ({ name, street, zipCode, city, category }),
+        onImport: async ({ data }) => {
+          try {
+            await upsertPlaces({
+              variables: {
+                data: data.map(({ street, zipCode, city, email, phone, website, facebook, instagram, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY, photos, tags, ...rest }) => console.log(tags) || ({
+                  ...rest,
+                  address: { street, zipCode, city },
+                  user: { email, phone, role: "PLACE" },
+                  social: { website, facebook, instagram },
+                  hours: Object.entries({ MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY }).map(([ day, [ start, end ]]) => ({ day, start, end })),
+                  photos: photos.split(",").filter(Boolean).map(url => ({ url })),
+                  tags: tags.split(",").map(label => ({ label })),
+                })),
+              },
+            })
+            setToast({ type: "success" })
+          } catch (error) {
+            setToast({ type: "danger" })
+            console.log(error, { ...error })
+          }
+        },
+        onExport: ({ name, category, address: { street, zipCode, city }, user: { email, phone }, social: { website, facebook, instagram }, headline, description, hours, photos, tags }) => ({ name, category, street, zipCode, city, email, phone, website, facebook, instagram, headline, description, ...Object.fromEntries(hours.map(({ day, start, end }) => [ day, [ start, end ] ])), photos: photos.map(({ url }) => url), tags: tags.map(({ label }) => label) }),
       }}
     </Index>
   )

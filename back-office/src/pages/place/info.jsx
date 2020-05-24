@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { useMutation, useQuery } from "@apollo/react-hooks"
 
-import { GET_PLACE } from "../../graphql/queries/places"
+import { GET_PLACE } from "../../graphql/place"
 import { categoryNames } from "../../utils/wording"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
@@ -32,16 +32,11 @@ function PlaceInfo ({ history, match: { params: { id } } }) {
             <div className="flex">
               <h1 className="h2 bold mr1 mb2">Tags</h1>
             </div>
-            {Object.keys(tags.reduce((acc, { type }) => ({ ...acc, [type.name]: true }), {})).map(type => (
-              <div className="mb2" key={type}>
-                <h3 className="mb1">{type}</h3>
-                <ul>
-                  {tags.filter(t => t.type.name === type).map(({ id, value }) => (
-                    <span className="tag is-medium mr1 mb1" key={id}>{value}</span>
-                  ))}
-                </ul>
-              </div>
-            ))}
+            <ul>
+              {tags.map(({ id, label }) => (
+                <span className="tag is-medium mr1 mb1" key={id}>{label}</span>
+              ))}
+            </ul>
           </section>
         </main>
         <aside className="sm-col sm-col-6 px4">

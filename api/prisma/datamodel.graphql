@@ -15,11 +15,16 @@ type User {
 
 type Place {
   id: ID! @id
-  name: String
+  name: String! @unique
+  category: Category! @relation(link: INLINE)
   address: Address
+  user: User @relation(link: INLINE)
+  social: Social
+  headline: String
+  description: String
   hours: [Hour!]
-  category: Category @relation(link: INLINE)
   tags: [Tag!] @relation(link: INLINE)
+  photos: [Photo!] @relation(link: INLINE)
 }
 
 type Company {
@@ -34,19 +39,19 @@ type Company {
   quizzes: [Quiz] @relation(link: INLINE)
 }
 
-type TagType {
-  id: ID! @id
-  name: String!
-  category: Category! @relation(link: INLINE)
-  parentTagType: TagType @relation(link: INLINE)
-  tags: [Tag!]
-}
 
 type Tag {
   id: ID! @id
-  type: TagType! @relation(link: INLINE)
-  value: String!
-  places: [Place!]
+  label: String!
+  children: [Tag!] @relation(link: INLINE)
+  root: Boolean
+  leaf: Boolean
+  category: Category! @relation(link: INLINE)
+}
+
+type Photo {
+  id: ID! @id
+  url: String! @unique
 }
 
 type Address @embedded {
@@ -59,6 +64,12 @@ type Hour @embedded {
   day: Day
   start: String
   end: String
+}
+
+type Social @embedded {
+  website: String
+  facebook: String
+  instagram: String
 }
 
 type Quiz {
@@ -107,4 +118,5 @@ enum Role {
   ADMIN
   MODERATOR
   USER
+  PLACE
 }

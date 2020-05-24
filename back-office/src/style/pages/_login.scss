@@ -1,10 +1,12 @@
 .login {
   display: flex;
-  min-height: 100%;
+  min-height: 100vh;
+  margin-top: -4rem;
+  margin-left: -180px;
   
   &__side {
     flex: 1;
-    background-image: url('../../assets/img/illu-login.svg');
+    background-image: url('../../assets/img/illu-login-2.svg');
     background-size: cover;
     background-position: center top;
     @media (max-width: 768px) {

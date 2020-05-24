@@ -17,11 +17,11 @@ var models = [
     embedded: false
   },
   {
-    name: "TagType",
+    name: "Tag",
     embedded: false
   },
   {
-    name: "Tag",
+    name: "Photo",
     embedded: false
   },
   {
@@ -30,6 +30,10 @@ var models = [
   },
   {
     name: "Hour",
+    embedded: true
+  },
+  {
+    name: "Social",
     embedded: true
   },
   {

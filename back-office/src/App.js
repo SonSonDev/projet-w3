@@ -18,6 +18,7 @@ import PlacesIndex from "./pages/place/index"
 import PlaceCreate from "./pages/place/create"
 import PlaceUpdate from "./pages/place/update"
 import PlaceInfo from "./pages/place/info"
+import PlaceForm from "./pages/place/form"
 
 import CompaniesIndex from "./pages/companies/index"
 import CompanyCreate from "./pages/companies/create"
@@ -39,6 +40,7 @@ import { LOGOUT } from "./graphql/mutations/auth"
 import { CHECK_AUTH } from "./graphql/queries/auth"
 
 import UserDataContext from "./utils/UserDataContext"
+import ToastContext from "./utils/ToastContext"
 
 const App = () => {
 
@@ -53,6 +55,8 @@ const App = () => {
   const { loading, data } = useQuery(CHECK_AUTH, {
     fetchPolicy: "no-cache",
   })
+
+  const [ toast, setToast ] = useState(null)
 
   if (loading) return <div/>
 
@@ -74,7 +78,7 @@ const App = () => {
               TriggerComponent={
                 <div className="flex items-center my05">
                   <div className="right-align">
-                    <span className="has-text-grey">{`${userData.role === "SUPER_ADMIN" ? "Super Administrateur" : userData.company ? `Représentant de ${userData.company.name}` : "" }`}</span>
+                    <span className="is-size-6 has-text-grey">{`${userData.role === "SUPER_ADMIN" ? "Super Administrateur" : userData.company ? `Représentant de ${userData.company.name}` : "" }`}</span>
                     <div className="bold lh-1">{`${userData.firstName} ${userData.lastName}`}</div>
                   </div>
                   <span className="icon is-medium"><i className="ri-arrow-down-s-fill"/></span>
@@ -93,7 +97,7 @@ const App = () => {
         {userData && (
           <aside className="menu px2 py2">
 
-            <Dropdown
+            {/* <Dropdown
               className='w100 mb2'
               TriggerComponent={
                 <button className="button is-primary is-fullwidth">
@@ -115,13 +119,9 @@ const App = () => {
                   Ajouter une entreprise
                 </Link>
               )}
-            </Dropdown>
+            </Dropdown> */}
 
             <ul className="menu-list">
-
-              <ItemNav links={["places", "place"]} icon="ri-store-2-line">
-                Adresses
-              </ItemNav>
 
               {userData.role === "ADMIN" && (
                 <ItemNav links={["employees", "employee"]} icon="ri-group-line">
@@ -130,11 +130,14 @@ const App = () => {
               )}
 
               {userData.role === "SUPER_ADMIN" && <>
+                <ItemNav links={["companies", "company"]} icon="ri-building-line">
+                  Clients
+                </ItemNav>
+                <ItemNav links={["places", "place"]} icon="ri-map-pin-line">
+                  Adresses
+                </ItemNav>
                 <ItemNav links={["clients", "client"]} icon="ri-group-line">
                   Utilisateurs
-                </ItemNav>
-                <ItemNav links={["companies", "company"]} icon="ri-building-line">
-                  Entreprises
                 </ItemNav>
                 <ItemNav links={["challenges", "challenge"]} icon="ri-flag-2-line">
                   Défis
@@ -146,38 +149,46 @@ const App = () => {
         )}
 
         <UserDataContext.Provider value={userData}>
-          <div className="main">
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/login" component={Login} />
+          <ToastContext.Provider value={{ setToast: ({ type, message }) => setToast({ type, message, key: Date.now() }) }}>
+            <div className="main">
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/login" component={Login} />
 
-              <Route exact path="/client/create" component={ClientCreate} />
-              <Route exact path="/clients" component={ClientsIndex} />
-              <Route path="/client/:id/update" component={ClientUpdate} />
-              <Route path="/client/:id" component={ClientInfo} />
+                <Route exact path="/client/create" component={ClientCreate} />
+                <Route exact path="/clients" component={ClientsIndex} />
+                <Route path="/client/:id/update" component={ClientUpdate} />
+                <Route path="/client/:id" component={ClientInfo} />
 
-              <Route exact path="/place/create" component={PlaceCreate} />
-              <Route exact path="/places" component={PlacesIndex} />
-              <Route path="/place/:id/update" component={PlaceUpdate} />
-              <Route path="/place/:id" component={PlaceInfo} />
+                <Route exact path="/places" component={PlacesIndex} />
+                <Route path="/place/create" component={PlaceForm} />
+                <Route path="/place/:id/edit" component={PlaceForm} />
 
-              <Route exact path="/employee/create" component={EmployeeCreate} />
-              <Route exact path="/employees" component={EmployeesIndex} />
-              <Route path="/employee/:id/update" component={EmployeeUpdate} />
-              <Route path="/employee/:id" component={EmployeeInfo} />
+                <Route exact path="/employee/create" component={EmployeeCreate} />
+                <Route exact path="/employees" component={EmployeesIndex} />
+                <Route path="/employee/:id/update" component={EmployeeUpdate} />
+                <Route path="/employee/:id" component={EmployeeInfo} />
 
-              <Route exact path="/company/create" component={CompanyCreate} />
-              <Route exact path="/companies/" component={CompaniesIndex} />
-              <Route path="/company/:id/update" component={CompanyUpdate} />
-              <Route exact path="/company/:id" component={CompanyInfo} />
-              <Route path="/company/:id/signup" component={CompanyEmployeeSignup} />
+                <Route exact path="/company/create" component={CompanyCreate} />
+                <Route exact path="/companies/" component={CompaniesIndex} />
+                <Route path="/company/:id/update" component={CompanyUpdate} />
+                <Route exact path="/company/:id" component={CompanyInfo} />
+                <Route path="/company/:id/signup" component={CompanyEmployeeSignup} />
 
-              <Route exact path="/challenge/create" component={ChallengeCreate} />
-              <Route exact path="/challenges/" component={ChallengesIndex} />
-              <Route component={NotFound} />
+                <Route exact path="/challenge/create" component={ChallengeCreate} />
+                <Route exact path="/challenges/" component={ChallengesIndex} />
+                <Route component={NotFound} />
 
-            </Switch>
-          </div>
+              </Switch>
+              {toast && (
+                <div className={[ "toast message fixed z1 bottom-0 left-0 ml3 pr3 mb3", toast.type === "success" ? "is-success" : "is-danger" ].join(" ")} key={toast.key}>
+                  <div className='message-body'>
+                    {toast.message || (toast.type === "success" ? "Opération terminée" : "Une erreur est survenue")}
+                  </div>
+                </div>
+              )}
+            </div>
+          </ToastContext.Provider>
         </UserDataContext.Provider>
       </Router>
     </section>
