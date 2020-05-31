@@ -30,7 +30,7 @@ import ChallengesIndex from "./pages/challenges/index"
 import ChallengeCreate from "./pages/challenges/create"
 
 import ArticlesIndex from "./pages/articles/index"
-import ArticleCreate from "./pages/articles/create"
+import ArticleCreate from "./pages/articles/form"
 
 import NotFound from "./pages/NotFound"
 
@@ -183,6 +183,10 @@ const App = () => {
 
                 <Route exact path="/challenge/create" component={ChallengeCreate} />
                 <Route exact path="/challenges/" component={ChallengesIndex} />
+
+                <Route exact path="/article/create" component={ArticleCreate} />
+                <Route exact path="/articles/" component={ArticlesIndex} />
+
                 <Route component={NotFound} />
 
               </Switch>

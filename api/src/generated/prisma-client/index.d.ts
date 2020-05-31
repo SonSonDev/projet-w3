@@ -394,15 +394,6 @@ export type ArticleOrderByInput =
   | "date_ASC"
   | "date_DESC";
 
-export type ChallengeCategory =
-  | "HEALTHY"
-  | "SUPER_HEALTHY"
-  | "HYPER_HEALTHY"
-  | "MEGA_HEALTHY"
-  | "ULTRA_HEALTHY"
-  | "MAXI_HEALTHY"
-  | "EX_HEALTHY";
-
 export type CompanyType = "COMPANY" | "SCHOOL" | "PLACE" | "COWORKING";
 
 export type Role = "SUPER_ADMIN" | "ADMIN" | "MODERATOR" | "USER" | "PLACE";
@@ -444,8 +435,6 @@ export type ChallengeOrderByInput =
   | "name_DESC"
   | "description_ASC"
   | "description_DESC"
-  | "category_ASC"
-  | "category_DESC"
   | "value_ASC"
   | "value_DESC";
 
@@ -897,10 +886,6 @@ export interface ChallengeWhereInput {
   description_not_starts_with?: Maybe<String>;
   description_ends_with?: Maybe<String>;
   description_not_ends_with?: Maybe<String>;
-  category?: Maybe<ChallengeCategory>;
-  category_not?: Maybe<ChallengeCategory>;
-  category_in?: Maybe<ChallengeCategory[] | ChallengeCategory>;
-  category_not_in?: Maybe<ChallengeCategory[] | ChallengeCategory>;
   value?: Maybe<Int>;
   value_not?: Maybe<Int>;
   value_in?: Maybe<Int[] | Int>;
@@ -1294,7 +1279,6 @@ export interface ChallengeCreateInput {
   id?: Maybe<ID_Input>;
   name: String;
   description: String;
-  category?: Maybe<ChallengeCategory>;
   value: Int;
   companies?: Maybe<CompanyCreateManyWithoutChallengesInput>;
 }
@@ -1391,7 +1375,6 @@ export interface CompanyCreateemailDomainsInput {
 export interface ChallengeUpdateInput {
   name?: Maybe<String>;
   description?: Maybe<String>;
-  category?: Maybe<ChallengeCategory>;
   value?: Maybe<Int>;
   companies?: Maybe<CompanyUpdateManyWithoutChallengesInput>;
 }
@@ -1544,7 +1527,6 @@ export interface ChallengeUpdateWithWhereUniqueNestedInput {
 export interface ChallengeUpdateDataInput {
   name?: Maybe<String>;
   description?: Maybe<String>;
-  category?: Maybe<ChallengeCategory>;
   value?: Maybe<Int>;
   companies?: Maybe<CompanyUpdateManyWithoutChallengesInput>;
 }
@@ -1598,10 +1580,6 @@ export interface ChallengeScalarWhereInput {
   description_not_starts_with?: Maybe<String>;
   description_ends_with?: Maybe<String>;
   description_not_ends_with?: Maybe<String>;
-  category?: Maybe<ChallengeCategory>;
-  category_not?: Maybe<ChallengeCategory>;
-  category_in?: Maybe<ChallengeCategory[] | ChallengeCategory>;
-  category_not_in?: Maybe<ChallengeCategory[] | ChallengeCategory>;
   value?: Maybe<Int>;
   value_not?: Maybe<Int>;
   value_in?: Maybe<Int[] | Int>;
@@ -1623,7 +1601,6 @@ export interface ChallengeUpdateManyWithWhereNestedInput {
 export interface ChallengeUpdateManyDataInput {
   name?: Maybe<String>;
   description?: Maybe<String>;
-  category?: Maybe<ChallengeCategory>;
   value?: Maybe<Int>;
 }
 
@@ -1927,7 +1904,6 @@ export interface CompanyUpdateManyDataInput {
 export interface ChallengeUpdateManyMutationInput {
   name?: Maybe<String>;
   description?: Maybe<String>;
-  category?: Maybe<ChallengeCategory>;
   value?: Maybe<Int>;
 }
 
@@ -1954,7 +1930,6 @@ export interface ChallengeCreateWithoutCompaniesInput {
   id?: Maybe<ID_Input>;
   name: String;
   description: String;
-  category?: Maybe<ChallengeCategory>;
   value: Int;
 }
 
@@ -2000,7 +1975,6 @@ export interface ChallengeUpdateWithWhereUniqueWithoutCompaniesInput {
 export interface ChallengeUpdateWithoutCompaniesDataInput {
   name?: Maybe<String>;
   description?: Maybe<String>;
-  category?: Maybe<ChallengeCategory>;
   value?: Maybe<Int>;
 }
 
@@ -2061,7 +2035,7 @@ export interface UserCreateInput {
   company?: Maybe<CompanyCreateOneWithoutUsersInput>;
   points?: Maybe<Int>;
   validatedChallenges?: Maybe<ChallengeCreateManyInput>;
-  validatedQuizzes?: Maybe<QuizCreateManyInput>;
+  validatedQuizzes?: Maybe<ValidatedQuizCreateManyInput>;
 }
 
 export interface CompanyCreateOneWithoutUsersInput {
@@ -2077,7 +2051,6 @@ export interface CompanyCreateWithoutUsersInput {
   emailDomains?: Maybe<CompanyCreateemailDomainsInput>;
   stripeCustomerId?: Maybe<String>;
   challenges?: Maybe<ChallengeCreateManyWithoutCompaniesInput>;
-  quizzes?: Maybe<QuizCreateManyWithoutCompaniesInput>;
 }
 
 export interface SocialCreateOneInput {
@@ -2152,7 +2125,7 @@ export interface UserUpdateDataInput {
   company?: Maybe<CompanyUpdateOneWithoutUsersInput>;
   points?: Maybe<Int>;
   validatedChallenges?: Maybe<ChallengeUpdateManyInput>;
-  validatedQuizzes?: Maybe<QuizUpdateManyInput>;
+  validatedQuizzes?: Maybe<ValidatedQuizUpdateManyInput>;
 }
 
 export interface CompanyUpdateOneWithoutUsersInput {
@@ -2171,7 +2144,6 @@ export interface CompanyUpdateWithoutUsersDataInput {
   emailDomains?: Maybe<CompanyUpdateemailDomainsInput>;
   stripeCustomerId?: Maybe<String>;
   challenges?: Maybe<ChallengeUpdateManyWithoutCompaniesInput>;
-  quizzes?: Maybe<QuizUpdateManyWithoutCompaniesInput>;
 }
 
 export interface CompanyUpsertWithoutUsersInput {
@@ -2434,23 +2406,6 @@ export interface PlaceUpdateManyMutationInput {
   category?: Maybe<Category>;
   headline?: Maybe<String>;
   description?: Maybe<String>;
-}
-
-export interface QuizUpdateInput {
-  name?: Maybe<String>;
-  question?: Maybe<String>;
-  choices?: Maybe<QuizUpdatechoicesInput>;
-  answer?: Maybe<String>;
-  value?: Maybe<Int>;
-  companies?: Maybe<CompanyUpdateManyWithoutQuizzesInput>;
-}
-
-export interface QuizUpdateManyMutationInput {
-  name?: Maybe<String>;
-  question?: Maybe<String>;
-  choices?: Maybe<QuizUpdatechoicesInput>;
-  answer?: Maybe<String>;
-  value?: Maybe<Int>;
 }
 
 export interface TagUpdateInput {
@@ -2739,7 +2694,6 @@ export interface Challenge {
   id: ID_Output;
   name: String;
   description: String;
-  category?: ChallengeCategory;
   value: Int;
 }
 
@@ -2747,7 +2701,6 @@ export interface ChallengePromise extends Promise<Challenge>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   description: () => Promise<String>;
-  category: () => Promise<ChallengeCategory>;
   value: () => Promise<Int>;
   companies: <T = FragmentableArray<Company>>(args?: {
     where?: CompanyWhereInput;
@@ -2766,7 +2719,6 @@ export interface ChallengeSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
-  category: () => Promise<AsyncIterator<ChallengeCategory>>;
   value: () => Promise<AsyncIterator<Int>>;
   companies: <T = Promise<AsyncIterator<CompanySubscription>>>(args?: {
     where?: CompanyWhereInput;
@@ -2785,7 +2737,6 @@ export interface ChallengeNullablePromise
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   description: () => Promise<String>;
-  category: () => Promise<ChallengeCategory>;
   value: () => Promise<Int>;
   companies: <T = FragmentableArray<Company>>(args?: {
     where?: CompanyWhereInput;
@@ -3819,7 +3770,6 @@ export interface ChallengePreviousValues {
   id: ID_Output;
   name: String;
   description: String;
-  category?: ChallengeCategory;
   value: Int;
 }
 
@@ -3829,7 +3779,6 @@ export interface ChallengePreviousValuesPromise
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   description: () => Promise<String>;
-  category: () => Promise<ChallengeCategory>;
   value: () => Promise<Int>;
 }
 
@@ -3839,7 +3788,6 @@ export interface ChallengePreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
-  category: () => Promise<AsyncIterator<ChallengeCategory>>;
   value: () => Promise<AsyncIterator<Int>>;
 }
 
@@ -4225,6 +4173,10 @@ export const models: Model[] = [
     embedded: true
   },
   {
+    name: "Article",
+    embedded: false
+  },
+  {
     name: "Quiz",
     embedded: true
   },
@@ -4245,11 +4197,7 @@ export const models: Model[] = [
     embedded: false
   },
   {
-    name: "PlaceCategory",
-    embedded: false
-  },
-  {
-    name: "ChallengeCategory",
+    name: "Category",
     embedded: false
   },
   {

@@ -13,6 +13,8 @@ type Query {
   checkAuth: User
   getTags(where: TagInput): [Tag]
   getTag(id: ID!): Tag
+  getArticles: [Article]
+  getArticle(id: ID!): Article
   getChallenges: [Challenge]
   getChallenge(id: ID!): Challenge
   getStripeInvoicesByCompany(id: ID!): [StripeInvoice]
@@ -94,6 +96,36 @@ type Mutation {
   deleteTag(id: ID!): Tag!
   updateTag(id: ID!, label: String!, children: [ID!], category: Category!): Tag!
 
+  createArticle(
+    title: String!
+    content: String!
+    picture: String
+    video: String
+    quizQuestion: String!
+    quizAnswer: String!
+    quizChoices: [String!]
+    quizValue: Int!
+  ): Article
+
+  updateArticle(
+    id: ID!
+    title: String!
+    content: String!
+    picture: String
+    video: String
+    quizQuestion: String!
+    quizAnswer: String!
+    quizChoices: [String!]
+    quizValue: Int!
+  ): Article
+
+  deleteArticle(id: ID!): Article
+
+  validateQuiz(
+    userId: ID!
+    articleId: ID!
+    answer: String!
+  ): User
 
   createChallenge(
     name: String!
@@ -132,7 +164,7 @@ type User {
   isRepresentative: Boolean
   points: Int
   validatedChallenges: [Challenge]
-  validatedQuizzes: [Quiz]
+  validatedQuizzes: [ValidatedQuiz]
 }
 
 type Company {
@@ -147,7 +179,6 @@ type Company {
   representativeUser: User
   stripeInvoices: [StripeInvoice]
   challenges: [Challenge]
-  quizzes: [Quiz]
 }
 
 type Place {
@@ -197,15 +228,28 @@ type Tag {
   category: Category!
 }
 
+type Article {
+  id: ID!
+  title: String!
+  content: String!
+  picture: String
+  video: String
+  quiz: Quiz
+  date: String!
+}
 
 type Quiz {
-  id: ID!
-  name: String!
   question: String!
   choices: [String!]
   answer: String!
   value: Int!
-  companies: [Company]
+  answeredBy: [User]
+}
+
+type ValidatedQuiz {
+  id: ID!
+  article: Article!
+  status: Boolean!
 }
 
 type Challenge {

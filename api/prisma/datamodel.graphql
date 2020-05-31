@@ -10,7 +10,7 @@ type User {
   company: Company @relation(link: INLINE)
   points: Int
   validatedChallenges: [Challenge] @relation(link: INLINE)
-  validatedQuizzes: [Quiz] @relation(link: INLINE)
+  validatedQuizzes: [ValidatedQuiz] @relation(link: INLINE)
 }
 
 type Place {
@@ -23,7 +23,6 @@ type Place {
   headline: String
   description: String
   hours: [Hour!]
-
   tags: [Tag!] @relation(link: INLINE)
   photos: [Photo!] @relation(link: INLINE)
 }
@@ -37,7 +36,6 @@ type Company {
   emailDomains: [String!]! @scalarList(strategy: EMBEDDED)
   stripeCustomerId: String
   challenges: [Challenge] @relation(link: INLINE)
-  quizzes: [Quiz] @relation(link: INLINE)
 }
 
 
@@ -79,14 +77,27 @@ type Social @embedded {
   instagram: String
 }
 
-type Quiz {
+type Article {
   id: ID! @id
-  name: String!
+  title: String!
+  content: String!
+  picture: String
+  video: String
+  quiz: Quiz
+  date: String!
+}
+
+type Quiz @embedded {
   question: String!
   choices: [String!]
   answer: String!
   value: Int!
-  companies: [Company]
+}
+
+type ValidatedQuiz {
+  id: ID! @id
+  article: Article! @relation(link: INLINE)
+  status: Boolean!
 }
 
 type Challenge {

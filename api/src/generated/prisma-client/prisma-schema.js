@@ -331,23 +331,18 @@ type BatchPayload {
   count: Long!
 }
 
+enum Category {
+  FOOD
+  SHOP
+  ACTIVITY
+}
+
 type Challenge {
   id: ID!
   name: String!
   description: String!
-  category: ChallengeCategory
   value: Int!
   companies(where: CompanyWhereInput, orderBy: CompanyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Company!]
-}
-
-enum ChallengeCategory {
-  HEALTHY
-  SUPER_HEALTHY
-  HYPER_HEALTHY
-  MEGA_HEALTHY
-  ULTRA_HEALTHY
-  MAXI_HEALTHY
-  EX_HEALTHY
 }
 
 type ChallengeConnection {
@@ -360,7 +355,6 @@ input ChallengeCreateInput {
   id: ID
   name: String!
   description: String!
-  category: ChallengeCategory
   value: Int!
   companies: CompanyCreateManyWithoutChallengesInput
 }
@@ -379,7 +373,6 @@ input ChallengeCreateWithoutCompaniesInput {
   id: ID
   name: String!
   description: String!
-  category: ChallengeCategory
   value: Int!
 }
 
@@ -395,8 +388,6 @@ enum ChallengeOrderByInput {
   name_DESC
   description_ASC
   description_DESC
-  category_ASC
-  category_DESC
   value_ASC
   value_DESC
 }
@@ -405,7 +396,6 @@ type ChallengePreviousValues {
   id: ID!
   name: String!
   description: String!
-  category: ChallengeCategory
   value: Int!
 }
 
@@ -452,10 +442,6 @@ input ChallengeScalarWhereInput {
   description_not_starts_with: String
   description_ends_with: String
   description_not_ends_with: String
-  category: ChallengeCategory
-  category_not: ChallengeCategory
-  category_in: [ChallengeCategory!]
-  category_not_in: [ChallengeCategory!]
   value: Int
   value_not: Int
   value_in: [Int!]
@@ -488,7 +474,6 @@ input ChallengeSubscriptionWhereInput {
 input ChallengeUpdateDataInput {
   name: String
   description: String
-  category: ChallengeCategory
   value: Int
   companies: CompanyUpdateManyWithoutChallengesInput
 }
@@ -496,7 +481,6 @@ input ChallengeUpdateDataInput {
 input ChallengeUpdateInput {
   name: String
   description: String
-  category: ChallengeCategory
   value: Int
   companies: CompanyUpdateManyWithoutChallengesInput
 }
@@ -504,7 +488,6 @@ input ChallengeUpdateInput {
 input ChallengeUpdateManyDataInput {
   name: String
   description: String
-  category: ChallengeCategory
   value: Int
 }
 
@@ -523,7 +506,6 @@ input ChallengeUpdateManyInput {
 input ChallengeUpdateManyMutationInput {
   name: String
   description: String
-  category: ChallengeCategory
   value: Int
 }
 
@@ -547,7 +529,6 @@ input ChallengeUpdateManyWithWhereNestedInput {
 input ChallengeUpdateWithoutCompaniesDataInput {
   name: String
   description: String
-  category: ChallengeCategory
   value: Int
 }
 
@@ -616,10 +597,6 @@ input ChallengeWhereInput {
   description_not_starts_with: String
   description_ends_with: String
   description_not_ends_with: String
-  category: ChallengeCategory
-  category_not: ChallengeCategory
-  category_in: [ChallengeCategory!]
-  category_not_in: [ChallengeCategory!]
   value: Int
   value_not: Int
   value_in: [Int!]
@@ -1346,12 +1323,6 @@ type Place {
   hours: [Hour!]
   tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag!]
   photos(where: PhotoWhereInput, orderBy: PhotoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Photo!]
-}
-
-enum PlaceCategory {
-  FOOD
-  SHOP
-  ACTIVITY
 }
 
 type PlaceConnection {
@@ -2230,7 +2201,7 @@ input UserUpdateDataInput {
   company: CompanyUpdateOneWithoutUsersInput
   points: Int
   validatedChallenges: ChallengeUpdateManyInput
-  validatedQuizzes: QuizUpdateManyInput
+  validatedQuizzes: ValidatedQuizUpdateManyInput
 }
 
 input UserUpdateInput {
