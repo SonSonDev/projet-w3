@@ -65,8 +65,20 @@ const makePlaceInput = async ({ name, category, address, user: { email, phone, r
 
 module.exports = {
   queries: {
-    getPlaces (_, { where }, { prisma }) {
-      return prisma.places(where)
+    async getPlaces (_, { where, nearby: { coordinates, minDistance, maxDistance } = {} }, { prisma }) {
+      return coordinates
+        ? Mongoose.Place.aggregate([
+          { $geoNear: { spherical: true,
+            near: { type: "Point", coordinates },
+            minDistance, maxDistance,
+            distanceField: "address.distance",
+          } },
+          { $lookup: { from: "User", foreignField: "_id", localField: "user", as: "user" } },
+          { $lookup: { from: "Tag", foreignField: "_id", localField: "tags", as: "tags" } },
+          { $lookup: { from: "Photo", foreignField: "_id", localField: "photos", as: "photos" } },
+          { $addFields: { id: "$_id" } },
+        ])
+        : prisma.places(where)
     },
     getPlace (_, { where }, { prisma }) {
       return prisma.place(where)

@@ -391,7 +391,7 @@ export type QuizOrderByInput =
   | "value_ASC"
   | "value_DESC";
 
-export type PhotoOrderByInput = "id_ASC" | "id_DESC" | "url_ASC" | "url_DESC";
+export type PhotoOrderByInput = "id_ASC" | "id_DESC" | "uri_ASC" | "uri_DESC";
 
 export type Category = "FOOD" | "SHOP" | "ACTIVITY";
 
@@ -531,7 +531,26 @@ export interface AddressWhereInput {
   city_not_starts_with?: Maybe<String>;
   city_ends_with?: Maybe<String>;
   city_not_ends_with?: Maybe<String>;
+  location?: Maybe<PointWhereInput>;
   AND?: Maybe<AddressWhereInput[] | AddressWhereInput>;
+}
+
+export interface PointWhereInput {
+  type?: Maybe<String>;
+  type_not?: Maybe<String>;
+  type_in?: Maybe<String[] | String>;
+  type_not_in?: Maybe<String[] | String>;
+  type_lt?: Maybe<String>;
+  type_lte?: Maybe<String>;
+  type_gt?: Maybe<String>;
+  type_gte?: Maybe<String>;
+  type_contains?: Maybe<String>;
+  type_not_contains?: Maybe<String>;
+  type_starts_with?: Maybe<String>;
+  type_not_starts_with?: Maybe<String>;
+  type_ends_with?: Maybe<String>;
+  type_not_ends_with?: Maybe<String>;
+  AND?: Maybe<PointWhereInput[] | PointWhereInput>;
 }
 
 export interface UserWhereInput {
@@ -769,7 +788,7 @@ export type CompanyWhereUniqueInput = AtLeastOne<{
 
 export type PhotoWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
-  url?: Maybe<String>;
+  uri?: Maybe<String>;
 }>;
 
 export interface PhotoWhereInput {
@@ -787,20 +806,20 @@ export interface PhotoWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  url?: Maybe<String>;
-  url_not?: Maybe<String>;
-  url_in?: Maybe<String[] | String>;
-  url_not_in?: Maybe<String[] | String>;
-  url_lt?: Maybe<String>;
-  url_lte?: Maybe<String>;
-  url_gt?: Maybe<String>;
-  url_gte?: Maybe<String>;
-  url_contains?: Maybe<String>;
-  url_not_contains?: Maybe<String>;
-  url_starts_with?: Maybe<String>;
-  url_not_starts_with?: Maybe<String>;
-  url_ends_with?: Maybe<String>;
-  url_not_ends_with?: Maybe<String>;
+  uri?: Maybe<String>;
+  uri_not?: Maybe<String>;
+  uri_in?: Maybe<String[] | String>;
+  uri_not_in?: Maybe<String[] | String>;
+  uri_lt?: Maybe<String>;
+  uri_lte?: Maybe<String>;
+  uri_gt?: Maybe<String>;
+  uri_gte?: Maybe<String>;
+  uri_contains?: Maybe<String>;
+  uri_not_contains?: Maybe<String>;
+  uri_starts_with?: Maybe<String>;
+  uri_not_starts_with?: Maybe<String>;
+  uri_ends_with?: Maybe<String>;
+  uri_not_ends_with?: Maybe<String>;
   AND?: Maybe<PhotoWhereInput[] | PhotoWhereInput>;
 }
 
@@ -1087,6 +1106,20 @@ export interface AddressCreateInput {
   street?: Maybe<String>;
   zipCode?: Maybe<String>;
   city?: Maybe<String>;
+  location?: Maybe<PointCreateOneInput>;
+}
+
+export interface PointCreateOneInput {
+  create?: Maybe<PointCreateInput>;
+}
+
+export interface PointCreateInput {
+  type?: Maybe<String>;
+  coordinates?: Maybe<PointCreatecoordinatesInput>;
+}
+
+export interface PointCreatecoordinatesInput {
+  set?: Maybe<Float[] | Float>;
 }
 
 export interface UserCreateManyWithoutCompanyInput {
@@ -1244,6 +1277,29 @@ export interface AddressUpdateDataInput {
   street?: Maybe<String>;
   zipCode?: Maybe<String>;
   city?: Maybe<String>;
+  location?: Maybe<PointUpdateOneInput>;
+}
+
+export interface PointUpdateOneInput {
+  create?: Maybe<PointCreateInput>;
+  update?: Maybe<PointUpdateDataInput>;
+  upsert?: Maybe<PointUpsertNestedInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+}
+
+export interface PointUpdateDataInput {
+  type?: Maybe<String>;
+  coordinates?: Maybe<PointUpdatecoordinatesInput>;
+}
+
+export interface PointUpdatecoordinatesInput {
+  set?: Maybe<Float[] | Float>;
+}
+
+export interface PointUpsertNestedInput {
+  update: PointUpdateDataInput;
+  create: PointCreateInput;
 }
 
 export interface AddressUpsertNestedInput {
@@ -1888,15 +1944,15 @@ export interface CompanyUpdateManyMutationInput {
 
 export interface PhotoCreateInput {
   id?: Maybe<ID_Input>;
-  url: String;
+  uri: String;
 }
 
 export interface PhotoUpdateInput {
-  url?: Maybe<String>;
+  uri?: Maybe<String>;
 }
 
 export interface PhotoUpdateManyMutationInput {
-  url?: Maybe<String>;
+  uri?: Maybe<String>;
 }
 
 export interface PlaceCreateInput {
@@ -2246,7 +2302,7 @@ export interface PhotoUpdateWithWhereUniqueNestedInput {
 }
 
 export interface PhotoUpdateDataInput {
-  url?: Maybe<String>;
+  uri?: Maybe<String>;
 }
 
 export interface PhotoUpsertWithWhereUniqueNestedInput {
@@ -2270,20 +2326,20 @@ export interface PhotoScalarWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  url?: Maybe<String>;
-  url_not?: Maybe<String>;
-  url_in?: Maybe<String[] | String>;
-  url_not_in?: Maybe<String[] | String>;
-  url_lt?: Maybe<String>;
-  url_lte?: Maybe<String>;
-  url_gt?: Maybe<String>;
-  url_gte?: Maybe<String>;
-  url_contains?: Maybe<String>;
-  url_not_contains?: Maybe<String>;
-  url_starts_with?: Maybe<String>;
-  url_not_starts_with?: Maybe<String>;
-  url_ends_with?: Maybe<String>;
-  url_not_ends_with?: Maybe<String>;
+  uri?: Maybe<String>;
+  uri_not?: Maybe<String>;
+  uri_in?: Maybe<String[] | String>;
+  uri_not_in?: Maybe<String[] | String>;
+  uri_lt?: Maybe<String>;
+  uri_lte?: Maybe<String>;
+  uri_gt?: Maybe<String>;
+  uri_gte?: Maybe<String>;
+  uri_contains?: Maybe<String>;
+  uri_not_contains?: Maybe<String>;
+  uri_starts_with?: Maybe<String>;
+  uri_not_starts_with?: Maybe<String>;
+  uri_ends_with?: Maybe<String>;
+  uri_not_ends_with?: Maybe<String>;
   AND?: Maybe<PhotoScalarWhereInput[] | PhotoScalarWhereInput>;
   OR?: Maybe<PhotoScalarWhereInput[] | PhotoScalarWhereInput>;
   NOT?: Maybe<PhotoScalarWhereInput[] | PhotoScalarWhereInput>;
@@ -2295,7 +2351,7 @@ export interface PhotoUpdateManyWithWhereNestedInput {
 }
 
 export interface PhotoUpdateManyDataInput {
-  url?: Maybe<String>;
+  uri?: Maybe<String>;
 }
 
 export interface PlaceUpdateManyMutationInput {
@@ -2615,12 +2671,14 @@ export interface Address {
   street?: String;
   zipCode?: String;
   city?: String;
+  location?: Point | null;
 }
 
 export interface AddressPromise extends Promise<Address>, Fragmentable {
   street: () => Promise<String>;
   zipCode: () => Promise<String>;
   city: () => Promise<String>;
+  location: <T = PointPromise>() => T;
 }
 
 export interface AddressSubscription
@@ -2629,6 +2687,7 @@ export interface AddressSubscription
   street: () => Promise<AsyncIterator<String>>;
   zipCode: () => Promise<AsyncIterator<String>>;
   city: () => Promise<AsyncIterator<String>>;
+  location: <T = PointSubscription>() => T;
 }
 
 export interface AddressNullablePromise
@@ -2637,6 +2696,31 @@ export interface AddressNullablePromise
   street: () => Promise<String>;
   zipCode: () => Promise<String>;
   city: () => Promise<String>;
+  location: <T = PointPromise>() => T;
+}
+
+export interface Point {
+  type?: String;
+  coordinates: Float[];
+}
+
+export interface PointPromise extends Promise<Point>, Fragmentable {
+  type: () => Promise<String>;
+  coordinates: () => Promise<Float[]>;
+}
+
+export interface PointSubscription
+  extends Promise<AsyncIterator<Point>>,
+    Fragmentable {
+  type: () => Promise<AsyncIterator<String>>;
+  coordinates: () => Promise<AsyncIterator<Float[]>>;
+}
+
+export interface PointNullablePromise
+  extends Promise<Point | null>,
+    Fragmentable {
+  type: () => Promise<String>;
+  coordinates: () => Promise<Float[]>;
 }
 
 export interface User {
@@ -2952,26 +3036,26 @@ export interface AggregateCompanySubscription
 
 export interface Photo {
   id: ID_Output;
-  url: String;
+  uri: String;
 }
 
 export interface PhotoPromise extends Promise<Photo>, Fragmentable {
   id: () => Promise<ID_Output>;
-  url: () => Promise<String>;
+  uri: () => Promise<String>;
 }
 
 export interface PhotoSubscription
   extends Promise<AsyncIterator<Photo>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  url: () => Promise<AsyncIterator<String>>;
+  uri: () => Promise<AsyncIterator<String>>;
 }
 
 export interface PhotoNullablePromise
   extends Promise<Photo | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  url: () => Promise<String>;
+  uri: () => Promise<String>;
 }
 
 export interface PhotoConnection {
@@ -3612,21 +3696,21 @@ export interface PhotoSubscriptionPayloadSubscription
 
 export interface PhotoPreviousValues {
   id: ID_Output;
-  url: String;
+  uri: String;
 }
 
 export interface PhotoPreviousValuesPromise
   extends Promise<PhotoPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  url: () => Promise<String>;
+  uri: () => Promise<String>;
 }
 
 export interface PhotoPreviousValuesSubscription
   extends Promise<AsyncIterator<PhotoPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  url: () => Promise<AsyncIterator<String>>;
+  uri: () => Promise<AsyncIterator<String>>;
 }
 
 export interface PlaceSubscriptionPayload {
@@ -3877,6 +3961,11 @@ The `Boolean` scalar type represents `true` or `false`.
 */
 export type Boolean = boolean;
 
+/*
+The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
+*/
+export type Float = number;
+
 export type Long = string;
 
 /**
@@ -3906,6 +3995,10 @@ export const models: Model[] = [
   },
   {
     name: "Address",
+    embedded: true
+  },
+  {
+    name: "Point",
     embedded: true
   },
   {

@@ -1,8 +1,10 @@
 scalar Upload
 scalar Date
+scalar Point
+scalar Coordinates
 
 type Query {
-  getPlaces(where: PlaceInput): [Place]
+  getPlaces(where: PlaceInput, nearby: NearbyInput): [Place]
   getPlace(where: PlaceInputUnique): Place
   getUsers(role: Role): [User]
   getUser(id: ID!): User
@@ -175,6 +177,8 @@ type Address {
   street: String
   zipCode: String
   city: String
+  location: Point
+  distance: Float
 }
 
 type Hour {
@@ -347,4 +351,10 @@ input HourInput {
 input PhotoInput {
   url: String
   file: Upload
+}
+
+input NearbyInput {
+  coordinates: Coordinates
+  minDistance: Float
+  maxDistance: Float
 }

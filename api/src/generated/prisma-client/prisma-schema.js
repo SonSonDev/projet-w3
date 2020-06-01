@@ -7,12 +7,14 @@ module.exports = {
   street: String
   zipCode: String
   city: String
+  location: Point
 }
 
 input AddressCreateInput {
   street: String
   zipCode: String
   city: String
+  location: PointCreateOneInput
 }
 
 input AddressCreateOneInput {
@@ -23,6 +25,7 @@ input AddressUpdateDataInput {
   street: String
   zipCode: String
   city: String
+  location: PointUpdateOneInput
 }
 
 input AddressUpdateOneInput {
@@ -81,6 +84,7 @@ input AddressWhereInput {
   city_not_starts_with: String
   city_ends_with: String
   city_not_ends_with: String
+  location: PointWhereInput
   AND: [AddressWhereInput!]
 }
 
@@ -980,7 +984,7 @@ type PageInfo {
 
 type Photo {
   id: ID!
-  url: String!
+  uri: String!
 }
 
 type PhotoConnection {
@@ -991,7 +995,7 @@ type PhotoConnection {
 
 input PhotoCreateInput {
   id: ID
-  url: String!
+  uri: String!
 }
 
 input PhotoCreateManyInput {
@@ -1007,13 +1011,13 @@ type PhotoEdge {
 enum PhotoOrderByInput {
   id_ASC
   id_DESC
-  url_ASC
-  url_DESC
+  uri_ASC
+  uri_DESC
 }
 
 type PhotoPreviousValues {
   id: ID!
-  url: String!
+  uri: String!
 }
 
 input PhotoScalarWhereInput {
@@ -1031,20 +1035,20 @@ input PhotoScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  url: String
-  url_not: String
-  url_in: [String!]
-  url_not_in: [String!]
-  url_lt: String
-  url_lte: String
-  url_gt: String
-  url_gte: String
-  url_contains: String
-  url_not_contains: String
-  url_starts_with: String
-  url_not_starts_with: String
-  url_ends_with: String
-  url_not_ends_with: String
+  uri: String
+  uri_not: String
+  uri_in: [String!]
+  uri_not_in: [String!]
+  uri_lt: String
+  uri_lte: String
+  uri_gt: String
+  uri_gte: String
+  uri_contains: String
+  uri_not_contains: String
+  uri_starts_with: String
+  uri_not_starts_with: String
+  uri_ends_with: String
+  uri_not_ends_with: String
   AND: [PhotoScalarWhereInput!]
   OR: [PhotoScalarWhereInput!]
   NOT: [PhotoScalarWhereInput!]
@@ -1067,15 +1071,15 @@ input PhotoSubscriptionWhereInput {
 }
 
 input PhotoUpdateDataInput {
-  url: String
+  uri: String
 }
 
 input PhotoUpdateInput {
-  url: String
+  uri: String
 }
 
 input PhotoUpdateManyDataInput {
-  url: String
+  uri: String
 }
 
 input PhotoUpdateManyInput {
@@ -1091,7 +1095,7 @@ input PhotoUpdateManyInput {
 }
 
 input PhotoUpdateManyMutationInput {
-  url: String
+  uri: String
 }
 
 input PhotoUpdateManyWithWhereNestedInput {
@@ -1125,26 +1129,26 @@ input PhotoWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  url: String
-  url_not: String
-  url_in: [String!]
-  url_not_in: [String!]
-  url_lt: String
-  url_lte: String
-  url_gt: String
-  url_gte: String
-  url_contains: String
-  url_not_contains: String
-  url_starts_with: String
-  url_not_starts_with: String
-  url_ends_with: String
-  url_not_ends_with: String
+  uri: String
+  uri_not: String
+  uri_in: [String!]
+  uri_not_in: [String!]
+  uri_lt: String
+  uri_lte: String
+  uri_gt: String
+  uri_gte: String
+  uri_contains: String
+  uri_not_contains: String
+  uri_starts_with: String
+  uri_not_starts_with: String
+  uri_ends_with: String
+  uri_not_ends_with: String
   AND: [PhotoWhereInput!]
 }
 
 input PhotoWhereUniqueInput {
   id: ID
-  url: String
+  uri: String
 }
 
 type Place {
@@ -1318,6 +1322,64 @@ input PlaceWhereInput {
 input PlaceWhereUniqueInput {
   id: ID
   name: String
+}
+
+type Point {
+  type: String
+  coordinates: [Float!]!
+}
+
+input PointCreatecoordinatesInput {
+  set: [Float!]
+}
+
+input PointCreateInput {
+  type: String
+  coordinates: PointCreatecoordinatesInput
+}
+
+input PointCreateOneInput {
+  create: PointCreateInput
+}
+
+input PointUpdatecoordinatesInput {
+  set: [Float!]
+}
+
+input PointUpdateDataInput {
+  type: String
+  coordinates: PointUpdatecoordinatesInput
+}
+
+input PointUpdateOneInput {
+  create: PointCreateInput
+  update: PointUpdateDataInput
+  upsert: PointUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+}
+
+input PointUpsertNestedInput {
+  update: PointUpdateDataInput!
+  create: PointCreateInput!
+}
+
+input PointWhereInput {
+  type: String
+  type_not: String
+  type_in: [String!]
+  type_not_in: [String!]
+  type_lt: String
+  type_lte: String
+  type_gt: String
+  type_gte: String
+  type_contains: String
+  type_not_contains: String
+  type_starts_with: String
+  type_not_starts_with: String
+  type_ends_with: String
+  type_not_ends_with: String
+  AND: [PointWhereInput!]
 }
 
 type Query {
