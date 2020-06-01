@@ -228,7 +228,7 @@ type StripeInvoice {
 
 type Photo {
   id: String!
-  url: String!
+  uri: String!
 }
 
 enum CompanyType {
@@ -349,7 +349,7 @@ input HourInput {
 }
 
 input PhotoInput {
-  url: String
+  uri: String
   file: Upload
 }
 

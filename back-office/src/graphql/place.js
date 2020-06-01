@@ -34,7 +34,7 @@ const placeFragment = gql`
       label
     }
     photos {
-      url
+      uri
     }
   }
 `

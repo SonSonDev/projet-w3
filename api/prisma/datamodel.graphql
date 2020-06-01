@@ -51,7 +51,7 @@ type Tag {
 
 type Photo {
   id: ID! @id
-  url: String! @unique
+  uri: String! @unique
 }
 
 type Address @embedded {

@@ -2,11 +2,6 @@ const Aws = require("../services/aws")
 const Mongoose = require("../services/mongoose")
 const GoogleMaps = require("../services/googleMaps")
 
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: "eu-west-2",
-})
 
 const makePlaceInput = async ({ name, category, address: { street, zipCode, city }, user: { email, phone, role }, social, headline, description, hours, photos = [], tags = [] }, prisma, update) => {
 
@@ -16,8 +11,8 @@ const makePlaceInput = async ({ name, category, address: { street, zipCode, city
   const { geometry: { location: { lat, lng } } } = results[0]
 
   const uploadedPhotos = await Promise.all(
-    photos.map(async ({ url, file }, i) =>
-      url ? ({ url }) : s3.upload({
+    photos.map(async ({ uri, file }, i) =>
+      uri ? ({ uri }) : Aws.s3.upload({
         Bucket: "madu-dev",
         Key: (await file).filename,
         Body: (await file).createReadStream(),
@@ -48,17 +43,17 @@ const makePlaceInput = async ({ name, category, address: { street, zipCode, city
     hours: { create: hours },
     photos: await prisma.photos().then(allPhotos => ({
       ...uploadedPhotos
-        .map(({ url, Location }) => ({ url: url || Location }))
-        .filter(({ url }) => !allPhotos.some(photo => photo.url === url))
+        .map(({ uri, Location }) => ({ uri: uri || Location }))
+        .filter(({ uri }) => !allPhotos.some(photo => photo.uri === uri))
         .reduce((acc, curr) => ({ create: [ ...acc.create || [], curr ] }), {}),
       ...update
         ? uploadedPhotos
-          .map(({ url, Location }) => ({ url: url || Location }))
-          .filter(({ url }) => allPhotos.some(photo => photo.url === url))
+          .map(({ uri, Location }) => ({ uri: uri || Location }))
+          // .filter(({ uri }) => allPhotos.some(photo => photo.uri === uri))
           .reduce((acc, curr) => ({ set: [ ...acc.set || [], curr ] }), { set: [] })
         : uploadedPhotos
-          .map(({ url, Location }) => ({ url: url || Location }))
-          .filter(({ url }) => allPhotos.some(photo => photo.url === url))
+          .map(({ uri, Location }) => ({ uri: uri || Location }))
+          // .filter(({ uri }) => allPhotos.some(photo => photo.uri === uri))
           .reduce((acc, curr) => ({ connect: [ ...acc.connect || [], curr ] }), {}),
     })),
     // tags: { connect: tags },

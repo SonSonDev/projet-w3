@@ -343,8 +343,8 @@ async function populateDb () {
     })
   }
 
-  for (const url of photos) {
-    await prisma.createPhoto({ url })
+  for (const uri of photos) {
+    await prisma.createPhoto({ uri })
   }
 
   for (const category in defaultTags) {
@@ -389,7 +389,7 @@ async function populateDb () {
         { day: "SATURDAY",  start: null, end: null },
         { day: "SUNDAY",    start: null, end: null },
       ] },
-      photos: { connect: photos.map(url => ({ url })) },
+      photos: { connect: photos.map(uri => ({ uri })) },
       tags: { connect: tags.filter(t => t.category === category && Math.random() < 0.15).map(({ id }) => ({ id })) },
     })
   }
@@ -430,6 +430,7 @@ async function populateDb () {
 const clearDb = async () => {
   await prisma.deleteManyUsers()
   await prisma.deleteManyTags()
+  await prisma.deleteManyPhotos()
   await prisma.deleteManyPlaces()
   await prisma.deleteManyCompanies()
   await prisma.deleteManyChallenges()

@@ -131,7 +131,7 @@ function PlaceForm ({ history,  match: { params: { id } } }) {
         name,
         user: { ...user, role: "PLACE" },
         hours: Object.values(hours).filter(({ day }) => day),
-        photos: photos.filter(({ files, url }) => files?.length || url).map(({ files: [ file ], url }) => ({ file, url })),
+        photos: photos.filter(({ files, uri }) => files?.length || uri).map(({ files: [ file ], uri }) => ({ file, uri })),
         tags: getTagsFlattened(tags).map(id => ({ id })),
       }
       // console.log(data)
