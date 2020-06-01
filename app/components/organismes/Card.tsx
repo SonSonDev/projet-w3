@@ -5,7 +5,7 @@ import RoundButton from "../atoms/RoundButton";
 import Typo from "../atoms/Typography";
 import PricingIndicator from "../molecules/PricingIndicator";
 
-const Card = () => {
+const Card = ({ name, category, address: { distance }, headline, description, tags, photos }) => {
   const styles = StyleSheet.create({
     container: {
       margin: 10,
@@ -47,13 +47,13 @@ const Card = () => {
   return (
     <View style={styles.container}>
       <View style={styles.top}>
-        <ImageBackground style={styles.topBg} source={image}>
+        <ImageBackground style={styles.topBg} source={photos[0]}>
           <View style={styles.topInfoTop}>
             <Chip height={33} fontColor="#000" title="Géolocalisation : + 50 pts" />
             <RoundButton color="#000" />
           </View>
           <View>
-            <Typo fontSize={18} lineHeight={22} fontWeight="normal" color="#fff" fontFamily="Moche" text="“Légumes cultivées dans notre potager”" />
+            <Typo fontSize={18} lineHeight={22} fontWeight="normal" color="#fff" fontFamily="Moche" text={headline} />
           </View>
         </ImageBackground>
       </View>
@@ -61,7 +61,7 @@ const Card = () => {
         <View style={styles.info}>
           <View style={{ flexDirection: "row" }}>
             <Typo color="#000" fontSize={14} lineHeight={18} text="Européen" iconLeft />
-            <Typo color="#000" fontSize={14} lineHeight={18} text="1min" iconLeft />
+            <Typo color="#000" fontSize={14} lineHeight={18} text={`${Math.round(distance)} m`} iconLeft />
           </View>
           <View style={{ flexDirection: "row" }}>
             <RoundButton outline color="#5A75D6" />
@@ -69,8 +69,8 @@ const Card = () => {
             <RoundButton outline color="#2C463C" />
           </View>
         </View>
-        <Typo color="#000" fontSize={18} lineHeight={22} fontFamily="Moche" text="La Fontaine" />
-        <Typo color="#000" fontFamily="HKGrotesk-Regular" fontSize={16} lineHeight={16} text="Susana et José, deux argentins aimants de la bonne cuisine ont crée ce restaurant où se conjuguent c..." />
+        <Typo color="#000" fontSize={18} lineHeight={22} fontFamily="Moche" text={name} />
+        <Typo color="#000" fontFamily="HKGrotesk-Regular" fontSize={16} lineHeight={16} text={description} />
         <View>
           <PricingIndicator cost="medium" />
           <Text> | Ouvert</Text>

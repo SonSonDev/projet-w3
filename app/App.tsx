@@ -1,5 +1,9 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { useQuery, useMutation } from "@apollo/react-hooks"
+
+import { GET_PLACES, DELETE_PLACE, UPSERT_PLACES } from "../back-office/src/graphql/place"
+
 import Button from "./components/atoms/Button";
 import Card from "./components/organismes/Card";
 import NavBottom from './components/molecules/NavBottom';
@@ -26,6 +30,16 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
+
+  const { data: { getPlaces = [] } = {}, loading, error } = useQuery(GET_PLACES, {
+    onError: error => console.log(error.message),
+    variables: {
+      nearby: {
+        coordinates: [ 48.8518269, 2.4204598 ] // HETIC
+      }
+    },
+  })
+
   return (
     <View style={styles.container}>
       <View style={styles.top}>
@@ -33,8 +47,9 @@ export default function App() {
       </View>
 
       <View style={styles.content}>
-        <Card />
-        <Card />
+        {getPlaces.map(place => (
+          <Card {...place} />
+        ))}
       </View>
 
       <View style={styles.bottom}>
