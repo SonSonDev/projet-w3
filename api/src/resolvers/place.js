@@ -1,4 +1,6 @@
-const AWS = require("aws-sdk")
+const Aws = require("../services/aws")
+const Mongoose = require("../services/mongoose")
+const GoogleMaps = require("../services/googleMaps")
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -6,8 +8,12 @@ const s3 = new AWS.S3({
   region: "eu-west-2",
 })
 
+const makePlaceInput = async ({ name, category, address: { street, zipCode, city }, user: { email, phone, role }, social, headline, description, hours, photos = [], tags = [] }, prisma, update) => {
 
-const makePlaceInput = async ({ name, category, address, user: { email, phone, role }, social, headline, description, hours, photos = [], tags = [] }, prisma, update) => {
+  const { data: { results } } = await GoogleMaps.client.geocode({ params: {
+    address: `${street}, ${zipCode} ${city}`, key: process.env.GOOGLE_MAPS_API_KEY,
+  } })
+  const { geometry: { location: { lat, lng } } } = results[0]
 
   const uploadedPhotos = await Promise.all(
     photos.map(async ({ url, file }, i) =>
@@ -22,7 +28,15 @@ const makePlaceInput = async ({ name, category, address, user: { email, phone, r
   return {
     name,
     category,
-    address: { create: address },
+    address: { create: {
+      street,
+      zipCode,
+      city,
+      location: { create: {
+        type: "Point",
+        coordinates: { set: [ lat, lng ] },
+      } },
+    } },
     user: {
       ...await prisma.user({ email })
         ? { connect: { email } }

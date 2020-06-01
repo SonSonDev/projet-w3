@@ -10,6 +10,10 @@ function randomFromArray(array) {
   return array[Math.floor(Math.random() * array.length)]
 }
 
+function randomBetween(min, max) {
+  return Math.random() * (max - min) + min
+}
+
 const users = [
   [ "Chrystal", "Le Liebard", "w3p2020g7@gmail.com"       , "admin", "SUPER_ADMIN" ],
   [ "Eric"    , "Priou"     , "eric.priou@hetic.net"      , "admin", "SUPER_ADMIN" ],
@@ -206,39 +210,39 @@ const defaultTags = {
 }
 
 const places = [
-  [ "Given",                                  "89 rue de Bagnolet",         "75020", "Paris", "FOOD" ],
-  [ "Le Mezze Du Chef",                       "80 rue de Ménilmontant",     "75020", "Paris", "FOOD" ],
-  [ "Love Me Cru",                            "44 rue de Tourtille",        "75020", "Paris", "FOOD" ],
-  [ "Primeur",                                "4 rue Lemon",                "75020", "Paris", "FOOD" ],
-  [ "Cantine Vagabonde",                      "11 rue d'Aubervilliers",     "75019", "Paris", "FOOD" ],
-  [ "Le Faitout",                             "23 avenue Simon Bolivar",    "75019", "Paris", "FOOD" ],
-  [ "Abattoir Végétal",                       "61 rue Ramey",               "75018", "Paris", "FOOD" ],
-  [ "Le Myrha",                               "70 rue Myrha",               "75018", "Paris", "FOOD" ],
-  [ "Jo & Nana Cakes",                        "6 rue Rennequin",            "75017", "Paris", "FOOD" ],
-  [ "Joy In Food",                            "2 rue Truffaut",             "75017", "Paris", "FOOD" ],
-  [ "My Kitch'N",                             "82 rue Lemercier",           "75017", "Paris", "FOOD" ],
-  [ "Super Vegan",                            "118 rue des Moines",         "75017", "Paris", "FOOD" ],
-  [ "Happiz",                                 "23 rue des Sablons",         "75016", "Paris", "FOOD" ],
-  [ "Vege",                                   "122 rue du théâtre",         "75015", "Paris", "FOOD" ],
-  [ "Optique Durable",                        "2 rue Amelot",               "75011", "Paris", "FOOD" ],
-  [ "Vegan Food Tour",                        "Place de la République",     "75003", "Paris", "FOOD" ],
-  [ "Lush",                                   "17 Boulevard de Vaugirard",  "75015", "Paris", "FOOD" ],
-  [ "Super Naturelle",                        "34 Rue Ramey",               "75018", "Paris", "FOOD" ],
-  [ "Nata",                                   "28 Rue Planchat",            "75020", "Paris", "FOOD" ],
-  [ "Paint In Green",                         "78 rue Compans ",            "75019", "Paris", "FOOD" ],
-  [ "Les Petites Pâtisseries - Raw & Vegan",  "44 rue du chemin vert",      "75011", "Paris", "FOOD" ],
-  [ "La Vie Claire",                          "194 rue Lecourbe",           "75015", "Paris", "FOOD" ],
+  [ "Given",                                  "89 rue de Bagnolet",         "75020", "Paris", "FOOD", [ 48.8588241, 2.4013073 ] ],
+  [ "Le Mezze Du Chef",                       "80 rue de Ménilmontant",     "75020", "Paris", "FOOD", [ 48.8687917, 2.3906549 ] ],
+  [ "Love Me Cru",                            "44 rue de Tourtille",        "75020", "Paris", "FOOD", [ 48.8725932, 2.3801186 ] ],
+  [ "Primeur",                                "4 rue Lemon",                "75020", "Paris", "FOOD", [ 48.87152769999999, 2.3782775 ] ],
+  [ "Cantine Vagabonde",                      "11 rue d'Aubervilliers",     "75019", "Paris", "FOOD", [ 48.8851319, 2.3652465 ] ],
+  [ "Le Faitout",                             "23 avenue Simon Bolivar",    "75019", "Paris", "FOOD", [ 48.8747937, 2.3825384 ] ],
+  [ "Abattoir Végétal",                       "61 rue Ramey",               "75018", "Paris", "FOOD", [ 48.8905137, 2.3452899 ] ],
+  [ "Le Myrha",                               "70 rue Myrha",               "75018", "Paris", "FOOD", [ 48.88683899999999, 2.3511101 ] ],
+  [ "Jo & Nana Cakes",                        "6 rue Rennequin",            "75017", "Paris", "FOOD", [ 48.880818, 2.2993121 ] ],
+  [ "Joy In Food",                            "2 rue Truffaut",             "75017", "Paris", "FOOD", [ 48.8843238, 2.3236026 ] ],
+  [ "My Kitch'N",                             "82 rue Lemercier",           "75017", "Paris", "FOOD", [ 48.8886441, 2.3204164 ] ],
+  [ "Super Vegan",                            "118 rue des Moines",         "75017", "Paris", "FOOD", [ 48.893261, 2.323312 ] ],
+  [ "Happiz",                                 "23 rue des Sablons",         "75016", "Paris", "FOOD", [ 48.8650088, 2.2830765 ] ],
+  [ "Vege",                                   "122 rue du théâtre",         "75015", "Paris", "FOOD", [ 48.8458584, 2.2953326 ] ],
+  [ "Optique Durable",                        "2 rue Amelot",               "75011", "Paris", "FOOD", [ 48.8552578, 2.369516 ] ],
+  [ "Vegan Food Tour",                        "Place de la République",     "75003", "Paris", "FOOD", [ 48.8673936, 2.3634144 ] ],
+  [ "Lush",                                   "17 Boulevard de Vaugirard",  "75015", "Paris", "FOOD", [ 48.8413563, 2.319298 ] ],
+  [ "Super Naturelle",                        "34 Rue Ramey",               "75018", "Paris", "FOOD", [ 48.8894497, 2.3463671 ] ],
+  [ "Nata",                                   "28 Rue Planchat",            "75020", "Paris", "FOOD", [ 48.853849, 2.3983465 ] ],
+  [ "Paint In Green",                         "78 rue Compans ",            "75019", "Paris", "FOOD", [ 48.87930900000001, 2.3921176 ] ],
+  [ "Les Petites Pâtisseries - Raw & Vegan",  "44 rue du chemin vert",      "75011", "Paris", "FOOD", [ 48.8590064, 2.3747393 ] ],
+  [ "La Vie Claire",                          "194 rue Lecourbe",           "75015", "Paris", "FOOD", [ 48.8406747, 2.2960318 ] ],
 ]
 
-for (let i = 0; i < Math.floor(Math.random() * 20 + 20); i++) {
-  places.push([
-    faker.random.words(Math.floor(Math.random()*3)+1).split(" ").map(el => el.charAt(0).toUpperCase() + el.slice(1)).join(" "),
-    `${Math.floor(Math.random()*300)+1} ${faker.address.streetName()}`,
-    faker.address.zipCode(),
-    faker.address.city(),
-    ["SHOP", "ACTIVITY"][Math.floor(Math.random()*2)],
-  ])
-}
+// for (let i = 0; i < Math.floor(Math.random() * 20 + 20); i++) {
+//   places.push([
+//     faker.random.words(Math.floor(Math.random()*3)+1).split(" ").map(el => el.charAt(0).toUpperCase() + el.slice(1)).join(" "),
+//     `${Math.floor(Math.random()*300)+1} ${faker.address.streetName()}`,
+//     faker.address.zipCode(),
+//     faker.address.city(),
+//     ["SHOP", "ACTIVITY"][Math.floor(Math.random()*2)],
+//   ])
+// }
 
 const companies = [
   [
@@ -351,11 +355,19 @@ async function populateDb () {
   }
   const tags = await prisma.tags({ where: { leaf: true } })
 
-  for (const [ name, street, zipCode, city, category ] of shuffle(places)) {
+  for (const [ name, street, zipCode, city, category, coordinates ] of shuffle(places)) {
     await prisma.createPlace({
       name,
       category,
-      address: { create: { street, zipCode, city } },
+      address: { create: {
+        street,
+        zipCode,
+        city,
+        location: { create: {
+          type: "Point",
+          coordinates: { set: coordinates || [ randomBetween(48.84, 48.86), randomBetween(2.41, 2.43) ] },
+        } },
+      } },
       user: { create: {
         email: faker.internet.email(),
         phone: faker.phone.phoneNumber(),
