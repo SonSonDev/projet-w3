@@ -1,4 +1,5 @@
 const { GraphQLServer } = require("graphql-yoga")
+const { PointObject, CoordinatesScalar } = require("graphql-geojson")
 const jwt = require("jsonwebtoken")
 
 const { prisma } = require("./generated/prisma-client")
@@ -22,7 +23,10 @@ const resolvers = {
 
 const server = new GraphQLServer({
   typeDefs: "./src/schema.graphql",
-  resolvers,
+  resolvers: [
+    { Point: PointObject, Coordinates: CoordinatesScalar },
+    resolvers,
+  ],
   context: ctx => {
     const cookie = ctx.request.headers.cookie
     return {
@@ -47,7 +51,7 @@ server.start({
   port: process.env.PORT,
   cors: {
     credentials: true,
-    origin: [process.env.FRONT_URL],
+    origin: [ process.env.FRONT_URL, "https://localhost:19006" ],
   },
 }, async () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`)

@@ -29,6 +29,10 @@ var models = [
     embedded: true
   },
   {
+    name: "Point",
+    embedded: true
+  },
+  {
     name: "Hour",
     embedded: true
   },

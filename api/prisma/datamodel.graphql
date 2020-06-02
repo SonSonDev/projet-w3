@@ -51,13 +51,19 @@ type Tag {
 
 type Photo {
   id: ID! @id
-  url: String! @unique
+  uri: String! @unique
 }
 
 type Address @embedded {
   street: String
   zipCode: String
   city: String
+  location: Point
+}
+
+type Point @embedded {
+  type: String
+  coordinates: [Float]
 }
 
 type Hour @embedded {

@@ -129,7 +129,7 @@ const PlacesIndex = ({ history }) => {
                   user: { email, phone, role: "PLACE" },
                   social: { website, facebook, instagram },
                   hours: Object.entries({ MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY }).map(([ day, [ start, end ]]) => ({ day, start, end })),
-                  photos: photos.split(",").filter(Boolean).map(url => ({ url })),
+                  photos: photos.split(",").filter(Boolean).map(uri => ({ uri })),
                   tags: tags.split(",").map(label => ({ label })),
                 })),
               },
@@ -140,7 +140,7 @@ const PlacesIndex = ({ history }) => {
             console.log(error, { ...error })
           }
         },
-        onExport: ({ name, category, address: { street, zipCode, city }, user: { email, phone }, social: { website, facebook, instagram }, headline, description, hours, photos, tags }) => ({ name, category, street, zipCode, city, email, phone, website, facebook, instagram, headline, description, ...Object.fromEntries(hours.map(({ day, start, end }) => [ day, [ start, end ] ])), photos: photos.map(({ url }) => url), tags: tags.map(({ label }) => label) }),
+        onExport: ({ name, category, address: { street, zipCode, city }, user: { email, phone }, social: { website, facebook, instagram }, headline, description, hours, photos, tags }) => ({ name, category, street, zipCode, city, email, phone, website, facebook, instagram, headline, description, ...Object.fromEntries(hours.map(({ day, start, end }) => [ day, [ start, end ] ])), photos: photos.map(({ uri }) => uri), tags: tags.map(({ label }) => label) }),
       }}
     </Index>
   )

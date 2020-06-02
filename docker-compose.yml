@@ -43,6 +43,7 @@ services:
       APP_SECRET: "${APP_SECRET}"
       AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
       AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+      GOOGLE_MAPS_API_KEY: "${GOOGLE_MAPS_API_KEY}"
     entrypoint: /app/entrypoint.sh
     command: yarn dev
 

@@ -9,6 +9,8 @@ const placeFragment = gql`
       street
       zipCode
       city
+      location
+      distance
     }
     user {
       email
@@ -32,14 +34,14 @@ const placeFragment = gql`
       label
     }
     photos {
-      url
+      uri
     }
   }
 `
 
 export const GET_PLACES = gql`
-  query getPlaces($where: PlaceInput) {
-    getPlaces(where: $where) {
+  query getPlaces($where: PlaceInput, $nearby: NearbyInput) {
+    getPlaces(where: $where, nearby: $nearby) {
       ...PlaceFragment
     }
   }

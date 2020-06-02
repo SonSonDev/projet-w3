@@ -118,7 +118,7 @@ function Fields ({ children = [], helpers: { register, watch, setValue, errors }
           )
           case "P": return (
             <div className={fieldClassName()}>
-              {[ ...watch(key)?.filter(({ files, url }) => files?.length || url) || [], {} ].map((_, i, a) => (
+              {[ ...watch(key)?.filter(({ files, uri }) => files?.length || uri) || [], {} ].map((_, i, a) => (
                 <div className={[ "file is-boxed mb2", i !== a.length-1 && "display-none" ].join(" ")} key={`${key}[${i}]`}>
                   <label className="file-label">
                     <input className="file-input" type="file" name={`${key}[${i}].files`} ref={register({ required })} accept="image/*" />
@@ -127,17 +127,17 @@ function Fields ({ children = [], helpers: { register, watch, setValue, errors }
                       <span className="file-label">Uploader un fichier</span>
                     </span>
                   </label>
-                  <input type='url' name={`${key}[${i}].url`} ref={register({ required })} hidden />
+                  <input type='uri' name={`${key}[${i}].uri`} ref={register({ required })} hidden />
                 </div>
               ))}
               <div className="field is-grouped is-grouped-multiline">
-                {watch(key)?.map(({ files: [ { name } = {} ] = [], url }, i) => (name || url) && (
+                {watch(key)?.map(({ files: [ { name } = {} ] = [], uri }, i) => (name || uri) && (
                   <div className='control' key={`${i}@${name}`}>
                     <div className="tags has-addons">
-                      <span className="tag is-success is-light">{name || url.split("/").pop()}</span>
+                      <span className="tag is-success is-light">{name || uri.split("/").pop()}</span>
                       <a onClick={e => {
                         setValue(`${key}[${i}].files`, "")
-                        setValue(`${key}[${i}].url`, "")
+                        setValue(`${key}[${i}].uri`, "")
                       }} className="tag is-delete is-success is-light" />
                     </div>
                   </div>
