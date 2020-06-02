@@ -85,15 +85,15 @@ const ClientsIndex = () => {
         title: label, filter: ({ role }) => role === key,
       })),
     // ...data
-      // .reduce((acc, cur) => {
-      //   if (cur.company && cur.company.name && !acc.includes(cur.company.name)) {
-      //     acc.push(cur.company.name)
-      //   }
-      //   return acc
-      // }, [])
-      // .map(companyName => ({
-      //   title: companyName, filter: ({ company }) => company && company.name === companyName,
-      // })),
+    // .reduce((acc, cur) => {
+    //   if (cur.company && cur.company.name && !acc.includes(cur.company.name)) {
+    //     acc.push(cur.company.name)
+    //   }
+    //   return acc
+    // }, [])
+    // .map(companyName => ({
+    //   title: companyName, filter: ({ company }) => company && company.name === companyName,
+    // })),
   ]
 
   return (

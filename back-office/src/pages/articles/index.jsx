@@ -1,8 +1,8 @@
 import React, { useMemo, useContext } from "react"
+import { Link } from "react-router-dom"
 
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { GET_ARTICLES } from "../../graphql/queries/article"
-import { DELETE_ARTICLE } from "../../graphql/mutations/article"
+import { GET_ARTICLES, DELETE_ARTICLE } from "../../graphql/article"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 import Index from "../../components/Index"
@@ -23,6 +23,13 @@ const ArticlesIndex = () => {
     {
       Header: "Titre de l'article",
       accessor: "title",
+      Cell ({ cell: { value }, row: { original: { id } } }) {
+        return (
+          <Link to={`/article/${id}/edit`} className="has-text-primary underline bold">
+            {value}
+          </Link>
+        )
+      },
     },
     {
       id: "quizQuestion",
@@ -32,16 +39,6 @@ const ArticlesIndex = () => {
           <>
             {quiz.question}
           </>
-        )
-      },
-    },
-    {
-      id: "delete",
-      Cell ({ cell: { value }, row: { original: { id } } }) {
-        return (
-          <button onClick={() => deleteArticle({ variables: { id } })} className="button is-white has-text-grey">
-            <span className="icon"><i className="ri-delete-bin-line"/></span>
-          </button>
         )
       },
     },

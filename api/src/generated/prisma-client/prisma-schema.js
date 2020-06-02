@@ -124,8 +124,8 @@ type Article {
   id: ID!
   title: String!
   content: String!
-  picture: String
-  video: String
+  photo: Photo
+  videoUrl: String
   quiz: Quiz
   date: String!
 }
@@ -140,8 +140,8 @@ input ArticleCreateInput {
   id: ID
   title: String!
   content: String!
-  picture: String
-  video: String
+  photo: PhotoCreateOneInput
+  videoUrl: String
   quiz: QuizCreateOneInput
   date: String!
 }
@@ -163,10 +163,8 @@ enum ArticleOrderByInput {
   title_DESC
   content_ASC
   content_DESC
-  picture_ASC
-  picture_DESC
-  video_ASC
-  video_DESC
+  videoUrl_ASC
+  videoUrl_DESC
   date_ASC
   date_DESC
 }
@@ -175,8 +173,7 @@ type ArticlePreviousValues {
   id: ID!
   title: String!
   content: String!
-  picture: String
-  video: String
+  videoUrl: String
   date: String!
 }
 
@@ -199,8 +196,8 @@ input ArticleSubscriptionWhereInput {
 input ArticleUpdateDataInput {
   title: String
   content: String
-  picture: String
-  video: String
+  photo: PhotoUpdateOneInput
+  videoUrl: String
   quiz: QuizUpdateOneInput
   date: String
 }
@@ -208,8 +205,8 @@ input ArticleUpdateDataInput {
 input ArticleUpdateInput {
   title: String
   content: String
-  picture: String
-  video: String
+  photo: PhotoUpdateOneInput
+  videoUrl: String
   quiz: QuizUpdateOneInput
   date: String
 }
@@ -217,8 +214,7 @@ input ArticleUpdateInput {
 input ArticleUpdateManyMutationInput {
   title: String
   content: String
-  picture: String
-  video: String
+  videoUrl: String
   date: String
 }
 
@@ -277,34 +273,21 @@ input ArticleWhereInput {
   content_not_starts_with: String
   content_ends_with: String
   content_not_ends_with: String
-  picture: String
-  picture_not: String
-  picture_in: [String!]
-  picture_not_in: [String!]
-  picture_lt: String
-  picture_lte: String
-  picture_gt: String
-  picture_gte: String
-  picture_contains: String
-  picture_not_contains: String
-  picture_starts_with: String
-  picture_not_starts_with: String
-  picture_ends_with: String
-  picture_not_ends_with: String
-  video: String
-  video_not: String
-  video_in: [String!]
-  video_not_in: [String!]
-  video_lt: String
-  video_lte: String
-  video_gt: String
-  video_gte: String
-  video_contains: String
-  video_not_contains: String
-  video_starts_with: String
-  video_not_starts_with: String
-  video_ends_with: String
-  video_not_ends_with: String
+  photo: PhotoWhereInput
+  videoUrl: String
+  videoUrl_not: String
+  videoUrl_in: [String!]
+  videoUrl_not_in: [String!]
+  videoUrl_lt: String
+  videoUrl_lte: String
+  videoUrl_gt: String
+  videoUrl_gte: String
+  videoUrl_contains: String
+  videoUrl_not_contains: String
+  videoUrl_starts_with: String
+  videoUrl_not_starts_with: String
+  videoUrl_ends_with: String
+  videoUrl_not_ends_with: String
   quiz: QuizWhereInput
   date: String
   date_not: String
@@ -1163,6 +1146,11 @@ input PhotoCreateManyInput {
   connect: [PhotoWhereUniqueInput!]
 }
 
+input PhotoCreateOneInput {
+  create: PhotoCreateInput
+  connect: PhotoWhereUniqueInput
+}
+
 type PhotoEdge {
   node: Photo!
   cursor: String!
@@ -1263,9 +1251,23 @@ input PhotoUpdateManyWithWhereNestedInput {
   data: PhotoUpdateManyDataInput!
 }
 
+input PhotoUpdateOneInput {
+  create: PhotoCreateInput
+  update: PhotoUpdateDataInput
+  upsert: PhotoUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: PhotoWhereUniqueInput
+}
+
 input PhotoUpdateWithWhereUniqueNestedInput {
   where: PhotoWhereUniqueInput!
   data: PhotoUpdateDataInput!
+}
+
+input PhotoUpsertNestedInput {
+  update: PhotoUpdateDataInput!
+  create: PhotoCreateInput!
 }
 
 input PhotoUpsertWithWhereUniqueNestedInput {

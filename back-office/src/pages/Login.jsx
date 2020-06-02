@@ -38,14 +38,14 @@ const Login = () => {
           })}
           onSubmit={(values, { setSubmitting }) => {
             // setTimeout(() => {
-              setSubmitting(false)
-              login({
-                variables: {
-                  name: values.name,
-                  password: values.password,
-                  email: values.email,
-                },
-              })
+            setSubmitting(false)
+            login({
+              variables: {
+                name: values.name,
+                password: values.password,
+                email: values.email,
+              },
+            })
             // }, 400)
           }}>
           <Form className="login__form">

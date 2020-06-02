@@ -147,11 +147,11 @@ const PlaceUpdate = ({ history, match: { params: { id } } }) => {
                         options={getTags.filter(t => t.type.name === type && t.type.category === category).filter(t => t.value).map(({ id, value }) => ({ value: id, label: value }))}
                         onChange={(filteredTags = []) => setFieldValue("tags", [
                           ...tags.filter(({ value }) => getTags.filter(t => t.type.name !== type).find(({ id }) => value === id)),
-                          ...(filteredTags || [])
+                          ...(filteredTags || []),
                         ])}
                         onCreateOption={(value) => {
                           createTag({ variables: { value, type: id } })
-                          .then(({data : { createTag: {id, value} }}) => { setFieldValue("tags", [...tags, {label: value, value: id}]) })
+                            .then(({data: { createTag: {id, value} }}) => { setFieldValue("tags", [...tags, {label: value, value: id}]) })
                         }}
                         isMulti
                         onInputChange={getTags.filter(tag => tag.type.category === category).filter(t => t.value).map(({ id, value }) => ({ value: id, label: value }))}

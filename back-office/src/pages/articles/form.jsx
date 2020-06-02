@@ -1,17 +1,19 @@
 import React, { useContext } from "react"
-import { useMutation } from "@apollo/react-hooks"
+import { useMutation, useQuery } from "@apollo/react-hooks"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 import ToastContext from "../../utils/ToastContext"
 
-import { CREATE_ARTICLE } from "../../graphql/mutations/article"
+import { GET_ARTICLES, GET_ARTICLE, CREATE_ARTICLE, UPDATE_ARTICLE, DELETE_ARTICLE } from "../../graphql/article"
 
 import Form from "../../components/Form"
 import Loader from "../../components/Loader"
 
 
-const ArticleForm = ({ history }) => {
+const ArticleForm = ({ history, match: { params: { id } } }) => {
   const { setToast } = useContext(ToastContext)
+
+  const { data: { getArticle = {} } = {}, loading: getArticleLoading } = useQuery(GET_ARTICLE, { variables: { where: { id } } })
 
   const form = () => ([
     {
@@ -19,32 +21,55 @@ const ArticleForm = ({ history }) => {
       children: [
         { key: "title", label: "Titre de l'article", type: "T", required: true },
         { key: "content", label: "Contenu", type: "TT", required: true },
-        { key: "video", label: "Lien de la vidéo", type: "T" },
-        { key: "picture", label: "Image", type: "P" },
+        { key: "videoUrl", label: "Lien de la vidéo", type: "T" },
+        { key: "photo", label: "Image", type: "P" },
       ],
     },
     {
       label: "Quiz",
       children: [
-        { key: "quizQuestion", label: "Question", type: "T", required: true },
-        { key: "quizChoices", label: "Choix", type: "AT", required: true, params: { number: 4, radioKey: 'quizAnswer' } },
-        { 
-          key: "quizValue", label: "Récompense", type: "T",
+        { key: "quiz.question", label: "Question", type: "TT", required: true, attributes: {rows: 2} },
+        { key: "quiz.choices", label: "Choix", type: "AT", required: true, params: { number: 4, radioKey: "quiz.answer" } },
+        {
+          key: "quiz.value", label: "Récompense", type: "T",
           attributes: { type: "number" },
-          required: true 
+          required: true,
         },
       ],
     },
   ])
 
-  const [ createArticle, { loading: createArticleLoading } ] = useMutation(CREATE_ARTICLE)
-  
+  const [ createArticle, { loading: createArticleLoading } ] = useMutation(CREATE_ARTICLE, {
+    update (cache, { data: { createArticle } }) {
+      const { getArticles } = cache.readQuery({ query: GET_ARTICLES })
+      cache.writeQuery({
+        query: GET_ARTICLES,
+        data: { getArticles: [ ...getArticles, createArticle ] },
+      })
+    },
+  })
+  const [ updateArticle, { loading: updateArticleLoading, error: updateArticleError } ] = useMutation(UPDATE_ARTICLE, {})
+
+  const [ deleteArticle, { loading: deleteArticleLoading, error: deleteArticleError } ] = useMutation(DELETE_ARTICLE, {
+    update (cache, { data: { deleteArticle } }) {
+      const { getArticles } = cache.readQuery({ query: GET_ARTICLES })
+      cache.writeQuery({
+        query: GET_ARTICLES,
+        data: { getArticles: getArticles.filter(({ id }) => id !== deleteArticle.id) },
+      })
+    },
+  })
+
   const onSubmit = async (data) => {
-    data.quizValue = Number(data.quizValue)
-    data.quizAnswer = data.quizChoices[data.quizAnswer]
+    data.quiz.value = Number(data.quiz.value)
+    data.photo = data.photo.filter(({ files, uri }) => files?.length || uri).map(({ files: [ file ], uri }) => ({ file, uri }))[0]
     try {
-      console.log(data)
-      await createArticle({ variables: data })
+      if (id) {
+        await updateArticle({ variables: { data, where: { id } } })
+      } else {
+        await createArticle({ variables: { data } })
+        history.push("/articles")
+      }
       setToast({ type: "success" })
     } catch (error) {
       setToast({ type: "danger" })
@@ -52,6 +77,31 @@ const ArticleForm = ({ history }) => {
     }
   }
 
+  const onDelete = id && (async () => {
+    try {
+      await deleteArticle({ variables: { where: { id } } })
+      history.push("/articles")
+      setToast({ type: "success" })
+    } catch (error) {
+      setToast({ type: "danger" })
+      console.log(error, { ...error })
+    }
+  })
+
+  const defaultValues = id ? { 
+    ...getArticle,
+    photo: getArticle?.photo ? [getArticle.photo] : null,
+  } : {
+    title: "title",
+    content: "content",
+    video: "video",
+    quiz: {
+      question: "quizQuestion",
+      choices: ["aaaaa", "bbbb", "ccccc", "ddddd"],
+      answer: "1",
+      value: "123321",
+    },
+  }
 
   return (
     <main>
@@ -61,13 +111,19 @@ const ArticleForm = ({ history }) => {
         </h1>
       </div>
       <div className='p3'>
-        <Form
-          form={form}
-          onSubmit={onSubmit}
-          onCancel={() => history.goBack()}
-          submitting={createArticleLoading}
-        >
-        </Form>
+        {(getArticleLoading) ? (
+          <Loader />
+        ) : (
+          <Form
+            form={form}
+            onSubmit={onSubmit}
+            onDelete={onDelete}
+            onCancel={() => history.goBack()}
+            submitting={createArticleLoading || updateArticleLoading}
+          >
+            {{defaultValues}}
+          </Form>
+        )}
       </div>
     </main>
   )

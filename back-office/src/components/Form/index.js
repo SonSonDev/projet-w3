@@ -11,7 +11,7 @@ function Fields ({ children = [], helpers: { register, watch, setValue, errors }
   // useEffect(() => {
   //   level === 2 && console.log(collapsedChildren, children)
   // })
-  return children.map(({ key, label, type, options, children, collapsible, required, className, attributes, params }, i, a) => {
+  return children.map(({ key, label, type, options, children, collapsible, required, className, attributes, disabled, params }, i, a) => {
     const collapsed = collapsedChildren[label]
     const hasChildren = children || collapsible
     // || type === "C"
@@ -64,10 +64,10 @@ function Fields ({ children = [], helpers: { register, watch, setValue, errors }
             <div className={fieldClassName()}>
               {
                 new Array(params.number).fill(1).map((_,i) => (
-                  <div className={[(i+1 !== params) && 'mb1', 'field has-addons'].join(' ')}>
-                    <input key={i} name={`${key}[${i}]`} ref={register({ required })} className={[ "input", false && "is-danger" ].join(" ")} {...attributes} />
-                    <button tabindex="-1" type="button" className="button" onClick={(e) => { e.target.children[0] ? e.target.children[0].click() : console.log(e) }}>
-                      <input tabindex="-1" type="radio" ref={register({ required })} value={i} name={params.radioKey} key={`r-${i}`} />
+                  <div className={[(i+1 !== params) && "mb1", "field has-addons"].join(" ")} key={i}>
+                    <input name={`${key}[${i}]`} ref={register({ required })} className={[ "input", false && "is-danger" ].join(" ")} {...attributes} />
+                    <button tabIndex="-1" type="button" className="button" onClick={(e) => { e.target.children[0] ? e.target.children[0].click() : console.log(e) }}>
+                      <input tabIndex="-1" type="radio" ref={register({ required })} name={params.radioKey} value={watch(`${key}[${i}]`)} />
                     </button>
                   </div>
                 ))
@@ -76,14 +76,14 @@ function Fields ({ children = [], helpers: { register, watch, setValue, errors }
           )
           case "TT": return (
             <div className={fieldClassName()}>
-              <textarea name={key} ref={register({ required })} className="textarea" />
+              <textarea name={key} ref={register({ required })} className="textarea" {...attributes} />
             </div>
           )
           case "R": return (
             <div className={fieldClassName("buttons has-addons")}>
               {options.map(({ value, label }) => (
-                <label className={[ "button", watch(key) === value && "is-success is-light", false && "is-danger is-outlined" ].join(" ")} key={value}>
-                  <input type="radio" value={value} name={key} ref={register({ required })} className={[ "mr05 display-none" ].join(" ")} {...attributes} />
+                <label className={[ "button", watch(key) === value && "is-success is-light", false && "is-danger is-outlined", disabled && "is-static" ].join(" ")} key={value}>
+                  <input type="radio" value={value} name={key} ref={register({ required })} className={[ "mr05 display-none" ].join(" ")} {...attributes} disabled={disabled} />
                   {label}
                 </label>
               ))}

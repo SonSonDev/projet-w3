@@ -1,15 +1,22 @@
+const Aws = require("../services/aws")
+
 module.exports = {
   queries: {
-    getArticles (_, args, { prisma }) {
-      return prisma.articles()
+    getArticles (_, { where }, { prisma }) {
+      return prisma.articles(where)
     },
 
-    getArticle (_, { id }, { prisma }) {
-      return prisma.articles({ id })
-    }
+    getArticle (_, { where }, { prisma }) {
+      return prisma.article(where)
+    },
   },
   mutations: {
-    createArticle (_, args, { prisma }) {
+    async createArticle (_, { data: article }, { prisma }) {
+      console.log(article)
+      const data = await makeArticleInput(article, prisma, false)
+      data.date = String(new Date().getTime())
+      return prisma.createArticle(data)
+      /*
       return prisma.createArticle({
         title: args.title,
         content: args.content,
@@ -18,7 +25,6 @@ module.exports = {
         date: String(new Date().getTime()),
         quiz: {
           create: {
-            name: args.quizName,
             question: args.quizQuestion,
             answer: args.quizAnswer,
             choices: { set: args.quizChoices },
@@ -26,9 +32,13 @@ module.exports = {
           }
         }
       })
+      */
     },
 
-    updateArticle (_, args, { prisma }) {
+    async updateArticle (_, {where, data: article}, { prisma }) {
+      const data = await makeArticleInput(article, prisma, true)
+      return prisma.updateArticle({ where, data })
+      /*
       return prisma.updateArticle({
         where: { id: args.id },
         data: {
@@ -47,12 +57,13 @@ module.exports = {
           }
         }
       })
+      */
     },
 
-    async deleteArticle (_, { id }, { prisma }) {
-      await prisma.deleteManyValidatedQuizzes({ article:{ id }})
+    async deleteArticle (_, { where: { id } }, { prisma }) {
+      await prisma.deleteManyValidatedQuizzes({ article:{ id } })
       return await prisma.deleteArticle({ id })
-    }
+    },
   },
   resolvers: {
     Article: {
@@ -63,7 +74,38 @@ module.exports = {
             { validatedQuizzes_some: { article: { id: parent.id }}}
           })
         }
-      }   
-    }
+      },
+      photo ({ id }, _, { prisma }) {
+        return prisma.article({ id }).photo()
+      },
+    },
   },
+}
+
+
+async function makeArticleInput ({title, content, photo: { uri, file } = {}, videoUrl, quiz}, prisma, update) {
+  return {
+    title: title,
+    content: content,
+    ...(file || uri) && {
+      photo: {
+        ...file
+          ? { create: await Aws.s3.upload({
+            Bucket: "madu-dev",
+            Key: (await file).filename,
+            Body: (await file).createReadStream(),
+          }).promise().then(({ Location }) => ({ uri: Location })) }
+          : { set: { uri } },
+      },
+    },
+    videoUrl: videoUrl,
+    quiz: {
+      [update ? "update" : "create"]: {
+        question: quiz.question,
+        answer: quiz.answer,
+        choices: { set: quiz.choices },
+        value: quiz.value,
+      },
+    },
+  }
 }

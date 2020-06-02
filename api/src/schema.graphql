@@ -13,8 +13,8 @@ type Query {
   checkAuth: User
   getTags(where: TagInput): [Tag]
   getTag(id: ID!): Tag
-  getArticles: [Article]
-  getArticle(id: ID!): Article
+  getArticles(where: ArticleInput): [Article]
+  getArticle(where: ArticleInputUnique): Article
   getChallenges: [Challenge]
   getChallenge(id: ID!): Challenge
   getStripeInvoicesByCompany(id: ID!): [StripeInvoice]
@@ -96,30 +96,10 @@ type Mutation {
   deleteTag(id: ID!): Tag!
   updateTag(id: ID!, label: String!, children: [ID!], category: Category!): Tag!
 
-  createArticle(
-    title: String!
-    content: String!
-    picture: String
-    video: String
-    quizQuestion: String!
-    quizAnswer: String!
-    quizChoices: [String!]
-    quizValue: Int!
-  ): Article
+  createArticle(data: ArticleInput): Article
+  updateArticle(where: ArticleInputUnique!, data: ArticleInput!): Article
 
-  updateArticle(
-    id: ID!
-    title: String!
-    content: String!
-    picture: String
-    video: String
-    quizQuestion: String!
-    quizAnswer: String!
-    quizChoices: [String!]
-    quizValue: Int!
-  ): Article
-
-  deleteArticle(id: ID!): Article
+  deleteArticle(where: ArticleInputUnique!): Article
 
   validateQuiz(
     userId: ID!
@@ -232,8 +212,8 @@ type Article {
   id: ID!
   title: String!
   content: String!
-  picture: String
-  video: String
+  photo: Photo
+  videoUrl: String
   quiz: Quiz
   date: String!
 }
@@ -374,6 +354,25 @@ input TagInput {
   root: Boolean
   leaf: Boolean
   category: Category
+}
+
+input ArticleInput {
+  title: String!
+  content: String!
+  photo: PhotoInput
+  videoUrl: String
+  quiz: QuizInput
+}
+
+input ArticleInputUnique {
+  id: ID
+}
+
+input QuizInput {
+  question: String!
+  choices: [String!]
+  answer: String!
+  value: Int!
 }
 
 input AddressInput {

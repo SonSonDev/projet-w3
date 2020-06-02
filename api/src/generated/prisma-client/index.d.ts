@@ -387,10 +387,8 @@ export type ArticleOrderByInput =
   | "title_DESC"
   | "content_ASC"
   | "content_DESC"
-  | "picture_ASC"
-  | "picture_DESC"
-  | "video_ASC"
-  | "video_DESC"
+  | "videoUrl_ASC"
+  | "videoUrl_DESC"
   | "date_ASC"
   | "date_DESC";
 
@@ -530,34 +528,21 @@ export interface ArticleWhereInput {
   content_not_starts_with?: Maybe<String>;
   content_ends_with?: Maybe<String>;
   content_not_ends_with?: Maybe<String>;
-  picture?: Maybe<String>;
-  picture_not?: Maybe<String>;
-  picture_in?: Maybe<String[] | String>;
-  picture_not_in?: Maybe<String[] | String>;
-  picture_lt?: Maybe<String>;
-  picture_lte?: Maybe<String>;
-  picture_gt?: Maybe<String>;
-  picture_gte?: Maybe<String>;
-  picture_contains?: Maybe<String>;
-  picture_not_contains?: Maybe<String>;
-  picture_starts_with?: Maybe<String>;
-  picture_not_starts_with?: Maybe<String>;
-  picture_ends_with?: Maybe<String>;
-  picture_not_ends_with?: Maybe<String>;
-  video?: Maybe<String>;
-  video_not?: Maybe<String>;
-  video_in?: Maybe<String[] | String>;
-  video_not_in?: Maybe<String[] | String>;
-  video_lt?: Maybe<String>;
-  video_lte?: Maybe<String>;
-  video_gt?: Maybe<String>;
-  video_gte?: Maybe<String>;
-  video_contains?: Maybe<String>;
-  video_not_contains?: Maybe<String>;
-  video_starts_with?: Maybe<String>;
-  video_not_starts_with?: Maybe<String>;
-  video_ends_with?: Maybe<String>;
-  video_not_ends_with?: Maybe<String>;
+  photo?: Maybe<PhotoWhereInput>;
+  videoUrl?: Maybe<String>;
+  videoUrl_not?: Maybe<String>;
+  videoUrl_in?: Maybe<String[] | String>;
+  videoUrl_not_in?: Maybe<String[] | String>;
+  videoUrl_lt?: Maybe<String>;
+  videoUrl_lte?: Maybe<String>;
+  videoUrl_gt?: Maybe<String>;
+  videoUrl_gte?: Maybe<String>;
+  videoUrl_contains?: Maybe<String>;
+  videoUrl_not_contains?: Maybe<String>;
+  videoUrl_starts_with?: Maybe<String>;
+  videoUrl_not_starts_with?: Maybe<String>;
+  videoUrl_ends_with?: Maybe<String>;
+  videoUrl_not_ends_with?: Maybe<String>;
   quiz?: Maybe<QuizWhereInput>;
   date?: Maybe<String>;
   date_not?: Maybe<String>;
@@ -574,6 +559,38 @@ export interface ArticleWhereInput {
   date_ends_with?: Maybe<String>;
   date_not_ends_with?: Maybe<String>;
   AND?: Maybe<ArticleWhereInput[] | ArticleWhereInput>;
+}
+
+export interface PhotoWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  uri?: Maybe<String>;
+  uri_not?: Maybe<String>;
+  uri_in?: Maybe<String[] | String>;
+  uri_not_in?: Maybe<String[] | String>;
+  uri_lt?: Maybe<String>;
+  uri_lte?: Maybe<String>;
+  uri_gt?: Maybe<String>;
+  uri_gte?: Maybe<String>;
+  uri_contains?: Maybe<String>;
+  uri_not_contains?: Maybe<String>;
+  uri_starts_with?: Maybe<String>;
+  uri_not_starts_with?: Maybe<String>;
+  uri_ends_with?: Maybe<String>;
+  uri_not_ends_with?: Maybe<String>;
+  AND?: Maybe<PhotoWhereInput[] | PhotoWhereInput>;
 }
 
 export interface QuizWhereInput {
@@ -928,38 +945,6 @@ export type PhotoWhereUniqueInput = AtLeastOne<{
   uri?: Maybe<String>;
 }>;
 
-export interface PhotoWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  uri?: Maybe<String>;
-  uri_not?: Maybe<String>;
-  uri_in?: Maybe<String[] | String>;
-  uri_not_in?: Maybe<String[] | String>;
-  uri_lt?: Maybe<String>;
-  uri_lte?: Maybe<String>;
-  uri_gt?: Maybe<String>;
-  uri_gte?: Maybe<String>;
-  uri_contains?: Maybe<String>;
-  uri_not_contains?: Maybe<String>;
-  uri_starts_with?: Maybe<String>;
-  uri_not_starts_with?: Maybe<String>;
-  uri_ends_with?: Maybe<String>;
-  uri_not_ends_with?: Maybe<String>;
-  AND?: Maybe<PhotoWhereInput[] | PhotoWhereInput>;
-}
-
 export type PlaceWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
   name?: Maybe<String>;
@@ -1213,10 +1198,20 @@ export interface ArticleCreateInput {
   id?: Maybe<ID_Input>;
   title: String;
   content: String;
-  picture?: Maybe<String>;
-  video?: Maybe<String>;
+  photo?: Maybe<PhotoCreateOneInput>;
+  videoUrl?: Maybe<String>;
   quiz?: Maybe<QuizCreateOneInput>;
   date: String;
+}
+
+export interface PhotoCreateOneInput {
+  create?: Maybe<PhotoCreateInput>;
+  connect?: Maybe<PhotoWhereUniqueInput>;
+}
+
+export interface PhotoCreateInput {
+  id?: Maybe<ID_Input>;
+  uri: String;
 }
 
 export interface QuizCreateOneInput {
@@ -1237,10 +1232,28 @@ export interface QuizCreatechoicesInput {
 export interface ArticleUpdateInput {
   title?: Maybe<String>;
   content?: Maybe<String>;
-  picture?: Maybe<String>;
-  video?: Maybe<String>;
+  photo?: Maybe<PhotoUpdateOneInput>;
+  videoUrl?: Maybe<String>;
   quiz?: Maybe<QuizUpdateOneInput>;
   date?: Maybe<String>;
+}
+
+export interface PhotoUpdateOneInput {
+  create?: Maybe<PhotoCreateInput>;
+  update?: Maybe<PhotoUpdateDataInput>;
+  upsert?: Maybe<PhotoUpsertNestedInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<PhotoWhereUniqueInput>;
+}
+
+export interface PhotoUpdateDataInput {
+  uri?: Maybe<String>;
+}
+
+export interface PhotoUpsertNestedInput {
+  update: PhotoUpdateDataInput;
+  create: PhotoCreateInput;
 }
 
 export interface QuizUpdateOneInput {
@@ -1270,8 +1283,7 @@ export interface QuizUpsertNestedInput {
 export interface ArticleUpdateManyMutationInput {
   title?: Maybe<String>;
   content?: Maybe<String>;
-  picture?: Maybe<String>;
-  video?: Maybe<String>;
+  videoUrl?: Maybe<String>;
   date?: Maybe<String>;
 }
 
@@ -1653,8 +1665,8 @@ export interface ArticleUpdateOneRequiredInput {
 export interface ArticleUpdateDataInput {
   title?: Maybe<String>;
   content?: Maybe<String>;
-  picture?: Maybe<String>;
-  video?: Maybe<String>;
+  photo?: Maybe<PhotoUpdateOneInput>;
+  videoUrl?: Maybe<String>;
   quiz?: Maybe<QuizUpdateOneInput>;
   date?: Maybe<String>;
 }
@@ -1989,11 +2001,6 @@ export interface CompanyUpdateManyMutationInput {
   type?: Maybe<CompanyType>;
   emailDomains?: Maybe<CompanyUpdateemailDomainsInput>;
   stripeCustomerId?: Maybe<String>;
-}
-
-export interface PhotoCreateInput {
-  id?: Maybe<ID_Input>;
-  uri: String;
 }
 
 export interface PhotoUpdateInput {
@@ -2348,10 +2355,6 @@ export interface PhotoUpdateWithWhereUniqueNestedInput {
   data: PhotoUpdateDataInput;
 }
 
-export interface PhotoUpdateDataInput {
-  uri?: Maybe<String>;
-}
-
 export interface PhotoUpsertWithWhereUniqueNestedInput {
   where: PhotoWhereUniqueInput;
   update: PhotoUpdateDataInput;
@@ -2541,8 +2544,7 @@ export interface Article {
   id: ID_Output;
   title: String;
   content: String;
-  picture?: String;
-  video?: String;
+  videoUrl?: String;
   quiz?: Quiz | null;
   date: String;
 }
@@ -2551,8 +2553,8 @@ export interface ArticlePromise extends Promise<Article>, Fragmentable {
   id: () => Promise<ID_Output>;
   title: () => Promise<String>;
   content: () => Promise<String>;
-  picture: () => Promise<String>;
-  video: () => Promise<String>;
+  photo: <T = PhotoPromise>() => T;
+  videoUrl: () => Promise<String>;
   quiz: <T = QuizPromise>() => T;
   date: () => Promise<String>;
 }
@@ -2563,8 +2565,8 @@ export interface ArticleSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   title: () => Promise<AsyncIterator<String>>;
   content: () => Promise<AsyncIterator<String>>;
-  picture: () => Promise<AsyncIterator<String>>;
-  video: () => Promise<AsyncIterator<String>>;
+  photo: <T = PhotoSubscription>() => T;
+  videoUrl: () => Promise<AsyncIterator<String>>;
   quiz: <T = QuizSubscription>() => T;
   date: () => Promise<AsyncIterator<String>>;
 }
@@ -2575,10 +2577,34 @@ export interface ArticleNullablePromise
   id: () => Promise<ID_Output>;
   title: () => Promise<String>;
   content: () => Promise<String>;
-  picture: () => Promise<String>;
-  video: () => Promise<String>;
+  photo: <T = PhotoPromise>() => T;
+  videoUrl: () => Promise<String>;
   quiz: <T = QuizPromise>() => T;
   date: () => Promise<String>;
+}
+
+export interface Photo {
+  id: ID_Output;
+  uri: String;
+}
+
+export interface PhotoPromise extends Promise<Photo>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  uri: () => Promise<String>;
+}
+
+export interface PhotoSubscription
+  extends Promise<AsyncIterator<Photo>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  uri: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PhotoNullablePromise
+  extends Promise<Photo | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  uri: () => Promise<String>;
 }
 
 export interface Quiz {
@@ -3151,30 +3177,6 @@ export interface AggregateCompanySubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface Photo {
-  id: ID_Output;
-  uri: String;
-}
-
-export interface PhotoPromise extends Promise<Photo>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  uri: () => Promise<String>;
-}
-
-export interface PhotoSubscription
-  extends Promise<AsyncIterator<Photo>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  uri: () => Promise<AsyncIterator<String>>;
-}
-
-export interface PhotoNullablePromise
-  extends Promise<Photo | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  uri: () => Promise<String>;
-}
-
 export interface PhotoConnection {
   pageInfo: PageInfo;
   edges: PhotoEdge[];
@@ -3714,8 +3716,7 @@ export interface ArticlePreviousValues {
   id: ID_Output;
   title: String;
   content: String;
-  picture?: String;
-  video?: String;
+  videoUrl?: String;
   date: String;
 }
 
@@ -3725,8 +3726,7 @@ export interface ArticlePreviousValuesPromise
   id: () => Promise<ID_Output>;
   title: () => Promise<String>;
   content: () => Promise<String>;
-  picture: () => Promise<String>;
-  video: () => Promise<String>;
+  videoUrl: () => Promise<String>;
   date: () => Promise<String>;
 }
 
@@ -3736,8 +3736,7 @@ export interface ArticlePreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   title: () => Promise<AsyncIterator<String>>;
   content: () => Promise<AsyncIterator<String>>;
-  picture: () => Promise<AsyncIterator<String>>;
-  video: () => Promise<AsyncIterator<String>>;
+  videoUrl: () => Promise<AsyncIterator<String>>;
   date: () => Promise<AsyncIterator<String>>;
 }
 

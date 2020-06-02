@@ -15,9 +15,9 @@ const autofill = on => on && ({
   name: `Place n°${Math.random()*10e17}`,
   category: "FOOD",
   address: {
-    street: "11 rue Odin",
-    zipCode: "75040",
-    city: "Paris",
+    street: "27 Bis Rue du Progrès",
+    zipCode: "93100",
+    city: "Montreuil",
   },
   user: {
     email: `mail+${Math.random()*10e17}@gmail.com`,
@@ -86,7 +86,7 @@ function PlaceForm ({ history,  match: { params: { id } } }) {
       label: "Informations de base",
       children: [
         { key: "name", label: "Nom de l’établissement", type: "T", required: true },
-        { key: "category", label: "Catégorie", type: "R", options: Object.entries(categories).map(([ value, label ]) => ({ value, label })), required: true },
+        { key: "category", label: "Catégorie", type: "R", options: Object.entries(categories).map(([ value, label ]) => ({ value, label })), required: true, disabled: !!id },
         ...getTags
           .filter(tag => tag.category === category && !["Engagements", "Prix"].includes(tag.label))
           .map(tag => getTagsNested(tag, { type: "S", className: "fade-in" })),

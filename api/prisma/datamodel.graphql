@@ -81,8 +81,8 @@ type Article {
   id: ID! @id
   title: String!
   content: String!
-  picture: String
-  video: String
+  photo: Photo @relation(link: INLINE)
+  videoUrl: String
   quiz: Quiz
   date: String!
 }
