@@ -27,8 +27,7 @@ const ArticleForm = ({ history }) => {
       label: "Quiz",
       children: [
         { key: "quizQuestion", label: "Question", type: "T", required: true },
-        { key: "quizAnswer", label: "Réponse", type: "T", required: true },
-        { key: "quizChoices", label: "Choix", type: "T", required: true },
+        { key: "quizChoices", label: "Choix", type: "AT", required: true, params: { number: 4, radioKey: 'quizAnswer' } },
         { 
           key: "quizValue", label: "Récompense", type: "T",
           attributes: { type: "number" },
@@ -41,7 +40,8 @@ const ArticleForm = ({ history }) => {
   const [ createArticle, { loading: createArticleLoading } ] = useMutation(CREATE_ARTICLE)
   
   const onSubmit = async (data) => {
-
+    data.quizValue = Number(data.quizValue)
+    data.quizAnswer = data.quizChoices[data.quizAnswer]
     try {
       console.log(data)
       await createArticle({ variables: data })
