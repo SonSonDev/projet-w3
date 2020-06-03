@@ -70,6 +70,28 @@ function Fields ({ children = [], helpers: { register, watch, setValue, errors }
               }
             </div>
           )
+          case "MT": return (
+            <div className={fieldClassName()}>
+              {watch(key).map((value, i) => (
+                <div className={[(i+1 !== params) && "mb1", "field has-addons"].join(" ")} key={i}>
+                  {params?.textBefore && <p className="control">
+                    <a className="button is-static">{params.textBefore}</a>
+                  </p>}
+                  <div className="control is-expanded">
+                    <input name={`${key}[${i}]`} ref={register({ required })} className={[ "input", false && "is-danger" ].join(" ")} {...attributes} />
+                  </div>
+                  <div className="control">
+                    <button className="button has-text-danger" onClick={() => { setValue(key, watch(key).splice(i, 1)) }}>
+                      Suppr
+                    </button>
+                  </div>
+                </div>
+              ))}
+              <button className="button is-small" type="button" onClick={() => { setValue(key, watch(key).push("")) }}>
+                Ajouter un nom de domaine
+              </button>
+            </div>
+          )
           case "TT": return (
             <div className={fieldClassName()}>
               <textarea name={key} ref={register({ required })} className="textarea" {...attributes} />

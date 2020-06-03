@@ -14,13 +14,12 @@ import PlacesIndex from "./pages/place/index"
 import PlaceForm from "./pages/place/form"
 
 import CompaniesIndex from "./pages/company/index"
-import CompanyCreate from "./pages/company/create"
-import CompanyUpdate from "./pages/company/update"
+import CompanyForm from "./pages/company/form"
 import CompanyInfo from "./pages/company/info"
 import CompanyEmployeeSignup from "./pages/company/employee-signup"
 
 import ChallengesIndex from "./pages/challenge/index"
-import ChallengeCreate from "./pages/challenge/create"
+import ChallengeForm from "./pages/challenge/form"
 
 import ArticlesIndex from "./pages/article/index"
 import ArticleForm from "./pages/article/form"
@@ -164,14 +163,15 @@ const App = () => {
                 <Route path="/employee/:id/update" component={EmployeeForm} />
                 <Route path="/employee/:id" component={EmployeeInfo} />
 
-                <Route exact path="/company/create" component={CompanyCreate} />
                 <Route exact path="/companies/" component={CompaniesIndex} />
-                <Route path="/company/:id/update" component={CompanyUpdate} />
+                <Route exact path="/company/create" component={CompanyForm} />
+                <Route path="/company/:id/update" component={CompanyForm} />
                 <Route exact path="/company/:id" component={CompanyInfo} />
                 <Route path="/company/:id/signup" component={CompanyEmployeeSignup} />
 
-                <Route exact path="/challenge/create" component={ChallengeCreate} />
                 <Route exact path="/challenges/" component={ChallengesIndex} />
+                <Route exact path="/challenge/create" component={ChallengeForm} />
+                <Route exact path="/challenge/:id/edit" component={ChallengeForm} />
 
                 <Route exact path="/article/create" component={ArticleForm} />
                 <Route exact path="/article/:id/edit" component={ArticleForm} />

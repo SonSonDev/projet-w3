@@ -108,7 +108,7 @@ const ArticleForm = ({ history, match: { params: { id } } }) => {
     <main>
       <div className="px3 py2 border-bottom">
         <h1 className="is-size-3 bold my05">
-          Ajouter un nouvel article
+          { id ? "Éditer l'article" : "Ajouter un nouvel article" }
         </h1>
       </div>
       <div className='p3'>

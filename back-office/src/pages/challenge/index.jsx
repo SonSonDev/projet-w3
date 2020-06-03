@@ -1,8 +1,8 @@
 import React, { useMemo } from "react"
+import { Link } from "react-router-dom"
 
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { GET_CHALLENGES } from "../../graphql/queries/challenge"
-import { DELETE_CHALLENGE } from "../../graphql/mutations/challenge"
+import { GET_CHALLENGES, DELETE_CHALLENGE } from "../../graphql/challenge"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 import Index from "../../components/Index"
@@ -19,13 +19,20 @@ const ChallengesIndex = () => {
     {
       Header: "Nom du défi",
       accessor: "name",
+      Cell ({ cell: { value }, row: { original: { id } } }) {
+        return (
+          <Link to={`/challenge/${id}/edit`} className="has-text-primary underline bold">
+            {value}
+          </Link>
+        )
+      },
     },
     {
       Header: "Description",
       accessor: "description",
     },
     {
-      Header: "Valeur",
+      Header: "Récompense",
       accessor: "value",
     },
     {
