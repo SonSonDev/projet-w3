@@ -1,4 +1,5 @@
 import React, { useContext } from "react"
+import PropTypes from "prop-types"
 import { useMutation, useQuery } from "@apollo/react-hooks"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
@@ -48,9 +49,9 @@ const ArticleForm = ({ history, match: { params: { id } } }) => {
       })
     },
   })
-  const [ updateArticle, { loading: updateArticleLoading, error: updateArticleError } ] = useMutation(UPDATE_ARTICLE, {})
+  const [ updateArticle, { loading: updateArticleLoading } ] = useMutation(UPDATE_ARTICLE, {})
 
-  const [ deleteArticle, { loading: deleteArticleLoading, error: deleteArticleError } ] = useMutation(DELETE_ARTICLE, {
+  const [ deleteArticle ] = useMutation(DELETE_ARTICLE, {
     update (cache, { data: { deleteArticle } }) {
       const { getArticles } = cache.readQuery({ query: GET_ARTICLES })
       cache.writeQuery({
@@ -88,7 +89,7 @@ const ArticleForm = ({ history, match: { params: { id } } }) => {
     }
   })
 
-  const defaultValues = id ? { 
+  const defaultValues = id ? {
     ...getArticle,
     photo: getArticle?.photo ? [getArticle.photo] : null,
   } : {
@@ -127,6 +128,15 @@ const ArticleForm = ({ history, match: { params: { id } } }) => {
       </div>
     </main>
   )
+}
+
+ArticleForm.propTypes = {
+  history: PropTypes.object,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }),
 }
 
 export default withAuthenticationCheck(ArticleForm, ["SUPER_ADMIN"])

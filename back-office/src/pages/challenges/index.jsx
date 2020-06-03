@@ -1,4 +1,4 @@
-import React, { useMemo, useContext } from "react"
+import React, { useMemo } from "react"
 
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { GET_CHALLENGES } from "../../graphql/queries/challenge"
@@ -8,11 +8,7 @@ import withAuthenticationCheck from "../../components/hocs/withAuthenticationChe
 import Index from "../../components/Index"
 import Loader from "../../components/Loader"
 
-import UserDataContext from "../../utils/UserDataContext"
-
 const ChallengesIndex = () => {
-
-  const userData = useContext(UserDataContext)
 
   const { error, data: {getChallenges: challenges} = {}, loading, refetch } = useQuery(GET_CHALLENGES, {
     onError: error => console.log(error.message),
@@ -34,7 +30,7 @@ const ChallengesIndex = () => {
     },
     {
       id: "delete",
-      Cell ({ cell: { value }, row: { original: { id } } }) {
+      Cell ({ row: { original: { id } } }) {
         return (
           <button onClick={() => deleteChallenge({ variables: { id } })} className="button is-white has-text-grey">
             <span className="icon"><i className="ri-delete-bin-line"/></span>

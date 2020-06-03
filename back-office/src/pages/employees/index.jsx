@@ -54,7 +54,7 @@ const EmployeesIndex = () => {
     // },
     {
       id: "delete",
-      Cell ({ cell: { value }, row: { original: { id } } }) {
+      Cell ({ row: { original: { id } } }) {
         return (
           <button onClick={() => deleteUser({ variables: { id } })} className="button is-white has-text-grey">
             <span className="icon"><i className="ri-delete-bin-line"/></span>

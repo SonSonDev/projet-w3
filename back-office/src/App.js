@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react"
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
+import React, { useState } from "react"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 
 import Home from "./pages/Home"
 import Login from "./pages/Login"
@@ -15,9 +15,6 @@ import ClientUpdate from "./pages/clients/update"
 import ClientInfo from "./pages/clients/info"
 
 import PlacesIndex from "./pages/place/index"
-import PlaceCreate from "./pages/place/create"
-import PlaceUpdate from "./pages/place/update"
-import PlaceInfo from "./pages/place/info"
 import PlaceForm from "./pages/place/form"
 
 import CompaniesIndex from "./pages/companies/index"

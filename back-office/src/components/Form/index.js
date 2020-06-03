@@ -1,10 +1,5 @@
-import React, { useState, useEffect } from "react"
-import { useForm, Controller } from "react-hook-form"
-import { useQuery } from "@apollo/react-hooks"
-
-import { categories, tags, hours } from "../../utils/wording"
-import { GET_TAGS } from "../../graphql/tag"
-
+import React, { useState } from "react"
+import { useForm } from "react-hook-form"
 
 function Fields ({ children = [], helpers: { register, watch, setValue, errors }, level = 0, path = [] }) {
   const [ collapsedChildren, setCollapsedChildren ] = useState({})
@@ -149,7 +144,7 @@ function Fields ({ children = [], helpers: { register, watch, setValue, errors }
                   <div className='control' key={`${i}@${name}`}>
                     <div className="tags has-addons">
                       <span className="tag is-success is-light">{name || uri.split("/").pop()}</span>
-                      <a onClick={e => {
+                      <a onClick={() => {
                         setValue(`${key}[${i}].files`, "")
                         setValue(`${key}[${i}].uri`, "")
                       }} className="tag is-delete is-success is-light" />
@@ -167,8 +162,7 @@ function Fields ({ children = [], helpers: { register, watch, setValue, errors }
   })
 }
 
-
-export default function Form ({ form, onSubmit, onCancel, onDelete, submitting, children }) {
+function Form ({ form, onSubmit, onCancel, onDelete, submitting, children }) {
   const { handleSubmit, register, watch, setValue, errors } = useForm(children)
 
   return (
@@ -192,3 +186,5 @@ export default function Form ({ form, onSubmit, onCancel, onDelete, submitting, 
     </form>
   )
 }
+
+export default Form

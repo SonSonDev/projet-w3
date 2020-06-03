@@ -1,23 +1,18 @@
-import React, { useMemo, useContext } from "react"
+import React, { useMemo } from "react"
 import { Link } from "react-router-dom"
 
-import { useQuery, useMutation } from "@apollo/react-hooks"
-import { GET_ARTICLES, DELETE_ARTICLE } from "../../graphql/article"
+import { useQuery } from "@apollo/react-hooks"
+import { GET_ARTICLES } from "../../graphql/article"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 import Index from "../../components/Index"
 import Loader from "../../components/Loader"
 
-import UserDataContext from "../../utils/UserDataContext"
-
 const ArticlesIndex = () => {
 
-  const userData = useContext(UserDataContext)
-
-  const { error, data: {getArticles: articles} = {}, loading, refetch } = useQuery(GET_ARTICLES, {
+  const { error, data: {getArticles: articles} = {}, loading } = useQuery(GET_ARTICLES, {
     onError: error => console.log(error.message),
   })
-  const [deleteArticle] = useMutation(DELETE_ARTICLE, { onCompleted: refetch })
 
   const columns = useMemo(() => [
     {
@@ -34,7 +29,7 @@ const ArticlesIndex = () => {
     {
       id: "quizQuestion",
       Header: "Question",
-      Cell ({ cell, row: { original: { quiz } } }) {
+      Cell ({ row: { original: { quiz } } }) {
         return (
           <>
             {quiz.question}

@@ -1,10 +1,10 @@
-import React, { useState, useMemo } from "react"
+import React, { useMemo } from "react"
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { GET_COMPANIES } from "../../graphql/company"
-import { DELETE_COMPANY, CREATE_COMPANIES } from "../../graphql/company"
+import { CREATE_COMPANIES } from "../../graphql/company"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 import Index from "../../components/Index"
@@ -13,9 +13,9 @@ import Loader from "../../components/Loader"
 import { companyTypeNames } from "../../utils/wording"
 
 
-const CompaniesIndex = ({ history }) => {
+const CompaniesIndex = () => {
 
-  const { error, data: { getCompanies: companies } = {}, loading, refetch } = useQuery(GET_COMPANIES, {
+  const { error, data: { getCompanies: companies } = {}, loading } = useQuery(GET_COMPANIES, {
     onError: error => console.log(error.message),
   })
 
@@ -28,8 +28,6 @@ const CompaniesIndex = ({ history }) => {
       })
     },
   })
-
-  const [deleteCompany] = useMutation(DELETE_COMPANY, { onCompleted: refetch })
 
   const columns = useMemo(() => [
     {
@@ -50,7 +48,7 @@ const CompaniesIndex = ({ history }) => {
     {
       Header: "Membres",
       accessor: "userCount",
-      Cell ({ cell: { value }, row: { original: { id } } }) {
+      Cell ({ cell: { value } }) {
         return (
           <div className="flex">
             <span className="icon is-small mr05 has-text-grey"><i className="ri-group-line"/></span>
@@ -62,7 +60,7 @@ const CompaniesIndex = ({ history }) => {
     {
       Header: "Adresse",
       accessor: ({ address: { street, zipCode, city } }) => `${street}, ${zipCode} ${city}`,
-      Cell ({ cell: { value }, row: { original: { id } } }) {
+      Cell ({ cell: { value } }) {
         return (
           <div className="flex">
             <span className="icon is-small mr05 has-text-grey"><i className="ri-map-pin-2-line"/></span>

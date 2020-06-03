@@ -1,4 +1,5 @@
 import React, { useContext } from "react"
+import PropTypes from "prop-types"
 import { useMutation, useQuery } from "@apollo/react-hooks"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
@@ -46,13 +47,11 @@ function PlaceForm ({ history,  match: { params: { id } } }) {
 
   const { setToast } = useContext(ToastContext)
 
-  const { data } = useQuery(GET_PLACES)
-
   const { data: { getPlace = {} } = {}, loading: getPlaceLoading } = useQuery(GET_PLACE, { variables: { where: { id } } })
 
   const { data: { getTags = [] } = {}, loading: getTagsLoading } = useQuery(GET_TAGS, { variables: { where: { root: true } } })
 
-  const [ createPlace, { loading: createPlaceLoading, error: createPlaceError } ] = useMutation(CREATE_PLACE, {
+  const [ createPlace, { loading: createPlaceLoading } ] = useMutation(CREATE_PLACE, {
     update (cache, { data: { createPlace } }) {
       const { getPlaces } = cache.readQuery({ query: GET_PLACES })
       cache.writeQuery({
@@ -61,7 +60,7 @@ function PlaceForm ({ history,  match: { params: { id } } }) {
       })
     },
   })
-  const [ updatePlace, { loading: updatePlaceLoading, error: updatePlaceError } ] = useMutation(UPDATE_PLACE, {
+  const [ updatePlace, { loading: updatePlaceLoading } ] = useMutation(UPDATE_PLACE, {
     // update (cache, { data: { updatePlace } }) {
     //   const { getPlace } = cache.readQuery({ query: GET_PLACE, variables: { where: { id } } })
     //   cache.writeQuery({
@@ -70,7 +69,7 @@ function PlaceForm ({ history,  match: { params: { id } } }) {
     //   })
     // },
   })
-  const [ deletePlace, { loading: deletePlaceLoading, error: deletePlaceError } ] = useMutation(DELETE_PLACE, {
+  const [ deletePlace, { loading: deletePlaceLoading } ] = useMutation(DELETE_PLACE, {
     update (cache, { data: { deletePlace } }) {
       const { getPlaces } = cache.readQuery({ query: GET_PLACES })
       cache.writeQuery({
@@ -81,7 +80,7 @@ function PlaceForm ({ history,  match: { params: { id } } }) {
   })
 
 
-  const form = ({ category, photos }) => ([
+  const form = ({ category }) => ([
     {
       label: "Informations de base",
       children: [
@@ -191,6 +190,15 @@ function PlaceForm ({ history,  match: { params: { id } } }) {
       </div>
     </main>
   )
+}
+
+PlaceForm.propTypes = {
+  history: PropTypes.object,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }),
 }
 
 export default withAuthenticationCheck(PlaceForm, ["SUPER_ADMIN"])
