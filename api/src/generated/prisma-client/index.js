@@ -41,7 +41,15 @@ var models = [
     embedded: true
   },
   {
+    name: "Article",
+    embedded: false
+  },
+  {
     name: "Quiz",
+    embedded: true
+  },
+  {
+    name: "ValidatedQuiz",
     embedded: false
   },
   {

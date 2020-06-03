@@ -40,7 +40,7 @@ const placeFragment = gql`
 `
 
 export const GET_PLACES = gql`
-  query getPlaces($where: PlaceInput, $nearby: NearbyInput) {
+  query GetPlaces($where: PlaceInput, $nearby: NearbyInput) {
     getPlaces(where: $where, nearby: $nearby) {
       ...PlaceFragment
     }
@@ -48,7 +48,7 @@ export const GET_PLACES = gql`
   ${placeFragment}
 `
 export const GET_PLACE = gql`
-  query getPlace($where: PlaceInputUnique) {
+  query GetPlace($where: PlaceInputUnique) {
     getPlace(where: $where) {
       ...PlaceFragment
     }
@@ -87,12 +87,4 @@ export const UPSERT_PLACES = gql`
     }
   }
   ${placeFragment}
-`
-
-export const UPDATE_HOUR = gql`
-  mutation UpdateHour($id: ID!, $day: Day!, $start: String!, $end: String!) {
-    updateHour(id: $id, day: $day, start: $start, end: $end) {
-      id
-    }
-  }
 `

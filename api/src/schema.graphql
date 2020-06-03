@@ -13,6 +13,8 @@ type Query {
   checkAuth: User
   getTags(where: TagInput): [Tag]
   getTag(id: ID!): Tag
+  getArticles(where: ArticleInput): [Article]
+  getArticle(where: ArticleInputUnique): Article
   getChallenges: [Challenge]
   getChallenge(id: ID!): Challenge
   getStripeInvoicesByCompany(id: ID!): [StripeInvoice]
@@ -94,6 +96,16 @@ type Mutation {
   deleteTag(id: ID!): Tag!
   updateTag(id: ID!, label: String!, children: [ID!], category: Category!): Tag!
 
+  createArticle(data: ArticleInput): Article
+  updateArticle(where: ArticleInputUnique!, data: ArticleInput!): Article
+
+  deleteArticle(where: ArticleInputUnique!): Article
+
+  validateQuiz(
+    userId: ID!
+    articleId: ID!
+    answer: String!
+  ): User
 
   createChallenge(
     name: String!
@@ -132,7 +144,7 @@ type User {
   isRepresentative: Boolean
   points: Int
   validatedChallenges: [Challenge]
-  validatedQuizzes: [Quiz]
+  validatedQuizzes: [ValidatedQuiz]
 }
 
 type Company {
@@ -147,7 +159,6 @@ type Company {
   representativeUser: User
   stripeInvoices: [StripeInvoice]
   challenges: [Challenge]
-  quizzes: [Quiz]
 }
 
 type Place {
@@ -160,6 +171,7 @@ type Place {
   headline: String
   description: String
   hours: [Hour!]
+
   tags: [Tag!]
   photos: [Photo!]
 }
@@ -196,14 +208,28 @@ type Tag {
   category: Category!
 }
 
-type Quiz {
+type Article {
   id: ID!
-  name: String!
+  title: String!
+  content: String!
+  photo: Photo
+  videoUrl: String
+  quiz: Quiz
+  date: String!
+}
+
+type Quiz {
   question: String!
   choices: [String!]
   answer: String!
   value: Int!
-  companies: [Company]
+  answeredBy: [User]
+}
+
+type ValidatedQuiz {
+  id: ID!
+  article: Article!
+  status: Boolean!
 }
 
 type Challenge {
@@ -328,6 +354,25 @@ input TagInput {
   root: Boolean
   leaf: Boolean
   category: Category
+}
+
+input ArticleInput {
+  title: String!
+  content: String!
+  photo: PhotoInput
+  videoUrl: String
+  quiz: QuizInput
+}
+
+input ArticleInputUnique {
+  id: ID
+}
+
+input QuizInput {
+  question: String!
+  choices: [String!]
+  answer: String!
+  value: Int!
 }
 
 input AddressInput {

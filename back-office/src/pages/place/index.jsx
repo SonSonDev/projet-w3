@@ -1,9 +1,9 @@
-import React, { useState, useMemo, useContext } from "react"
+import React, { useMemo, useContext } from "react"
 import PropTypes from "prop-types"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Link } from "react-router-dom"
 
-import { GET_PLACES, DELETE_PLACE, UPSERT_PLACES } from "../../graphql/place"
+import { GET_PLACES, UPSERT_PLACES } from "../../graphql/place"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 import Index from "../../components/Index"
@@ -11,18 +11,16 @@ import Loader from "../../components/Loader"
 
 import { categories } from "../../utils/wording"
 
-import UserDataContext from "../../utils/UserDataContext"
 import ToastContext from "../../utils/ToastContext"
 
-const PlacesIndex = ({ history }) => {
-  // const userData = useContext(UserDataContext)
+const PlacesIndex = () => {
   const { setToast } = useContext(ToastContext)
 
-  const { error, loading, data: {getPlaces: places} = {}, refetch } = useQuery(GET_PLACES, {
+  const { error, loading, data: {getPlaces: places} = {} } = useQuery(GET_PLACES, {
     onError: error => console.log(error.message),
   })
 
-  const [ upsertPlaces, { error: upsertPlacesError } ] = useMutation(UPSERT_PLACES, {
+  const [ upsertPlaces ] = useMutation(UPSERT_PLACES, {
     update (cache, { data: { upsertPlaces } }) {
       // const { getPlaces } = cache.readQuery({ query: GET_PLACES })
       cache.writeQuery({
@@ -31,8 +29,6 @@ const PlacesIndex = ({ history }) => {
       })
     },
   })
-
-  // const [deletePlace] = useMutation(DELETE_PLACE, { onCompleted: refetch })
 
   const columns = useMemo(() => [
     {
@@ -53,7 +49,7 @@ const PlacesIndex = ({ history }) => {
     {
       Header: "Adresse",
       accessor: ({ address: { street, zipCode, city } }) => `${street}, ${zipCode} ${city}`,
-      Cell ({ cell: { value }, row: { original: { id } } }) {
+      Cell ({ cell: { value } }) {
         return (
           <div className="flex">
             <span className="icon is-small mr05 has-text-grey"><i className="ri-map-pin-2-line"/></span>

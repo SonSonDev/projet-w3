@@ -95,6 +95,34 @@ module.exports = {
       return update
     },
 
+    async validateQuiz (parent, { userId, articleId, answer }, { prisma }) {
+      const users = await prisma.users({
+        where: {
+          id: userId,
+          validatedQuizzes_some: { article: { id: articleId }}
+        }
+      })
+      if (users[0]) {
+        return users[0]
+      } else {
+        const article = (await prisma.article({ id: articleId }))
+        const user = await prisma.user({ id: userId })
+        const status = article.quiz.answer === answer
+        return await prisma.updateUser({
+          where: { id: userId },
+          data: {
+            points: user.points + (status ? article.quiz.value : 1),
+            validatedQuizzes: {
+              create: {
+                article: { connect: { id: articleId }},
+                status
+              }
+            }
+          }
+        })
+      }
+    },
+
     async validateChallenge (_, { userId, challengeId }, context) {
       const user = await context.prisma.user({ id: userId })
       const challenge = (await context.prisma.user({ id: userId })
@@ -124,6 +152,16 @@ module.exports = {
       validatedChallenges(parent, args, context) {
         return context.prisma.user({ id: parent.id }).validatedChallenges()
       },
+
+      async validatedQuizzes(parent, args, { prisma }) {
+        return prisma.user({ id: parent.id }).validatedQuizzes()
+      },
     },
+
+    ValidatedQuiz: {
+      article(parent, args, { prisma }) {
+        return prisma.validatedQuiz({ id: parent.id }).article()
+      }
+    }
   },
 }

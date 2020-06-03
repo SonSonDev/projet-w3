@@ -9,6 +9,7 @@ const { resolvers: tagResolvers } = require("./resolvers/tag")
 const { resolvers: companyResolvers } = require("./resolvers/company")
 const { resolvers: userResolvers } = require("./resolvers/user")
 const { resolvers: placeResolvers } = require("./resolvers/place")
+const { resolvers: articleResolvers } = require("./resolvers/article")
 
 const { APP_SECRET, parseCookie } = require("./utils")
 
@@ -19,6 +20,7 @@ const resolvers = {
   ...userResolvers,
   ...placeResolvers,
   ...tagResolvers,
+  ...articleResolvers,
 }
 
 const server = new GraphQLServer({

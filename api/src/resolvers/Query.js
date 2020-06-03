@@ -4,7 +4,7 @@ const { queries: placeQueries } = require("./place")
 const { queries: userQueries } = require("./user")
 const { queries: companyQueries } = require("./company")
 const { queries: challengeQueries } = require("./challenge")
-const { queries: quizQueries } = require("./quiz")
+const { queries: articleQueries } = require("./article")
 const { queries: authQueries } = require("./auth")
 
 //
@@ -24,6 +24,6 @@ module.exports = {
   ...userQueries,
   ...tagQueries,
   ...challengeQueries,
-  ...quizQueries,
+  ...articleQueries,
   ...authQueries,
 }

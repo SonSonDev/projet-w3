@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react"
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
+import React, { useState } from "react"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 
 import Home from "./pages/Home"
 import Login from "./pages/Login"
@@ -15,9 +15,6 @@ import ClientUpdate from "./pages/clients/update"
 import ClientInfo from "./pages/clients/info"
 
 import PlacesIndex from "./pages/place/index"
-import PlaceCreate from "./pages/place/create"
-import PlaceUpdate from "./pages/place/update"
-import PlaceInfo from "./pages/place/info"
 import PlaceForm from "./pages/place/form"
 
 import CompaniesIndex from "./pages/companies/index"
@@ -28,6 +25,9 @@ import CompanyEmployeeSignup from "./pages/companies/employee-signup"
 
 import ChallengesIndex from "./pages/challenges/index"
 import ChallengeCreate from "./pages/challenges/create"
+
+import ArticlesIndex from "./pages/articles/index"
+import ArticleForm from "./pages/articles/form"
 
 import NotFound from "./pages/NotFound"
 
@@ -142,6 +142,9 @@ const App = () => {
                 <ItemNav links={["challenges", "challenge"]} icon="ri-flag-2-line">
                   Défis
                 </ItemNav>
+                <ItemNav links={["articles", "article"]} icon="ri-article-line">
+                  Articles
+                </ItemNav>
               </>}
 
             </ul>
@@ -177,6 +180,11 @@ const App = () => {
 
                 <Route exact path="/challenge/create" component={ChallengeCreate} />
                 <Route exact path="/challenges/" component={ChallengesIndex} />
+
+                <Route exact path="/article/create" component={ArticleForm} />
+                <Route exact path="/article/:id/edit" component={ArticleForm} />
+                <Route exact path="/articles/" component={ArticlesIndex} />
+
                 <Route component={NotFound} />
 
               </Switch>

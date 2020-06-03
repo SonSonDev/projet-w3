@@ -1,8 +1,8 @@
-import React, { useState, useMemo } from "react"
+import React, { useMemo } from "react"
 import { Link } from "react-router-dom"
 
-import { useQuery, useMutation } from "@apollo/react-hooks"
-import { GET_USERS, DELETE_USER } from "../../graphql/user"
+import { useQuery } from "@apollo/react-hooks"
+import { GET_USERS } from "../../graphql/user"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 import Index from "../../components/Index"
@@ -12,12 +12,10 @@ import { roleNames } from "../../utils/wording"
 
 const ClientsIndex = () => {
 
-  const { error, data: { getUsers: clients } = {}, loading, refetch } = useQuery(GET_USERS, {
+  const { error, data: { getUsers: clients } = {}, loading } = useQuery(GET_USERS, {
     fetchPolicy: "no-cache",
     onError: error => console.log(error.message),
   })
-
-  const [deleteUser] = useMutation(DELETE_USER, { onCompleted: refetch })
 
   const columns = useMemo(() => [
     {
@@ -75,8 +73,6 @@ const ClientsIndex = () => {
     )
   }
 
-  let data = clients
-
   const tabs =  [
     { title: "Aucun", filter: () => true },
     ...Object.entries(roleNames)
@@ -85,15 +81,15 @@ const ClientsIndex = () => {
         title: label, filter: ({ role }) => role === key,
       })),
     // ...data
-      // .reduce((acc, cur) => {
-      //   if (cur.company && cur.company.name && !acc.includes(cur.company.name)) {
-      //     acc.push(cur.company.name)
-      //   }
-      //   return acc
-      // }, [])
-      // .map(companyName => ({
-      //   title: companyName, filter: ({ company }) => company && company.name === companyName,
-      // })),
+    // .reduce((acc, cur) => {
+    //   if (cur.company && cur.company.name && !acc.includes(cur.company.name)) {
+    //     acc.push(cur.company.name)
+    //   }
+    //   return acc
+    // }, [])
+    // .map(companyName => ({
+    //   title: companyName, filter: ({ company }) => company && company.name === companyName,
+    // })),
   ]
 
   return (

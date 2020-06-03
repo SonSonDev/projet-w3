@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from "react"
-import { useForm, Controller } from "react-hook-form"
-import { useQuery } from "@apollo/react-hooks"
-
-import { categories, tags, hours } from "../../utils/wording"
-import { GET_TAGS } from "../../graphql/tag"
-
+import React, { useState } from "react"
+import { useForm } from "react-hook-form"
 
 function Fields ({ children = [], helpers: { register, watch, setValue, errors }, level = 0, path = [] }) {
   const [ collapsedChildren, setCollapsedChildren ] = useState({})
   // useEffect(() => {
   //   level === 2 && console.log(collapsedChildren, children)
   // })
-  return children.map(({ key, label, type, options, children, collapsible, required, className, attributes }, i, a) => {
+  return children.map(({ key, label, type, options, children, collapsible, required, className, attributes, disabled, params }, i, a) => {
     const collapsed = collapsedChildren[label]
     const hasChildren = children || collapsible
     // || type === "C"
@@ -60,16 +55,30 @@ function Fields ({ children = [], helpers: { register, watch, setValue, errors }
               <input name={key} ref={register({ required })} className={[ "input", false && "is-danger" ].join(" ")} {...attributes} />
             </div>
           )
+          case "AT": return (
+            <div className={fieldClassName()}>
+              {
+                new Array(params.number).fill(1).map((_,i) => (
+                  <div className={[(i+1 !== params) && "mb1", "field has-addons"].join(" ")} key={i}>
+                    <input name={`${key}[${i}]`} ref={register({ required })} className={[ "input", false && "is-danger" ].join(" ")} {...attributes} />
+                    <button tabIndex="-1" type="button" className="button" onClick={(e) => { e.target.children[0] ? e.target.children[0].click() : console.log(e) }}>
+                      <input tabIndex="-1" type="radio" ref={register({ required })} name={params.radioKey} value={watch(`${key}[${i}]`)} />
+                    </button>
+                  </div>
+                ))
+              }
+            </div>
+          )
           case "TT": return (
             <div className={fieldClassName()}>
-              <textarea name={key} ref={register({ required })} className="textarea" />
+              <textarea name={key} ref={register({ required })} className="textarea" {...attributes} />
             </div>
           )
           case "R": return (
             <div className={fieldClassName("buttons has-addons")}>
               {options.map(({ value, label }) => (
-                <label className={[ "button", watch(key) === value && "is-success is-light", false && "is-danger is-outlined" ].join(" ")} key={value}>
-                  <input type="radio" value={value} name={key} ref={register({ required })} className={[ "mr05 display-none" ].join(" ")} {...attributes} />
+                <label className={[ "button", watch(key) === value && "is-success is-light", false && "is-danger is-outlined", disabled && "is-static" ].join(" ")} key={value}>
+                  <input type="radio" value={value} name={key} ref={register({ required })} className={[ "mr05 display-none" ].join(" ")} {...attributes} disabled={disabled} />
                   {label}
                 </label>
               ))}
@@ -135,7 +144,7 @@ function Fields ({ children = [], helpers: { register, watch, setValue, errors }
                   <div className='control' key={`${i}@${name}`}>
                     <div className="tags has-addons">
                       <span className="tag is-success is-light">{name || uri.split("/").pop()}</span>
-                      <a onClick={e => {
+                      <a onClick={() => {
                         setValue(`${key}[${i}].files`, "")
                         setValue(`${key}[${i}].uri`, "")
                       }} className="tag is-delete is-success is-light" />
@@ -153,8 +162,7 @@ function Fields ({ children = [], helpers: { register, watch, setValue, errors }
   })
 }
 
-
-export default function Form ({ form, onSubmit, onCancel, onDelete, submitting, children }) {
+function Form ({ form, onSubmit, onCancel, onDelete, submitting, children }) {
   const { handleSubmit, register, watch, setValue, errors } = useForm(children)
 
   return (
@@ -178,3 +186,5 @@ export default function Form ({ form, onSubmit, onCancel, onDelete, submitting, 
     </form>
   )
 }
+
+export default Form

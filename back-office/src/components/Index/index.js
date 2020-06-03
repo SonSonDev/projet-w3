@@ -14,7 +14,7 @@ function Index ({ data, columns, tabs, children: { slug, entity, genre, onImport
 
   const filteredData = data.filter(tabs[activeTabIndex].filter)
     .filter(obj => JSON.stringify(obj).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-      .includes(search.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+      .includes(search.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")),
     )
 
   return (

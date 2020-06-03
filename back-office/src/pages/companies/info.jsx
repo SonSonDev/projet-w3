@@ -10,7 +10,7 @@ import SubPage from "../../components/hocs/SubPage"
 import { companyTypeNames, stripeInvoiceStatus } from "../../utils/wording"
 
 
-function CompanyInfo ({ history, location, match: { params: { id } } }) {
+function CompanyInfo ({ history, match: { params: { id } } }) {
   const { loading, error, data } = useQuery(GET_COMPANY, { variables: { id } })
 
   const { data: { getStripeInvoicesByCompany = [] } = {} } = useQuery(GET_STRIPE_INVOICES_BY_COMPANY, { variables: { id } })
@@ -28,8 +28,8 @@ function CompanyInfo ({ history, location, match: { params: { id } } }) {
 
   if (loading || error) return null
 
-  const { getCompany: { name, type, address: { street, zipCode, city }, users, emailDomains, stripeCustomerId, representativeUser } } = data
-  const { firstName, lastName, email, phone } = representativeUser
+  const { getCompany: { name, type, address: { street, zipCode, city }, stripeCustomerId, representativeUser } } = data
+  const { firstName, lastName, phone } = representativeUser
   return (
     <SubPage history={history}>
       <div>

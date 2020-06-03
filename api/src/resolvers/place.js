@@ -2,76 +2,6 @@ const Aws = require("../services/aws")
 const Mongoose = require("../services/mongoose")
 const GoogleMaps = require("../services/googleMaps")
 
-
-const makePlaceInput = async ({ name, category, address: { street, zipCode, city }, user: { email, phone, role }, social, headline, description, hours, photos = [], tags = [] }, prisma, update) => {
-
-  const { data: { results } } = await GoogleMaps.client.geocode({ params: {
-    address: `${street}, ${zipCode} ${city}`, key: process.env.GOOGLE_MAPS_API_KEY,
-  } })
-  const { geometry: { location: { lat, lng } } } = results[0]
-
-  const uploadedPhotos = await Promise.all(
-    photos.map(async ({ uri, file }, i) =>
-      uri ? ({ uri }) : Aws.s3.upload({
-        Bucket: "madu-dev",
-        Key: (await file).filename,
-        Body: (await file).createReadStream(),
-      }).promise(),
-    ),
-  )
-
-  return {
-    name,
-    category,
-    address: { create: {
-      street,
-      zipCode,
-      city,
-      location: { create: {
-        type: "Point",
-        coordinates: { set: [ lat, lng ] },
-      } },
-    } },
-    user: {
-      ...await prisma.user({ email })
-        ? { connect: { email } }
-        : { create: { email, phone, role } }
-    },
-    social: { create: social },
-    headline,
-    description,
-    hours: { create: hours },
-    photos: await prisma.photos().then(allPhotos => ({
-      ...uploadedPhotos
-        .map(({ uri, Location }) => ({ uri: uri || Location }))
-        .filter(({ uri }) => !allPhotos.some(photo => photo.uri === uri))
-        .reduce((acc, curr) => ({ create: [ ...acc.create || [], curr ] }), {}),
-      ...update
-        ? uploadedPhotos
-          .map(({ uri, Location }) => ({ uri: uri || Location }))
-          // .filter(({ uri }) => allPhotos.some(photo => photo.uri === uri))
-          .reduce((acc, curr) => ({ set: [ ...acc.set || [], curr ] }), { set: [] })
-        : uploadedPhotos
-          .map(({ uri, Location }) => ({ uri: uri || Location }))
-          // .filter(({ uri }) => allPhotos.some(photo => photo.uri === uri))
-          .reduce((acc, curr) => ({ connect: [ ...acc.connect || [], curr ] }), {}),
-    })),
-    // tags: { connect: tags },
-    ...tags.length && {
-      tags: {
-        connect: (await prisma.tags({
-          where: {
-            ...tags[0].id && { id_in: tags.map(({ id }) => id) },
-            ...tags[0].label && { label_in: tags.map(({ label }) => label) },
-            category,
-          },
-        })).map(({ id }) => ({ id })),
-      },
-    },
-  }
-}
-
-
 module.exports = {
   queries: {
     async getPlaces (_, { where, nearby: { coordinates, minDistance, maxDistance } = {} }, { prisma }) {
@@ -130,4 +60,69 @@ module.exports = {
       },
     },
   },
+}
+
+
+async function makePlaceInput ({ name, category, address: { street, zipCode, city }, user: { email, phone, role }, social, headline, description, hours, photos = [], tags = [] }, prisma, update) {
+
+  const { data: { results } } = await GoogleMaps.client.geocode({ params: {
+    address: `${street}, ${zipCode} ${city}`, key: process.env.GOOGLE_MAPS_API_KEY,
+  } })
+  const { geometry: { location: { lat, lng } } } = results[0]
+
+  const photosUris = await Promise.all(photos.map(async ({ uri, file }) => {
+    if (uri) return { uri }
+
+    const { filename, createReadStream } = await file
+    const uploadedPhoto = await Aws.s3.upload({
+      Bucket: "madu-dev",
+      Key: filename,
+      Body: createReadStream() }).promise()
+
+    return { uri: uploadedPhoto.Location }
+  }))
+
+  return {
+    name,
+    category,
+    address: { create: {
+      street,
+      zipCode,
+      city,
+      location: { create: {
+        type: "Point",
+        coordinates: { set: [ lat, lng ] },
+      } },
+    } },
+    user: {
+      ...await prisma.user({ email })
+        ? { connect: { email } }
+        : { create: { email, phone, role } }
+    },
+    social: { create: social },
+    headline,
+    description,
+    hours: { create: hours },
+    photos: await prisma.photos().then(existingPhotos => ({
+      create: photosUris.filter(({ uri }) => !existingPhotos.map(p => p.uri).includes(uri)),
+      [update ? "set" : "connect"]: photosUris,
+      // ...photosUris
+      //   .filter(({ uri }) => !existingPhotos.map(p => p.uri).includes(uri))
+      //   .reduce((acc, curr) => ({ create: [ ...acc.create || [], curr ] }), {}),
+      // ...update
+      //   ? photosUris.reduce((acc, curr) => ({ set: [ ...acc.set, curr ] }), { set: [] })
+      //   : photosUris.reduce((acc, curr) => ({ connect: [ ...acc.connect || [], curr ] }), {}),
+    })),
+    ...tags.length && {
+      tags: {
+        connect: (await prisma.tags({
+          where: {
+            ...tags[0].id && { id_in: tags.map(({ id }) => id) },
+            ...tags[0].label && { label_in: tags.map(({ label }) => label) },
+            category,
+          },
+        })).map(({ id }) => ({ id })),
+      },
+    },
+  }
 }
