@@ -95,7 +95,7 @@ async function makeArticleInput ({title, content, photo: { uri, file } = {}, vid
             Key: (await file).filename,
             Body: (await file).createReadStream(),
           }).promise().then(({ Location }) => ({ uri: Location })) }
-          : { set: { uri } },
+          : { connect: { uri } },
       },
     },
     videoUrl: videoUrl,
