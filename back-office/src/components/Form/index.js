@@ -164,21 +164,37 @@ function Fields ({ children = [], helpers: { register, watch, setValue, errors }
 
 function Form ({ form, onSubmit, onCancel, onDelete, submitting, children }) {
   const { handleSubmit, register, watch, setValue, errors } = useForm(children)
+  const [ showDelete, setShowDelete ] = useState(false)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="columns">
       <div className='column is-two-fifths'>
         <Fields helpers={{ register, watch, setValue, errors }}>{form(watch({ nest: true }))}</Fields>
         {onDelete && (
-          <a onClick={onDelete} className={[ "button has-text-danger bold", submitting && "is-loading" ].join(" ")}>
-            Supprimer
-          </a>
+          <>
+            <a onClick={() => setShowDelete(true)} className={[ "button has-text-danger bold" ].join(" ")}>
+              Supprimer
+            </a>
+            <div className={[ "modal", showDelete && "is-active" ].join(" ")}>
+              <div className="modal-background" onClick={() => setShowDelete(false)} />
+              <div className="modal-card">
+                <header className="modal-card-head border-none pb0 pt3 px3">
+                  <h4>Êtes-vous sûr(e) de vouloir le supprimer ?</h4>
+                </header>
+                <footer className="modal-card-foot border-none justify-end">
+                  <button onClick={() => setShowDelete(false)} className="button has-text-grey-dark bold" type="button">Annuler</button>
+                  <button onClick={onDelete} className={[ "button is-danger bold", submitting && "is-loading" ].join(" ")} type="button">Supprimer</button>
+                </footer>
+              </div>
+              {/* <button className="modal-close is-large" aria-label="close" type="button" /> */}
+            </div>
+          </>
         )}
       </div>
       <div className='column'>
         <div className='buttons fixed bottom-0 pb3 pl3'>
-          <a onClick={onCancel} className='button bold'>Annuler</a>
-          <button type='submit' className={[ "button is-primary bold", submitting && "is-loading" ].join(" ")}>
+          <a onClick={onCancel} className='button has-text-grey-dark bold'>Annuler</a>
+          <button type='submit' className={[ "button is-primary bold", submitting && !showDelete && "is-loading" ].join(" ")}>
             Valider
           </button>
         </div>
