@@ -8,7 +8,6 @@ import { ApolloProvider } from "@apollo/react-hooks"
 
 import "remixicon/fonts/remixicon.css"
 import "./style/style.scss"
-import "basscss/css/basscss.min.css"
 import App from "./App"
 import * as serviceWorker from "./serviceWorker"
 
