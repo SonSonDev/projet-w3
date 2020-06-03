@@ -48,7 +48,7 @@ function CompanyEmployeeSignup ({ match: { params: { id } } }) {
   const { emailDomains } = data.getCompany
 
   return (
-    <div className="create">
+    <div className="create" style={{marginLeft: "-180px"}}>
       <Formik
         initialValues={{
           firstName: "",
@@ -109,7 +109,7 @@ function CompanyEmployeeSignup ({ match: { params: { id } } }) {
           </div>
           <div className="field">
             <div className="control">
-              <button type="submit" className="button is-link is-fullwidth">S’inscrire</button>
+              <button type="submit" className="button is-primary bold is-fullwidth">S’inscrire</button>
             </div>
           </div>
           {errorMessage &&

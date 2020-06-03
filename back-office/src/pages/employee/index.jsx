@@ -42,6 +42,13 @@ const EmployeesIndex = () => {
       Header: "Email",
       accessor: "email",
     },
+    {
+      Header: "Points",
+      accessor: "points",
+      Cell ({ cell: { value } }) {
+        return (value || 0)
+      },
+    },
     // {
     //   id: "edit",
     //   Cell ({ cell: { value }, row: { original: { id } } }) {

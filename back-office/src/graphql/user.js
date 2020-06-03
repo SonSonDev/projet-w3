@@ -9,6 +9,7 @@ const userFragment = gql`
     email
     role
     isRepresentative
+    points
     company {
       id
       name

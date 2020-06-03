@@ -4,30 +4,26 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import Home from "./pages/Home"
 import Login from "./pages/Login"
 
-import EmployeesIndex from "./pages/employees/index"
-import EmployeeCreate from "./pages/employees/create"
-import EmployeeUpdate from "./pages/employees/update"
-import EmployeeInfo from "./pages/employees/info"
+import EmployeesIndex from "./pages/employee/index"
+import EmployeeForm from "./pages/employee/form"
+import EmployeeInfo from "./pages/employee/info"
 
-import ClientsIndex from "./pages/clients/index"
-import ClientCreate from "./pages/clients/create"
-import ClientUpdate from "./pages/clients/update"
-import ClientInfo from "./pages/clients/info"
+import UsersIndex from "./pages/user/index"
 
 import PlacesIndex from "./pages/place/index"
 import PlaceForm from "./pages/place/form"
 
-import CompaniesIndex from "./pages/companies/index"
-import CompanyCreate from "./pages/companies/create"
-import CompanyUpdate from "./pages/companies/update"
-import CompanyInfo from "./pages/companies/info"
-import CompanyEmployeeSignup from "./pages/companies/employee-signup"
+import CompaniesIndex from "./pages/company/index"
+import CompanyCreate from "./pages/company/create"
+import CompanyUpdate from "./pages/company/update"
+import CompanyInfo from "./pages/company/info"
+import CompanyEmployeeSignup from "./pages/company/employee-signup"
 
-import ChallengesIndex from "./pages/challenges/index"
-import ChallengeCreate from "./pages/challenges/create"
+import ChallengesIndex from "./pages/challenge/index"
+import ChallengeCreate from "./pages/challenge/create"
 
-import ArticlesIndex from "./pages/articles/index"
-import ArticleForm from "./pages/articles/form"
+import ArticlesIndex from "./pages/article/index"
+import ArticleForm from "./pages/article/form"
 
 import NotFound from "./pages/NotFound"
 
@@ -43,7 +39,6 @@ import UserDataContext from "./utils/UserDataContext"
 import ToastContext from "./utils/ToastContext"
 
 const App = () => {
-
 
   const [logout] = useMutation(LOGOUT, {
     onCompleted () {
@@ -136,7 +131,7 @@ const App = () => {
                 <ItemNav links={["places", "place"]} icon="ri-map-pin-line">
                   Adresses
                 </ItemNav>
-                <ItemNav links={["clients", "client"]} icon="ri-group-line">
+                <ItemNav links={["users", "user"]} icon="ri-group-line">
                   Utilisateurs
                 </ItemNav>
                 <ItemNav links={["challenges", "challenge"]} icon="ri-flag-2-line">
@@ -158,18 +153,15 @@ const App = () => {
                 <Route exact path="/" component={Home} />
                 <Route exact path="/login" component={Login} />
 
-                <Route exact path="/client/create" component={ClientCreate} />
-                <Route exact path="/clients" component={ClientsIndex} />
-                <Route path="/client/:id/update" component={ClientUpdate} />
-                <Route path="/client/:id" component={ClientInfo} />
+                <Route exact path="/users" component={UsersIndex} />
 
                 <Route exact path="/places" component={PlacesIndex} />
                 <Route path="/place/create" component={PlaceForm} />
                 <Route path="/place/:id/edit" component={PlaceForm} />
 
-                <Route exact path="/employee/create" component={EmployeeCreate} />
                 <Route exact path="/employees" component={EmployeesIndex} />
-                <Route path="/employee/:id/update" component={EmployeeUpdate} />
+                <Route exact path="/employee/create" component={EmployeeForm} />
+                <Route path="/employee/:id/update" component={EmployeeForm} />
                 <Route path="/employee/:id" component={EmployeeInfo} />
 
                 <Route exact path="/company/create" component={CompanyCreate} />
