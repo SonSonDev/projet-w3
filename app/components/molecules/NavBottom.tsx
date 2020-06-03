@@ -54,7 +54,7 @@ const NavBottom = () => {
 
   return (
     <View style={styles.container}>
-      {tabs.map(({ icon, title }, index) => <Tab id={index} icon={icon} title={title} isActive={index === isActive} cb={setIsActive} />)}
+      {tabs.map(({ icon, title }, index) => <Tab id={index} icon={icon} title={title} isActive={index === isActive} cb={setIsActive} key={`navBottom-${index}`} />)}
     </View>
   )
 }

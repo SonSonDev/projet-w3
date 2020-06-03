@@ -35,7 +35,7 @@ export default function App() {
     onError: error => console.log(error.message),
     variables: {
       nearby: {
-        coordinates: [ 48.8518269, 2.4204598 ] // HETIC
+        coordinates: [48.8518269, 2.4204598] // HETIC
       }
     },
   })
@@ -47,8 +47,8 @@ export default function App() {
       </View>
 
       <View style={styles.content}>
-        {getPlaces.map(place => (
-          <Card {...place} />
+        {getPlaces.map((place, id) => (
+          <Card {...place} key={`card-${id}`} />
         ))}
       </View>
 

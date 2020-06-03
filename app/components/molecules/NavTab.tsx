@@ -57,7 +57,7 @@ const NavTab = () => {
 
   return (
     <View style={styles.container}>
-      {tabs.map(({ title }, index) => <Tab id={index} title={title} isActive={index === isActive} cb={setIsActive} />)}
+      {tabs.map(({ title }, index) => <Tab id={index} title={title} isActive={index === isActive} cb={setIsActive} key={`navTab-${index}`}/>)}
     </View>
   )
 }
