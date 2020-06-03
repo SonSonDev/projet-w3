@@ -16,8 +16,8 @@
 
 - name: Install web service
   hosts: tag_component_madu_app
-  vars_files:
-    - ./inventory/group_vars/vault.yml
+  # vars_files:
+  #   - ./inventory/group_vars/vault.yml
   become: yes
   roles:
     - { role: deploy, tags: ["deploy", "ci"] }

@@ -1,0 +1,13 @@
+name: "Set up and Run"
+description: "Set up environment and run command"
+
+inputs:
+  VAULT_PASS:
+    description: "Ansible Vault password"
+    required: true
+  CMD:
+    description: "Command to run"
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
