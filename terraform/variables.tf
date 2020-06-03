@@ -1,6 +1,12 @@
 variable "ssh_public_key_file" {
   type = string
   description = "Path to key file"
+  default = "./id_rsa.pub"
+}
+
+variable "ssh_public_key" {
+  type = string
+  description = "Ssh public key"
 }
 
 variable "production_instance_type" {

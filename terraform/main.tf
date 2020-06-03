@@ -19,7 +19,8 @@ data "aws_ami" "ubuntu" {
 
 resource "aws_key_pair" "app_key" {
   key_name = "${var.application_name}_key"
-  public_key = file(var.ssh_public_key_file)
+  # public_key = file(var.ssh_public_key_file)
+  public_key = var.ssh_public_key
 }
 
 module "application" {

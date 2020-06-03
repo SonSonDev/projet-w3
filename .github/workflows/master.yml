@@ -1,0 +1,41 @@
+name: Master
+
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/setup-and-run
+        with:
+          VAULT_PASS: ${{ secrets.VAULT_PASS }}
+      - uses: docker/build-push-action@v1
+        with:
+          path: ./api
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ env.DOCKER_PASSWORD }}
+          repository: ${{ env.DOCKER_USERNAME }}/madu_api
+          tags: latest
+      - uses: docker/build-push-action@v1
+        with:
+          path: ./back-office
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ env.DOCKER_PASSWORD }}
+          repository: ${{ env.DOCKER_USERNAME }}/madu_back-office
+          tags: latest
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/setup-and-run
+        with:
+          VAULT_PASS: ${{ secrets.VAULT_PASS }}
+          CMD: |
+            cd ansible && 
+            ansible-playbook -i inventory/ec2.py playbook.yml --tags deploy -u ubuntu --key ~/id_rsa
+            

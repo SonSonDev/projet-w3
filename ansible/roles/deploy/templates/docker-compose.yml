@@ -1,12 +1,12 @@
-version: '3'
+version: "3"
 
 services:
   mongo:
     image: mongo:3.6
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: "{{ mongo_initdb_root_username }}"
-      MONGO_INITDB_ROOT_PASSWORD: "{{ mongo_initdb_root_password }}"
+      MONGO_INITDB_ROOT_USERNAME: "{{ MONGO_INITDB_ROOT_USERNAME }}"
+      MONGO_INITDB_ROOT_PASSWORD: "{{ MONGO_INITDB_ROOT_PASSWORD }}"
     ports:
       - "27017:27017"
     volumes:
@@ -24,7 +24,7 @@ services:
         databases:
           default:
             connector: mongo
-            uri: mongodb://{{ mongo_initdb_root_username }}:{{ mongo_initdb_root_password }}@mongo
+            uri: mongodb://{{ MONGO_INITDB_ROOT_USERNAME }}:{{ MONGO_INITDB_ROOT_PASSWORD }}@mongo
             port: 27017
 
   api:
@@ -37,11 +37,14 @@ services:
     ports:
       - "{{ application_api_port }}:3000"
     environment:
-      PRISMA_SECRET: "{{ prisma_secret }}"
+      PRISMA_SECRET: "{{ PRISMA_SECRET }}"
       PORT: "{{ application_api_port }}"
       FRONT_URL: "{{ application_scheme }}://{{ ansible_host }}"
-      STRIPE_SECRET_KEY: "{{ stripe_secret_key }}"
-      APP_SECRET: "{{ app_secret }}"
+      STRIPE_SECRET_KEY: "{{ STRIPE_SECRET_KEY }}"
+      APP_SECRET: "{{ APP_SECRET }}"
+      AWS_ACCESS_KEY_ID: "{{ AWS_ACCESS_KEY_ID }}"
+      AWS_SECRET_ACCESS_KEY: "{{ AWS_SECRET_ACCESS_KEY }}"
+      GOOGLE_MAPS_API_KEY: "{{ GOOGLE_MAPS_API_KEY }}"
     entrypoint: /app/entrypoint.sh
     command: yarn start
 

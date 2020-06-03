@@ -1,3 +1,13 @@
 application_user: ubuntu
 application_group: "{{ application_user }}"
 application_directory: "/home/{{ application_user }}/app"
+
+MONGO_INITDB_ROOT_USERNAME: "{{ lookup('env', 'MONGO_INITDB_ROOT_USERNAME') }}"
+MONGO_INITDB_ROOT_PASSWORD: "{{ lookup('env', 'MONGO_INITDB_ROOT_PASSWORD') }}"
+PRISMA_SECRET: "{{ lookup('env', 'PRISMA_SECRET') }}"
+
+STRIPE_SECRET_KEY: "{{ lookup('env', 'STRIPE_SECRET_KEY') }}"
+APP_SECRET: "{{ lookup('env', 'APP_SECRET') }}"
+AWS_ACCESS_KEY_ID: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+AWS_SECRET_ACCESS_KEY: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+GOOGLE_MAPS_API_KEY: "{{ lookup('env', 'GOOGLE_MAPS_API_KEY') }}"
