@@ -57,3 +57,7 @@
   95% { opacity: 1; transform: translateY(0); }
   100% { opacity: 0; transform: translateY(150%); }
 }
+
+.obj-contain {
+  object-fit: contain;
+}

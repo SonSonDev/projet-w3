@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form"
 
 function Fields ({ children = [], helpers: { register, watch, setValue, errors }, level = 0, path = [] }) {
   const [ collapsedChildren, setCollapsedChildren ] = useState({})
+  const [ showPhoto, setShowPhoto ] = useState("")
   // useEffect(() => {
   //   level === 2 && console.log(collapsedChildren, children)
   // })
@@ -140,10 +141,10 @@ function Fields ({ children = [], helpers: { register, watch, setValue, errors }
                 </div>
               ))}
               <div className="field is-grouped is-grouped-multiline">
-                {watch(key)?.map(({ files: [ { name } = {} ] = [], uri }, i) => (name || uri) && (
-                  <div className='control' key={`${i}@${name}`}>
+                {watch(key)?.map(({ files: [ file ] = [], uri }, i) => (file || uri) && (
+                  <div className='control' key={`${i}@${file?.name}`}>
                     <div className="tags has-addons">
-                      <span className="tag is-success is-light">{name || uri.split("/").pop()}</span>
+                      <a onClick={() => setShowPhoto(uri || URL.createObjectURL(file))} className="tag is-success is-light">{file?.name || uri.split("/").pop()}</a>
                       <a onClick={() => {
                         setValue(`${key}[${i}].files`, "")
                         setValue(`${key}[${i}].uri`, "")
@@ -151,6 +152,13 @@ function Fields ({ children = [], helpers: { register, watch, setValue, errors }
                     </div>
                   </div>
                 ))}
+              </div>
+              <div className={[ "modal", showPhoto && "is-active" ].join(" ")}>
+                <div className="modal-background" onClick={() => setShowPhoto(false)} />
+                <div className="modal-card">
+                  <img src={showPhoto} className='obj-contain' />
+                </div>
+                <button className="modal-close is-large" onClick={() => setShowPhoto(false)} aria-label="close" type="button" />
               </div>
             </div>
           )
