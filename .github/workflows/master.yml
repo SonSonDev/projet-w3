@@ -20,7 +20,7 @@ jobs:
           CMD: |
             echo "::set-env name=DOCKER_USERNAME::$DOCKER_USERNAME" &&
             echo "::set-env name=DOCKER_PASSWORD::$DOCKER_PASSWORD" &&
-            echo "::set-env name=REACT_APP_API_URL::http://elb-1540013766.eu-west-2.elb.amazonaws.com"
+            echo "::set-env name=REACT_APP_API_URL::http://elb-1509450197.eu-west-2.elb.amazonaws.com "
 
       - name: Build Api image
         uses: docker/build-push-action@v1
