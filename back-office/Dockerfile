@@ -9,7 +9,11 @@ RUN yarn install --production=true --pure-lockfile
 
 COPY . .
 
+ARG REACT_APP_API_URL
+
 RUN npm run build
+
+
 
 FROM nginx:alpine
 
