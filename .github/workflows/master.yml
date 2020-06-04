@@ -4,38 +4,53 @@ on:
   push:
     branches:
       - master
+      - scalability
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: ./.github/actions/setup-and-run
+
+      - name: Export Docker Hub credentials
+        uses: ./.github/actions/setup-and-run
         with:
           VAULT_PASS: ${{ secrets.VAULT_PASS }}
-      - uses: docker/build-push-action@v1
+          CMD: |
+            echo "::set-env name=DOCKER_USERNAME::$DOCKER_USERNAME" &&
+            echo "::set-env name=DOCKER_PASSWORD::$DOCKER_PASSWORD" &&
+            echo "::set-env name=REACT_APP_API_URL::http://elb-1540013766.eu-west-2.elb.amazonaws.com"
+
+      - name: Build Api image
+        uses: docker/build-push-action@v1
         with:
           path: ./api
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ env.DOCKER_PASSWORD }}
           repository: ${{ env.DOCKER_USERNAME }}/madu_api
           tags: latest
-      - uses: docker/build-push-action@v1
+
+      - name: Build Back-office image
+        uses: docker/build-push-action@v1
         with:
           path: ./back-office
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ env.DOCKER_PASSWORD }}
           repository: ${{ env.DOCKER_USERNAME }}/madu_back-office
+          build_args: REACT_APP_API_URL=${{ env.REACT_APP_API_URL }}
           tags: latest
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: ./.github/actions/setup-and-run
+
+      - name: Deploy with Ansible playbook 
+        uses: ./.github/actions/setup-and-run
         with:
           VAULT_PASS: ${{ secrets.VAULT_PASS }}
           CMD: |
-            cd ansible && 
-            ansible-playbook -i inventory/ec2.py playbook.yml --tags deploy -u ubuntu --key ~/id_rsa
+            ansible-playbook -i inventory/ec2.py staging.yml --tags deploy -u ubuntu --key ~/id_rsa
             

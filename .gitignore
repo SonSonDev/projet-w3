@@ -4,3 +4,15 @@ package-lock.json
 node_modules
 .idea
 *.log
+
+*id_rsa
+.terraform
+.terraform.tfstate.lock.info
+*.tfstate
+*.tfstate.backup
+
+misc/
+
+.imported-roles
+
+web-build/

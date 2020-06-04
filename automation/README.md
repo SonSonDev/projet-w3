@@ -1,3 +1,23 @@
+![](./schema-infra.jpg)
+
+
+Exporter toutes les variables d’environnement
+```
+set -a && source .env && set +a
+```
+
+Encrypter le `.env`
+```
+ansible-vault encrypt .env --output .env.encrypted --ask-vault-pass
+```
+
+Décrypter le `.env.encrypted`
+```
+ansible-vault decrypt .env.encrypted --output .env --ask-vault-pass
+```
+
+<details>
+
 ```
 // Créer une paire de clé ssh
 ssh-keygen -t rsa -b 4096 -f ./id_rsa
@@ -5,9 +25,6 @@ ssh-keygen -t rsa -b 4096 -f ./id_rsa
 // Ajouter les clés ssh au .env
 echo "SSH_PUBLIC_KEY=\"$(cat id_rsa.pub)\"" >> ../.env
 echo "SSH_PRIVATE_KEY=\"$(cat id_rsa)\"" >> ../.env
-
-// Exporter toutes les variables d’environnement
-set -a && source .env && set +a
 
 // Créer les ressources aws
 terraform apply -var=ssh_public_key=${SSH_PUBLIC_KEY}
@@ -30,14 +47,9 @@ docker push $DOCKER_USERNAME/madu_api:latest
 docker build -t $DOCKER_USERNAME/madu_back-office:latest ./back-office
 docker push $DOCKER_USERNAME/madu_back-office:latest
 
-// Encrypter le .env
-ansible-vault encrypt .env --output .env.encrypted --ask-vault-pass
-// Décrypter le .env.encrypted
-ansible-vault decrypt .env.encrypted --output .env --ask-vault-pass
-
 // Remplacer les sauts de lignes par le charactère \n
 awk -v ORS='\\n' '1' id_rsa >> ../.env
 echo "SSH_PRIVATE_KEY=\"$(awk -v ORS='\\\\n' '1' id_rsa)\"" >> ../.env
-
-
 ```
+
+</details>

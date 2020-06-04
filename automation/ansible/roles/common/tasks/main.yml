@@ -1,0 +1,33 @@
+---
+
+# - name: 'install python2'
+#   raw: apt update && apt-get -y install python
+#   tags: ["install"]
+
+# - name: Gather facts
+#   setup:
+
+# - name: install packages
+#   apt:
+#     pkg:
+#       - python-setuptools
+#       - python-pip
+#       - docker-compose
+#     state: present
+#     update_cache: yes
+
+- name: Install common packages
+  apt:
+    name: 
+      - apt-transport-https
+      - ca-certificates
+      - gnupg2
+      - python3-pip
+    update_cache: yes
+    state: present
+  
+- name: Install pip dependencies
+  pip:
+    name:
+      - docker
+      - docker-compose

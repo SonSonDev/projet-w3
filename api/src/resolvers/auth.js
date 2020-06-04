@@ -30,7 +30,6 @@ module.exports = {
       context.response.cookie("x-auth-token", token, {
         maxAge: 1000 * 60 * 60 * 24,
         httpOnly: true,
-        sameSite: true,
       })
 
       return { token, user }

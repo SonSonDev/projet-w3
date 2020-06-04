@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+  bo:
+    image: "{{ application_backoffice_image }}:{{ application_backoffice_tag }}"
+    ports:
+      - "{{ application_backoffice_port }}:80"

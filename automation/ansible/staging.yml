@@ -1,0 +1,26 @@
+---
+
+- name: Install common packages and dependencies
+  hosts: [ tag_component_api, tag_component_back_office, tag_component_database ]
+  become: yes
+  roles:
+    - { role: common, tags: ['install'] }
+    - { role: geerlingguy.docker, tags: ['install'] }
+
+- name: Set up api
+  hosts: [ tag_component_api ]
+  become: yes
+  roles:
+    - { role: api, tags: ['deploy', 'api'] }
+
+- name: Set up back office
+  hosts: [ tag_component_back_office ]
+  become: yes
+  roles:
+    - { role: back_office, tags: ['deploy', 'back_office'] }
+
+- name: Set up database
+  hosts: [ tag_component_database ]
+  become: yes
+  roles:
+    - { role: database, tags: ['database'] }

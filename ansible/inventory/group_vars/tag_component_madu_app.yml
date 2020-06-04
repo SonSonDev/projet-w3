@@ -1,6 +1,0 @@
-docker_users:
-  - ubuntu
-
-docker_install_compose: true
-
-application_prisma_port: 4466
