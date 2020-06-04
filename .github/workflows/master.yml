@@ -41,6 +41,16 @@ jobs:
           build_args: REACT_APP_API_URL=${{ env.REACT_APP_API_URL }}
           tags: latest
 
+      - name: Build App image
+        uses: docker/build-push-action@v1
+        with:
+          path: ./app
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ env.DOCKER_PASSWORD }}
+          repository: ${{ env.DOCKER_USERNAME }}/madu_app-web
+          build_args: REACT_APP_API_URL=${{ env.REACT_APP_API_URL }}
+          tags: latest
+
   deploy:
     needs: build
     runs-on: ubuntu-latest

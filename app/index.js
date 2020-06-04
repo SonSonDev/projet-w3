@@ -10,7 +10,7 @@ import App from './App';
 
 
 const client = new ApolloClient({
-  link: createHttpLink({ uri: 'http://localhost:3000' }),
+  link: createHttpLink({ uri: process.env.REACT_APP_API_URL || 'http://localhost:3000' }),
   cache: new InMemoryCache()
 });
 
