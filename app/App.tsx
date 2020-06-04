@@ -5,6 +5,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks"
 import { GET_PLACES, DELETE_PLACE, UPSERT_PLACES } from "../back-office/src/graphql/place"
 
 import Button from "./components/atoms/Button";
+import Input from "./components/atoms/Input";
 import Card from "./components/organismes/Card";
 import NavBottom from './components/molecules/NavBottom';
 import NavTab from './components/molecules/NavTab';
@@ -45,7 +46,9 @@ export default function App() {
       <View style={styles.top}>
         <NavTab />
       </View>
-
+      <View>
+        <Input></Input>
+      </View>
       <View style={styles.content}>
         {getPlaces.map((place, id) => (
           <Card {...place} key={`card-${id}`} />
