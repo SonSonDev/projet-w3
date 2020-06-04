@@ -1,12 +1,20 @@
 import React, { useState } from "react"
-import { useForm } from "react-hook-form"
+import { useForm, useFieldArray } from "react-hook-form"
 
-function Fields ({ children = [], helpers: { register, watch, setValue, errors }, level = 0, path = [] }) {
+function Fields ({
+  children = [],
+  helpers,
+  fieldArrayHelpers,
+  level = 0, path = [],
+}) {
   const [ collapsedChildren, setCollapsedChildren ] = useState({})
   const [ showPhoto, setShowPhoto ] = useState("")
   // useEffect(() => {
   //   level === 2 && console.log(collapsedChildren, children)
   // })
+  const { register, watch, setValue, errors } = helpers
+  const { fields, append, remove } = fieldArrayHelpers
+
   return children.map(({ key, label, type, options, children, collapsible, required, className, attributes, disabled, params }, i, a) => {
     const collapsed = collapsedChildren[label]
     const hasChildren = children || collapsible
@@ -16,7 +24,6 @@ function Fields ({ children = [], helpers: { register, watch, setValue, errors }
       !collapsible && (!collapsed && hasChildren) && "display-none",
     ].join(" ")
     const error = key?.split(".").reduce((acc, curr) => acc[curr] || acc, errors).type
-
     return (
       <div className={[
         level ? "field" : "mb2",
@@ -45,7 +52,11 @@ function Fields ({ children = [], helpers: { register, watch, setValue, errors }
           </span>
         </label>
         {children && (
-          <Fields helpers={{ register, watch, setValue, errors }} level={level + 1} path={key ? [ ...path, key ] : path}>
+          <Fields
+            helpers={helpers}
+            fieldArrayHelpers={fieldArrayHelpers}
+            level={level + 1} path={key ? [ ...path, key ] : path}
+          >
             {children.map(({ className, ...rest }) => ({ ...rest, className: [ className, collapsed && hasChildren && "display-none" ].join(" ") }))}
           </Fields>
         )}
@@ -53,7 +64,7 @@ function Fields ({ children = [], helpers: { register, watch, setValue, errors }
           switch (type) {
           case "T": return (
             <div className={fieldClassName()}>
-              <input name={key} ref={register({ required })} className={[ "input", false && "is-danger" ].join(" ")} {...attributes} />
+              <input name={key} ref={register({ required })} className={[ "input", false && "is-danger" ].join(" ")} {...attributes} disabled={disabled}/>
             </div>
           )
           case "AT": return (
@@ -68,6 +79,32 @@ function Fields ({ children = [], helpers: { register, watch, setValue, errors }
                   </div>
                 ))
               }
+            </div>
+          )
+          case "MT": return (
+            <div className={fieldClassName()}>
+              {fields.map((field, i) => (
+                <div className={[(i+1 !== params) && "mb1", "field has-addons"].join(" ")} key={field.id}>
+                  {params?.textBefore && !disabled && <p className="control">
+                    <a className="button is-static">{params.textBefore}</a>
+                  </p>}
+                  <div className="control is-expanded">
+                    <input name={`${key}[${i}]`} ref={register({ required })} className={[ "input", false && "is-danger" ].join(" ")} {...attributes} disabled={disabled}/>
+                  </div>
+                  {!disabled && (
+                    <div className="control">
+                      <button onClick={() => remove(i)} className="button has-text-danger">
+                        Suppr
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
+              {!disabled && (
+                <button className="button is-small" type="button" onClick={() => { append() }}>
+                  Ajouter un nom de domaine
+                </button>
+              )}
             </div>
           )
           case "TT": return (
@@ -170,14 +207,21 @@ function Fields ({ children = [], helpers: { register, watch, setValue, errors }
   })
 }
 
-function Form ({ form, onSubmit, onCancel, onDelete, submitting, children }) {
-  const { handleSubmit, register, watch, setValue, errors } = useForm(children)
+function Form ({ classNames, form, onSubmit, onCancel, onDelete, submitting, children }) {
+  const { handleSubmit, register, watch, setValue, errors, control } = useForm(children)
+  const fieldArrayHelpers = useFieldArray({ name: "emailDomains", control })
+
   const [ showDelete, setShowDelete ] = useState(false)
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="columns">
-      <div className='column is-two-fifths'>
-        <Fields helpers={{ register, watch, setValue, errors }}>{form(watch({ nest: true }))}</Fields>
+    <form onSubmit={handleSubmit(onSubmit)} className={classNames?.form || "columns"}>
+      <div className={classNames?.content || "column is-two-fifths"}>
+        <Fields
+          helpers={{ register, watch, setValue, errors }}
+          fieldArrayHelpers={fieldArrayHelpers}
+        >
+          {form(watch({ nest: true }))}
+        </Fields>
         {onDelete && (
           <>
             <a onClick={() => setShowDelete(true)} className={[ "button has-text-danger bold" ].join(" ")}>
@@ -199,14 +243,16 @@ function Form ({ form, onSubmit, onCancel, onDelete, submitting, children }) {
           </>
         )}
       </div>
-      <div className='column'>
-        <div className='buttons fixed bottom-0 pb3 pl3'>
-          <a onClick={onCancel} className='button has-text-grey-dark bold'>Annuler</a>
-          <button type='submit' className={[ "button is-primary bold", submitting && !showDelete && "is-loading" ].join(" ")}>
-            Valider
-          </button>
+      {onCancel && onSubmit && (
+        <div className='column'>
+          <div className='buttons fixed bottom-0 pb3 pl3'>
+            <a onClick={onCancel} className='button has-text-grey-dark bold'>Annuler</a>
+            <button type='submit' className={[ "button is-primary bold", submitting && !showDelete && "is-loading" ].join(" ")}>
+              Valider
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </form>
   )
 }

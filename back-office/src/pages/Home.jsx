@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom"
 import UserDataContext from "../utils/UserDataContext"
 
 import { useMutation } from "@apollo/react-hooks"
-import { LOGOUT } from "../graphql/mutations/auth"
+import { LOGOUT } from "../graphql/auth"
 
 
 const Home = () => {

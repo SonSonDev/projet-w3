@@ -69,7 +69,7 @@ export const CREATE_COMPANY = gql`
     $lastNameUser: String
     $emailUser: String
     $phoneUser: String
-    $emailDomains: [String!]!
+    $emailDomains: [String]!
     $roleUser: Role
     $isRepresentative: Boolean
   ) {
@@ -113,20 +113,20 @@ export const DELETE_COMPANY = gql`
 export const UPDATE_COMPANY = gql`
   mutation UpdateCompany(
     $companyId: ID!
-    $name: String
-    $type: String
-    $street: String
-    $zipCode: String
-    $city: String
+    $companyName: String
+    $companyType: String
+    $streetCompany: String
+    $zipCodeCompany: String
+    $cityCompany: String
     $emailDomains: [String]
   ) {
     updateCompany(
       companyId: $companyId
-      name: $name
-      type: $type
-      street: $street
-      zipCode: $zipCode
-      city: $city
+      name: $companyName
+      type: $companyType
+      street: $streetCompany
+      zipCode: $zipCodeCompany
+      city: $cityCompany
       emailDomains: $emailDomains
     ) {
       ...CompanyFragment

@@ -21,3 +21,18 @@ export const LOGOUT = gql`
     }
   }
 `
+export const CHECK_AUTH = gql`
+  {
+    checkAuth {
+      id
+      firstName
+      lastName
+      email
+      role
+      company {
+        id
+        name
+      }
+    }
+  }
+`

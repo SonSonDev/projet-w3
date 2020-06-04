@@ -3,8 +3,7 @@ import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { GET_COMPANIES } from "../../graphql/company"
-import { CREATE_COMPANIES } from "../../graphql/company"
+import { GET_COMPANIES, CREATE_COMPANIES } from "../../graphql/company"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
 import Index from "../../components/Index"
