@@ -33,7 +33,7 @@ type Company {
   type: CompanyType
   address: Address
   users: [User]
-  emailDomains: [String!]! @scalarList(strategy: EMBEDDED)
+  emailDomains: [String]! @scalarList(strategy: EMBEDDED)
   stripeCustomerId: String
   challenges: [Challenge] @relation(link: INLINE)
 }

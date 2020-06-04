@@ -69,7 +69,7 @@ export const CREATE_COMPANY = gql`
     $lastNameUser: String
     $emailUser: String
     $phoneUser: String
-    $emailDomains: [String!]!
+    $emailDomains: [String]!
     $roleUser: Role
     $isRepresentative: Boolean
   ) {

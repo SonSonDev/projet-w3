@@ -13,17 +13,15 @@ import { companyTypeNames } from "../../utils/wording"
 
 const autofill = on => on && ({
   companyName: `Company n°${Math.random()*10e17}`,
-  companyType: "",
-  streetCompany: "",
-  zipCodeCompany: "",
-  cityCompany: "",
-  firstNameUser: "",
-  lastNameUser: "",
-  emailUser: `mail+${Math.random()*10e17}@gmail.com`,
-  phoneUser: "",
-  emailDomains: ["", ""],
-  roleUser: "ADMIN",
-  isRepresentative: true,
+  companyType: "SCHOOL",
+  streetCompany: "sdfgh jgjhkg",
+  zipCodeCompany: "93000",
+  cityCompany: "Bobi",
+  firstNameUser: "Vin",
+  lastNameUser: "P",
+  emailUser: `heycuson+${Math.random()*10e17}@gmail.com`,
+  phoneUser: "0123456789",
+  emailDomains: [],
 })
 
 function CompanyForm ({ history,  match: { params: { id } } }) {
@@ -37,7 +35,7 @@ function CompanyForm ({ history,  match: { params: { id } } }) {
       const { getCompanies } = cache.readQuery({ query: GET_COMPANIES })
       cache.writeQuery({
         query: GET_COMPANIES,
-        data: { getCompanies: [ createCompany, ...getCompanies ] },
+        data: { getCompanies: [ ...getCompanies, createCompany ] },
       })
     },
   })
@@ -54,7 +52,6 @@ function CompanyForm ({ history,  match: { params: { id } } }) {
     },
   })
 
-
   const form = () => ([
     {
       label: "Entreprise",
@@ -69,7 +66,6 @@ function CompanyForm ({ history,  match: { params: { id } } }) {
         { key: "emailDomains", label: "Noms de domaine d'email", type: "MT", required: true,
           params: {
             textBefore: "@",
-            
           },
         },
       ],
@@ -86,8 +82,10 @@ function CompanyForm ({ history,  match: { params: { id } } }) {
   ])
 
   const onSubmit = async (data) => {
+    data.emailDomains = data.emailDomains || []
+    data.isRepresentative = true
+    data.roleUser = "ADMIN"
     try {
-
       if (id) {
         await updateCompany({ variables: { ...data, id } })
       } else {

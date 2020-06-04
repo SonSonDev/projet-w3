@@ -42,7 +42,7 @@ type Mutation {
     phoneUser: String
     roleUser: Role
     isRepresentative: Boolean
-    emailDomains: [String!]!
+    emailDomains: [String]!
   ): Company
   createCompanies(companies: [CompanyInput!]): [Company]
 
@@ -153,7 +153,7 @@ type Company {
   type: CompanyType
   address: Address
   users: [User]
-  emailDomains: [String!]!
+  emailDomains: [String]!
   stripeCustomerId: String
   userCount: Int
   representativeUser: User
@@ -336,7 +336,7 @@ input CompanyInput {
   phoneUser: String
   roleUser: Role
   isRepresentative: Boolean
-  emailDomains: [String!]!
+  emailDomains: [String]!
 }
 
 input UserInput {
