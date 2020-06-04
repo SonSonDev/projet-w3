@@ -64,7 +64,7 @@ function Fields ({
           switch (type) {
           case "T": return (
             <div className={fieldClassName()}>
-              <input name={key} ref={register({ required })} className={[ "input", false && "is-danger" ].join(" ")} {...attributes} />
+              <input name={key} ref={register({ required })} className={[ "input", false && "is-danger" ].join(" ")} {...attributes} disabled={disabled}/>
             </div>
           )
           case "AT": return (
@@ -85,22 +85,26 @@ function Fields ({
             <div className={fieldClassName()}>
               {fields.map((field, i) => (
                 <div className={[(i+1 !== params) && "mb1", "field has-addons"].join(" ")} key={field.id}>
-                  {params?.textBefore && <p className="control">
+                  {params?.textBefore && !disabled && <p className="control">
                     <a className="button is-static">{params.textBefore}</a>
                   </p>}
                   <div className="control is-expanded">
-                    <input name={`${key}[${i}]`} ref={register({ required })} className={[ "input", false && "is-danger" ].join(" ")} {...attributes} />
+                    <input name={`${key}[${i}]`} ref={register({ required })} className={[ "input", false && "is-danger" ].join(" ")} {...attributes} disabled={disabled}/>
                   </div>
-                  <div className="control">
-                    <button onClick={() => remove(i)} className="button has-text-danger">
-                      Suppr
-                    </button>
-                  </div>
+                  {!disabled && (
+                    <div className="control">
+                      <button onClick={() => remove(i)} className="button has-text-danger">
+                        Suppr
+                      </button>
+                    </div>
+                  )}
                 </div>
               ))}
-              <button className="button is-small" type="button" onClick={() => { append() }}>
-                Ajouter un nom de domaine
-              </button>
+              {!disabled && (
+                <button className="button is-small" type="button" onClick={() => { append() }}>
+                  Ajouter un nom de domaine
+                </button>
+              )}
             </div>
           )
           case "TT": return (
@@ -203,15 +207,15 @@ function Fields ({
   })
 }
 
-function Form ({ form, onSubmit, onCancel, onDelete, submitting, children }) {
+function Form ({ classNames, form, onSubmit, onCancel, onDelete, submitting, children }) {
   const { handleSubmit, register, watch, setValue, errors, control } = useForm(children)
   const fieldArrayHelpers = useFieldArray({ name: "emailDomains", control })
 
   const [ showDelete, setShowDelete ] = useState(false)
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="columns">
-      <div className='column is-two-fifths'>
+    <form onSubmit={handleSubmit(onSubmit)} className={classNames?.form || "columns"}>
+      <div className={classNames?.content || "column is-two-fifths"}>
         <Fields
           helpers={{ register, watch, setValue, errors }}
           fieldArrayHelpers={fieldArrayHelpers}
@@ -239,14 +243,16 @@ function Form ({ form, onSubmit, onCancel, onDelete, submitting, children }) {
           </>
         )}
       </div>
-      <div className='column'>
-        <div className='buttons fixed bottom-0 pb3 pl3'>
-          <a onClick={onCancel} className='button has-text-grey-dark bold'>Annuler</a>
-          <button type='submit' className={[ "button is-primary bold", submitting && !showDelete && "is-loading" ].join(" ")}>
-            Valider
-          </button>
+      {onCancel && onSubmit && (
+        <div className='column'>
+          <div className='buttons fixed bottom-0 pb3 pl3'>
+            <a onClick={onCancel} className='button has-text-grey-dark bold'>Annuler</a>
+            <button type='submit' className={[ "button is-primary bold", submitting && !showDelete && "is-loading" ].join(" ")}>
+              Valider
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </form>
   )
 }

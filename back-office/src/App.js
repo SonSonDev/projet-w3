@@ -6,7 +6,6 @@ import Login from "./pages/Login"
 
 import EmployeesIndex from "./pages/employee/index"
 import EmployeeForm from "./pages/employee/form"
-import EmployeeInfo from "./pages/employee/info"
 
 import UsersIndex from "./pages/user/index"
 
@@ -31,8 +30,7 @@ import Dropdown from "./components/Dropdown"
 import { ReactComponent as LogoMadu } from "./assets/img/logo/full.svg"
 
 import { useMutation, useQuery } from "@apollo/react-hooks"
-import { LOGOUT } from "./graphql/mutations/auth"
-import { CHECK_AUTH } from "./graphql/queries/auth"
+import { LOGOUT, CHECK_AUTH } from "./graphql/auth"
 
 import UserDataContext from "./utils/UserDataContext"
 import ToastContext from "./utils/ToastContext"
@@ -161,11 +159,10 @@ const App = () => {
                 <Route exact path="/employees" component={EmployeesIndex} />
                 <Route exact path="/employee/create" component={EmployeeForm} />
                 <Route path="/employee/:id/update" component={EmployeeForm} />
-                <Route path="/employee/:id" component={EmployeeInfo} />
 
                 <Route exact path="/companies/" component={CompaniesIndex} />
                 <Route exact path="/company/create" component={CompanyForm} />
-                <Route path="/company/:id/update" component={CompanyForm} />
+                <Route path="/company/:id/edit" component={CompanyForm} />
                 <Route exact path="/company/:id" component={CompanyInfo} />
                 <Route path="/company/:id/signup" component={CompanyEmployeeSignup} />
 

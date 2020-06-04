@@ -1,17 +1,33 @@
-import React from "react"
+import React, { useContext } from "react"
 import PropTypes from "prop-types"
-import { useQuery, useMutation } from "@apollo/react-hooks"
-
-import { GET_COMPANY } from "../../graphql/company"
-import { CREATE_STRIPE_INVOICE, GET_STRIPE_INVOICES_BY_COMPANY } from "../../graphql/mutations/invoices"
+import { useMutation, useQuery } from "@apollo/react-hooks"
 
 import withAuthenticationCheck from "../../components/hocs/withAuthenticationCheck"
-import SubPage from "../../components/hocs/SubPage"
+import ToastContext from "../../utils/ToastContext"
+import { GET_COMPANIES, GET_COMPANY, DELETE_COMPANY } from "../../graphql/company"
+import { CREATE_STRIPE_INVOICE, GET_STRIPE_INVOICES_BY_COMPANY } from "../../graphql/invoices"
+
+import Form from "../../components/Form"
+import Loader from "../../components/Loader"
+
 import { companyTypeNames, stripeInvoiceStatus } from "../../utils/wording"
+import { Link } from "react-router-dom"
 
+function CompanyForm ({ history,  match: { params: { id } } }) {
 
-function CompanyInfo ({ history, match: { params: { id } } }) {
-  const { loading, error, data } = useQuery(GET_COMPANY, { variables: { id } })
+  const { setToast } = useContext(ToastContext)
+
+  const { data: { getCompany = {} } = {}, loading: getCompanyLoading } = useQuery(GET_COMPANY, { variables: { id } })
+
+  const [ deleteCompany ] = useMutation(DELETE_COMPANY, {
+    update (cache, { data: { deleteCompany } }) {
+      const { getCompanies } = cache.readQuery({ query: GET_COMPANIES })
+      cache.writeQuery({
+        query: GET_COMPANIES,
+        data: { getCompanies: getCompanies.filter(({ id }) => id !== deleteCompany.id) },
+      })
+    },
+  })
 
   const { data: { getStripeInvoicesByCompany = [] } = {} } = useQuery(GET_STRIPE_INVOICES_BY_COMPANY, { variables: { id } })
 
@@ -26,71 +42,117 @@ function CompanyInfo ({ history, match: { params: { id } } }) {
     },
   })
 
-  if (loading || error) return null
+  const form = () => ([
+    {
+      label: "Entreprise",
+      children: [
+        { key: "companyName", label: "Nom de l’établissement", type: "T", disabled: true },
+        { key: "companyType", label: "Type d'entreprise", type: "R", options: Object.entries(companyTypeNames).map(([ value, label ]) => ({ value, label })).filter(e => e.value === getCompany.type), disabled: true },
+        { key: "streetCompany", label: "Adresse", type: "T", disabled: true },
+        { className: "is-grouped", children: [
+          { key: "zipCodeCompany", label: "Code postal", type: "T", disabled: true, className: "control is-expanded" },
+          { key: "cityCompany", label: "Ville", type: "T", disabled: true, className: "control is-expanded" },
+        ] },
+        { key: "emailDomains", label: "Noms de domaine d'email", type: "MT", disabled: true,
+          params: {
+            textBefore: "@",
+          },
+        },
+      ],
+    },
+    {
+      label: "Représentant",
+      children: [
+        { key: "firstNameUser", label: "Prénom", type: "T", disabled: true },
+        { key: "lastNameUser", label: "Nom", type: "T", disabled: true },
+        { key: "emailUser", label: "Adresse email", type: "T", disabled: true },
+        { key: "phoneUser", label: "Téléphone", type: "T", disabled: true },
+      ],
+    },
+  ])
 
-  const { getCompany: { name, type, address: { street, zipCode, city }, stripeCustomerId, representativeUser } } = data
-  const { firstName, lastName, phone } = representativeUser
+  const onDelete = (async () => {
+    try {
+      await deleteCompany({ variables: { id }})
+      history.push("/companies")
+      setToast({ type: "success" })
+    } catch (error) {
+      setToast({ type: "danger" })
+      console.log(error, { ...error })
+    }
+  })
+
+  const defaultValues = {
+    companyName: getCompany?.name,
+    companyType: getCompany?.type,
+    streetCompany: getCompany?.address?.street,
+    zipCodeCompany: getCompany?.address?.zipCode,
+    cityCompany: getCompany?.address?.city,
+    firstNameUser: getCompany?.representativeUser?.firstName,
+    lastNameUser: getCompany?.representativeUser?.lastName,
+    emailUser: getCompany?.representativeUser?.email,
+    phoneUser: getCompany?.representativeUser?.phone,
+    emailDomains: getCompany?.emailDomains?.map(domain => `@${domain}`),
+  }
+
   return (
-    <SubPage history={history}>
-      <div>
-        <main className="sm-col sm-col-6 px4">
-          <section className="mb4">
-            <h1 className="h2 bold mr3 mb2">Informations</h1>
-            <div className="flex items-center mb1">
-              <h2 className="h2 mr1">{name}</h2>
-              <h3 className="h5 bold tag">{companyTypeNames[type]}</h3>
-            </div>
-            <span>{street}, {zipCode} {city}</span>
-          </section>
-          <section className="mb4">
-            <div className="flex items-end mb2">
-              <h1 className="h2 bold mr1">Facturation</h1>
-              {/* <a className="button is-white mr-auto" href={"https://dashboard.stripe.com/test/invoices"} target="_blank" rel="noopener noreferrer">
-                <span className="icon"><i className="ri-external-link-line" /></span>
-              </a> */}
-              <button className="ml-auto button is-primary" onClick={() => {
-                createStripeInvoice({ variables: { stripeCustomerId } })
-              }}>
-                <span className="icon"><i className="ri-add-box-line"/></span>
-                <span>Créer une facture</span>
-              </button>
-            </div>
-            <ul>
-              {getStripeInvoicesByCompany.map(({ id, created, hosted_invoice_url, status, total }) => (
-                <li className="flex items-center" key={id}>
-                  <div style={{ width: 100 }}>{(total/100).toFixed(2)}€</div>
-                  <span className={[
-                    "tag mr-auto",
-                    status === "open" && "is-warning is-light",
-                    status === "paid" && "is-success is-light",
-                    status === "void" && "is-danger is-light",
-                  ].join(" ")}>
-                    {stripeInvoiceStatus[status]}
-                  </span>
-                  <span className="has-text-grey">{new Date(created*1000).toLocaleString()}</span>
-                  <a className="button has-text-grey is-white ml2" href={hosted_invoice_url} target="_blank" rel="noopener noreferrer">
-                    <span className="icon"><i className="ri-external-link-line"/></span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </section>
-        </main>
-        <aside className="sm-col sm-col-6 px4">
-          <section className="mb4">
-            <h1 className="h2 bold mr3 mb2">Représentant</h1>
-            <h2 className="h2 mb1">{firstName} {lastName}</h2>
-            <a className="has-text-primary underline">{phone}</a>
-          </section>
-        </aside>
+    <main>
+      <div className="px3 py2 border-bottom">
+        <h1 className="is-size-3 bold my05">
+          {"Fiche entreprise"}
+          <Link className="button ml3" to={`/company/${id}/edit`}>Modifier l&apos;entreprise</Link>
+        </h1>
       </div>
-    </SubPage>
+      <div className='p3 columns'>
+        {(getCompanyLoading) ? (
+          <Loader />
+        ) : (
+          <>
+            <Form
+              classNames={{form: "column is-5", content: " "}}
+              form={form}
+              onDelete={onDelete}>
+              {{ defaultValues }}
+            </Form>
+            <div className="column is-offset-1 is-6">
+              <div className="flex items-end mb2">
+                <h3 className="h3 bold mr1">Facturation</h3>
+                <button className="ml-auto button is-primary" onClick={() => {
+                  createStripeInvoice({ variables: { stripeCustomerId: getCompany?.stripeCustomerId } })
+                }}>
+                  <span className="icon"><i className="ri-add-box-line"/></span>
+                  <span>Créer une facture</span>
+                </button>
+              </div>
+              <ul>
+                {getStripeInvoicesByCompany.map(({ id, created, hosted_invoice_url, status, total }) => (
+                  <li className="flex items-center" key={id}>
+                    <div style={{ width: 100 }}>{(total/100).toFixed(2)}€</div>
+                    <span className={[
+                      "tag mr-auto",
+                      status === "open" && "is-warning is-light",
+                      status === "paid" && "is-success is-light",
+                      status === "void" && "is-danger is-light",
+                    ].join(" ")}>
+                      {stripeInvoiceStatus[status]}
+                    </span>
+                    <span className="has-text-grey">{new Date(created*1000).toLocaleString()}</span>
+                    <a className="button has-text-grey is-white ml2" href={hosted_invoice_url} target="_blank" rel="noopener noreferrer">
+                      <span className="icon"><i className="ri-external-link-line"/></span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </>
+        )}
+      </div>
+    </main>
   )
 }
 
-CompanyInfo.propTypes = {
+CompanyForm.propTypes = {
   history: PropTypes.object,
-  location: PropTypes.object,
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string,
@@ -98,4 +160,4 @@ CompanyInfo.propTypes = {
   }),
 }
 
-export default withAuthenticationCheck(CompanyInfo, ["SUPER_ADMIN", "ADMIN"])
+export default withAuthenticationCheck(CompanyForm, ["SUPER_ADMIN"])

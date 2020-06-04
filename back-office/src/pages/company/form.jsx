@@ -28,7 +28,7 @@ function CompanyForm ({ history,  match: { params: { id } } }) {
 
   const { setToast } = useContext(ToastContext)
 
-  const { data: { getCompany = {} } = {}, loading: getCompanyLoading } = useQuery(GET_COMPANY, { variables: { where: { id } } })
+  const { data: { getCompany = {} } = {}, loading: getCompanyLoading } = useQuery(GET_COMPANY, { variables: { id }})
 
   const [ createCompany, { loading: createCompanyLoading } ] = useMutation(CREATE_COMPANY, {
     update (cache, { data: { createCompany } }) {
@@ -73,10 +73,10 @@ function CompanyForm ({ history,  match: { params: { id } } }) {
     {
       label: "Représentant",
       children: [
-        { key: "firstNameUser", label: "Prénom", type: "T", required: true },
-        { key: "lastNameUser", label: "Nom", type: "T", required: true },
-        { key: "emailUser", label: "Adresse email", type: "T", required: true },
-        { key: "phoneUser", label: "Téléphone", type: "T", required: true },
+        { key: "a", label: "Prénom", type: "T", required: true, disabled: true },
+        { key: "b", label: "Nom", type: "T", required: true, disabled: true },
+        { key: "c", label: "Adresse email", type: "T", required: true, disabled: true },
+        { key: "d", label: "Téléphone", type: "T", required: true, disabled: true },
       ],
     },
   ])
@@ -87,7 +87,7 @@ function CompanyForm ({ history,  match: { params: { id } } }) {
     data.roleUser = "ADMIN"
     try {
       if (id) {
-        await updateCompany({ variables: { ...data, id } })
+        await updateCompany({ variables: { ...data, companyId: id } })
       } else {
         await createCompany({ variables: { ...data } })
         history.push("/companies")
@@ -110,7 +110,16 @@ function CompanyForm ({ history,  match: { params: { id } } }) {
   })
 
   const defaultValues = id ? {
-    ...getCompany,
+    companyName: getCompany?.name,
+    companyType: getCompany?.type,
+    streetCompany: getCompany?.address?.street,
+    zipCodeCompany: getCompany?.address?.zipCode,
+    cityCompany: getCompany?.address?.city,
+    a: getCompany?.representativeUser?.firstName,
+    b: getCompany?.representativeUser?.lastName,
+    c: getCompany?.representativeUser?.email,
+    d: getCompany?.representativeUser?.phone,
+    emailDomains: getCompany?.emailDomains,
   } : autofill(true)
 
   return (

@@ -5,7 +5,7 @@ import { Formik, Field, Form } from "formik"
 import * as Yup from "yup"
 
 import { useMutation } from "@apollo/react-hooks"
-import { LOGIN } from "../graphql/mutations/auth"
+import { LOGIN } from "../graphql/auth"
 
 import UserDataContext from "../utils/UserDataContext"
 import { ReactComponent as Wordmark } from "../assets/img/logo/wordmark.svg"
