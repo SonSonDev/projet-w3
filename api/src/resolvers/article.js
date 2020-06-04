@@ -91,7 +91,7 @@ async function makeArticleInput ({title, content, photo: { uri, file } = {}, vid
       photo: {
         ...file
           ? { create: await Aws.s3.upload({
-            Bucket: "madu-dev",
+            Bucket: process.env.AWS_S3_BUCKET,
             Key: (await file).filename,
             Body: (await file).createReadStream(),
           }).promise().then(({ Location }) => ({ uri: Location })) }

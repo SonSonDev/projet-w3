@@ -75,7 +75,7 @@ async function makePlaceInput ({ name, category, address: { street, zipCode, cit
 
     const { filename, createReadStream } = await file
     const uploadedPhoto = await Aws.s3.upload({
-      Bucket: "madu-dev",
+      Bucket: process.env.AWS_S3_BUCKET,
       Key: filename,
       Body: createReadStream() }).promise()
 

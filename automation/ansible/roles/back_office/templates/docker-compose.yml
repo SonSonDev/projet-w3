@@ -5,5 +5,3 @@ services:
     image: "{{ application_backoffice_image }}:{{ application_backoffice_tag }}"
     ports:
       - "{{ application_backoffice_port }}:80"
-    environment:
-      REACT_APP_API_URL: {{ api_url }}
