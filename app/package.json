@@ -8,7 +8,8 @@
     "link": "react-native link",
     "test": "jest",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "build:web": "expo build:web"
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",

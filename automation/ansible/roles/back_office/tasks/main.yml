@@ -22,6 +22,13 @@
     force_source: yes
   notify: Restart docker compose
 
+- name: Pull docker image App madu
+  docker_image:
+    pull: yes
+    name: "{{ application_app_image }}:{{ application_app_tag }}"
+    force_source: yes
+  notify: Restart docker compose
+
 - name: Start docker compose
   docker_compose:
     project_src: "{{ application_directory }}"
