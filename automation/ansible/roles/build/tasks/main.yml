@@ -1,0 +1,27 @@
+---
+
+- name: Build api image
+  docker_image:
+    build:
+      path: ../api
+      network: host
+    name: "{{ application_api_image }}"
+    repository: "{{ application_api_image }}:{{ application_api_tag }}"
+    tag: "{{ application_api_tag }}"
+    push: yes
+    force: yes
+    source: build
+
+- name: Build back office client image
+  docker_image:
+    build:
+      path: ../back-office
+      network: host
+      args:
+        REACT_APP_API_URL: "{{ application_scheme }}://{{ ansible_host }}:{{ application_api_port }}"
+    name: "{{ application_backoffice_image }}"
+    repository: "{{ application_backoffice_image }}:{{ application_backoffice_tag }}"
+    tag: "{{ application_backoffice_tag }}"
+    push: yes
+    force: yes
+    source: build
