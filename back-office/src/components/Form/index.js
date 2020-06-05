@@ -8,7 +8,7 @@ function Fields ({
   level = 0, path = [],
 }) {
   const [ collapsedChildren, setCollapsedChildren ] = useState({})
-  const [ showPhoto, setShowPhoto ] = useState("")
+  const [ photoModal, setPhotoModal ] = useState("")
   // useEffect(() => {
   //   level === 2 && console.log(collapsedChildren, children)
   // })
@@ -114,8 +114,8 @@ function Fields ({
           )
           case "R": return (
             <div className={fieldClassName("buttons has-addons")}>
-              {options.map(({ value, label }) => (
-                <label className={[ "button", watch(key) === value && "is-success is-light", false && "is-danger is-outlined", disabled && "is-static" ].join(" ")} key={value}>
+              {options.map(({ value, label }, _, a) => (
+                <label className={[ "button", watch(key) === value && a.length > 1 && "is-primary is-light", disabled && "is-static", a.length <= 1 && "border-none is-expanded justify-start" ].join(" ")} key={value}>
                   <input type="radio" value={value} name={key} ref={register({ required })} className={[ "mr05 display-none" ].join(" ")} {...attributes} disabled={disabled} />
                   {label}
                 </label>
@@ -181,21 +181,21 @@ function Fields ({
                 {watch(key)?.map(({ files: [ file ] = [], uri }, i) => (file || uri) && (
                   <div className='control' key={`${i}@${file?.name}`}>
                     <div className="tags has-addons">
-                      <a onClick={() => setShowPhoto(uri || URL.createObjectURL(file))} className="tag is-success is-light">{file?.name || uri.split("/").pop()}</a>
+                      <a onClick={() => setPhotoModal(uri || URL.createObjectURL(file))} className="tag is-primary is-light">{file?.name || uri.split("/").pop()}</a>
                       <a onClick={() => {
                         setValue(`${key}[${i}].files`, "")
                         setValue(`${key}[${i}].uri`, "")
-                      }} className="tag is-delete is-success is-light" />
+                      }} className="tag is-delete is-primary is-light" />
                     </div>
                   </div>
                 ))}
               </div>
-              <div className={[ "modal", showPhoto && "is-active" ].join(" ")}>
-                <div className="modal-background" onClick={() => setShowPhoto(false)} />
+              <div className={[ "modal", photoModal && "is-active" ].join(" ")}>
+                <div className="modal-background" onClick={() => setPhotoModal(false)} />
                 <div className="modal-card">
-                  <img src={showPhoto} className='obj-contain' />
+                  <img src={photoModal || undefined} className='obj-contain' />
                 </div>
-                <button className="modal-close is-large" onClick={() => setShowPhoto(false)} aria-label="close" type="button" />
+                <button className="modal-close is-large" onClick={() => setPhotoModal(false)} aria-label="close" type="button" />
               </div>
             </div>
           )
@@ -211,7 +211,7 @@ function Form ({ classNames, form, onSubmit, onCancel, onDelete, submitting, chi
   const { handleSubmit, register, watch, setValue, errors, control } = useForm(children)
   const fieldArrayHelpers = useFieldArray({ name: "emailDomains", control })
 
-  const [ showDelete, setShowDelete ] = useState(false)
+  const [ deleteModal, setDeleteModal ] = useState(false)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={classNames?.form || "columns"}>
@@ -224,17 +224,17 @@ function Form ({ classNames, form, onSubmit, onCancel, onDelete, submitting, chi
         </Fields>
         {onDelete && (
           <>
-            <a onClick={() => setShowDelete(true)} className={[ "button has-text-danger bold" ].join(" ")}>
+            <a onClick={() => setDeleteModal(true)} className={[ "button has-text-danger bold" ].join(" ")}>
               Supprimer
             </a>
-            <div className={[ "modal", showDelete && "is-active" ].join(" ")}>
-              <div className="modal-background" onClick={() => setShowDelete(false)} />
+            <div className={[ "modal", deleteModal && "is-active" ].join(" ")}>
+              <div className="modal-background" onClick={() => setDeleteModal(false)} />
               <div className="modal-card">
-                <header className="modal-card-head border-none pb0 pt3 px3">
+                <header className="modal-card-head border-none pt3 px3">
                   <h4>Êtes-vous sûr(e) de vouloir le supprimer ?</h4>
                 </header>
                 <footer className="modal-card-foot border-none justify-end">
-                  <button onClick={() => setShowDelete(false)} className="button has-text-grey-dark bold" type="button">Annuler</button>
+                  <button onClick={() => setDeleteModal(false)} className="button has-text-grey-dark bold" type="button">Annuler</button>
                   <button onClick={onDelete} className={[ "button is-danger bold", submitting && "is-loading" ].join(" ")} type="button">Supprimer</button>
                 </footer>
               </div>
@@ -247,7 +247,7 @@ function Form ({ classNames, form, onSubmit, onCancel, onDelete, submitting, chi
         <div className='column'>
           <div className='buttons fixed bottom-0 pb3 pl3'>
             <a onClick={onCancel} className='button has-text-grey-dark bold'>Annuler</a>
-            <button type='submit' className={[ "button is-primary bold", submitting && !showDelete && "is-loading" ].join(" ")}>
+            <button type='submit' className={[ "button is-primary bold", submitting && !deleteModal && "is-loading" ].join(" ")}>
               Valider
             </button>
           </div>

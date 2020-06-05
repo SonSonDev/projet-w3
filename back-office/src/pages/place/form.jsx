@@ -85,7 +85,7 @@ function PlaceForm ({ history,  match: { params: { id } } }) {
       label: "Informations de base",
       children: [
         { key: "name", label: "Nom de l’établissement", type: "T", required: true },
-        { key: "category", label: "Catégorie", type: "R", options: Object.entries(categories).map(([ value, label ]) => ({ value, label })), required: true, disabled: !!id },
+        { key: "category", label: "Catégorie", type: "R", options: Object.entries(categories).map(([ value, label ]) => ({ value, label })).filter(e => !id || e.value === getPlace.category), required: true, disabled: !!id },
         ...getTags
           .filter(tag => tag.category === category && !["Engagements", "Prix"].includes(tag.label))
           .map(tag => getTagsNested(tag, { type: "S", className: "fade-in" })),

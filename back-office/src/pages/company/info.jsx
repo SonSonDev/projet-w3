@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import PropTypes from "prop-types"
 import { useMutation, useQuery } from "@apollo/react-hooks"
 
@@ -16,6 +16,7 @@ import { Link } from "react-router-dom"
 function CompanyForm ({ history,  match: { params: { id } } }) {
 
   const { setToast } = useContext(ToastContext)
+  const [ invoiceModal, setInvoiceModal ] = useState(false)
 
   const { data: { getCompany = {} } = {}, loading: getCompanyLoading } = useQuery(GET_COMPANY, { variables: { id } })
 
@@ -31,7 +32,7 @@ function CompanyForm ({ history,  match: { params: { id } } }) {
 
   const { data: { getStripeInvoicesByCompany = [] } = {} } = useQuery(GET_STRIPE_INVOICES_BY_COMPANY, { variables: { id } })
 
-  const [ createStripeInvoice ] = useMutation(CREATE_STRIPE_INVOICE, {
+  const [ createStripeInvoice, { loading: createStripeInvoiceLoading } ] = useMutation(CREATE_STRIPE_INVOICE, {
     update (cache, { data: { createStripeInvoice } }) {
       const { getStripeInvoicesByCompany } = cache.readQuery({ query: GET_STRIPE_INVOICES_BY_COMPANY, variables: { id } })
       // console.log([ createStripeInvoice, ...getStripeInvoicesByCompany ])
@@ -97,11 +98,11 @@ function CompanyForm ({ history,  match: { params: { id } } }) {
 
   return (
     <main>
-      <div className="px3 py2 border-bottom">
+      <div className="px3 py2 flex justify-between items-center border-bottom">
         <h1 className="is-size-3 bold my05">
-          {"Fiche entreprise"}
-          <Link className="button ml3" to={`/company/${id}/edit`}>Modifier l&apos;entreprise</Link>
+          Fiche entreprise
         </h1>
+        <Link className="button is-primary bold" to={`/company/${id}/edit`}>Modifier l&apos;entreprise</Link>
       </div>
       <div className='p3 columns'>
         {(getCompanyLoading) ? (
@@ -116,33 +117,60 @@ function CompanyForm ({ history,  match: { params: { id } } }) {
             </Form>
             <div className="column is-offset-1 is-6">
               <div className="flex items-end mb2">
-                <h3 className="h3 bold mr1">Facturation</h3>
-                <button className="ml-auto button is-primary" onClick={() => {
-                  createStripeInvoice({ variables: { stripeCustomerId: getCompany?.stripeCustomerId } })
-                }}>
-                  <span className="icon"><i className="ri-add-box-line"/></span>
-                  <span>Créer une facture</span>
-                </button>
+                <h3 className="bold">Facturation</h3>
               </div>
-              <ul>
-                {getStripeInvoicesByCompany.map(({ id, created, hosted_invoice_url, status, total }) => (
-                  <li className="flex items-center" key={id}>
-                    <div style={{ width: 100 }}>{(total/100).toFixed(2)}€</div>
-                    <span className={[
-                      "tag mr-auto",
-                      status === "open" && "is-warning is-light",
-                      status === "paid" && "is-success is-light",
-                      status === "void" && "is-danger is-light",
-                    ].join(" ")}>
+              <ul className='mb2'>
+                {getStripeInvoicesByCompany.map(({ id, created, hosted_invoice_url, status, total }) => status !== "void" && (
+                  <li className="flex items-center my1" key={id}>
+                    <div style={{ width: 80 }}>
+                      <span className='is-size-6 bold has-text-grey'>
+                        {(total/100).toFixed(2)}€
+                      </span>
+                    </div>
+                    <div style={{ width: 160 }}>
+                      <span className="is-size-7 has-text-grey">{new Date(created*1000).toLocaleString()}</span>
+                    </div>
+                    <a className={[
+                      "tag",
+                      status === "open" && "is-light",
+                      status === "paid" && "is-primary is-light",
+                      // status === "void" && "is-light",
+                    ].join(" ")} href={hosted_invoice_url} target="_blank" rel="noopener noreferrer">
                       {stripeInvoiceStatus[status]}
-                    </span>
-                    <span className="has-text-grey">{new Date(created*1000).toLocaleString()}</span>
-                    <a className="button has-text-grey is-white ml2" href={hosted_invoice_url} target="_blank" rel="noopener noreferrer">
-                      <span className="icon"><i className="ri-external-link-line"/></span>
                     </a>
+                    {/* <a className="button has-text-grey is-white ml1" href={hosted_invoice_url} target="_blank" rel="noopener noreferrer">
+                      <span className="icon"><i className="ri-external-link-line"/></span>
+                    </a> */}
                   </li>
                 ))}
               </ul>
+              <button className="ml-auto button is-primary bold" onClick={() => setInvoiceModal(true)}>
+                <span>Envoyer une facture</span>
+              </button>
+              <div className={[ "modal", invoiceModal && "is-active" ].join(" ")}>
+                <div className="modal-background" onClick={() => setInvoiceModal(false)} />
+                <div className="modal-card">
+                  <header className="modal-card-head border-none pt3 px3">
+                    <h4>
+                      Confirmez-vous l’envoi d’une facture à l’établissement <span className='italic'>{getCompany?.name}</span> du montant de <span className='italic'>25.00€</span> ?
+                    </h4>
+                  </header>
+                  <footer className="modal-card-foot border-none justify-end">
+                    <button onClick={() => setInvoiceModal(false)} className="button has-text-grey-dark bold" type="button">Annuler</button>
+                    <button onClick={async () => {
+                      try {
+                        await createStripeInvoice({ variables: { stripeCustomerId: getCompany?.stripeCustomerId } })
+                        setInvoiceModal(false)
+                        setToast({ type: "success" })
+                      } catch (error) {
+                        setToast({ type: "danger" })
+                        console.log(error, { ...error })
+                      }
+                    }} className={[ "button is-danger bold", createStripeInvoiceLoading && "is-loading" ].join(" ")} type="button">Envoyer</button>
+                  </footer>
+                </div>
+                {/* <button className="modal-close is-large" aria-label="close" type="button" /> */}
+              </div>
             </div>
           </>
         )}

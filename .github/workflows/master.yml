@@ -44,7 +44,7 @@ jobs:
       - name: Build App image
         uses: docker/build-push-action@v1
         with:
-          dockerfile: ./app/Dockerfile
+          path: ./app
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ env.DOCKER_PASSWORD }}
           repository: ${{ env.DOCKER_USERNAME }}/madu_app-web

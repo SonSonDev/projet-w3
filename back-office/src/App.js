@@ -27,7 +27,7 @@ import NotFound from "./pages/NotFound"
 
 import ItemNav from "./components/itemNav"
 import Dropdown from "./components/Dropdown"
-import { ReactComponent as LogoMadu } from "./assets/img/logo/full.svg"
+import { ReactComponent as LogoMadu } from "./assets/img/logo/full-2.svg"
 
 import { useMutation, useQuery } from "@apollo/react-hooks"
 import { LOGOUT, CHECK_AUTH } from "./graphql/auth"
@@ -60,7 +60,7 @@ const App = () => {
 
           <header className="header">
             <div className="navbar-brand">
-              <a className="navbar-item" href="/">
+              <a className="navbar-item px2" href="/">
                 <LogoMadu style={{width: "64px"}}/>
               </a>
             </div>

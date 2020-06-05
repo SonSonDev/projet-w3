@@ -18,7 +18,7 @@ const EmployeeForm = ({ history, match: { params: { id } } }) => {
 
   const form = () => ([
     {
-      label: "Employé",
+      // label: "Employé",
       children: [
         { key: "firstName", label: "Prénom", type: "T", required: true },
         { key: "lastName", label: "Nom", type: "T", required: true },

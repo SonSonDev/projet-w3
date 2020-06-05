@@ -18,7 +18,7 @@ const ChallengeForm = ({ history, match: { params: { id } } }) => {
 
   const form = () => ([
     {
-      label: "Défi",
+      // label: "Défi",
       children: [
         { key: "name", label: "Nom", type: "T", required: true },
         { key: "description", label: "Description", type: "TT", required: true },
@@ -94,7 +94,7 @@ const ChallengeForm = ({ history, match: { params: { id } } }) => {
     <main>
       <div className="px3 py2 border-bottom">
         <h1 className="is-size-3 bold my05">
-          { id ? "Éditer l'challenge" : "Ajouter un nouvel challenge" }
+          { id ? "Éditer le challenge" : "Ajouter un nouveau challenge" }
         </h1>
       </div>
       <div className='p3'>

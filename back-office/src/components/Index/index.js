@@ -31,7 +31,7 @@ function Index ({ data, columns, tabs, children: { slug, entity, genre, onImport
             <Dropdown
               className="is-right"
               TriggerComponent={
-                <button className="button is-success is-light">
+                <button className="button is-primary is-light">
                   <span className='icon'><i className='ri-more-fill'/></span>
                 </button>
               }

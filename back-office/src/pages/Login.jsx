@@ -8,7 +8,7 @@ import { useMutation } from "@apollo/react-hooks"
 import { LOGIN } from "../graphql/auth"
 
 import UserDataContext from "../utils/UserDataContext"
-import { ReactComponent as Wordmark } from "../assets/img/logo/wordmark.svg"
+import { ReactComponent as Wordmark } from "../assets/img/logo/wordmark-2.svg"
 
 const Login = () => {
   const userData = useContext(UserDataContext)
