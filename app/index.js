@@ -8,7 +8,7 @@ import { InMemoryCache } from "apollo-cache-inmemory"
 import { ApolloProvider } from '@apollo/react-hooks';
 
 import App from './App';
-import View from './views/login/onboarding/firstStep';
+import View from './views/login/onboarding/secondStep';
 
 
 const client = new ApolloClient({

@@ -6,7 +6,7 @@ import * as s from '../../styles/index';
 interface FilterInterface {
   filterList: any,
   setFilterList: Function;
-  numbColumns:any;
+  numbColumns: any;
 }
 
 const Filter = ({ filterList, setFilterList, numbColumns }: FilterInterface): React.ReactElement => {
@@ -32,9 +32,9 @@ const Filter = ({ filterList, setFilterList, numbColumns }: FilterInterface): Re
       numColumns={numbColumns}
       ItemSeparatorComponent={() => <View style={{ paddingTop: 16 }}></View>}
       renderItem={({ item, index }) => (
-        <TouchableHighlight onPress={() => updateState(index)} underlayColor="transparent" style={{ flex: 1, paddingLeft: index % numbColumns === 0 ? '' : 16 }}>
-          <View style={{ height: 120, borderColor: '#949E9E', borderWidth: filterList[item] ? 0 : 1, borderRadius: 16, justifyContent: 'center', alignItems: 'center', backgroundColor: item.selected ? '#BA5A40' : 'transparent' }}>
-            <Text style={{ color: item.selected ? '#FFFFFF' : '#949E9E', fontSize: 16 }}>{item.label}</Text>
+        <TouchableHighlight onPress={() => updateState(index)} underlayColor="transparent" style={{ flex: 1, paddingLeft: index % numbColumns === 0 ? '' : 8 }}>
+          <View style={{ height:120, borderColor: '#949E9E', borderWidth: item.selected ? 0 : 1, borderRadius: 8, justifyContent: 'center', alignItems: 'center', backgroundColor: item.selected ? '#BA5A40' : 'transparent' }}>
+            <Text style={{ color: item.selected ? '#FFFFFF' : '#949E9E', fontSize: 16, textAlign: 'center' }}>{item.label}</Text>
           </View>
         </TouchableHighlight>
       )}

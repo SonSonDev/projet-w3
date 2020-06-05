@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
 
 import Button from "../../../components/atoms/Button";
 import Steps from "../../../components/atoms/Steps";
+import Filter from "../../../components/atoms/Filter";
 
 import * as s from "../../../styles/index";
 
@@ -25,15 +26,17 @@ const styles = StyleSheet.create({
     color: "#181B1B",
     marginBottom: 16,
     textAlign: 'center',
-    width: '75%'
+    // width: '75%',
+    maxWidth: 340,
   },
   body1: {
     ...s.body1,
     color: "#181B1B",
-    marginBottom: 72,
+    marginBottom: 24,
     textAlign: 'center',
     lineHeight: '150%',
-    width: '75%'
+    // width: '75%',
+    maxWidth: 340,
   },
   illu: {
     position: 'absolute',
@@ -47,19 +50,48 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function OBFirstStep() {
+export default function OBSecondStep() {
+
+  const [filterList, setFilterList] = useState([{
+    label: 'Casher',
+    selected: false,
+    isUnique: false
+  }, {
+    label: 'Halal',
+    selected: false,
+    isUnique: false
+  }, {
+    label: 'Sans-gluten',
+    selected: false,
+    isUnique: false
+  }, {
+    label: 'Vegan',
+    selected: false,
+    isUnique: false
+  },
+  {
+    label: 'Végétarien',
+    selected: false,
+    isUnique: false
+  },
+  {
+    label: 'Pas de restrictions',
+    selected: false,
+    isUnique: true
+  },])
+
   return (
     <View style={styles.container}>
       <Image source={require("../../../assets/img/illu-login02.png")} style={styles.illu} />
       <View style={styles.mainContainer}>
-        <View style={{alignItems: 'center', paddingTop:144}}>
-          <Text style={styles.h1}>Madu s’adapte à vous</Text>
+        <View style={{ alignItems: 'center', paddingTop: 144 }}>
+          <Text style={styles.h1}>Votre régime alimentaire</Text>
           <Text style={styles.body1}>Dites nous en un peu plus sur vous pour que nous puissions adapter l’expérience à vos besoins</Text>
-          <Image source={require("../../../assets/img/logo_icon.png")} style={styles.img} />
+          <Filter filterList={filterList} setFilterList={setFilterList} numbColumns={3} />
         </View>
-        <View style={{width: '100%', alignItems: 'center', paddingBottom: 16}}>
-          <Steps length={3} currentStep={1}></Steps>
-          <View style={{width: '100%', marginBottom:8, marginTop: 16}}>
+        <View style={{ width: '100%', alignItems: 'center', paddingBottom: 16 }}>
+          <Steps length={3} currentStep={2}></Steps>
+          <View style={{ width: '100%', marginBottom: 8, marginTop: 16 }}>
             <Button btnStyle='primary' label='Commencer' />
           </View>
           <Button btnStyle='secondary' label='Passer' />
