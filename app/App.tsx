@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView, Platform } from 'react-native';
 import { useQuery, useMutation } from "@apollo/react-hooks"
-
+ 
 import { GET_PLACES, DELETE_PLACE, UPSERT_PLACES } from "./graphql/place"
 
 import Button from "./components/atoms/Button";
 import Input from "./components/atoms/Input";
-import Card from "./components/organismes/Card";
+import CardAddress from "./components/organismes/CardAddress";
 import NavBottom from './components/molecules/NavBottom';
 import NavTab from './components/molecules/NavTab';
 
@@ -51,7 +51,7 @@ export default function App() {
       </View>
       <ScrollView style={styles.content}>
         {getPlaces.map((place, id) => (
-          <Card {...place} key={`card-${id}`} />
+          <CardAddress {...place} key={`card-${id}`} />
         ))}
       </ScrollView>
 

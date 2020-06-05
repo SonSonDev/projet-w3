@@ -13,7 +13,6 @@ interface ButtonInterface {
 const Button = ({ btnStyle, iconLeft, iconRight, label, iconName }: ButtonInterface): React.ReactElement => {
   let containerStyle:any = StyleSheet.create({
     main: {
-      width: '100%',
       borderRadius: 8,
       backgroundColor: '#181B1B'
     }
@@ -124,9 +123,7 @@ const Button = ({ btnStyle, iconLeft, iconRight, label, iconName }: ButtonInterf
 
         {label ?
           <Text style={style.text}>{label}</Text>
-          : <Icon
-              name={iconName ? iconName : ''} size={20} color="#181B1B"
-          />
+          : <Icon name="arrow-left-line" size={20} color="#181B1B"/>
         }
 
         {iconRight &&
