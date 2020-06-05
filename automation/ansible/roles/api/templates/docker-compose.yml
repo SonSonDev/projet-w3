@@ -12,6 +12,9 @@ services:
     environment: 
       PORT: "{{ application_api_port }}"
       FRONT_URL: "{{ application_scheme }}://{{ back_office_ip }}"
+      DATABASE_IP: "{{ database_ip }}"
+      MONGO_INITDB_ROOT_USERNAME: "{{ MONGO_INITDB_ROOT_USERNAME }}"
+      MONGO_INITDB_ROOT_PASSWORD: "{{ MONGO_INITDB_ROOT_PASSWORD }}"
       PRISMA_SECRET: "{{ PRISMA_SECRET }}"
       STRIPE_SECRET_KEY: "{{ STRIPE_SECRET_KEY }}"
       APP_SECRET: "{{ APP_SECRET }}"

@@ -1,16 +1,20 @@
-![](./schema-infra.jpg)
+### Schema
+![schema-infra](./schema-infra.jpg)
 
+### TODO
+- [ ] dynamic inventory ips
+- [ ] mongodb replica set
+- [ ] database security group
 
+### Commands
 Exporter toutes les variables d’environnement
 ```
 set -a && source .env && set +a
 ```
-
 Encrypter le `.env`
 ```
 ansible-vault encrypt .env --output .env.encrypted --ask-vault-pass
 ```
-
 Décrypter le `.env.encrypted`
 ```
 ansible-vault decrypt .env.encrypted --output .env --ask-vault-pass
@@ -44,7 +48,7 @@ ansible-playbook -i inventory/ec2.py playbook-fixtures.yml -u ubuntu --key ./id_
 // Construire et pousser les images Docker en local
 docker build -t $DOCKER_USERNAME/madu_api:latest ./api
 docker push $DOCKER_USERNAME/madu_api:latest
-docker build -t $DOCKER_USERNAME/madu_back-office:latest ./back-office
+docker build -t $DOCKER_USERNAME/madu_back-office:latest ./back-office --build-arg REACT_APP_API_URL=http://elb-1509450197.eu-west-2.elb.amazonaws.com
 docker push $DOCKER_USERNAME/madu_back-office:latest
 
 // Remplacer les sauts de lignes par le charactère \n

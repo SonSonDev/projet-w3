@@ -11,7 +11,7 @@ cd projet-w3
 
 Créer le fichier `.env`:
 ```
-cp .env.example .env
+ansible-vault decrypt .env.encrypted --output .env --ask-vault-pass
 ```
  
 Démarrer le projet en mode développement:
@@ -31,11 +31,11 @@ docker-compose exec api node src/fixtures.js
 
 ## Documentation
 
-- [Création du serveur AWS avec Terraform](/terraform)
-- [Déploiement avec Ansible](/ansible)
+- [Création du serveur AWS avec Terraform](/automation/terraform)
+- [Déploiement avec Ansible](/automation/ansible)
 - [API](/api)
 - [Front](/back-office)
-
+<!-- 
 ## Projet déployé
 
-[http://15.236.90.231/](http://15.236.90.231/)
+[http://15.236.90.231/](http://15.236.90.231/) -->

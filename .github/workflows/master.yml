@@ -20,7 +20,7 @@ jobs:
           CMD: |
             echo "::set-env name=DOCKER_USERNAME::$DOCKER_USERNAME" &&
             echo "::set-env name=DOCKER_PASSWORD::$DOCKER_PASSWORD" &&
-            echo "::set-env name=REACT_APP_API_URL::http://elb-1509450197.eu-west-2.elb.amazonaws.com "
+            echo "::set-env name=REACT_APP_API_URL::http://elb-1509450197.eu-west-2.elb.amazonaws.com"
 
       - name: Build Api image
         uses: docker/build-push-action@v1
@@ -44,7 +44,7 @@ jobs:
       - name: Build App image
         uses: docker/build-push-action@v1
         with:
-          path: ./app
+          dockerfile: ./app/Dockerfile
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ env.DOCKER_PASSWORD }}
           repository: ${{ env.DOCKER_USERNAME }}/madu_app-web
