@@ -7,12 +7,13 @@ interface ButtonInterface {
   iconLeft?: string;
   iconRight?: string;
   label?: string;
+  iconName?: string;
 }
 
-const Button = ({ btnStyle, iconLeft, iconRight, label }: ButtonInterface): React.ReactElement => {
+const Button = ({ btnStyle, iconLeft, iconRight, label, iconName }: ButtonInterface): React.ReactElement => {
   let containerStyle:any = StyleSheet.create({
     main: {
-      // width: 'calc(100% - 48px)',
+      width: '100%',
       borderRadius: 8,
       backgroundColor: '#181B1B'
     }
@@ -64,7 +65,7 @@ const Button = ({ btnStyle, iconLeft, iconRight, label }: ButtonInterface): Reac
       });
       containerStyle = StyleSheet.create({
         main: {
-          // width: 'calc(100% - 48px)',
+          width: '100%',
           borderRadius: 8,
           backgroundColor: 'none'
         }
@@ -124,7 +125,7 @@ const Button = ({ btnStyle, iconLeft, iconRight, label }: ButtonInterface): Reac
         {label ?
           <Text style={style.text}>{label}</Text>
           : <Icon
-              name="arrow-left-line" size={20} color="#181B1B"
+              name={iconName ? iconName : ''} size={20} color="#181B1B"
           />
         }
 

@@ -10,3 +10,8 @@ export const Primary = () => (
   <Input>
   </Input>
 );
+
+export const Pwd = () => (
+  <Input isPwd>
+  </Input>
+);

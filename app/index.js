@@ -8,6 +8,7 @@ import { InMemoryCache } from "apollo-cache-inmemory"
 import { ApolloProvider } from '@apollo/react-hooks';
 
 import App from './App';
+import View from './views/login/onboarding/firstStep';
 
 
 const client = new ApolloClient({
@@ -17,7 +18,7 @@ const client = new ApolloClient({
 
 registerRootComponent(() => (
   <ApolloProvider client={client}>
-    <App />
+    <View />
   </ApolloProvider>
 ))
 

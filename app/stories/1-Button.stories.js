@@ -18,6 +18,6 @@ export const Secondary = () => (
 );
 
 export const Icon = () => (
-  <Button btnStyle='icon' >
+  <Button btnStyle='icon' iconName='arrow-left-line'>
   </Button>
 );
