@@ -7,6 +7,12 @@
     - { role: common, tags: ['install'] }
     - { role: geerlingguy.docker, tags: ['install'] }
 
+- name: Set up database
+  hosts: [ tag_component_database ]
+  become: yes
+  roles:
+    - { role: database, tags: ['database'] }
+
 - name: Set up api
   hosts: [ tag_component_api ]
   become: yes
@@ -19,8 +25,3 @@
   roles:
     - { role: back_office, tags: ['deploy', 'back_office'] }
 
-- name: Set up database
-  hosts: [ tag_component_database ]
-  become: yes
-  roles:
-    - { role: database, tags: ['database'] }
