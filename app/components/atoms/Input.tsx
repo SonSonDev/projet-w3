@@ -22,7 +22,7 @@ const Input = (): React.ReactElement => {
       borderWidth: 1,
       paddingLeft: 16,
       fontSize: 16
-    }} onFocus={onFocus} onBlur={onBlur} underlineColorAndroid='transparant'>
+    }} onFocus={onFocus} onBlur={onBlur} underlineColorAndroid='transparent'>
     </TextInput>
   )
 }

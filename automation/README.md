@@ -65,5 +65,10 @@ Entrer dans un container docker
 ```
 docker exec -it 220f53f15465 bash
 ```
+Publier l’app sur expo
+```
+expo login
+REACT_APP_API_URL=http://elb-1509450197.eu-west-2.elb.amazonaws.com && expo publish
+```
 
 </details>

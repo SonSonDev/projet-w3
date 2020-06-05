@@ -14,7 +14,7 @@ const RoundButton = ({ outline = false, color }: RoundButtonInterface) => {
       backgroundColor: "#FFFFFF",
       borderRadius: 50,
       borderWidth: outline ? 2 : 0,
-      borderColor: outline ? color : "",
+      borderColor: outline ? color : "transparent",
       marginLeft: 5,
     }
   });

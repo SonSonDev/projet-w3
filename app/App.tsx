@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Platform } from 'react-native';
+import { StyleSheet, View, ScrollView, Platform } from 'react-native';
 import { useQuery, useMutation } from "@apollo/react-hooks"
 
 import { GET_PLACES, DELETE_PLACE, UPSERT_PLACES } from "./graphql/place"
@@ -16,13 +16,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    flex: 1,
   },
   top: {
-    flex: 1,
     width: "100%",
   },
   content: {
-    flex: 3,
+    flex: 1,
   },
   bottom: {
     width: "100%",
@@ -49,11 +49,11 @@ export default function App() {
       <View>
         <Input></Input>
       </View>
-      <View style={styles.content}>
+      <ScrollView style={styles.content}>
         {getPlaces.map((place, id) => (
           <Card {...place} key={`card-${id}`} />
         ))}
-      </View>
+      </ScrollView>
 
       <View style={styles.bottom}>
         <NavBottom />

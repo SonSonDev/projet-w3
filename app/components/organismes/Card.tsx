@@ -12,7 +12,7 @@ const Card = ({ name, category, address: { distance }, headline, description, ta
       width: 363,
       height: 379,
       backgroundColor: "#FFFFFF",
-      boxShadow: " 0px 0px 1px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 10px 20px rgba(0, 0, 0, 0.04)",
+      // boxShadow: " 0px 0px 1px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 10px 20px rgba(0, 0, 0, 0.04)",
       borderRadius: 4,
     },
     top: {
@@ -20,14 +20,14 @@ const Card = ({ name, category, address: { distance }, headline, description, ta
       backgroundColor: "blue",
     },
     topBg: {
-      padding: "1rem",
+      padding: 10,
       flex: 1,
       display: "flex",
       justifyContent: "space-between",
     },
     bottom: {
       flex: 1,
-      padding: "1rem",
+      padding: 10,
     },
     info: {
       display: "flex",

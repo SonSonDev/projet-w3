@@ -64,7 +64,7 @@ const Button = ({ btnStyle, iconLeft, iconRight, label }: ButtonInterface): Reac
       });
       containerStyle = StyleSheet.create({
         main: {
-          width: 'calc(100% - 48px)',
+          // width: 'calc(100% - 48px)',
           borderRadius: 8,
           backgroundColor: 'none'
         }

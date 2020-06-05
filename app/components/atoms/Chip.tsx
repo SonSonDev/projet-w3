@@ -12,8 +12,8 @@ const Chip = ({ title, fontColor, height }: ChipsInterface): React.ReactElement 
   const styles = StyleSheet.create({
     container: {
       height: height,
-      width: "fit-content",
-      padding: "1rem",
+      // width: "fit-content",
+      padding: 10,
       backgroundColor: "#FAF7F2",
       display: "flex",
       justifyContent: "center",

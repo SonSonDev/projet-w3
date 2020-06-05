@@ -29,7 +29,7 @@ const Typo = ({ text, iconLeft, iconRight, color, fontFamily, fontStyle, fontWei
     },
     text: {
       color: color,
-      fontFamily: fontFamily,
+      // fontFamily: fontFamily,
       fontStyle: fontStyle,
       fontWeight: fontWeight,
       fontSize: fontSize,
