@@ -100,6 +100,7 @@ function Fields ({
                   )}
                 </div>
               ))}
+              {!fields.length && disabled && (<div className="mb1">-</div>)}
               {!disabled && (
                 <button className="button is-small" type="button" onClick={() => { append() }}>
                   Ajouter un nom de domaine

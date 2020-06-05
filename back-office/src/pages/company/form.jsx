@@ -73,10 +73,10 @@ function CompanyForm ({ history,  match: { params: { id } } }) {
     {
       label: "Représentant",
       children: [
-        { key: "a", label: "Prénom", type: "T", required: true, disabled: true },
-        { key: "b", label: "Nom", type: "T", required: true, disabled: true },
-        { key: "c", label: "Adresse email", type: "T", required: true, disabled: true },
-        { key: "d", label: "Téléphone", type: "T", required: true, disabled: true },
+        { key: "firstNameUser", label: "Prénom", type: "T", required: true, disabled: !!id },
+        { key: "lastNameUser", label: "Nom", type: "T", required: true, disabled: !!id },
+        { key: "emailUser", label: "Adresse email", type: "T", required: true, disabled: !!id },
+        { key: "phoneUser", label: "Téléphone", type: "T", required: true, disabled: !!id },
       ],
     },
   ])
@@ -115,10 +115,10 @@ function CompanyForm ({ history,  match: { params: { id } } }) {
     streetCompany: getCompany?.address?.street,
     zipCodeCompany: getCompany?.address?.zipCode,
     cityCompany: getCompany?.address?.city,
-    a: getCompany?.representativeUser?.firstName,
-    b: getCompany?.representativeUser?.lastName,
-    c: getCompany?.representativeUser?.email,
-    d: getCompany?.representativeUser?.phone,
+    firstNameUser: getCompany?.representativeUser?.firstName,
+    lastNameUser: getCompany?.representativeUser?.lastName,
+    emailUser: getCompany?.representativeUser?.email,
+    phoneUser: getCompany?.representativeUser?.phone,
     emailDomains: getCompany?.emailDomains,
   } : autofill(true)
 
