@@ -11,6 +11,17 @@ import Form from "../../components/Form"
 import Loader from "../../components/Loader"
 
 
+const autofill = on => on && (  {
+  title: "title",
+  content: "content",
+  video: "video",
+  quiz: {
+    question: "quizQuestion",
+    choices: ["aaaaa", "bbbb", "ccccc", "ddddd"],
+    answer: "1",
+    value: "123321",
+  },
+})
 const ArticleForm = ({ history, match: { params: { id } } }) => {
   const { setToast } = useContext(ToastContext)
 
@@ -92,17 +103,7 @@ const ArticleForm = ({ history, match: { params: { id } } }) => {
   const defaultValues = id ? {
     ...getArticle,
     photo: getArticle?.photo ? [getArticle.photo] : null,
-  } : {
-    title: "title",
-    content: "content",
-    video: "video",
-    quiz: {
-      question: "quizQuestion",
-      choices: ["aaaaa", "bbbb", "ccccc", "ddddd"],
-      answer: "1",
-      value: "123321",
-    },
-  }
+  } : autofill(process.env.NODE_ENV === "development")
 
   return (
     <main>

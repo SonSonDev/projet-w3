@@ -32,9 +32,11 @@ const defaultTags = {
       "Balade/Visite",
     ],
     "Régime alimentaire": [
+      "Casher",
+      "Halal",
       "Sans gluten",
       "Vegan",
-      "Veggie",
+      "Végétarien",
     ],
     "Prix": [
       "€",
@@ -74,6 +76,11 @@ const defaultTags = {
         "Dons à des associations - % de la marge",
         "Dons à des associations - 1 acheté / 1 donné",
         "Dons à des associations - Partenariat Carillon",
+      ],
+      "Accessibilité": [
+        "Handicap moteur",
+        "Handicap auditif",
+        "Handicap visuel",
       ],
     },
   },
@@ -131,6 +138,11 @@ const defaultTags = {
         "Dons à des associations - Partenariat Carillon",
       ],
     },
+    "Accessibilité": [
+      "Handicap moteur",
+      "Handicap auditif",
+      "Handicap visuel",
+    ],
   },
   FOOD: {
     "Type de restaurant": [
@@ -151,11 +163,11 @@ const defaultTags = {
       "Traditionnelle",
     ],
     "Régime alimentaire": [
+      "Casher",
+      "Halal",
       "Sans gluten",
       "Vegan",
-      "Veggie",
-      "Terrasse",
-      "À emporter",
+      "Végétarien",
     ],
     "Prix": [
       "€",
@@ -206,6 +218,11 @@ const defaultTags = {
         "Dons à des associations - Partenariat Carillon",
       ],
     },
+    "Accessibilité": [
+      "Handicap moteur",
+      "Handicap auditif",
+      "Handicap visuel",
+    ],
   },
 }
 
