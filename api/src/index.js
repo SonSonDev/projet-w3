@@ -53,7 +53,8 @@ server.start({
   port: process.env.PORT,
   cors: {
     credentials: true,
-    origin: [ process.env.FRONT_URL, process.env.FRONT_URL+":19006", process.env.FRONT_URL+":19001" ],
+    // origin: [ process.env.FRONT_URL, process.env.FRONT_URL+":19006", process.env.FRONT_URL+":19001" ],
+    origin: (origin, callback) => callback(null, true),
   },
 }, async () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`)
