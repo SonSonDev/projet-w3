@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   body1: {
     ...s.body1,
     color: "#181B1B",
-    marginBottom: 16,
+    marginBottom: 72,
     textAlign: 'center',
     lineHeight: '150%',
     width: '75%'
