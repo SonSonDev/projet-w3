@@ -224,14 +224,14 @@ const places = [
   [ "Super Vegan",                            "118 rue des Moines",         "75017", "Paris", "FOOD", [ 48.893261, 2.323312 ] ],
   [ "Happiz",                                 "23 rue des Sablons",         "75016", "Paris", "FOOD", [ 48.8650088, 2.2830765 ] ],
   [ "Vege",                                   "122 rue du théâtre",         "75015", "Paris", "FOOD", [ 48.8458584, 2.2953326 ] ],
-  [ "Optique Durable",                        "2 rue Amelot",               "75011", "Paris", "FOOD", [ 48.8552578, 2.369516 ] ],
+  [ "Optique Durable",                        "2 rue Amelot",               "75011", "Paris", "SHOP", [ 48.8552578, 2.369516 ], "https://madu-staging.s3.eu-west-2.amazonaws.com/Optique%20Durable.jpeg" ],
   [ "Vegan Food Tour",                        "Place de la République",     "75003", "Paris", "FOOD", [ 48.8673936, 2.3634144 ] ],
-  [ "Lush",                                   "17 Boulevard de Vaugirard",  "75015", "Paris", "FOOD", [ 48.8413563, 2.319298 ] ],
+  [ "Lush",                                   "17 Boulevard de Vaugirard",  "75015", "Paris", "SHOP", [ 48.8413563, 2.319298 ], "https://madu-staging.s3.eu-west-2.amazonaws.com/Lush.jpg" ],
   [ "Super Naturelle",                        "34 Rue Ramey",               "75018", "Paris", "FOOD", [ 48.8894497, 2.3463671 ] ],
-  [ "Nata",                                   "28 Rue Planchat",            "75020", "Paris", "FOOD", [ 48.853849, 2.3983465 ] ],
+  [ "Nata",                                   "28 Rue Planchat",            "75020", "Paris", "ACTIVITY", [ 48.853849, 2.3983465 ], "https://madu-staging.s3.eu-west-2.amazonaws.com/Nata.png" ],
   [ "Paint In Green",                         "78 rue Compans ",            "75019", "Paris", "FOOD", [ 48.87930900000001, 2.3921176 ] ],
   [ "Les Petites Pâtisseries - Raw & Vegan",  "44 rue du chemin vert",      "75011", "Paris", "FOOD", [ 48.8590064, 2.3747393 ] ],
-  [ "La Vie Claire",                          "194 rue Lecourbe",           "75015", "Paris", "FOOD", [ 48.8406747, 2.2960318 ] ],
+  [ "La Vie Claire",                          "194 rue Lecourbe",           "75015", "Paris", "SHOP", [ 48.8406747, 2.2960318 ], "https://madu-staging.s3.eu-west-2.amazonaws.com/La%20Vie%20Claire.jpeg" ],
 ]
 
 // for (let i = 0; i < Math.floor(Math.random() * 20 + 20); i++) {
@@ -314,8 +314,10 @@ const challenges = [
   ["Mettre une plante sur le bureau",               "...",                                                                                1000],
 ]
 
+const defaultPhoto = "https://madu-dev.s3.eu-west-2.amazonaws.com/default.jpg"
 const photos = [
-  "https://madu-dev.s3.eu-west-2.amazonaws.com/default.jpg",
+  defaultPhoto,
+  ...places.map(p => p[6]).filter(Boolean),
 ]
 
 const createTagInput = (tagObject, category, root) =>
@@ -355,7 +357,7 @@ async function populateDb () {
   }
   const tags = await prisma.tags({ where: { leaf: true } })
 
-  for (const [ name, street, zipCode, city, category, coordinates ] of shuffle(places)) {
+  for (const [ name, street, zipCode, city, category, coordinates, uri ] of shuffle(places)) {
     await prisma.createPlace({
       name,
       category,
@@ -389,7 +391,7 @@ async function populateDb () {
         { day: "SATURDAY",  start: null, end: null },
         { day: "SUNDAY",    start: null, end: null },
       ] },
-      photos: { connect: photos.map(uri => ({ uri })) },
+      photos: { connect: [ { uri: uri || defaultPhoto } ] },
       tags: { connect: tags.filter(t => t.category === category && Math.random() < 0.15).map(({ id }) => ({ id })) },
     })
   }
