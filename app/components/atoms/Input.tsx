@@ -15,7 +15,7 @@ const Input = (): React.ReactElement => {
   return (
     <TextInput style={{
       height: 56,
-      width: 'calc(100% - 48px)',
+      // width: 'calc(100% - 48px)',
       backgroundColor: '#FFFFFF',
       borderRadius: 4,
       borderColor: borderColor,

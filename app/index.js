@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppRegistry } from 'react-native';
+import { AppRegistry, Platform } from 'react-native';
 import { registerRootComponent } from 'expo';
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
@@ -19,3 +19,9 @@ registerRootComponent(() => (
     <App />
   </ApolloProvider>
 ))
+
+
+if (Platform.OS !== 'web') {
+  // enable network tab in dev console
+  GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
+}

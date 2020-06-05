@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Platform } from 'react-native';
 import { useQuery, useMutation } from "@apollo/react-hooks"
 
-import { GET_PLACES, DELETE_PLACE, UPSERT_PLACES } from "../back-office/src/graphql/place"
+import { GET_PLACES, DELETE_PLACE, UPSERT_PLACES } from "./graphql/place"
 
 import Button from "./components/atoms/Button";
 import Input from "./components/atoms/Input";
@@ -12,7 +12,7 @@ import NavTab from './components/molecules/NavTab';
 
 const styles = StyleSheet.create({
   container: {
-    height: "fit-content",
+    ...Platform.OS === 'web' && { maxWidth: 380, borderRightWidth: 1 },
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
   bottom: {
     width: "100%",
-    height: "fit-content",
+    // height: "fit-content",
   }
 });
 

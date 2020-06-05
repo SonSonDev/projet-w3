@@ -12,7 +12,7 @@ interface ButtonInterface {
 const Button = ({ btnStyle, iconLeft, iconRight, label }: ButtonInterface): React.ReactElement => {
   let containerStyle:any = StyleSheet.create({
     main: {
-      width: 'calc(100% - 48px)',
+      // width: 'calc(100% - 48px)',
       borderRadius: 8,
       backgroundColor: '#181B1B'
     }
