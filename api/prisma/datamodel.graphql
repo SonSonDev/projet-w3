@@ -38,7 +38,6 @@ type Company {
   challenges: [Challenge] @relation(link: INLINE)
 }
 
-
 type Tag {
   id: ID! @id
   label: String!
@@ -81,6 +80,7 @@ type Article {
   id: ID! @id
   title: String!
   content: String!
+  theme: Theme!
   photo: Photo @relation(link: INLINE)
   videoUrl: String
   quiz: Quiz
@@ -104,6 +104,7 @@ type Challenge {
   id: ID! @id
   name: String!
   description: String!
+  theme: Theme!
   value: Int!
   companies: [Company]
 }
@@ -137,4 +138,11 @@ enum Role {
   MODERATOR
   USER
   PLACE
+}
+
+enum Theme {
+  ALIMENTATION
+  CONSUMPTION
+  WATER
+  ENERGY
 }

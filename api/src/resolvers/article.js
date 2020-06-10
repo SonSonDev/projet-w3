@@ -61,7 +61,7 @@ module.exports = {
     },
 
     async deleteArticle (_, { where: { id } }, { prisma }) {
-      await prisma.deleteManyValidatedQuizzes({ article:{ id } })
+      await prisma.deleteManyValidatedQuizzes({ article: { id } })
       return await prisma.deleteArticle({ id })
     },
   },
@@ -71,8 +71,8 @@ module.exports = {
         return {
           ...parent.quiz,
           answeredBy: await prisma.users({ where:
-            { validatedQuizzes_some: { article: { id: parent.id }}}
-          })
+            { validatedQuizzes_some: { article: { id: parent.id }}},
+          }),
         }
       },
       photo ({ id }, _, { prisma }) {
@@ -83,10 +83,11 @@ module.exports = {
 }
 
 
-async function makeArticleInput ({title, content, photo: { uri, file } = {}, videoUrl, quiz}, prisma, update) {
+async function makeArticleInput ({title, content, photo: { uri, file } = {}, theme, videoUrl, quiz}, prisma, update) {
   return {
     title: title,
     content: content,
+    theme: theme,
     ...(file || uri) && {
       photo: {
         ...file
@@ -99,7 +100,7 @@ async function makeArticleInput ({title, content, photo: { uri, file } = {}, vid
       },
     },
     videoUrl: videoUrl,
-    quiz: {
+    quiz: quiz && {
       [update ? "update" : "create"]: {
         question: quiz.question,
         answer: quiz.answer,

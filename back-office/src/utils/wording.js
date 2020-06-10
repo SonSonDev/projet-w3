@@ -31,6 +31,13 @@ export const categories = {
   ACTIVITY: "Service\u00a0/\u00a0Loisir",
 }
 
+export const themeNames = {
+  ALIMENTATION: "Alimentation",
+  CONSUMPTION: "Consommation\u00a0/\u00a0Déchets",
+  WATER: "Eau",
+  ENERGY: "Énergie",
+}
+
 export const tags = [
   {
     id: "5ebe52ef24aa9a0007db43b9",

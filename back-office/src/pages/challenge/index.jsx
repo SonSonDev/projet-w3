@@ -8,6 +8,8 @@ import withAuthenticationCheck from "../../components/hocs/withAuthenticationChe
 import Index from "../../components/Index"
 import Loader from "../../components/Loader"
 
+import { themeNames } from "../../utils/wording"
+
 const ChallengesIndex = () => {
 
   const { error, data: {getChallenges: challenges} = {}, loading, refetch } = useQuery(GET_CHALLENGES, {
@@ -28,8 +30,11 @@ const ChallengesIndex = () => {
       },
     },
     {
-      Header: "Description",
-      accessor: "description",
+      Header: "theme",
+      accessor: "theme",
+      Cell ({ cell: { value }}) {
+        return themeNames[value]
+      },
     },
     {
       Header: "Récompense",
@@ -47,6 +52,12 @@ const ChallengesIndex = () => {
     },
   ], [])
 
+  const tabs = [
+    { title: "Aucun", filter: () => true },
+    ...Object.entries(themeNames).map(t => ({
+      title: t[1], filter: ({ theme }) => theme === t[0],
+    })),
+  ]
 
   if (error) return <div>{error.message}</div>
 
@@ -58,7 +69,7 @@ const ChallengesIndex = () => {
 
   return (
     <div className="">
-      <Index data={challenges} columns={columns} tabs={[{ title: "Aucun", filter: () => true }]}>
+      <Index data={challenges} columns={columns} tabs={tabs}>
         {{
           slug: "challenge",
           entity: "défi", genre: "M",

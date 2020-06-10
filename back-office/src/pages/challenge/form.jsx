@@ -10,6 +10,7 @@ import { GET_CHALLENGES, GET_CHALLENGE, CREATE_CHALLENGE, UPDATE_CHALLENGE, DELE
 import Form from "../../components/Form"
 import Loader from "../../components/Loader"
 
+import { themeNames } from "../../utils/wording"
 
 const autofill = on => on && ({
   name: "name",
@@ -25,6 +26,7 @@ const ChallengeForm = ({ history, match: { params: { id } } }) => {
     {
       // label: "Défi",
       children: [
+        { key: "theme", label: "Type d'entreprise", type: "R", options: Object.entries(themeNames).map(([ value, label ]) => ({ value, label })), required: true },
         { key: "name", label: "Nom", type: "T", required: true },
         { key: "description", label: "Description", type: "TT", required: true },
         { key: "value", label: "Récompense", type: "T" },

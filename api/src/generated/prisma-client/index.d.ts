@@ -380,6 +380,8 @@ export interface ClientConstructor<T> {
  * Types
  */
 
+export type Theme = "ALIMENTATION" | "CONSUMPTION" | "WATER" | "ENERGY";
+
 export type ArticleOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -387,6 +389,8 @@ export type ArticleOrderByInput =
   | "title_DESC"
   | "content_ASC"
   | "content_DESC"
+  | "theme_ASC"
+  | "theme_DESC"
   | "videoUrl_ASC"
   | "videoUrl_DESC"
   | "date_ASC"
@@ -433,6 +437,8 @@ export type ChallengeOrderByInput =
   | "name_DESC"
   | "description_ASC"
   | "description_DESC"
+  | "theme_ASC"
+  | "theme_DESC"
   | "value_ASC"
   | "value_DESC";
 
@@ -528,6 +534,10 @@ export interface ArticleWhereInput {
   content_not_starts_with?: Maybe<String>;
   content_ends_with?: Maybe<String>;
   content_not_ends_with?: Maybe<String>;
+  theme?: Maybe<Theme>;
+  theme_not?: Maybe<Theme>;
+  theme_in?: Maybe<Theme[] | Theme>;
+  theme_not_in?: Maybe<Theme[] | Theme>;
   photo?: Maybe<PhotoWhereInput>;
   videoUrl?: Maybe<String>;
   videoUrl_not?: Maybe<String>;
@@ -903,6 +913,10 @@ export interface ChallengeWhereInput {
   description_not_starts_with?: Maybe<String>;
   description_ends_with?: Maybe<String>;
   description_not_ends_with?: Maybe<String>;
+  theme?: Maybe<Theme>;
+  theme_not?: Maybe<Theme>;
+  theme_in?: Maybe<Theme[] | Theme>;
+  theme_not_in?: Maybe<Theme[] | Theme>;
   value?: Maybe<Int>;
   value_not?: Maybe<Int>;
   value_in?: Maybe<Int[] | Int>;
@@ -1198,6 +1212,7 @@ export interface ArticleCreateInput {
   id?: Maybe<ID_Input>;
   title: String;
   content: String;
+  theme: Theme;
   photo?: Maybe<PhotoCreateOneInput>;
   videoUrl?: Maybe<String>;
   quiz?: Maybe<QuizCreateOneInput>;
@@ -1232,6 +1247,7 @@ export interface QuizCreatechoicesInput {
 export interface ArticleUpdateInput {
   title?: Maybe<String>;
   content?: Maybe<String>;
+  theme?: Maybe<Theme>;
   photo?: Maybe<PhotoUpdateOneInput>;
   videoUrl?: Maybe<String>;
   quiz?: Maybe<QuizUpdateOneInput>;
@@ -1283,6 +1299,7 @@ export interface QuizUpsertNestedInput {
 export interface ArticleUpdateManyMutationInput {
   title?: Maybe<String>;
   content?: Maybe<String>;
+  theme?: Maybe<Theme>;
   videoUrl?: Maybe<String>;
   date?: Maybe<String>;
 }
@@ -1291,6 +1308,7 @@ export interface ChallengeCreateInput {
   id?: Maybe<ID_Input>;
   name: String;
   description: String;
+  theme: Theme;
   value: Int;
   companies?: Maybe<CompanyCreateManyWithoutChallengesInput>;
 }
@@ -1387,6 +1405,7 @@ export interface CompanyCreateemailDomainsInput {
 export interface ChallengeUpdateInput {
   name?: Maybe<String>;
   description?: Maybe<String>;
+  theme?: Maybe<Theme>;
   value?: Maybe<Int>;
   companies?: Maybe<CompanyUpdateManyWithoutChallengesInput>;
 }
@@ -1539,6 +1558,7 @@ export interface ChallengeUpdateWithWhereUniqueNestedInput {
 export interface ChallengeUpdateDataInput {
   name?: Maybe<String>;
   description?: Maybe<String>;
+  theme?: Maybe<Theme>;
   value?: Maybe<Int>;
   companies?: Maybe<CompanyUpdateManyWithoutChallengesInput>;
 }
@@ -1592,6 +1612,10 @@ export interface ChallengeScalarWhereInput {
   description_not_starts_with?: Maybe<String>;
   description_ends_with?: Maybe<String>;
   description_not_ends_with?: Maybe<String>;
+  theme?: Maybe<Theme>;
+  theme_not?: Maybe<Theme>;
+  theme_in?: Maybe<Theme[] | Theme>;
+  theme_not_in?: Maybe<Theme[] | Theme>;
   value?: Maybe<Int>;
   value_not?: Maybe<Int>;
   value_in?: Maybe<Int[] | Int>;
@@ -1613,6 +1637,7 @@ export interface ChallengeUpdateManyWithWhereNestedInput {
 export interface ChallengeUpdateManyDataInput {
   name?: Maybe<String>;
   description?: Maybe<String>;
+  theme?: Maybe<Theme>;
   value?: Maybe<Int>;
 }
 
@@ -1665,6 +1690,7 @@ export interface ArticleUpdateOneRequiredInput {
 export interface ArticleUpdateDataInput {
   title?: Maybe<String>;
   content?: Maybe<String>;
+  theme?: Maybe<Theme>;
   photo?: Maybe<PhotoUpdateOneInput>;
   videoUrl?: Maybe<String>;
   quiz?: Maybe<QuizUpdateOneInput>;
@@ -1916,6 +1942,7 @@ export interface CompanyUpdateManyDataInput {
 export interface ChallengeUpdateManyMutationInput {
   name?: Maybe<String>;
   description?: Maybe<String>;
+  theme?: Maybe<Theme>;
   value?: Maybe<Int>;
 }
 
@@ -1942,6 +1969,7 @@ export interface ChallengeCreateWithoutCompaniesInput {
   id?: Maybe<ID_Input>;
   name: String;
   description: String;
+  theme: Theme;
   value: Int;
 }
 
@@ -1987,6 +2015,7 @@ export interface ChallengeUpdateWithWhereUniqueWithoutCompaniesInput {
 export interface ChallengeUpdateWithoutCompaniesDataInput {
   name?: Maybe<String>;
   description?: Maybe<String>;
+  theme?: Maybe<Theme>;
   value?: Maybe<Int>;
 }
 
@@ -2544,6 +2573,7 @@ export interface Article {
   id: ID_Output;
   title: String;
   content: String;
+  theme: Theme;
   videoUrl?: String;
   quiz?: Quiz | null;
   date: String;
@@ -2553,6 +2583,7 @@ export interface ArticlePromise extends Promise<Article>, Fragmentable {
   id: () => Promise<ID_Output>;
   title: () => Promise<String>;
   content: () => Promise<String>;
+  theme: () => Promise<Theme>;
   photo: <T = PhotoPromise>() => T;
   videoUrl: () => Promise<String>;
   quiz: <T = QuizPromise>() => T;
@@ -2565,6 +2596,7 @@ export interface ArticleSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   title: () => Promise<AsyncIterator<String>>;
   content: () => Promise<AsyncIterator<String>>;
+  theme: () => Promise<AsyncIterator<Theme>>;
   photo: <T = PhotoSubscription>() => T;
   videoUrl: () => Promise<AsyncIterator<String>>;
   quiz: <T = QuizSubscription>() => T;
@@ -2577,6 +2609,7 @@ export interface ArticleNullablePromise
   id: () => Promise<ID_Output>;
   title: () => Promise<String>;
   content: () => Promise<String>;
+  theme: () => Promise<Theme>;
   photo: <T = PhotoPromise>() => T;
   videoUrl: () => Promise<String>;
   quiz: <T = QuizPromise>() => T;
@@ -2720,6 +2753,7 @@ export interface Challenge {
   id: ID_Output;
   name: String;
   description: String;
+  theme: Theme;
   value: Int;
 }
 
@@ -2727,6 +2761,7 @@ export interface ChallengePromise extends Promise<Challenge>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   description: () => Promise<String>;
+  theme: () => Promise<Theme>;
   value: () => Promise<Int>;
   companies: <T = FragmentableArray<Company>>(args?: {
     where?: CompanyWhereInput;
@@ -2745,6 +2780,7 @@ export interface ChallengeSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
+  theme: () => Promise<AsyncIterator<Theme>>;
   value: () => Promise<AsyncIterator<Int>>;
   companies: <T = Promise<AsyncIterator<CompanySubscription>>>(args?: {
     where?: CompanyWhereInput;
@@ -2763,6 +2799,7 @@ export interface ChallengeNullablePromise
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   description: () => Promise<String>;
+  theme: () => Promise<Theme>;
   value: () => Promise<Int>;
   companies: <T = FragmentableArray<Company>>(args?: {
     where?: CompanyWhereInput;
@@ -3716,6 +3753,7 @@ export interface ArticlePreviousValues {
   id: ID_Output;
   title: String;
   content: String;
+  theme: Theme;
   videoUrl?: String;
   date: String;
 }
@@ -3726,6 +3764,7 @@ export interface ArticlePreviousValuesPromise
   id: () => Promise<ID_Output>;
   title: () => Promise<String>;
   content: () => Promise<String>;
+  theme: () => Promise<Theme>;
   videoUrl: () => Promise<String>;
   date: () => Promise<String>;
 }
@@ -3736,6 +3775,7 @@ export interface ArticlePreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   title: () => Promise<AsyncIterator<String>>;
   content: () => Promise<AsyncIterator<String>>;
+  theme: () => Promise<AsyncIterator<Theme>>;
   videoUrl: () => Promise<AsyncIterator<String>>;
   date: () => Promise<AsyncIterator<String>>;
 }
@@ -3769,6 +3809,7 @@ export interface ChallengePreviousValues {
   id: ID_Output;
   name: String;
   description: String;
+  theme: Theme;
   value: Int;
 }
 
@@ -3778,6 +3819,7 @@ export interface ChallengePreviousValuesPromise
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   description: () => Promise<String>;
+  theme: () => Promise<Theme>;
   value: () => Promise<Int>;
 }
 
@@ -3787,6 +3829,7 @@ export interface ChallengePreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
+  theme: () => Promise<AsyncIterator<Theme>>;
   value: () => Promise<AsyncIterator<Int>>;
 }
 
@@ -4201,6 +4244,10 @@ export const models: Model[] = [
   },
   {
     name: "Role",
+    embedded: false
+  },
+  {
+    name: "Theme",
     embedded: false
   }
 ];
