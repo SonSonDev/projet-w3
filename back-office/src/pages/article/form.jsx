@@ -10,7 +10,19 @@ import { GET_ARTICLES, GET_ARTICLE, CREATE_ARTICLE, UPDATE_ARTICLE, DELETE_ARTIC
 import Form from "../../components/Form"
 import Loader from "../../components/Loader"
 
+import { themeNames } from "../../utils/wording"
 
+const autofill = on => on && (  {
+  title: "title",
+  content: "content",
+  video: "video",
+  quiz: {
+    question: "quizQuestion",
+    choices: ["aaaaa", "bbbb", "ccccc", "ddddd"],
+    answer: "1",
+    value: "123321",
+  },
+})
 const ArticleForm = ({ history, match: { params: { id } } }) => {
   const { setToast } = useContext(ToastContext)
 
@@ -20,6 +32,7 @@ const ArticleForm = ({ history, match: { params: { id } } }) => {
     {
       label: "Article",
       children: [
+        { key: "theme", label: "Type d'entreprise", type: "R", options: Object.entries(themeNames).map(([ value, label ]) => ({ value, label })), required: true },
         { key: "title", label: "Titre de l'article", type: "T", required: true },
         { key: "content", label: "Contenu", type: "TT", required: true },
         { key: "videoUrl", label: "Lien de la vidéo", type: "T" },
@@ -92,17 +105,7 @@ const ArticleForm = ({ history, match: { params: { id } } }) => {
   const defaultValues = id ? {
     ...getArticle,
     photo: getArticle?.photo ? [getArticle.photo] : null,
-  } : {
-    title: "title",
-    content: "content",
-    video: "video",
-    quiz: {
-      question: "quizQuestion",
-      choices: ["aaaaa", "bbbb", "ccccc", "ddddd"],
-      answer: "1",
-      value: "123321",
-    },
-  }
+  } : autofill(process.env.NODE_ENV === "development")
 
   return (
     <main>

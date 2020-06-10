@@ -32,9 +32,11 @@ const defaultTags = {
       "Balade/Visite",
     ],
     "Régime alimentaire": [
+      "Casher",
+      "Halal",
       "Sans gluten",
       "Vegan",
-      "Veggie",
+      "Végétarien",
     ],
     "Prix": [
       "€",
@@ -74,6 +76,11 @@ const defaultTags = {
         "Dons à des associations - % de la marge",
         "Dons à des associations - 1 acheté / 1 donné",
         "Dons à des associations - Partenariat Carillon",
+      ],
+      "Accessibilité": [
+        "Handicap moteur",
+        "Handicap auditif",
+        "Handicap visuel",
       ],
     },
   },
@@ -131,6 +138,11 @@ const defaultTags = {
         "Dons à des associations - Partenariat Carillon",
       ],
     },
+    "Accessibilité": [
+      "Handicap moteur",
+      "Handicap auditif",
+      "Handicap visuel",
+    ],
   },
   FOOD: {
     "Type de restaurant": [
@@ -151,11 +163,11 @@ const defaultTags = {
       "Traditionnelle",
     ],
     "Régime alimentaire": [
+      "Casher",
+      "Halal",
       "Sans gluten",
       "Vegan",
-      "Veggie",
-      "Terrasse",
-      "À emporter",
+      "Végétarien",
     ],
     "Prix": [
       "€",
@@ -206,6 +218,11 @@ const defaultTags = {
         "Dons à des associations - Partenariat Carillon",
       ],
     },
+    "Accessibilité": [
+      "Handicap moteur",
+      "Handicap auditif",
+      "Handicap visuel",
+    ],
   },
 }
 
@@ -297,21 +314,20 @@ const companies = [
 ]
 
 const challenges = [
-  ["Vider sa corbeille de mails",                   "Clique sur un bouton.",                                                                 1],
-  ["Utilise moins ta voiture",                      "Va au travail à pied, c'est bon pour la santé.",                                       10],
-  ["Mange ton déjeuner froid",                      "Ne fais pas chauffer ou cuire ton manger, ça consomme l'énergie Mako.",               100],
-  ["Parle avec 3 villageois",                       "Ne parle pas par internet, va les voir en vrai.",                                      50],
-  ["Porter le même slip toute la semaine",          "Fais moins de machine, tu économises de l'eau et de l'énergie.",                      500],
-  ["Arrose tes plantes avec de l'eau de pluie",     "Place des seaux des sur ton toit pour récolter de l'eau pour arroser tes plantes.",  1000],
-  ["Débranche tes appareils non utilisés",          "Débranche ta TV et tes consoles de jeux si tu ne les utilises pas.",                   50],
-  ["Ne prends pas l'ascenseur aujourd'hui",         "Si c'est possible, prends l'escalier.",                                                50],
-  ["Écris avec un stylo écoresponsable",            "...",                                                                                  10],
-  ["Récolte de l'eau de pluie",                     "Récolte de l'eau de pluie.",                                                         1500],
-  ["Ne charge pas tes appareils pendant la nuit",   "Evite d'atteindre le 100% de batterie de tes appareils électroniques.",               400],
-  ["Acheter une gourde en inox",                    "Acheter une gourde en inox et arrêter les bouteilles d’eau en plastique.",            300],
-  ["Speedrun douche",                               "Prendre une douche de 5 minutes top chrono.",                                         100],
-  ["Utiliser un sac réutilisable pour tes courses", "...",                                                                                 200],
-  ["Mettre une plante sur le bureau",               "...",                                                                                1000],
+  ["Vider sa corbeille de mails",                   "Clique sur un bouton.",                                                                 1,       "ENERGY"],
+  ["Utilise moins ta voiture",                      "Va au travail à pied, c'est bon pour la santé.",                                       10,       "ENERGY"],
+  ["Mange ton déjeuner froid",                      "Ne fais pas chauffer ou cuire ton manger, ça consomme l'énergie Mako.",               100,       "ENERGY"],
+  ["Parle avec 3 villageois",                       "Ne parle pas par internet, va les voir en vrai.",                                      50,       "ENERGY"],
+  ["Porter le même slip toute la semaine",          "Fais moins de machine, tu économises de l'eau et de l'énergie.",                      500,        "WATER"],
+  ["Arrose tes plantes avec de l'eau de pluie",     "Place des seaux des sur ton toit pour récolter de l'eau pour arroser tes plantes.",  1000,        "WATER"],
+  ["Débranche tes appareils non utilisés",          "Débranche ta TV et tes consoles de jeux si tu ne les utilises pas.",                   50,       "ENERGY"],
+  ["Ne prends pas l'ascenseur aujourd'hui",         "Si c'est possible, prends l'escalier.",                                                50,       "ENERGY"],
+  ["Récolte de l'eau de pluie",                     "Récolte de l'eau de pluie.",                                                         1500,        "WATER"],
+  ["Ne charge pas tes appareils pendant la nuit",   "Evite d'atteindre le 100% de batterie de tes appareils électroniques.",               400,       "ENERGY"],
+  ["Acheter une gourde en inox",                    "Acheter une gourde en inox et arrêter les bouteilles d’eau en plastique.",            300,  "CONSUMPTION"],
+  ["Speedrun douche",                               "Prendre une douche de 5 minutes top chrono.",                                         100,        "WATER"],
+  ["Utiliser un sac réutilisable pour tes courses", "...",                                                                                 200,  "CONSUMPTION"],
+  ["Mettre une plante sur le bureau",               "...",                                                                                1000, "ALIMENTATION"],
 ]
 
 const defaultPhoto = "https://madu-dev.s3.eu-west-2.amazonaws.com/default.jpg"
@@ -424,8 +440,8 @@ async function populateDb () {
     })
   }
 
-  for (const [ name, description, value ] of challenges) {
-    await prisma.createChallenge({ name, description, value })
+  for (const [ name, description, value, theme ] of challenges) {
+    await prisma.createChallenge({ name, description, value, theme })
   }
 }
 

@@ -120,7 +120,7 @@ function CompanyForm ({ history,  match: { params: { id } } }) {
     emailUser: getCompany?.representativeUser?.email,
     phoneUser: getCompany?.representativeUser?.phone,
     emailDomains: getCompany?.emailDomains,
-  } : autofill(true)
+  } : autofill(process.env.NODE_ENV === "development")
 
   return (
     <main>

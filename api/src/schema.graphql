@@ -110,6 +110,7 @@ type Mutation {
   createChallenge(
     name: String!
     description: String!
+    theme: Theme!
     value: Int!
   ): Challenge
 
@@ -212,6 +213,7 @@ type Article {
   id: ID!
   title: String!
   content: String!
+  theme: Theme!
   photo: Photo
   videoUrl: String
   quiz: Quiz
@@ -219,10 +221,10 @@ type Article {
 }
 
 type Quiz {
-  question: String!
-  choices: [String!]
-  answer: String!
-  value: Int!
+  question: String
+  choices: [String]
+  answer: String
+  value: Int
   answeredBy: [User]
 }
 
@@ -236,6 +238,7 @@ type Challenge {
   id: ID!
   name: String!
   description: String!
+  theme: Theme!
   value: Int!
   companies: [Company]
 }
@@ -280,24 +283,19 @@ enum Category {
   ACTIVITY
 }
 
-enum Vegan {
-  VG
-  VGN
-  VGF
-}
-
-enum Bio {
-  NO
-  PARTIAL
-  FULL
-}
-
 enum Role {
   SUPER_ADMIN
   ADMIN
   MODERATOR
   USER
   PLACE
+}
+
+enum Theme {
+  ALIMENTATION
+  CONSUMPTION
+  WATER
+  ENERGY
 }
 
 type Social {
@@ -359,6 +357,7 @@ input TagInput {
 input ArticleInput {
   title: String!
   content: String!
+  theme: Theme!
   photo: PhotoInput
   videoUrl: String
   quiz: QuizInput

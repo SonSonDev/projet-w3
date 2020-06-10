@@ -8,6 +8,8 @@ import withAuthenticationCheck from "../../components/hocs/withAuthenticationChe
 import Index from "../../components/Index"
 import Loader from "../../components/Loader"
 
+import { themeNames } from "../../utils/wording"
+
 const ArticlesIndex = () => {
 
   const { error, data: {getArticles: articles} = {}, loading } = useQuery(GET_ARTICLES, {
@@ -27,18 +29,27 @@ const ArticlesIndex = () => {
       },
     },
     {
+      Header: "theme",
+      accessor: "theme",
+      Cell ({ cell: { value }}) {
+        return themeNames[value]
+      },
+    },
+    {
       id: "quizQuestion",
       Header: "Question",
       Cell ({ row: { original: { quiz } } }) {
-        return (
-          <>
-            {quiz.question}
-          </>
-        )
+        return quiz.question
       },
     },
   ], [])
 
+  const tabs = [
+    { title: "Aucun", filter: () => true },
+    ...Object.entries(themeNames).map(t => ({
+      title: t[1], filter: ({ theme }) => theme === t[0],
+    })),
+  ]
 
   if (error) return <div>{error.message}</div>
 
@@ -50,7 +61,7 @@ const ArticlesIndex = () => {
 
   return (
     <div className="">
-      <Index data={articles} columns={columns} tabs={[{ title: "Aucun", filter: () => true }]}>
+      <Index data={articles} columns={columns} tabs={tabs}>
         {{
           slug: "article",
           entity: "article", genre: "M",

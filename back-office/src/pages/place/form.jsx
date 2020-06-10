@@ -87,13 +87,16 @@ function PlaceForm ({ history,  match: { params: { id } } }) {
         { key: "name", label: "Nom de l’établissement", type: "T", required: true },
         { key: "category", label: "Catégorie", type: "R", options: Object.entries(categories).map(([ value, label ]) => ({ value, label })).filter(e => !id || e.value === getPlace.category), required: true, disabled: !!id },
         ...getTags
-          .filter(tag => tag.category === category && !["Engagements", "Prix"].includes(tag.label))
+          .filter(tag => tag.category === category && !["Engagements", "Prix", "Accessibilité"].includes(tag.label))
           .map(tag => getTagsNested(tag, { type: "S", className: "fade-in" })),
         { key: "address.street", label: "Adresse", type: "T", required: true },
         { className: "is-grouped", children: [
           { key: "address.zipCode", label: "Code postal", type: "T", required: true, className: "control is-expanded" },
           { key: "address.city", label: "Ville", type: "T", required: true, className: "control is-expanded" },
-        ] },
+        ]},
+        ...getTags
+          .filter(tag => tag.category === category && tag.label === "Accessibilité")
+          .map(tag => getTagsNested(tag, { type: "C", collapsible: true, className: "fade-in" })), 
       ],
     },
     {
@@ -164,7 +167,7 @@ function PlaceForm ({ history,  match: { params: { id } } }) {
       getTags.filter(({ category }) => category === getPlace.category),
       getPlace.tags?.map(({ id }) => id),
     ),
-  } : autofill(true)
+  } : autofill(process.env.NODE_ENV === "development")
 
   return (
     <main>

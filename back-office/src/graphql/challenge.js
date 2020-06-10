@@ -6,6 +6,7 @@ export const GET_CHALLENGE = gql`
       id
       name
       description
+      theme
       value
       companies {
         id
@@ -21,6 +22,7 @@ export const GET_CHALLENGES = gql`
       id
       name
       description
+      theme
       value
       companies {
         id
@@ -31,22 +33,24 @@ export const GET_CHALLENGES = gql`
 `
 
 export const CREATE_CHALLENGE = gql`
-  mutation CreateChallenge ($name:String!, $description:String!, $value:Int!) {
-    createChallenge(name:$name, description:$description, value:$value) {
+  mutation CreateChallenge ($name:String!, $description:String!, $value:Int!, $theme:Theme!) {
+    createChallenge(name:$name, description:$description, value:$value, theme:$theme) {
       id
       name
       description
+      theme
       value
     }
   }
 `
 
 export const UPDATE_CHALLENGE = gql`
-  mutation UpdateChallenge ($id:ID!, $name:String!, $description:String!, $value:Int!) {
-    updateChallenge(id: $id, name:$name, description:$description, value:$value) {
+  mutation UpdateChallenge ($id:ID!, $name:String!, $description:String!, $value:Int!, $theme:Theme!) {
+    updateChallenge(id: $id, name:$name, description:$description, value:$value, theme:$theme) {
       id
       name
       description
+      theme
       value
     }
   }
@@ -58,6 +62,7 @@ export const DELETE_CHALLENGE = gql`
       id
       name
       description
+      theme
       value
     }
   }

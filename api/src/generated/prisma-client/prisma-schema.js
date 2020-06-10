@@ -124,6 +124,7 @@ type Article {
   id: ID!
   title: String!
   content: String!
+  theme: Theme!
   photo: Photo
   videoUrl: String
   quiz: Quiz
@@ -140,6 +141,7 @@ input ArticleCreateInput {
   id: ID
   title: String!
   content: String!
+  theme: Theme!
   photo: PhotoCreateOneInput
   videoUrl: String
   quiz: QuizCreateOneInput
@@ -163,6 +165,8 @@ enum ArticleOrderByInput {
   title_DESC
   content_ASC
   content_DESC
+  theme_ASC
+  theme_DESC
   videoUrl_ASC
   videoUrl_DESC
   date_ASC
@@ -173,6 +177,7 @@ type ArticlePreviousValues {
   id: ID!
   title: String!
   content: String!
+  theme: Theme!
   videoUrl: String
   date: String!
 }
@@ -196,6 +201,7 @@ input ArticleSubscriptionWhereInput {
 input ArticleUpdateDataInput {
   title: String
   content: String
+  theme: Theme
   photo: PhotoUpdateOneInput
   videoUrl: String
   quiz: QuizUpdateOneInput
@@ -205,6 +211,7 @@ input ArticleUpdateDataInput {
 input ArticleUpdateInput {
   title: String
   content: String
+  theme: Theme
   photo: PhotoUpdateOneInput
   videoUrl: String
   quiz: QuizUpdateOneInput
@@ -214,6 +221,7 @@ input ArticleUpdateInput {
 input ArticleUpdateManyMutationInput {
   title: String
   content: String
+  theme: Theme
   videoUrl: String
   date: String
 }
@@ -273,6 +281,10 @@ input ArticleWhereInput {
   content_not_starts_with: String
   content_ends_with: String
   content_not_ends_with: String
+  theme: Theme
+  theme_not: Theme
+  theme_in: [Theme!]
+  theme_not_in: [Theme!]
   photo: PhotoWhereInput
   videoUrl: String
   videoUrl_not: String
@@ -324,6 +336,7 @@ type Challenge {
   id: ID!
   name: String!
   description: String!
+  theme: Theme!
   value: Int!
   companies(where: CompanyWhereInput, orderBy: CompanyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Company!]
 }
@@ -338,6 +351,7 @@ input ChallengeCreateInput {
   id: ID
   name: String!
   description: String!
+  theme: Theme!
   value: Int!
   companies: CompanyCreateManyWithoutChallengesInput
 }
@@ -356,6 +370,7 @@ input ChallengeCreateWithoutCompaniesInput {
   id: ID
   name: String!
   description: String!
+  theme: Theme!
   value: Int!
 }
 
@@ -371,6 +386,8 @@ enum ChallengeOrderByInput {
   name_DESC
   description_ASC
   description_DESC
+  theme_ASC
+  theme_DESC
   value_ASC
   value_DESC
 }
@@ -379,6 +396,7 @@ type ChallengePreviousValues {
   id: ID!
   name: String!
   description: String!
+  theme: Theme!
   value: Int!
 }
 
@@ -425,6 +443,10 @@ input ChallengeScalarWhereInput {
   description_not_starts_with: String
   description_ends_with: String
   description_not_ends_with: String
+  theme: Theme
+  theme_not: Theme
+  theme_in: [Theme!]
+  theme_not_in: [Theme!]
   value: Int
   value_not: Int
   value_in: [Int!]
@@ -457,6 +479,7 @@ input ChallengeSubscriptionWhereInput {
 input ChallengeUpdateDataInput {
   name: String
   description: String
+  theme: Theme
   value: Int
   companies: CompanyUpdateManyWithoutChallengesInput
 }
@@ -464,6 +487,7 @@ input ChallengeUpdateDataInput {
 input ChallengeUpdateInput {
   name: String
   description: String
+  theme: Theme
   value: Int
   companies: CompanyUpdateManyWithoutChallengesInput
 }
@@ -471,6 +495,7 @@ input ChallengeUpdateInput {
 input ChallengeUpdateManyDataInput {
   name: String
   description: String
+  theme: Theme
   value: Int
 }
 
@@ -489,6 +514,7 @@ input ChallengeUpdateManyInput {
 input ChallengeUpdateManyMutationInput {
   name: String
   description: String
+  theme: Theme
   value: Int
 }
 
@@ -512,6 +538,7 @@ input ChallengeUpdateManyWithWhereNestedInput {
 input ChallengeUpdateWithoutCompaniesDataInput {
   name: String
   description: String
+  theme: Theme
   value: Int
 }
 
@@ -580,6 +607,10 @@ input ChallengeWhereInput {
   description_not_starts_with: String
   description_ends_with: String
   description_not_ends_with: String
+  theme: Theme
+  theme_not: Theme
+  theme_in: [Theme!]
+  theme_not_in: [Theme!]
   value: Int
   value_not: Int
   value_in: [Int!]
@@ -1972,6 +2003,13 @@ input TagWhereInput {
 
 input TagWhereUniqueInput {
   id: ID
+}
+
+enum Theme {
+  ALIMENTATION
+  CONSUMPTION
+  WATER
+  ENERGY
 }
 
 type User {
