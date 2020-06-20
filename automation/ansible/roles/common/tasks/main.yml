@@ -31,3 +31,4 @@
     name:
       - docker
       - docker-compose
+      - boto3

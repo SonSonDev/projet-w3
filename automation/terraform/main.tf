@@ -67,7 +67,7 @@ resource "aws_security_group" "api" {
 }
 
 resource "aws_elb" "elb" {
-  name               = "elb"
+  name               = "elb-api"
   availability_zones = ["eu-west-2a"]
 
   listener {

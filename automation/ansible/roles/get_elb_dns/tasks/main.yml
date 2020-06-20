@@ -1,0 +1,13 @@
+---
+
+- action:
+    module: ec2_elb_info
+    names: elb-api
+    region: eu-west-2
+  register: elb_api_info
+
+- name: copy the output to a local file
+  copy:
+    content: "http://{{ elb_api_info.elbs.0.dns_name }}"
+    dest: "./elb_api_dns.txt"
+  delegate_to: localhost
