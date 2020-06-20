@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - scalability
+      - 0-get-elb-and-ec2-url
 
 jobs:
 

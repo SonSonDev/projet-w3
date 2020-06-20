@@ -7,6 +7,15 @@
     owner: "{{ application_user }}"
     group: "{{ application_group }}"
 
+- action:
+    module: ec2_instance_info
+    region: eu-west-2
+    filters:
+      "tag:Name": back_office
+    aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
+    aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
+  register: ec2_bo_info
+  
 - name: Copy docker-compose file
   template:
     src: templates/docker-compose.yml

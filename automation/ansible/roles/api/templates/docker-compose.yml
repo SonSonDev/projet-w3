@@ -11,7 +11,7 @@ services:
       - "{{ application_api_port }}:3000"
     environment: 
       PORT: "{{ application_api_port }}"
-      FRONT_URL: "{{ application_scheme }}://{{ back_office_ip }}"
+      FRONT_URL: "{{ application_scheme }}://{{ ec2_bo_info.instances.0.public_ip_address }}"
       DATABASE_IP: "{{ database_ip }}"
       MONGO_INITDB_ROOT_USERNAME: "{{ MONGO_INITDB_ROOT_USERNAME }}"
       MONGO_INITDB_ROOT_PASSWORD: "{{ MONGO_INITDB_ROOT_PASSWORD }}"
