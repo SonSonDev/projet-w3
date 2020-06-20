@@ -12,6 +12,7 @@
     region: eu-west-2
     filters:
       "tag:Name": back_office
+      "instance-state-name": running
     aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
     aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
   register: ec2_bo_info
@@ -21,6 +22,7 @@
     region: eu-west-2
     filters:
       "tag:Name": database
+      "instance-state-name": running
     aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
     aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
   register: ec2_db_info
