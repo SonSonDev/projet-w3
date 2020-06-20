@@ -17,6 +17,6 @@ jobs:
         with:
           VAULT_PASS: ${{ secrets.VAULT_PASS }}
           CMD: |
-            ansible-playbook get_elb_dns.yml -i inventory/hosts
-            cat elb_api_dns.txt
-            "::set-env name=REACT_APP_API_URL::$(cat elb_api_dns.txt)"
+            ansible-playbook get_elb_dns.yml -i inventory/hosts &&
+            cat elb_api_dns.txt &&
+            echo "::set-env name=REACT_APP_API_URL::$(cat elb_api_dns.txt)"
