@@ -1,9 +1,15 @@
 ---
 
+- action:
+    module: ec2_elb_info
+    names: elb-api
+    region: eu-west-2
+  register: elb_info
+
 - name: Build api image
   docker_image:
     build:
-      path: ../api
+      path: ../../api
       network: host
     name: "{{ application_api_image }}"
     repository: "{{ application_api_image }}:{{ application_api_tag }}"
@@ -15,10 +21,10 @@
 - name: Build back office client image
   docker_image:
     build:
-      path: ../back-office
+      path: ../../back-office
       network: host
       args:
-        REACT_APP_API_URL: "{{ application_scheme }}://{{ ansible_host }}:{{ application_api_port }}"
+        REACT_APP_API_URL: "{{ application_scheme }}://{{ elb_info.elbs.0.dns_name }}"
     name: "{{ application_backoffice_image }}"
     repository: "{{ application_backoffice_image }}:{{ application_backoffice_tag }}"
     tag: "{{ application_backoffice_tag }}"

@@ -1,0 +1,30 @@
+---
+
+- action:
+    module: ec2_elb_info
+    names: elb-api
+    region: eu-west-2
+  register: elb_api_info
+
+- name: copy the output to a local file
+  copy:
+    content: "http://{{ elb_api_info.elbs.0.dns_name }}"
+    dest: "/tmp/elb_api_dns.txt"
+  delegate_to: localhost
+
+- action:
+    module: ec2_instance_info
+    region: eu-west-2
+    filters:
+      "tag:Name": back_office
+  register: ec2_bo_info
+
+- action:
+    module: debug
+    msg: "{{ ec2_bo_info.instances.0.public_ip_address }}"
+
+- name: copy the output to a local file
+  copy:
+    content: "http://{{ ec2_bo_info.instances.0.public_ip_address }}"
+    dest: "/tmp/ec2_bo_dns.txt"
+  delegate_to: localhost

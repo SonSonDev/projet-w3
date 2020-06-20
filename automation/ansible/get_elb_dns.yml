@@ -1,0 +1,6 @@
+---
+
+- name: dns
+  hosts: local
+  roles:
+    - { role: get_elb_dns }

@@ -1,0 +1,22 @@
+name: Master
+
+on: 
+  push:
+    branches:
+      - 0-get-elb-and-ec2-url
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Deploy with Ansible playbook 
+        uses: ./.github/actions/setup-and-run
+        with:
+          CMD: |
+            ansible-playbook get_elb_dns.yml -i inventory/hosts
+      
+      - name: Check
+        run: ls /tmp
