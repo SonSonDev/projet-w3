@@ -46,7 +46,7 @@ const Button = ({ btnStyle, iconLeft, iconRight, label, iconName }: ButtonInterf
       style = StyleSheet.create({
         container: {
           width: '100%',
-          height: 64,
+          height: 40,
           justifyContent: "center",
           alignItems: "center",
           flexDirection: "row",
@@ -66,7 +66,7 @@ const Button = ({ btnStyle, iconLeft, iconRight, label, iconName }: ButtonInterf
         main: {
           width: '100%',
           borderRadius: 8,
-          backgroundColor: 'none'
+          // backgroundColor: 'none'
         }
       });
       break;

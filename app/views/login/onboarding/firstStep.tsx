@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     color: "#181B1B",
     marginBottom: 72,
     textAlign: 'center',
-    lineHeight: '150%',
+    lineHeight: s.body1.fontSize * 1.5,
     width: '75%'
   },
   illu: {
