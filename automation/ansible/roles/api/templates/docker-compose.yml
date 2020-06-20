@@ -12,7 +12,7 @@ services:
     environment: 
       PORT: "{{ application_api_port }}"
       FRONT_URL: "{{ application_scheme }}://{{ ec2_bo_info.instances.0.public_ip_address }}"
-      DATABASE_IP: "{{ database_ip }}"
+      DATABASE_IP: "{{ ec2_db_info.instances.0.public_ip_address }}"
       MONGO_INITDB_ROOT_USERNAME: "{{ MONGO_INITDB_ROOT_USERNAME }}"
       MONGO_INITDB_ROOT_PASSWORD: "{{ MONGO_INITDB_ROOT_PASSWORD }}"
       PRISMA_SECRET: "{{ PRISMA_SECRET }}"
@@ -36,5 +36,5 @@ services:
         databases:
           default:
             connector: mongo
-            uri: mongodb://{{ MONGO_INITDB_ROOT_USERNAME }}:{{ MONGO_INITDB_ROOT_PASSWORD }}@{{ database_ip }}
+            uri: mongodb://{{ MONGO_INITDB_ROOT_USERNAME }}:{{ MONGO_INITDB_ROOT_PASSWORD }}@{{ ec2_db_info.instances.0.public_ip_address }}
             port: 27017
