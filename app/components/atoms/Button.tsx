@@ -8,9 +8,10 @@ interface ButtonInterface {
   iconRight?: string;
   label?: string;
   iconName?: string;
+  onPress?: any;
 }
 
-const Button = ({ btnStyle, iconLeft, iconRight, label, iconName }: ButtonInterface): React.ReactElement => {
+const Button = ({ btnStyle, iconLeft, iconRight, label, iconName, onPress = () => alert('Pressed!')}: ButtonInterface): React.ReactElement => {
   let containerStyle:any = StyleSheet.create({
     main: {
       borderRadius: 8,
@@ -111,7 +112,7 @@ const Button = ({ btnStyle, iconLeft, iconRight, label, iconName }: ButtonInterf
     <TouchableHighlight 
       activeOpacity={1}
       underlayColor={styleUnderlayColor[btnStyle]}
-      onPress={() => alert('Pressed!')}
+      onPress={onPress}
       style={containerStyle.main}>
       <View style={style.container}>
         {iconLeft &&

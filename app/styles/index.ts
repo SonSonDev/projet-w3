@@ -126,6 +126,9 @@ export const selfCenter = { alignSelf: 'center' }
 export const center = { textAlign: 'center' }
 
 
+export const absolute = { position: 'absolute' }
+
+
 export const p0 = { padding: s0 }
 export const p05 = { padding: s05 }
 export const p1 = { padding: s1 }

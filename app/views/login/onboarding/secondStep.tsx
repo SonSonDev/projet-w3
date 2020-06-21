@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
   h1: {
     fontSize: 40,
-    // fontFamily: "Maragsa",
+    fontFamily: "Maragsa",
     color: "#181B1B",
     marginBottom: 16,
     textAlign: 'center',

@@ -5,6 +5,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useFonts } from '@use-expo/font';
 import { AppLoading } from 'expo'
 
+import Button2 from './components/atoms/Button'
+import * as s from './styles'
+
 
 function HomeScreen({ navigation }) {
   return (
@@ -36,15 +39,26 @@ function DetailsScreen({ navigation }) {
 }
 
 import Explore from './screens/Explore'
+import OnboardingFirstStep from './views/login/onboarding/firstStep';
 import OnboardingSecondStep from './views/login/onboarding/secondStep';
 
 
 const Stack = createStackNavigator()
 
+
+const header = ({ scene, previous, navigation }) => (
+  <View style={[ s.absolute, s.p2 ]}>
+    {previous && (
+      <Button2 btnStyle='icon' iconName='arrow-left-line' onPress={navigation.goBack} />
+    )}
+  </View>
+)
+
+
 function App () {
 
   const [ isLoaded ] = useFonts({
-    // Maragsa: require('./assets/fonts/Maragsa/Maragsâ.otf'),
+    Maragsa: require('./assets/fonts/Maragsa/Maragsâ.otf'),
   })
 
   if (!isLoaded) {
@@ -53,8 +67,14 @@ function App () {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="OnboardingSecondStep" component={OnboardingSecondStep} />
+      <Stack.Navigator screenOptions={{
+        cardStyle: {
+          maxWidth: 400,
+          maxHeight: 800,
+        }
+      }}>
+        <Stack.Screen name="OnboardingFirstStep" component={OnboardingFirstStep} options={{ header }} />
+        <Stack.Screen name="OnboardingSecondStep" component={OnboardingSecondStep} options={{ header }} />
         <Stack.Screen name="Explore" component={Explore} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Details" component={DetailsScreen} />

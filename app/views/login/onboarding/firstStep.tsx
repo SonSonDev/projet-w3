@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function OBFirstStep() {
+export default function OBFirstStep({ navigation }) {
   return (
     <View style={styles.container}>
       <Image source={require("../../../assets/img/illu-login02.png")} style={styles.illu} />
@@ -60,7 +60,7 @@ export default function OBFirstStep() {
         <View style={{width: '100%', alignItems: 'center', paddingBottom: 16}}>
           <Steps length={3} currentStep={1}></Steps>
           <View style={{width: '100%', marginBottom:8, marginTop: 16}}>
-            <Button btnStyle='primary' label='Commencer' />
+            <Button btnStyle='primary' label='Commencer' onPress={() => navigation.navigate('OnboardingSecondStep')} />
           </View>
           <Button btnStyle='secondary' label='Passer' />
         </View>
