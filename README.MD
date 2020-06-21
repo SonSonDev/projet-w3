@@ -31,10 +31,11 @@ docker-compose exec api node src/fixtures.js
 
 ## Documentation
 
-- [Création du serveur AWS avec Terraform](/automation/terraform)
-- [Déploiement avec Ansible](/automation/ansible)
 - [API](/api)
-- [Front](/back-office)
+- [Back-office](/back-office)
+- [Automation](/automation)
+  - [Création du serveur AWS avec Terraform](/automation/terraform)
+  - [Déploiement avec Ansible](/automation/ansible)
 <!-- 
 ## Projet déployé
 

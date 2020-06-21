@@ -11,3 +11,4 @@
     content: "http://{{ elb_api_info.elbs.0.dns_name }}"
     dest: "./elb_api_dns.txt"
   delegate_to: localhost
+  when: elb_api_info.elbs.0 is defined

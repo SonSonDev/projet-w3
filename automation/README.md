@@ -2,11 +2,11 @@
 ![schema-infra](./schema-infra.jpg)
 
 ### TODO
-- [ ] dynamic inventory ips
+- [x] dynamic inventory ips
 - [ ] mongodb replica set
 - [ ] database security group
 
-### Commands
+### Commandes
 Exporter toutes les variables d’environnement
 ```
 set -a && source .env && set +a
