@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppRegistry, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import { registerRootComponent } from 'expo';
 import Constants from 'expo-constants'
 import { ApolloClient } from 'apollo-client';
@@ -15,14 +15,16 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-registerRootComponent(() => (
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>
-))
 
 
 if (Platform.OS !== 'web') {
   // enable network tab in dev console
   GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 }
+
+
+registerRootComponent(() => (
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>
+))

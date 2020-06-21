@@ -1,5 +1,4 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
 import Button from '../components/atoms/Button';
 
 export default {
@@ -18,6 +17,6 @@ export const Secondary = () => (
 );
 
 export const Icon = () => (
-  <Button btnStyle='icon' >
+  <Button btnStyle='icon' iconName='arrow-left-line'>
   </Button>
 );

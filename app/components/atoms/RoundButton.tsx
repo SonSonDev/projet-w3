@@ -2,25 +2,27 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 interface RoundButtonInterface {
-  outline?: boolean;
-  color: string;
+  backgroundColor: string;
+  icon: any;
 }
 
-const RoundButton = ({ outline = false, color }: RoundButtonInterface) => {
+const RoundButton = ({ backgroundColor, icon }: RoundButtonInterface) => {
   const styles = StyleSheet.create({
     container: {
-      width: 40,
-      height: 40,
-      backgroundColor: "#FFFFFF",
-      borderRadius: 50,
-      borderWidth: outline ? 2 : 0,
-      borderColor: outline ? color : "transparent",
+      width: 32,
+      height: 32,
+      backgroundColor: backgroundColor,
+      borderRadius: 8,
       marginLeft: 5,
+      justifyContent: "center",
+      alignItems: "center",
     }
   });
 
   return (
-    <View style={styles.container}></View>
+    <View style={styles.container}>
+      {icon}
+    </View>
   )
 }
 
