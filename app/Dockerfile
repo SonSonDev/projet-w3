@@ -5,7 +5,7 @@ WORKDIR /home/app
 COPY package.json .
 COPY ./yarn.lock .
 
-RUN yarn install --production=true --pure-lockfile
+RUN yarn
 
 COPY . .
 

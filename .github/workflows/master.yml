@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - scalability
 
 jobs:
 
@@ -13,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Export Docker Hub credentials
+      - name: Setup env
         uses: ./.github/actions/setup-and-run
         with:
           VAULT_PASS: ${{ secrets.VAULT_PASS }}
