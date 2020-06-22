@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { Button, View, Text, AppRegistry } from 'react-native';
+import { Button, View, Text, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useFonts } from '@use-expo/font';
 import { AppLoading } from 'expo'
+import Constants from 'expo-constants'
 
 import Button2 from './components/atoms/Button'
 import * as s from './styles'
@@ -41,13 +42,14 @@ function DetailsScreen({ navigation }) {
 import Explore from './screens/Explore'
 import OnboardingFirstStep from './views/login/onboarding/firstStep';
 import OnboardingSecondStep from './views/login/onboarding/secondStep';
+import OnboardingThirdStep from './views/login/onboarding/thirdStep';
 
 
 const Stack = createStackNavigator()
 
 
 const header = ({ scene, previous, navigation }) => (
-  <View style={[ s.absolute, s.p2 ]}>
+  <View style={[ s.absolute, s.px2, s.pt1, { top: Constants.statusBarHeight } ]}>
     {previous && (
       <Button2 btnStyle='icon' iconName='arrow-left-line' onPress={navigation.goBack} />
     )}
@@ -69,12 +71,12 @@ function App () {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{
         cardStyle: {
-          maxWidth: 400,
-          maxHeight: 800,
+          ...Platform.OS === 'web' && { maxWidth: 400, maxHeight: 800 },
         }
       }}>
         <Stack.Screen name="OnboardingFirstStep" component={OnboardingFirstStep} options={{ header }} />
         <Stack.Screen name="OnboardingSecondStep" component={OnboardingSecondStep} options={{ header }} />
+        <Stack.Screen name="OnboardingThirdStep" component={OnboardingThirdStep} options={{ header }} />
         <Stack.Screen name="Explore" component={Explore} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Details" component={DetailsScreen} />

@@ -110,15 +110,32 @@ export const s10 = 8 * 10 // 80
 export const s11 = 8 * 11 // 88
 export const s12 = 8 * 12 // 96
 
+
+export const h1 = {
+  fontFamily: 'Maragsa',
+  fontSize: 40,
+  lineHeight: 40,
+  color: c.g100,
+}
+
+export const text1 = {
+  fontSize: 16,
+  lineHeight: 16 * 1.4,
+  color: c.g100,
+}
+
+
 export const bgBrown = { backgroundColor: c.p100 }
+export const bgBrownLight = { backgroundColor: c.p10 }
 export const bgBlack = { backgroundColor: c.g100 }
 export const bgWhite = { backgroundColor: c.w }
-export const bgBrownLight = { backgroundColor: c.p10 }
+export const bgLight = { backgroundColor: '#FAF7F2' }
 
 
 export const flex = { flex: 1 }
 export const row = { flexDirection: 'row' }
 
+export const justifyCenter = { justifyContent: 'center' }
 
 export const selfCenter = { alignSelf: 'center' }
 
@@ -127,6 +144,8 @@ export const center = { textAlign: 'center' }
 
 
 export const absolute = { position: 'absolute' }
+export const t0 = { top: 0 }
+export const r0 = { right: 0 }
 
 
 export const p0 = { padding: s0 }

@@ -9,7 +9,7 @@ interface FilterInterface {
   numbColumns: any;
 }
 
-const Filter = ({ filterList, setFilterList, numbColumns }: FilterInterface): React.ReactElement => {
+const Filter = ({ filterList, setFilterList, numbColumns, style }: FilterInterface): React.ReactElement => {
 
   const updateState = (index: number) => {
     const newList = [...filterList]
@@ -26,20 +26,22 @@ const Filter = ({ filterList, setFilterList, numbColumns }: FilterInterface): Re
   }
 
   return (
-    <FlatList
-      style={[ s.flex ]}
-      data={filterList}
-      numColumns={numbColumns}
-      ItemSeparatorComponent={() => <View style={[ s.pt1 ]}></View>}
-      renderItem={({ item, index }) => (
-        <TouchableHighlight onPress={() => updateState(index)} underlayColor="transparent" style={[ index % numbColumns !== 0 && s.pl1, s.flex ]}>
-          <View style={[ { minHeight: s.s12, borderColor: '#949E9E', borderWidth: item.selected ? 0 : 1, borderRadius: 8, justifyContent: 'center', alignItems: 'center', backgroundColor: item.selected ? '#BA5A40' : 'transparent' }, s.flex ]}>
-            <Text style={{ color: item.selected ? '#FFFFFF' : '#949E9E', fontSize: 16, textAlign: 'center' }}>{item.label}</Text>
-          </View>
-        </TouchableHighlight>
-      )}
-      keyExtractor={item => item.label}
-    />
+    <View style={style}>
+      <FlatList
+        style={[ ]}
+        data={filterList}
+        numColumns={numbColumns}
+        ItemSeparatorComponent={() => <View style={[ s.pt1 ]}></View>}
+        renderItem={({ item, index }) => (
+          <TouchableHighlight onPress={() => updateState(index)} underlayColor="transparent" style={[ index % numbColumns !== 0 && s.pl1, s.flex ]}>
+            <View style={[ { minHeight: s.s12, borderColor: '#949E9E', borderWidth: item.selected ? 0 : 1, borderRadius: 8, justifyContent: 'center', alignItems: 'center', backgroundColor: item.selected ? '#BA5A40' : 'transparent' }, s.p1 ]}>
+              <Text style={{ color: item.selected ? '#FFFFFF' : '#949E9E', fontSize: 16, textAlign: 'center' }}>{item.label}</Text>
+            </View>
+          </TouchableHighlight>
+        )}
+        keyExtractor={item => item.label}
+      />
+    </View>
   )
 }
 

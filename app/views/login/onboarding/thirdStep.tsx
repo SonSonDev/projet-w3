@@ -7,29 +7,27 @@ import Button from "../../../components/atoms/Button"
 import * as s from "../../../styles/index"
 
 
-export default function OBSecondStep ({ navigation }) {
+export default function OBThirdStep () {
 
   const [filterList, setFilterList] = useState([
-    { label: 'Casher' },
-    { label: 'Halal' },
-    { label: 'Sans-gluten' },
-    { label: 'Vegan' },
-    { label: 'Végétarien' },
-    { label: 'Pas de restrictions', isUnique: true }
+    { label: 'Handicap visuel' },
+    { label: 'Handicap auditif' },
+    { label: 'Handicap moteur' },
+    { label: 'Pas de besoins particuliers', isUnique: true }
   ])
 
   return (
     <ScrollView contentContainerStyle={[ s.flex, s.bgLight, s.p2, s.justifyCenter ]}>
       <Image source={require("../../../assets/img/illu-onboarding.svg")} style={[ s.absolute, s.t0, s.r0, { width: 200, height: 300, zIndex: -1 } ]} />
       <Text style={[ s.h1, s.center, s.mtAuto, s.mb2, s.pt4 ]}>
-        Votre régime alimentaire
+        Vos besoins d’accessibilité
       </Text>
       <Text style={[ s.text1, s.center, s.mb4, s.selfCenter, { maxWidth: 320 } ]}>
-        Nous vous proposerons des adresses respectant votre régime alimentaire
+        Nous vous proposerons des établissements et activités adaptées à vos besoins
       </Text>
       <Filter filterList={filterList} setFilterList={setFilterList} numbColumns={3} />
-      <Steps length={3} currentStep={2} style={[ s.mtAuto, s.mb2 ]} />
-      <Button btnStyle='primary' label='Continuer' onPress={() => navigation.navigate('OnboardingThirdStep')} style={[ s.mb1 ]} />
+      <Steps length={3} currentStep={3} style={[ s.mtAuto, s.mb2 ]} />
+      <Button btnStyle='primary' label='C’est parti !' style={[ s.mb1 ]} />
       <Button btnStyle='secondary' label='Passer' style={[ ]} />
     </ScrollView>
   )

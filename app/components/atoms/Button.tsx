@@ -11,7 +11,7 @@ interface ButtonInterface {
   onPress?: any;
 }
 
-const Button = ({ btnStyle, iconLeft, iconRight, label, iconName, onPress = () => alert('Pressed!')}: ButtonInterface): React.ReactElement => {
+const Button = ({ btnStyle, iconLeft, iconRight, label, iconName, onPress = () => alert('Pressed!'), style }: ButtonInterface): React.ReactElement => {
   let containerStyle:any = StyleSheet.create({
     main: {
       borderRadius: 8,
@@ -23,7 +23,7 @@ const Button = ({ btnStyle, iconLeft, iconRight, label, iconName, onPress = () =
     secondary : "#FBEAE9",
     icon: "#E4E6E6"
   }
-  let style:any = StyleSheet.create({
+  let styleSheet:any = StyleSheet.create({
     container: {
       width: '100%',
       height: 64,
@@ -44,7 +44,7 @@ const Button = ({ btnStyle, iconLeft, iconRight, label, iconName, onPress = () =
   });
   switch (btnStyle) {
     case 'secondary':
-      style = StyleSheet.create({
+      styleSheet = StyleSheet.create({
         container: {
           width: '100%',
           height: 40,
@@ -72,7 +72,7 @@ const Button = ({ btnStyle, iconLeft, iconRight, label, iconName, onPress = () =
       });
       break;
     case 'icon':
-      style = StyleSheet.create({
+      styleSheet = StyleSheet.create({
         container: {
           width: '100%',
           height: '100%',
@@ -113,23 +113,23 @@ const Button = ({ btnStyle, iconLeft, iconRight, label, iconName, onPress = () =
       activeOpacity={1}
       underlayColor={styleUnderlayColor[btnStyle]}
       onPress={onPress}
-      style={containerStyle.main}>
-      <View style={style.container}>
+      style={[ containerStyle.main, style ]}>
+      <View style={styleSheet.container}>
         {iconLeft &&
           <Image
-            style={style.img}
+            style={styleSheet.img}
             source={image}
           />
         }
 
         {label ?
-          <Text style={style.text}>{label}</Text>
+          <Text style={styleSheet.text}>{label}</Text>
           : <Icon name="arrow-left-line" size={20} color="#181B1B"/>
         }
 
         {iconRight &&
           <Image
-            style={style.img}
+            style={styleSheet.img}
             source={image}
           />
         }

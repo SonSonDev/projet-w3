@@ -8,12 +8,12 @@ interface StepsInterface {
   currentStep: number;
 }
 
-const Steps = ({ length, currentStep }: StepsInterface): React.ReactElement => {
+const Steps = ({ length, currentStep, style }: StepsInterface): React.ReactElement => {
   
   return (
-    <View style={{display: 'flex', flexDirection: 'row'}}>
+    <View style={[ s.row, s.justifyCenter, style ]}>
       {new Array(length).fill(true).map((el, i)=>{
-        return <View style={[{height:4, width:24, marginRight: 8, borderRadius: 1, backgroundColor:s.c.p100, opacity: i >= currentStep ? 0.3 : 1}]} key={i}></View>
+        return <View style={[{ height: 4, width: 24, borderRadius: 1, backgroundColor:s.c.p100, opacity: i >= currentStep ? 0.3 : 1}, i !== length-1 && { marginRight: 8 } ]} key={i}></View>
       })}
     </View>
   )
