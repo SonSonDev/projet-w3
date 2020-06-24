@@ -17,7 +17,8 @@ jobs:
         working-directory: app
     steps:
       - uses: actions/checkout@v2
-      - uses: ./.github/actions/setenv
+      - name: Set env vars
+        uses: ./.github/actions/setenv
       - run: ansible-playbook get_elb_dns.yml -i inventory/hosts
       - run: echo "::set-env name=REACT_APP_API_URL::$(cat elb_api_dns.txt)"
       - uses: actions/setup-node@v2-beta
@@ -33,7 +34,8 @@ jobs:
         working-directory: automation/ansible
     steps:
       - uses: actions/checkout@v2
-      - uses: ./.github/actions/setenv
+      - name: Set env vars
+        uses: ./.github/actions/setenv
       - name: Build Api image
         uses: docker/build-push-action@v1
         with:
