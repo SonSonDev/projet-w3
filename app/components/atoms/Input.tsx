@@ -5,7 +5,7 @@ interface InputInterface {
   isPwd?: boolean;
 }
 
-const Input = ({ isPwd }: InputInterface): React.ReactElement => {
+const Input = ({ isPwd, style, ...rest }: InputInterface): React.ReactElement => {
   const [borderColor, setBorderColor] = useState('#E4E6E6');
 
   const onFocus = () => {
@@ -17,21 +17,26 @@ const Input = ({ isPwd }: InputInterface): React.ReactElement => {
   }
 
   return (
-    <TextInput style={{
-      height: 56,
-      width: '100%',
-      backgroundColor: '#FFFFFF',
-      borderRadius: 4,
-      borderColor: borderColor,
-      borderWidth: 1,
-      paddingLeft: 16,
-      fontSize: 16
-    }} 
-    onFocus={onFocus} 
-    onBlur={onBlur} 
-    underlineColorAndroid='transparant'
-    secureTextEntry={isPwd}>
-    </TextInput>
+    <TextInput
+      style={[
+        {
+          height: 56,
+          width: '100%',
+          backgroundColor: '#FFFFFF',
+          borderRadius: 4,
+          borderColor: borderColor,
+          borderWidth: 1,
+          paddingLeft: 16,
+          fontSize: 16
+        },
+        style,
+      ]} 
+      onFocus={onFocus} 
+      onBlur={onBlur} 
+      underlineColorAndroid='transparant'
+      secureTextEntry={isPwd}
+      {...rest}
+    />
   )
 }
 

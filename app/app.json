@@ -1,8 +1,8 @@
 {
   "expo": {
     "entryPoint": "./index.js",
-    "name": "mobile-app",
-    "slug": "mobile-app",
+    "name": "madu",
+    "slug": "madu",
     "platforms": [
       "ios",
       "android",

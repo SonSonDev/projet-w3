@@ -111,25 +111,29 @@ export const s11 = 8 * 11 // 88
 export const s12 = 8 * 12 // 96
 
 
+
+export const primary = { color: c.p100 }
+export const black = { color: c.g100 }
+export const grey = { color: c.g50 }
+
+export const bgPrimary = { backgroundColor: c.p100 }
+export const bgPrimaryLight = { backgroundColor: c.p10 }
+export const bgBlack = { backgroundColor: c.g100 }
+export const bgWhite = { backgroundColor: c.w }
+export const bgLight = { backgroundColor: c.bg }
+
 export const h1 = {
   fontFamily: 'Maragsa',
   fontSize: 40,
   lineHeight: 40,
-  color: c.g100,
+  ...black,
 }
 
 export const text1 = {
   fontSize: 16,
   lineHeight: 16 * 1.4,
-  color: c.g100,
+  ...black,
 }
-
-
-export const bgBrown = { backgroundColor: c.p100 }
-export const bgBrownLight = { backgroundColor: c.p10 }
-export const bgBlack = { backgroundColor: c.g100 }
-export const bgWhite = { backgroundColor: c.w }
-export const bgLight = { backgroundColor: '#FAF7F2' }
 
 
 export const flex = { flex: 1 }
