@@ -11,12 +11,12 @@ COPY . .
 
 ARG EXPO_USERNAME
 ARG EXPO_PASSWORD
-RUN npm run expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
-RUN npm run expo publish --non-interactive
+RUN yarn expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
+RUN yarn expo publish --non-interactive
 
 ARG REACT_APP_API_URL
 
-RUN npm run build:web
+RUN yarn build:web
 
 
 
