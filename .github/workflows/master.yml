@@ -19,6 +19,8 @@ jobs:
           CMD: |
             echo "::set-env name=DOCKER_USERNAME::$DOCKER_USERNAME" &&
             echo "::set-env name=DOCKER_PASSWORD::$DOCKER_PASSWORD" &&
+            echo "::set-env name=EXPO_USERNAME::$EXPO_USERNAME" &&
+            echo "::set-env name=EXPO_PASSWORD::$EXPO_PASSWORD" &&
             ansible-playbook get_elb_dns.yml -i inventory/hosts &&
             echo "::set-env name=REACT_APP_API_URL::$(cat elb_api_dns.txt)"
 
@@ -48,7 +50,7 @@ jobs:
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ env.DOCKER_PASSWORD }}
           repository: ${{ env.DOCKER_USERNAME }}/madu_app-web
-          build_args: REACT_APP_API_URL=${{ env.REACT_APP_API_URL }}
+          build_args: REACT_APP_API_URL=${{ env.REACT_APP_API_URL }},EXPO_USERNAME=${{ env.EXPO_USERNAME }},EXPO_PASSWORD=${{ env.EXPO_PASSWORD }}
           tags: latest
 
   deploy:
