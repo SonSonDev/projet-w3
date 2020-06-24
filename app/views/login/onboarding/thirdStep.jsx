@@ -20,10 +20,10 @@ export default function OBThirdStep () {
   return (
     <ScrollView contentContainerStyle={[ s.flex, s.bgLight, s.p2, s.justifyCenter ]}>
       <BackgroundImage style={[ s.absolute, s.t0, s.r0 ]} width={200} height={300} />
-      <Text style={[ s.h1, s.center, s.mtAuto, s.mb2, s.pt4 ]}>
+      <Text style={[ s.h1, s.center, s.mtAuto, s.mb1, s.pt4 ]}>
         Vos besoins d’accessibilité
       </Text>
-      <Text style={[ s.text1, s.center, s.mb4, s.selfCenter, { maxWidth: 320 } ]}>
+      <Text style={[ s.text1, s.center, s.mb2, s.selfCenter, { maxWidth: 320 } ]}>
         Nous vous proposerons des établissements et activités adaptées à vos besoins
       </Text>
       <Filter filterList={filterList} setFilterList={setFilterList} numbColumns={3} />

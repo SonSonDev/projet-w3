@@ -22,10 +22,10 @@ export default function OBSecondStep ({ navigation }) {
   return (
     <ScrollView contentContainerStyle={[ s.flex, s.bgLight, s.p2, s.justifyCenter ]}>
       <BackgroundImage style={[ s.absolute, s.t0, s.r0 ]} width={200} height={300} />
-      <Text style={[ s.h1, s.center, s.mtAuto, s.mb2, s.pt4 ]}>
+      <Text style={[ s.h1, s.center, s.mtAuto, s.mb1, s.pt4 ]}>
         Votre régime alimentaire
       </Text>
-      <Text style={[ s.text1, s.center, s.mb4, s.selfCenter, { maxWidth: 320 } ]}>
+      <Text style={[ s.text1, s.center, s.mb2, s.selfCenter, { maxWidth: 320 } ]}>
         Nous vous proposerons des adresses respectant votre régime alimentaire
       </Text>
       <Filter filterList={filterList} setFilterList={setFilterList} numbColumns={3} />

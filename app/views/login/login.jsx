@@ -11,7 +11,7 @@ export default function Login({ navigation }) {
   return (
     <ScrollView contentContainerStyle={[ s.flex, s.bgLight, s.p2, s.justifyCenter ]}>
       <BackgroundImage style={[ s.absolute, s.t0, s.r0 ]} width={200} height={300} />
-      <Text style={[ s.h1, s.mtAuto, s.mb2 ]}>
+      <Text style={[ s.h1, s.mtAuto, s.mb1 ]}>
         Bon retour{'\n'}parmi nous
       </Text>
       <Text style={[ s.text1, s.mb2, { maxWidth: 260 } ]}>
@@ -19,10 +19,10 @@ export default function Login({ navigation }) {
       </Text>
       <Input value={'mail@company.com'} style={[ s.mb1 ]} />
       <Input value={'password'} isPwd style={[ s.mb2 ]} />
-      <Text style={[ s.grey, s.center, s.mbAuto ]} onPress={() => Linking.openURL('http://google.com')}>
+      <Text style={[ s.grey, s.center, s.pb4, s.mbAuto ]} onPress={() => Linking.openURL('http://google.com')}>
         Mot de passe oublié ?
       </Text>
-      <Button btnStyle='primary' label='Connexion' onPress={() => navigation.navigate('OnboardingFirstStep')} style={[ s.mb2 ]} />
+      <Button btnStyle='primary' label='Connexion' onPress={() => navigation.navigate('OnboardingFirstStep')} style={[ s.mb1 ]} />
     </ScrollView>
   )
 }
