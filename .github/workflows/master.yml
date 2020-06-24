@@ -4,14 +4,37 @@ on:
   push:
     branches:
       - master
+      - publish-app
 
 jobs:
+
+  publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app/
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup env
+        uses: ./.github/actions/setup-and-run
+        with:
+          VAULT_PASS: ${{ secrets.VAULT_PASS }}
+          CMD: |
+            echo "::set-env name=EXPO_USERNAME::$EXPO_USERNAME" &&
+            echo "::set-env name=EXPO_PASSWORD::$EXPO_PASSWORD" &&
+            ansible-playbook get_elb_dns.yml -i inventory/hosts &&
+            echo "::set-env name=REACT_APP_API_URL::$(cat elb_api_dns.txt)"
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - run: yarn install
+      - run: yarn expo login -u ${{ env.EXPO_USERNAME }} -p ${{ env.EXPO_PASSWORD }}
+      - run: yarn expo publish --non-interactive
 
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
       - name: Setup env
         uses: ./.github/actions/setup-and-run
         with:
@@ -19,8 +42,6 @@ jobs:
           CMD: |
             echo "::set-env name=DOCKER_USERNAME::$DOCKER_USERNAME" &&
             echo "::set-env name=DOCKER_PASSWORD::$DOCKER_PASSWORD" &&
-            echo "::set-env name=EXPO_USERNAME::$EXPO_USERNAME" &&
-            echo "::set-env name=EXPO_PASSWORD::$EXPO_PASSWORD" &&
             ansible-playbook get_elb_dns.yml -i inventory/hosts &&
             echo "::set-env name=REACT_APP_API_URL::$(cat elb_api_dns.txt)"
 
@@ -43,26 +64,14 @@ jobs:
           build_args: REACT_APP_API_URL=${{ env.REACT_APP_API_URL }}
           tags: latest
 
-      - name: Build App image
-        uses: docker/build-push-action@v1
-        with:
-          path: ./app
-          username: ${{ env.DOCKER_USERNAME }}
-          password: ${{ env.DOCKER_PASSWORD }}
-          repository: ${{ env.DOCKER_USERNAME }}/madu_app-web
-          build_args: REACT_APP_API_URL=${{ env.REACT_APP_API_URL }},EXPO_USERNAME=${{ env.EXPO_USERNAME }},EXPO_PASSWORD=${{ env.EXPO_PASSWORD }}
-          tags: latest
-
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Deploy with Ansible playbook 
+      - name: Deploy Api and Back-office
         uses: ./.github/actions/setup-and-run
         with:
           VAULT_PASS: ${{ secrets.VAULT_PASS }}
           CMD: |
             ansible-playbook -i inventory/ec2.py staging.yml --tags deploy -u ubuntu --key ~/id_rsa
-            

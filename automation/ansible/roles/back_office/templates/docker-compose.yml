@@ -5,8 +5,3 @@ services:
     image: "{{ application_backoffice_image }}:{{ application_backoffice_tag }}"
     ports:
       - "{{ application_backoffice_port }}:80"
-  
-  app:
-    image: "{{ application_app_image }}:{{ application_app_tag }}"
-    ports:
-      - "{{ application_app_port }}:19006"
