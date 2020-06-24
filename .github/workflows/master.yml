@@ -21,14 +21,13 @@ jobs:
           VAULT_PASS: ${{ secrets.VAULT_PASS }}
           CMD: |
             echo "::set-env name=EXPO_USERNAME::$EXPO_USERNAME" &&
-            echo "::set-env name=EXPO_PASSWORD::$EXPO_PASSWORD" &&
+            echo "::set-env name=EXPO_CLI_PASSWORD::$EXPO_PASSWORD" &&
             ansible-playbook get_elb_dns.yml -i inventory/hosts &&
             echo "::set-env name=REACT_APP_API_URL::$(cat elb_api_dns.txt)"
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
+      - uses: actions/setup-node@v2-beta
       - run: yarn install
-      - run: yarn expo login -u ${{ env.EXPO_USERNAME }} -p ${{ env.EXPO_PASSWORD }}
+      - run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+      - run: yarn expo login --non-interactive -u ${{ env.EXPO_USERNAME }}
       - run: yarn expo publish --non-interactive
 
   build:
