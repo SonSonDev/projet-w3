@@ -95,20 +95,12 @@ export const button:any = {
 
 
 
-export const s0 = 8 * 0 // 0
-export const s05 = 8 * 0.5 // 4
-export const s1 = 8 * 1 // 8
+export const s0 = 0
+export const s05 = 8 / 2 // 4
+export const s1 = 8 // 8
 export const s2 = 8 * 2 // 16
-export const s3 = 8 * 3 // 24
-export const s4 = 8 * 4 // 32
-export const s5 = 8 * 5 // 40
-export const s6 = 8 * 6 // 48
-export const s7 = 8 * 7 // 56
-export const s8 = 8 * 8 // 64
-export const s9 = 8 * 9 // 72
-export const s10 = 8 * 10 // 80
-export const s11 = 8 * 11 // 88
-export const s12 = 8 * 12 // 96
+export const s3 = 8 * 2 * 2 // 32
+export const s4 = 8 * 2 * 2 * 2 // 64
 
 
 
