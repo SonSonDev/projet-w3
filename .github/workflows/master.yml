@@ -4,27 +4,45 @@ on:
   push:
     branches:
       - master
+      - publish-app
+
+env:
+  VAULT_PASS: ${{ secrets.VAULT_PASS }}
 
 jobs:
-
-  build:
+  app:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Setup env
-        uses: ./.github/actions/setup-and-run
-        with:
-          VAULT_PASS: ${{ secrets.VAULT_PASS }}
-          CMD: |
-            echo "::set-env name=DOCKER_USERNAME::$DOCKER_USERNAME" &&
-            echo "::set-env name=DOCKER_PASSWORD::$DOCKER_PASSWORD" &&
-            echo "::set-env name=EXPO_USERNAME::$EXPO_USERNAME" &&
-            echo "::set-env name=EXPO_PASSWORD::$EXPO_PASSWORD" &&
-            ansible-playbook get_elb_dns.yml -i inventory/hosts &&
-            echo "::set-env name=REACT_APP_API_URL::$(cat elb_api_dns.txt)"
-
-      - name: Build Api image
+      - uses: actions/setup-python@v2
+      - name: Install and setup env
+        run: |
+          pip install ansible boto
+          .github/actions/setenv/entrypoint.sh
+      - name: Get API url
+        working-directory: automation/ansible
+        run: |
+          ansible-playbook get_elb_dns.yml -i inventory/hosts
+          echo "::set-env name=REACT_APP_API_URL::$(cat elb_api_dns.txt)"
+      - uses: actions/setup-node@v2-beta
+      - name: Publish app
+        working-directory: app
+        run: |
+          yarn install
+          echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+          yarn expo login --non-interactive -u ${{ env.EXPO_USERNAME }} -p ${{ env.EXPO_PASSWORD }}
+          yarn expo publish --non-interactive
+  
+  back:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - name: Install and setup env
+        run: |
+          pip install ansible boto
+          .github/actions/setenv/entrypoint.sh
+      - name: Build API
         uses: docker/build-push-action@v1
         with:
           path: ./api
@@ -32,8 +50,7 @@ jobs:
           password: ${{ env.DOCKER_PASSWORD }}
           repository: ${{ env.DOCKER_USERNAME }}/madu_api
           tags: latest
-
-      - name: Build Back-office image
+      - name: Build Back-office
         uses: docker/build-push-action@v1
         with:
           path: ./back-office
@@ -42,27 +59,11 @@ jobs:
           repository: ${{ env.DOCKER_USERNAME }}/madu_back-office
           build_args: REACT_APP_API_URL=${{ env.REACT_APP_API_URL }}
           tags: latest
-
-      - name: Build App image
-        uses: docker/build-push-action@v1
-        with:
-          path: ./app
-          username: ${{ env.DOCKER_USERNAME }}
-          password: ${{ env.DOCKER_PASSWORD }}
-          repository: ${{ env.DOCKER_USERNAME }}/madu_app-web
-          build_args: REACT_APP_API_URL=${{ env.REACT_APP_API_URL }},EXPO_USERNAME=${{ env.EXPO_USERNAME }},EXPO_PASSWORD=${{ env.EXPO_PASSWORD }}
-          tags: latest
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Deploy with Ansible playbook 
-        uses: ./.github/actions/setup-and-run
-        with:
-          VAULT_PASS: ${{ secrets.VAULT_PASS }}
-          CMD: |
-            ansible-playbook -i inventory/ec2.py staging.yml --tags deploy -u ubuntu --key ~/id_rsa
-            
+      - name: Deploy
+        working-directory: automation/ansible
+        run: |
+          echo $SSH_PRIVATE_KEY > id_rsa
+          chmod 600 id_rsa
+          ansible-galaxy install -r requirements.yml
+          chmod 777 inventory/ec2.py
+          ansible-playbook -i inventory/ec2.py staging.yml --tags deploy -u ubuntu --key id_rsa

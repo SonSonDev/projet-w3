@@ -10,11 +10,6 @@ application_backoffice_image: "{{ docker_username }}/madu_back-office"
 application_backoffice_tag: latest
 application_backoffice_port: 80
 
-application_app_image: "{{ docker_username }}/madu_app-web"
-application_app_tag: latest
-application_app_port: 19006
-
-
 
 application_user: ubuntu
 application_group: "{{ application_user }}"
