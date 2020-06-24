@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableHighlight } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import Icon from './Icon';
 
 interface ButtonInterface {
@@ -109,10 +110,11 @@ const Button = ({ btnStyle, iconLeft, iconRight, label, iconName, onPress = () =
   const image = { uri: "https://www.pinclipart.com/picdir/middle/485-4851736_free-png-search-icon-search-icon-free-download.png" };
 
   return (
-    <TouchableHighlight 
+    <TouchableOpacity 
       activeOpacity={1}
       underlayColor={styleUnderlayColor[btnStyle]}
-      onPress={onPress}
+      // onPress={onPress}
+      onPressIn={onPress}
       style={[ containerStyle.main, style ]}>
       <View style={styleSheet.container}>
         {iconLeft &&
@@ -134,7 +136,7 @@ const Button = ({ btnStyle, iconLeft, iconRight, label, iconName, onPress = () =
           />
         }
       </View>
-    </TouchableHighlight>
+    </TouchableOpacity>
   )
 }
 
