@@ -19,7 +19,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Set env vars
         uses: ./.github/actions/setenv
-      - run: ansible-playbook get_elb_dns.yml -i inventory/hosts
+      - run: sudo ansible-playbook get_elb_dns.yml -i inventory/hosts
+        working-directory: automation/ansible
       - run: echo "::set-env name=REACT_APP_API_URL::$(cat elb_api_dns.txt)"
       - uses: actions/setup-node@v2-beta
       - run: yarn install
@@ -53,10 +54,10 @@ jobs:
           repository: ${{ env.DOCKER_USERNAME }}/madu_back-office
           build_args: REACT_APP_API_URL=${{ env.REACT_APP_API_URL }}
           tags: latest
-      - run: echo $SSH_PRIVATE_KEY > ~/id_rsa
-      - run: chmod 600 ~/id_rsa
+      - run: echo $SSH_PRIVATE_KEY > id_rsa
+      - run: chmod 600 id_rsa
       - run: ansible-galaxy install -r requirements.yml
       - run: chmod 777 inventory/ec2.py
       - name: Deploy Api and Back-office
         run: |
-          ansible-playbook -i inventory/ec2.py staging.yml --tags deploy -u ubuntu --key ~/id_rsa
+          ansible-playbook -i inventory/ec2.py staging.yml --tags deploy -u ubuntu --key id_rsa
