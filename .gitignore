@@ -16,3 +16,5 @@ misc/
 .imported-roles
 
 web-build/
+
+**/elb_api_dns.txt 

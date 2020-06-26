@@ -9,7 +9,7 @@ env:
   VAULT_PASS: ${{ secrets.VAULT_PASS }}
 
 jobs:
-  app:
+  App:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -18,7 +18,7 @@ jobs:
         run: |
           pip install ansible boto
           .github/actions/setenv/entrypoint.sh
-      - name: Get API url
+      - name: Get API elb dns
         working-directory: automation/ansible
         run: |
           ansible-playbook get_elb_dns.yml -i inventory/hosts
@@ -32,7 +32,7 @@ jobs:
           yarn expo login --non-interactive -u ${{ env.EXPO_USERNAME }} -p ${{ env.EXPO_PASSWORD }}
           yarn expo publish --non-interactive
   
-  back:
+  Back:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -41,6 +41,11 @@ jobs:
         run: |
           pip install ansible boto
           .github/actions/setenv/entrypoint.sh
+      - name: Get API elb dns
+        working-directory: automation/ansible
+        run: |
+          ansible-playbook get_elb_dns.yml -i inventory/hosts
+          echo "::set-env name=REACT_APP_API_URL::$(cat elb_api_dns.txt)"
       - name: Build API
         uses: docker/build-push-action@v1
         with:
@@ -66,3 +71,5 @@ jobs:
           ansible-galaxy install -r requirements.yml
           chmod 777 inventory/ec2.py
           ansible-playbook -i inventory/ec2.py staging.yml --tags deploy -u ubuntu --key id_rsa
+        env:
+          ANSIBLE_CFG: ./ansible.cfg
