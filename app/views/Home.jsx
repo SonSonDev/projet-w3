@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { StyleSheet, View, ScrollView, Text, FlatList, Platform } from 'react-native'
 import { useQuery, useMutation } from "@apollo/react-hooks"
  
@@ -10,7 +10,7 @@ import CardAddress, { CardAddressSkeleton } from "../components/organismes/CardA
 import * as s from '../styles'
 
 
-export default function Explore () {
+export default function Home () {
 
   const { data: { getPlaces = [] } = {}, loading, error } = useQuery(GET_PLACES, {
     onError: error => console.log(error.message),
@@ -24,23 +24,23 @@ export default function Explore () {
 
   return (
     <View style={[ s.flex, s.backgroundPale ]}>
-      <FlatList
-        style={[  ]}
-        ListHeaderComponent={() => (
-          <View style={[ s.backgroundPale, s.p2, s.pt3 ]}>
-            <Text style={[ s.body2, s.grey ]}>Restaurants</Text>
-            <Text style={[ s.heading4 ]}>
-              À proximité de <Text style={[ s.primary ]}>Hetic</Text>
-            </Text>
-          </View>
-        )}
-        stickyHeaderIndices={[0]}
-        data={getPlaces}
-        renderItem={({ item, index }) => (
-          <CardAddress full place={item} style={[ s.mx2, s.mb2 ]} />
-        )}
-        ListEmptyComponent={() => <CardAddressSkeleton full style={[ s.mx2 ]} />}
-      />
+      <Text style={[ s.body2, s.grey, s.px2, s.pt3 ]}>Bonjour Utilisateur</Text>
+      <Text style={[ s.heading4, s.px2, s.mb2 ]}>C’est l’heure du déjeuner !</Text>
+
+      <Text style={[ s.heading5, s.px2 ]}>À proximité de <Text style={[ s.primary ]}>Hetic</Text></Text>
+      <View>
+        <FlatList
+          style={[  ]}
+          contentContainerStyle={[ s.px2, s.py1 ]}
+          data={getPlaces.slice(0, 5)}
+          renderItem={({ item, index }) => (
+            <CardAddress place={item} />
+          )}
+          ItemSeparatorComponent={() => <View style={[ s.mr2 ]} />}
+          ListEmptyComponent={() => <CardAddressSkeleton />}
+          horizontal
+        />
+      </View>
     </View>
   )
 }

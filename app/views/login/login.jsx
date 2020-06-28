@@ -21,7 +21,7 @@ export default function Login({ navigation }) {
         <Text style={[ s.body1, s.mb2, { maxWidth: 260 } ]}>
           Vous avez reçu votre mot de passe par mail
         </Text>
-        <Input value={'mail@company.com'} style={[ s.mb1 ]} />
+        <Input value={'example@company.com'} style={[ s.mb1 ]} />
         <Input value={'password'} isPwd style={[ s.mb2 ]} />
         <Text style={[ s.grey, s.center, s.pb4, s.mbAuto ]} onPress={() => Linking.openURL('http://google.com')}>
           Mot de passe oublié ?

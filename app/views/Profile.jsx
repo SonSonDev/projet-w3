@@ -18,9 +18,9 @@ export default function Profile () {
   return (
     <ScrollView style={[ s.backgroundWhite ]} contentContainerStyle={[ s.pt3 ]}>
       <Text style={[ s.heading4, s.px2 ]}>
-        Nom Prénom
+        Utilisateur
       </Text>
-      <Text style={[ s.body2, s.grey, s.px2, s.mb3 ]}>Company</Text>
+      <Text style={[ s.body2, s.grey, s.px2, s.mb3 ]}>Entreprise</Text>
       <TouchableOpacity activeOpacity={1} style={[ s.p2, s.backgroundWhite, { borderWidth: 1, borderColor: s.c.bg } ]} onPress={async () => {
         await SecureStore.deleteItemAsync('isLoggedIn')
         client.writeData({ data: { isLoggedIn: false } })

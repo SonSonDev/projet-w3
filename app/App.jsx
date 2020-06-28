@@ -14,6 +14,7 @@ import Login from './views/login/login'
 import OnboardingFirstStep from './views/login/onboarding/firstStep'
 import OnboardingSecondStep from './views/login/onboarding/secondStep'
 import OnboardingThirdStep from './views/login/onboarding/thirdStep'
+import Home from './views/Home'
 import Explore from './views/Explore'
 import Profile from './views/Profile'
 import * as s from './styles'
@@ -52,7 +53,7 @@ export default function () {
     })
   })
 
-  if (!isLoaded) return <AppLoading />
+  if (!isLoaded || typeof isLoggedIn === 'undefined') return <AppLoading />
 
   return (
     <NavigationContainer>
@@ -77,8 +78,8 @@ const Empty = () => null
 
 function TabNavigator () {
   return (
-    <Tab.Navigator tabBar={TabBar} initialRouteName='Explore'>
-      <Tab.Screen name="Home" component={Empty} options={{ title: 'Accueil', icon: 'home-line' }} />
+    <Tab.Navigator tabBar={TabBar}>
+      <Tab.Screen name="Home" component={Home} options={{ title: 'Accueil', icon: 'home-line' }} />
       <Tab.Screen name="Explore" component={Explore} options={{ title: 'Découvrir', icon: 'map-2-line' }} />
       <Tab.Screen name="Challenges" component={Empty} options={{ title: 'Défis', icon: 'award-line' }} />
       <Tab.Screen name="Profile" component={Profile} options={{ title: 'Profil', icon: 'apps-2-line' }} />

@@ -27,7 +27,7 @@ const Chip = ({ title, fontColor, height }: ChipsInterface): React.ReactElement 
 
   return (
     <View style={styles.container}>
-      <Typography text={title} color={fontColor} fontWeight="400" fontFamily="HKGrotesk-Regular" />
+      <Typography text={title} color={fontColor} fontWeight="400" fontFamily="HKGrotesk" />
     </View>
   )
 }
