@@ -73,12 +73,14 @@ export default function () {
   )
 }
 
+const Empty = () => null
+
 function TabNavigator () {
   return (
     <Tab.Navigator tabBar={TabBar} initialRouteName='Explore'>
-      <Tab.Screen name="Home" component={() => null} options={{ title: 'Accueil', icon: 'home-line' }} />
+      <Tab.Screen name="Home" component={Empty} options={{ title: 'Accueil', icon: 'home-line' }} />
       <Tab.Screen name="Explore" component={Explore} options={{ title: 'Découvrir', icon: 'map-2-line' }} />
-      <Tab.Screen name="Challenges" component={() => null} options={{ title: 'Défis', icon: 'award-line' }} />
+      <Tab.Screen name="Challenges" component={Empty} options={{ title: 'Défis', icon: 'award-line' }} />
       <Tab.Screen name="Profile" component={Profile} options={{ title: 'Profil', icon: 'apps-2-line' }} />
     </Tab.Navigator>
   )

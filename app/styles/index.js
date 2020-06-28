@@ -225,13 +225,14 @@ export const top = { top: 0 }
 export const bottom = { bottom: 0 }
 export const right = { right: 0 }
 export const left = { left: 0 }
-export const full = { ...top, ...bottom, ...right, ...left }
+export const fill = { ...top, ...bottom, ...right, ...left }
 
 
 
 // UTILS
 
 export const rounded = { borderRadius: 8 }
+export const rounder = { borderRadius: 16 }
 
 export const shadow = {
   shadowColor: "#000",

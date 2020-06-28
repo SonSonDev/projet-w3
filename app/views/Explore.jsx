@@ -28,7 +28,7 @@ export default function Explore () {
         style={[  ]}
         ListHeaderComponent={() => (
           <View style={[ s.backgroundPale, s.p2, s.pt3 ]}>
-            <Text style={[ s.body1, s.grey ]}>Restaurants</Text>
+            <Text style={[ s.body2, s.grey ]}>Restaurants</Text>
             <Text style={[ s.heading4 ]}>
               À proximité de <Text style={[ s.primary ]}>Hetic</Text>
             </Text>

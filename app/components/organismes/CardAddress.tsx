@@ -4,6 +4,7 @@ import Chip from "../atoms/Chip";
 import RoundButton from "../atoms/RoundButton";
 import Typo from "../atoms/Typography";
 import Icon from '../atoms/Icon';
+import { LinearGradient } from 'expo-linear-gradient'
 import * as s from '../../styles'
 
 interface cardInterface {
@@ -110,6 +111,7 @@ const CardAddress = ({ cardStyle, name, category, headline, description, tags, a
     <View style={[ styles.container, style ]}>
       <View style={styles.top}>
         <ImageBackground style={styles.topBg} source={photos[0]} resizeMode='cover' borderRadius={16} >
+          <LinearGradient colors={[ 'transparent', 'rgba(0,0,0,0.8)' ]} style={[ s.absolute, s.fill, s.rounder ]} />
           {/* <View style={styles.topInfoTop}>
             {!isSmall() &&
               <Chip height={33} fontColor="#000" title="Gagnez des points en vous y rendant" />

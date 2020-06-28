@@ -19,7 +19,7 @@ export default function Profile () {
       <Text style={[ s.heading4, s.px2 ]}>
         Nom Prénom
       </Text>
-      <Text style={[ s.body1, s.grey, s.px2, s.mb3 ]}>Company</Text>
+      <Text style={[ s.body2, s.grey, s.px2, s.mb3 ]}>Company</Text>
       <TouchableOpacity activeOpacity={1} style={[ s.p2, s.backgroundWhite, { borderWidth: 1, borderColor: s.c.bg } ]} onPress={async () => {
         await SecureStore.deleteItemAsync('isLoggedIn')
         client.writeData({ data: { isLoggedIn: false } })
