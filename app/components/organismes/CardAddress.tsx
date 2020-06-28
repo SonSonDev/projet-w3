@@ -25,7 +25,17 @@ const categoryNames = {
   ACTIVITY: "Activité",
 }
 
-const CardAddress = ({ cardStyle, name, category, headline, description, tags, address: { distance }, photos, style }: cardInterface) => {
+const days = {
+  0: "SUNDAY",
+  1: "MONDAY",
+  2: "TUESDAY",
+  3: "WEDNESDAY",
+  4: "THURSDAY",
+  5: "FRIDAY",
+  6: "SATURDAY",
+}
+
+const CardAddress = ({ cardStyle, name, category, headline, description, hours, tags, address: { distance }, photos, style }: cardInterface) => {
   let styles: any;
   const isSmall = () => cardStyle === "small";
   switch (cardStyle) {
@@ -107,6 +117,9 @@ const CardAddress = ({ cardStyle, name, category, headline, description, tags, a
       break;
   }
 
+  const { start, end } = hours.filter(({ day }) => day === days[new Date().getDay()]).pop()
+  const [ startDate, endDate ] = [ start && new Date().setHours(...start.split(':')), end && new Date().setHours(...end.split(':')) ]
+
   return (
     <View style={[ styles.container, style ]}>
       <View style={styles.top}>
@@ -130,8 +143,12 @@ const CardAddress = ({ cardStyle, name, category, headline, description, tags, a
           <Text style={[ s.body2, s.grey, s.mr1 ]}>{categoryNames[category]}</Text>
           <Icon name="walk-fill" size={14} {...s.grey} style={[ s.mr05 ]} />
           <Text style={[ s.body2, s.grey, s.mrAuto ]}>{Math.round(distance / 100)} min</Text>
-          <RoundButton backgroundColor="#DAEEE6" icon={<Icon name="leaf-fill" size={20} color="#44A881" />} />
-          <RoundButton backgroundColor="#EDECF8" icon={<Icon name="wheelchair-fill" size={20} color="#9188F6" />} />
+          {tags.some(({ label }) => label.includes('Vegan')) && (
+            <RoundButton backgroundColor="#DAEEE6" icon={<Icon name="leaf-fill" size={20} color="#44A881" />} />
+          )}
+          {tags.some(({ label }) => label.includes('Handicap')) && (
+            <RoundButton backgroundColor="#EDECF8" icon={<Icon name="wheelchair-fill" size={20} color="#9188F6" />} />
+          )}
         </View>
         <Text style={[ s.heading5, s.mb05 ]}>{name}</Text>
         {!isSmall() &&
@@ -140,11 +157,17 @@ const CardAddress = ({ cardStyle, name, category, headline, description, tags, a
           </Text>
         }
         <View style={[ s.row, s.itemsCenter, s.mt1 ]}>
-          <Text style={[ s.body2 ]}>
-            €<Text style={[ s.grey ]}>€€</Text>
+          <Text style={[ s.body2, s.grey ]}>
+            <Text style={[ tags.some(({ label }) => label.includes('€')) && s.black ]}>€</Text>
+            <Text style={[ tags.some(({ label }) => label.includes('€€')) && s.black ]}>€</Text>
+            <Text style={[ tags.some(({ label }) => label.includes('€€€')) && s.black ]}>€</Text>
           </Text>
           <View style={[ s.backgroundGreyLight, { width: 1, height: 14 }, s.mx1 ]} />
-          <Text style={[ s.body2, s.primary ]}>Ouvert</Text>
+          {startDate && Date.now() >= startDate && endDate && Date.now() <= endDate ? (
+            <Text style={[ s.body2, s.primary ]}>Ouvert</Text>
+          ) : (
+            <Text style={[ s.body2, s.grey ]}>Fermé</Text>
+          )}
         </View>
       </View>
     </View>

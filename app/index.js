@@ -12,7 +12,7 @@ import App from './App';
 
 
 const client = new ApolloClient({
-  link: createHttpLink({ uri: Constants.manifest.extra?.REACT_APP_API_URL || 'http://localhost:3000' }),
+  link: createHttpLink({ uri: Constants.manifest.extra?.REACT_APP_API_URL || 'http://elb-api-1324571725.eu-west-2.elb.amazonaws.com' }),
   cache: new InMemoryCache()
 });
 
@@ -24,7 +24,9 @@ registerRootComponent(() => (
 ))
 
 
-if (Platform.OS !== 'web') {
-  // enable network tab in dev console
-  GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
+if (__DEV__) {
+  global.XMLHttpRequest = global.originalXMLHttpRequest || global.XMLHttpRequest;
+  global.FormData = global.originalFormData || global.FormData;
+  global.Blob = global.originalBlob || global.Blob;
+  global.FileReader = global.originalFileReader || global.FileReader;
 }

@@ -3,6 +3,7 @@ import { StyleSheet, View, ScrollView, Text, TouchableOpacity } from 'react-nati
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { useApolloClient } from "@apollo/react-hooks"
 import * as SecureStore from 'expo-secure-store'
+import Constants from 'expo-constants'
 
 import { GET_PLACES, DELETE_PLACE, UPSERT_PLACES } from "../graphql/place"
 
@@ -33,6 +34,7 @@ export default function Profile () {
       }}>
         <Text style={[ s.body1 ]}>Réinitialiser</Text>
       </TouchableOpacity>
+      <Text style={[ s.body2, s.grey, s.p2 ]}>{Constants.manifest.version}</Text>
     </ScrollView>
   )
 }
