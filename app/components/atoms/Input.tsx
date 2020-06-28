@@ -33,7 +33,7 @@ const Input = ({ isPwd, style, ...rest }: InputInterface): React.ReactElement =>
       ]} 
       onFocus={onFocus} 
       onBlur={onBlur} 
-      underlineColorAndroid='transparant'
+      underlineColorAndroid='transparent'
       secureTextEntry={isPwd}
       {...rest}
     />

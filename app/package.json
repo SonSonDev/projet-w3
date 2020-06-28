@@ -13,6 +13,7 @@
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",
     "@react-native-community/masked-view": "0.1.6",
+    "@react-navigation/bottom-tabs": "^5.6.1",
     "@react-navigation/native": "^5.5.1",
     "@react-navigation/stack": "^5.5.1",
     "@use-expo/font": "^2.0.0",
@@ -21,6 +22,7 @@
     "apollo-link-http": "^1.5.17",
     "expo": "~37.0.3",
     "expo-cli": "^3.21.5",
+    "expo-secure-store": "~8.1.0",
     "graphql": "^15.0.0",
     "graphql-tag": "^2.10.3",
     "react": "~16.9.0",

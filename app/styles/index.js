@@ -1,3 +1,5 @@
+// COLORS
+
 export const c:any = {
   p110: "#763523",
   p100: "#BA5A40",
@@ -11,89 +13,52 @@ export const c:any = {
   w: "#FFFFFF"
 }
 
-export const m:any = {
-  b00: {marginBottom: 0},
-  b0: {marginBottom: 4},
-  b1: {marginBottom: 8},
-  b2: {marginBottom: 16},
-  b3: {marginBottom: 24},
-  b5: {marginBottom: 40},
-  t00: {marginTop: 0},
-  t0: {marginTop: 4},
-  t1: {marginTop: 8},
-  t2: {marginTop: 16},
-  t3: {marginTop: 24},
-  t5: {marginTop: 40},
-  r00: {marginRight: 0},
-  r0: {marginRight: 4},
-  r1: {marginRight: 8},
-  r2: {marginRight: 16},
-  r3: {marginRight: 24},
-  r5: {marginRight: 40},
-  l00: {marginLeft: 0},
-  l0: {marginLeft: 4},
-  l1: {marginLeft: 8},
-  l2: {marginLeft: 16},
-  l3: {marginLeft: 24},
-  l5: {marginLeft: 40},
-}
+export const primaryDark = { color: c.p110 }
+export const primary = { color: c.p100 }
+export const primaryLight = { color: c.p50 }
+export const primaryPale = { color: c.p10 }
+export const black = { color: c.g100 }
+export const greyDark = { color: c.g90 }
+export const grey = { color: c.g50 }
+export const greyLight = { color: c.g10 }
+export const pale = { color: c.bg }
+export const white = { color: c.w }
 
-export const p:any = {
-  b00: {paddingBottom: 0},
-  b0: {paddingBottom: 4},
-  b1: {paddingBottom: 8},
-  b2: {paddingBottom: 16},
-  b3: {paddingBottom: 24},
-  b5: {paddingBottom: 40},
-  t00: {paddingTop: 0},
-  t0: {paddingTop: 4},
-  t1: {paddingTop: 8},
-  t2: {paddingTop: 16},
-  t3: {paddingTop: 24},
-  t5: {paddingTop: 40},
-  r00: {paddingRight: 0},
-  r0: {paddingRight: 4},
-  r1: {paddingRight: 8},
-  r2: {paddingRight: 16},
-  r3: {paddingRight: 24},
-  r5: {paddingRight: 40},
-  l00: {paddingLeft: 0},
-  l0: {paddingLeft: 4},
-  l1: {paddingLeft: 8},
-  l2: {paddingLeft: 16},
-  l3: {paddingLeft: 24},
-  l5: {paddingLeft: 40},
-}
-
-export const heading1:any = {
-  fontSize: 40
-}
-export const heading2:any = {
-  fontSize: 32
-}
-export const heading3:any = {
-  fontSize: 24
-}
-export const heading4:any = {
-  fontSize: 24
-}
-export const heading5:any = {
-  fontSize: 18
-}
-export const heading6:any = {
-  fontSize: 16
-}
-export const body1:any = {
-  fontSize: 16
-}
-export const body2:any = {
-  fontSize: 14
-}
-export const button:any = {
-  fontSize: 16
-}
+export const backgroundPrimaryDark = { backgroundColor: c.p110 }
+export const backgroundPrimary = { backgroundColor: c.p100 }
+export const backgroundPrimaryLight = { backgroundColor: c.p50 }
+export const backgroundPrimaryPale = { backgroundColor: c.p10 }
+export const backgroundBlack = { backgroundColor: c.g100 }
+export const backgroundGreyDark = { backgroundColor: c.g90 }
+export const backgroundGrey = { backgroundColor: c.g50 }
+export const backgroundGreyLight = { backgroundColor: c.g10 }
+export const backgroundPale = { backgroundColor: c.bg }
+export const backgroundWhite = { backgroundColor: c.w }
 
 
+
+// TYPOGRAPHY
+
+export const Maragsa = { fontFamily: 'Maragsa' }
+export const HKGrotesk = { fontFamily: 'HKGrotesk' }
+export const HKGroteskSemiBold = { fontFamily: 'HKGroteskSemiBold' }
+
+export const heading1:any = { ...Maragsa, fontSize: 40, lineHeight: 40, ...black }
+export const heading2:any = { ...Maragsa, fontSize: 32, lineHeight: 32, ...black }
+export const heading3:any = { ...Maragsa, fontSize: 24, lineHeight: 24, ...black }
+
+export const heading4:any = { ...HKGroteskSemiBold, fontSize: 24, ...black }
+export const heading5:any = { ...HKGroteskSemiBold, fontSize: 18, ...black }
+export const heading6:any = { ...HKGroteskSemiBold, fontSize: 16, ...black }
+
+export const body1:any = { ...HKGrotesk, fontSize: 16, ...black }
+export const body2:any = { ...HKGrotesk, fontSize: 14, ...black }
+
+export const semiBold = { ...HKGroteskSemiBold }
+
+
+
+// SPACING
 
 export const s0 = 0
 export const s05 = 8 / 2 // 4
@@ -101,48 +66,6 @@ export const s1 = 8 // 8
 export const s2 = 8 * 2 // 16
 export const s3 = 8 * 2 * 2 // 32
 export const s4 = 8 * 2 * 2 * 2 // 64
-
-
-
-export const primary = { color: c.p100 }
-export const black = { color: c.g100 }
-export const grey = { color: c.g50 }
-
-export const bgPrimary = { backgroundColor: c.p100 }
-export const bgPrimaryLight = { backgroundColor: c.p10 }
-export const bgBlack = { backgroundColor: c.g100 }
-export const bgWhite = { backgroundColor: c.w }
-export const bgLight = { backgroundColor: c.bg }
-
-export const h1 = {
-  fontFamily: 'Maragsa',
-  fontSize: 40,
-  lineHeight: 40,
-  ...black,
-}
-
-export const text1 = {
-  fontSize: 16,
-  lineHeight: 16 * 1.4,
-  ...black,
-}
-
-
-export const flex = { flex: 1 }
-export const row = { flexDirection: 'row' }
-
-export const justifyCenter = { justifyContent: 'center' }
-
-export const selfCenter = { alignSelf: 'center' }
-
-
-export const center = { textAlign: 'center' }
-
-
-export const absolute = { position: 'absolute' }
-export const t0 = { top: 0 }
-export const r0 = { right: 0 }
-
 
 export const p0 = { padding: s0 }
 export const p05 = { padding: s05 }
@@ -231,3 +154,93 @@ export const mb2 = { marginBottom: s2 }
 export const mb3 = { marginBottom: s3 }
 export const mb4 = { marginBottom: s4 }
 export const mbAuto = { marginBottom: 'auto' }
+
+export const m:any = {
+  b00: {marginBottom: 0},
+  b0: {marginBottom: 4},
+  b1: {marginBottom: 8},
+  b2: {marginBottom: 16},
+  b3: {marginBottom: 24},
+  b5: {marginBottom: 40},
+  t00: {marginTop: 0},
+  t0: {marginTop: 4},
+  t1: {marginTop: 8},
+  t2: {marginTop: 16},
+  t3: {marginTop: 24},
+  t5: {marginTop: 40},
+  r00: {marginRight: 0},
+  r0: {marginRight: 4},
+  r1: {marginRight: 8},
+  r2: {marginRight: 16},
+  r3: {marginRight: 24},
+  r5: {marginRight: 40},
+  l00: {marginLeft: 0},
+  l0: {marginLeft: 4},
+  l1: {marginLeft: 8},
+  l2: {marginLeft: 16},
+  l3: {marginLeft: 24},
+  l5: {marginLeft: 40},
+}
+
+export const p:any = {
+  b00: {paddingBottom: 0},
+  b0: {paddingBottom: 4},
+  b1: {paddingBottom: 8},
+  b2: {paddingBottom: 16},
+  b3: {paddingBottom: 24},
+  b5: {paddingBottom: 40},
+  t00: {paddingTop: 0},
+  t0: {paddingTop: 4},
+  t1: {paddingTop: 8},
+  t2: {paddingTop: 16},
+  t3: {paddingTop: 24},
+  t5: {paddingTop: 40},
+  r00: {paddingRight: 0},
+  r0: {paddingRight: 4},
+  r1: {paddingRight: 8},
+  r2: {paddingRight: 16},
+  r3: {paddingRight: 24},
+  r5: {paddingRight: 40},
+  l00: {paddingLeft: 0},
+  l0: {paddingLeft: 4},
+  l1: {paddingLeft: 8},
+  l2: {paddingLeft: 16},
+  l3: {paddingLeft: 24},
+  l5: {paddingLeft: 40},
+}
+
+
+
+// LAYOUT
+
+export const flex = { flex: 1 }
+export const row = { flexDirection: 'row' }
+export const justifyCenter = { justifyContent: 'center' }
+export const itemsCenter = { alignItems: 'center' }
+export const selfCenter = { alignSelf: 'center' }
+export const center = { textAlign: 'center' }
+
+export const absolute = { position: 'absolute' }
+export const top = { top: 0 }
+export const bottom = { bottom: 0 }
+export const right = { right: 0 }
+export const left = { left: 0 }
+export const full = { ...top, ...bottom, ...right, ...left }
+
+
+
+// UTILS
+
+export const rounded = { borderRadius: 8 }
+
+export const shadow = {
+  shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 1,
+  },
+  shadowOpacity: 0.22,
+  shadowRadius: 2.22,
+  
+  elevation: 3,
+}

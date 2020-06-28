@@ -12,7 +12,7 @@ const Chip = ({ title, fontColor, height }: ChipsInterface): React.ReactElement 
   const styles = StyleSheet.create({
     container: {
       height: height,
-      padding: "7.5 8",
+      padding: 8,
       paddingBottom: 7.5,
       paddingTop: 7.5,
       paddingLeft: 8,
@@ -27,7 +27,7 @@ const Chip = ({ title, fontColor, height }: ChipsInterface): React.ReactElement 
 
   return (
     <View style={styles.container}>
-      <Typography text={title} color={fontColor} fontWeight={400} fontFamily="HKGrotesk-Regular" />
+      <Typography text={title} color={fontColor} fontWeight="400" fontFamily="HKGrotesk-Regular" />
     </View>
   )
 }

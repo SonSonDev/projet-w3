@@ -5,7 +5,8 @@ import Constants from 'expo-constants'
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from "apollo-cache-inmemory"
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider } from '@apollo/react-hooks'
+import * as SecureStore from 'expo-secure-store'
 
 import App from './App';
 
@@ -16,15 +17,14 @@ const client = new ApolloClient({
 });
 
 
-
-if (Platform.OS !== 'web') {
-  // enable network tab in dev console
-  GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
-}
-
-
 registerRootComponent(() => (
   <ApolloProvider client={client}>
     <App />
   </ApolloProvider>
 ))
+
+
+if (Platform.OS !== 'web') {
+  // enable network tab in dev console
+  GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
+}
