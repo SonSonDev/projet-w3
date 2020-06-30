@@ -305,8 +305,8 @@ type Social {
 }
 
 input PlaceInput {
-  name: String!
-  category: Category!
+  name: String
+  category: Category
   address: AddressInput
   user: UserInput
   social: SocialInput

@@ -1,6 +1,8 @@
 import React from 'react'
 import { StyleSheet, View, Text, ImageBackground, TouchableOpacity } from 'react-native'
 
+import { categories, days, openOrClosed } from '../../utils/wording'
+
 import Chip from "../atoms/Chip"
 import RoundButton from "../atoms/RoundButton"
 import Typo from "../atoms/Typography"
@@ -8,22 +10,6 @@ import Icon from '../atoms/Icon'
 import { LinearGradient } from 'expo-linear-gradient'
 import * as s from '../../styles'
 
-
-const categoryNames = {
-  FOOD: "Restaurant",
-  SHOP: "Boutique",
-  ACTIVITY: "Activité",
-}
-
-const days = {
-  0: "SUNDAY",
-  1: "MONDAY",
-  2: "TUESDAY",
-  3: "WEDNESDAY",
-  4: "THURSDAY",
-  5: "FRIDAY",
-  6: "SATURDAY",
-}
 
 const CardAddress = ({
   place: { name, category, headline, description, hours = [], tags = [], address: { distance } = {}, photos = [] } = {},
@@ -33,7 +19,7 @@ const CardAddress = ({
 }) => {
 
   const { start, end } = { ...hours.filter(({ day }) => day === days[new Date().getDay()]).pop() }
-  const open = start && end && Date.now() >= new Date().setHours(...start.split(':')) && Date.now() <= new Date().setHours(...end.split(':'))
+  const [ open, openLabel ] = openOrClosed(start, end)
 
   return (
     <TouchableOpacity style={[ s.backgroundWhite, s.rounder, s.flex, !full && { width: 280 }, style ]} onPress={onPress} activeOpacity={1}>
@@ -49,7 +35,7 @@ const CardAddress = ({
       <View style={[ s.p2, s.pt1 ]}>
         <View style={[ s.row, s.itemsCenter, s.mt05, { height: 32 } ]}>
           <Icon name="restaurant-fill" size={14} {...s.grey} style={[ s.mr05 ]} />
-          <Text style={[ s.body2, s.grey, s.mr1 ]}>{categoryNames[category]}</Text>
+          <Text style={[ s.body2, s.grey, s.mr1 ]}>{categories[category]}</Text>
           <Icon name="walk-fill" size={14} {...s.grey} style={[ s.mr05 ]} />
           <Text style={[ s.body2, s.grey, s.mrAuto ]}>{Math.round(distance / 100)} min</Text>
           {tags.some(({ label }) => label.includes('Vegan')) && <RoundButton backgroundColor="#DAEEE6" icon={<Icon name="leaf-fill" size={20} color="#44A881" />} />}
@@ -68,7 +54,7 @@ const CardAddress = ({
                 <Text style={[ tags.some(({ label }) => label.includes('€€€')) && s.black ]}>€</Text>
               </Text>
               <View style={[ s.backgroundGreyLight, { width: 1, height: 14 }, s.mx1 ]} />
-              <Text style={[ s.body2, open ? s.primary : s.grey ]}>{open ? 'Ouvert' : 'Fermé'}</Text>
+              <Text style={[ s.body2, open ? s.primary : s.grey ]}>{openLabel}</Text>
             </View>
           </>
         )}

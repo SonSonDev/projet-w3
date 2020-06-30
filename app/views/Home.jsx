@@ -15,6 +15,7 @@ export default function Home () {
   const { data: { getPlaces = [] } = {}, loading, error } = useQuery(GET_PLACES, {
     onError: error => console.log(error.message),
     variables: {
+      where: { category: 'FOOD' },
       nearby: {
         coordinates: [48.8518269, 2.4204598] // HETIC
       }

@@ -23,6 +23,7 @@ export const grey = { color: c.g50 }
 export const greyLight = { color: c.g10 }
 export const pale = { color: c.bg }
 export const white = { color: c.w }
+export const green = { color: '#44A881' }
 
 export const backgroundPrimaryDark = { backgroundColor: c.p110 }
 export const backgroundPrimary = { backgroundColor: c.p100 }
@@ -240,8 +241,8 @@ export const shadow = {
     width: 0,
     height: 1,
   },
-  shadowOpacity: 0.22,
-  shadowRadius: 2.22,
-  
-  elevation: 3,
+  shadowOpacity: 0.20,
+  shadowRadius: 1.41,
+
+  elevation: 2,
 }

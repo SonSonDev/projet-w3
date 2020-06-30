@@ -34,7 +34,7 @@ export default function Profile () {
       }}>
         <Text style={[ s.body1 ]}>Réinitialiser</Text>
       </TouchableOpacity>
-      <Text style={[ s.body2, s.grey, s.p2 ]}>{Constants.manifest.version}</Text>
+      <Text style={[ s.body2, s.grey, s.p2 ]}>Version {Constants.manifest.version}</Text>
     </ScrollView>
   )
 }

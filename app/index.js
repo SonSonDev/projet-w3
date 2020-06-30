@@ -12,8 +12,9 @@ import App from './App';
 
 
 const client = new ApolloClient({
-  link: createHttpLink({ uri: Constants.manifest.extra?.REACT_APP_API_URL || 'http://elb-api-1324571725.eu-west-2.elb.amazonaws.com' }),
-  cache: new InMemoryCache()
+  link: createHttpLink({ uri: Constants.manifest.extra?.REACT_APP_API_URL || 'http://localhost:3000' }),
+  cache: new InMemoryCache(),
+  resolvers: {},
 });
 
 
