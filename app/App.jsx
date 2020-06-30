@@ -23,6 +23,7 @@ import * as s from './styles'
 import Header from './components/organismes/Header'
 import TabBar from './components/organismes/TabBar'
 
+import { CHECK_AUTH } from './graphql/auth'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -31,6 +32,7 @@ const GET_LOCAL_STATE = gql`
   {
     isLoggedIn @client
     isOnboarded @client
+    userData @client
   }
 `
 
@@ -38,6 +40,7 @@ const GET_LOCAL_STATE = gql`
 export default function () {
   const client = useApolloClient()
   const { data: { isLoggedIn, isOnboarded } = {} } = useQuery(GET_LOCAL_STATE)
+  //const { data: userData } = useQuery(CHECK_AUTH)
   const [ isLoaded ] = useFonts({
     Maragsa: require('./assets/fonts/Maragsa/Maragsâ.otf'),
     HKGrotesk: require('./assets/fonts/HK-Grotesk/HKGrotesk-Regular.otf'),

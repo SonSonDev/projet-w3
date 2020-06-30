@@ -19,6 +19,14 @@ const client = new ApolloClient({
   link: createHttpLink({ uri: Constants.manifest.extra?.REACT_APP_API_URL || devApiUrl }),
   cache: new InMemoryCache(),
   resolvers: {},
+  request: operation => {
+    const token = SecureStore.getItemAsync('authToken')
+    operation.setContext({
+      headers: {
+        authorization: token ? `Bearer ${token}` : ''
+      }
+    })
+  },
 });
 
 
