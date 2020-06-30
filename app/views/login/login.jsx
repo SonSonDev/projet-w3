@@ -9,7 +9,7 @@ import Button from "../../components/atoms/Button"
 import Input from "../../components/atoms/Input"
 import IllustrationLogin from "../../assets/img/illu-login.svg"
 import * as s from "../../styles/index"
-import { LOGIN } from "../../graphql/auth"
+import { LOGIN, CHECK_AUTH } from "../../graphql/auth"
 
 
 export default function Login({ navigation }) {

@@ -32,7 +32,6 @@ const GET_LOCAL_STATE = gql`
   {
     isLoggedIn @client
     isOnboarded @client
-    userData @client
   }
 `
 
@@ -40,7 +39,7 @@ const GET_LOCAL_STATE = gql`
 export default function () {
   const client = useApolloClient()
   const { data: { isLoggedIn, isOnboarded } = {} } = useQuery(GET_LOCAL_STATE)
-  //const { data: userData } = useQuery(CHECK_AUTH)
+  const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
   const [ isLoaded ] = useFonts({
     Maragsa: require('./assets/fonts/Maragsa/Maragsâ.otf'),
     HKGrotesk: require('./assets/fonts/HK-Grotesk/HKGrotesk-Regular.otf'),
@@ -62,7 +61,7 @@ export default function () {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ header: Header }} headerMode='screen'>
-        {isLoggedIn && isOnboarded ? (
+        {isLoggedIn && isOnboarded && userData ? (
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
         ) : (
           <>

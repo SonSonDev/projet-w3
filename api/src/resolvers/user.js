@@ -84,9 +84,11 @@ module.exports = {
 
     async addTagsToUser (_, { userId, tags }, context) {
       const user = await context.prisma.user({ id: userId })
+      const set = [...user.tags, ...tags]
+        .filter((tag, i, arr) => arr.indexOf(tag) === i)
       return context.prisma.updateUser({
         where: { id: userId },
-        data: { tags: { set: [...user.tags, tags] }},
+        data: { tags: { set }},
       })
     },
 
