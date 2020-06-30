@@ -65,18 +65,22 @@ const CardAddress = ({
 
 export function CardAddressSkeleton ({ onPress, full, style }) {
   return (
-    <TouchableOpacity style={[ !full && { width: 280 }, style ]} onPress={onPress} activeOpacity={1}>
+    <TouchableOpacity style={[ s.flex, !full && { width: 280 }, style ]} onPress={onPress} activeOpacity={1}>
       <View style={[ { backgroundColor: 'rgba(0, 0, 0, 0.02)', height: full ? 200 : 120 }, s.rounder ]} />
-      <View style={[ { backgroundColor: 'rgba(0, 0, 0, 0.02)', height: 16, width: '40%' }, s.rounded, s.m2 ]} />
-      <View style={[ { backgroundColor: 'rgba(0, 0, 0, 0.02)', height: 20, width: '60%' }, s.rounded, s.mx2 ]} />
-      {full && (
-        <>
-          <View style={[ { backgroundColor: 'rgba(0, 0, 0, 0.02)', height: 20 }, s.rounded, s.mt1, s.mx2 ]} />
-          <View style={[ { backgroundColor: 'rgba(0, 0, 0, 0.02)', height: 20 }, s.rounded, s.mt05, s.mx2 ]} />
-          <View style={[ { backgroundColor: 'rgba(0, 0, 0, 0.02)', height: 20 }, s.rounded, s.mt05, s.mx2 ]} />
-          <View style={[ { backgroundColor: 'rgba(0, 0, 0, 0.02)', height: 16, width: '20%' }, s.rounded, s.mt1, s.m2 ]} />
-        </>
-      )}
+      <View style={[ s.p2, s.pt1 ]}>
+        <View style={[ s.row, s.itemsCenter, s.mt05, { height: 32 } ]}>
+          <Text style={[ s.body2, { backgroundColor: 'rgba(0, 0, 0, 0.02)', width: full ? '40%' : '60%' } ]}>{' '}</Text>
+        </View>
+        <Text style={[ s.heading5, s.mb05, { backgroundColor: 'rgba(0, 0, 0, 0.02)', width: full ? '60%' : '80%' } ]} numberOfLines={1}>{' '}</Text>
+        {full && (
+          <>
+            <Text style={[ s.body1, { backgroundColor: 'rgba(0, 0, 0, 0.02)' } ]} numberOfLines={3}>{'\n\n'}</Text>
+            <View style={[ s.row, s.itemsCenter, s.mt1 ]}>
+              <Text style={[ s.body2, { backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '20%' } ]}>{' '}</Text>
+            </View>
+          </>
+        )}
+      </View>
     </TouchableOpacity>
   )
 }
