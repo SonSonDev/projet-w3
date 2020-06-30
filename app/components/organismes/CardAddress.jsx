@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, Text, ImageBackground, TouchableOpacity } from 'react-native'
 
-import { categories, days, openOrClosed } from '../../utils/wording'
+import { categories, categoryIcons, days, openOrClosed } from '../../utils/wording'
 
 import Chip from "../atoms/Chip"
 import RoundButton from "../atoms/RoundButton"
@@ -34,7 +34,7 @@ const CardAddress = ({
       </ImageBackground>
       <View style={[ s.p2, s.pt1 ]}>
         <View style={[ s.row, s.itemsCenter, s.mt05, { height: 32 } ]}>
-          <Icon name="restaurant-fill" size={14} {...s.grey} style={[ s.mr05 ]} />
+          <Icon name={categoryIcons[category]} size={14} {...s.grey} style={[ s.mr05 ]} />
           <Text style={[ s.body2, s.grey, s.mr1 ]}>{categories[category]}</Text>
           <Icon name="walk-fill" size={14} {...s.grey} style={[ s.mr05 ]} />
           <Text style={[ s.body2, s.grey, s.mrAuto ]}>{Math.round(distance / 100)} min</Text>

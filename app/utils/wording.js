@@ -5,6 +5,12 @@ export const categories = {
   ACTIVITY: "Service/Loisir",
 }
 
+export const categoryIcons = {
+  FOOD: "restaurant-fill",
+  SHOP: "store-2-fill",
+  ACTIVITY: "lightbulb-fill",
+}
+
 export const days = {
   0: "SUNDAY",
   1: "MONDAY",

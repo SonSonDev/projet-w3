@@ -4,7 +4,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks"
 import BottomSheet from 'reanimated-bottom-sheet'
 
 import { GET_PLACES, DELETE_PLACE, UPSERT_PLACES } from "../graphql/place"
-import { categories } from '../utils/wording'
+import { categories, categoryIcons } from '../utils/wording'
 
 import Button from "../components/atoms/Button"
 import Input from "../components/atoms/Input"
@@ -60,15 +60,15 @@ export default function Explore () {
                 <Text style={[ s.body2, s.bold, !category && s.primary, s.mr2 ]}>Tout</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[ s.row, s.itemsCenter, s.my05 ]} onPress={() => setCategory('FOOD')} activeOpacity={1}>
-                <Icon name="restaurant-fill" size={14} color={category === 'FOOD' ? s.primary.color : s.black.color} style={[ s.mr05 ]} />
+                <Icon name={categoryIcons['FOOD']} size={14} color={category === 'FOOD' ? s.primary.color : s.black.color} style={[ s.mr05 ]} />
                 <Text style={[ s.body2, s.bold, category === 'FOOD' && s.primary, s.mr2 ]}>{categories['FOOD']}</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[ s.row, s.itemsCenter, s.my05 ]} onPress={() => setCategory('SHOP')} activeOpacity={1}>
-                <Icon name="store-2-fill" size={14} color={category === 'SHOP' ? s.primary.color : s.black.color} style={[ s.mr05 ]} />
+                <Icon name={categoryIcons['SHOP']} size={14} color={category === 'SHOP' ? s.primary.color : s.black.color} style={[ s.mr05 ]} />
                 <Text style={[ s.body2, s.bold, category === 'SHOP' && s.primary, s.mr2 ]}>{categories['SHOP']}</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[ s.row, s.itemsCenter, s.my05 ]} onPress={() => setCategory('ACTIVITY')} activeOpacity={1}>
-                <Icon name="lightbulb-fill" size={14} color={category === 'ACTIVITY' ? s.primary.color : s.black.color} style={[ s.mr05 ]} />
+                <Icon name={categoryIcons['ACTIVITY']} size={14} color={category === 'ACTIVITY' ? s.primary.color : s.black.color} style={[ s.mr05 ]} />
                 <Text style={[ s.body2, s.bold, category === 'ACTIVITY' && s.primary ]}>{categories['ACTIVITY']}</Text>
               </TouchableOpacity>
             </ScrollView>
