@@ -11,6 +11,7 @@ type Query {
   getCompanies: [Company]
   getCompany(id: ID!): Company
   checkAuth: User
+  checkAuthApp: User
   getTags(where: TagInput): [Tag]
   getTag(id: ID!): Tag
   getArticles(where: ArticleInput): [Article]
@@ -84,7 +85,7 @@ type Mutation {
   addTagsToUser(userId: ID, tags: [String]): User
   setTagsToUser(userId: ID, tags: [String]): User
   removeTagsToUser(userId: ID, tags: [String]): User
-  
+
   createPlace(data: PlaceInput!): Place
   updatePlace(where: PlaceInputUnique!, data: PlaceInput!): Place
   deletePlace(where: PlaceInputUnique!): Place

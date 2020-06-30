@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
-const { APP_SECRET } = require("../utils")
+const { APP_SECRET, getUserId } = require("../utils")
 
 module.exports = {
   queries: {
@@ -8,6 +8,15 @@ module.exports = {
       const user = await context.getUserData()
       if (!user) {
         context.response.clearCookie("x-auth-token")
+        throw new Error("No user found")
+      }
+      return user
+    },
+
+    async checkAuthApp(_, args, context) {
+      const id = getUserId(context)
+      const user = await context.prisma.user({ id })
+      if (!user) {
         throw new Error("No user found")
       }
       return user
