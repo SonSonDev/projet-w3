@@ -27,12 +27,15 @@ export default function OBThirdStep () {
         <Text style={[ s.heading1, s.center, s.mtAuto, s.mb1, s.pt4 ]}>
           Vos besoins d’accessibilité
         </Text>
-        <Text style={[ s.body1, s.center, s.mb2, s.selfCenter, { maxWidth: 320 } ]}>
+        <Text style={[ s.body1, s.center, s.mb3, s.selfCenter, { maxWidth: 320 } ]}>
           Nous vous proposerons des établissements et activités adaptées à vos besoins
         </Text>
         <Filter filterList={filterList} setFilterList={setFilterList} numbColumns={3} />
         <Steps length={3} currentStep={3} style={[ s.mtAuto, s.mb2 ]} />
         <Button btnStyle='primary' label='C’est parti !' style={[ s.mb1 ]} onPress={async () => {
+          if (!filterList.some(item => item.selected)) {
+            setFilterList(filterList.map(item => ({ ...item, selected: item.isUnique })))
+          }
           await SecureStore.setItemAsync('isOnboarded', 'true')
           client.writeData({ data: { isOnboarded: true } })
         }} />

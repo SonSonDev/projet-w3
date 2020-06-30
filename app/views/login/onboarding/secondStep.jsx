@@ -29,12 +29,17 @@ export default function OBSecondStep ({ navigation }) {
         <Text style={[ s.heading1, s.center, s.mtAuto, s.mb1, s.pt4 ]}>
           Votre régime alimentaire
         </Text>
-        <Text style={[ s.body1, s.center, s.mb2, s.selfCenter, { maxWidth: 320 } ]}>
+        <Text style={[ s.body1, s.center, s.mb3, s.selfCenter, { maxWidth: 320 } ]}>
           Nous vous proposerons des adresses respectant votre régime alimentaire
         </Text>
         <Filter filterList={filterList} setFilterList={setFilterList} numbColumns={3} />
         <Steps length={3} currentStep={2} style={[ s.mtAuto, s.mb2 ]} />
-        <Button btnStyle='primary' label='Continuer' onPress={() => navigation.navigate('OnboardingThirdStep')} style={[ s.mb1 ]} />
+        <Button btnStyle='primary' label='Continuer' onPress={() => {
+          if (!filterList.some(item => item.selected)) {
+            setFilterList(filterList.map(item => ({ ...item, selected: item.isUnique })))
+          }
+          navigation.navigate('OnboardingThirdStep')
+        }} style={[ s.mb1 ]} />
         <Button btnStyle='secondary' label='Passer' onPress={async () => {
           await SecureStore.setItemAsync('isOnboarded', 'true')
           client.writeData({ data: { isOnboarded: true } })

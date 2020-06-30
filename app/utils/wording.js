@@ -22,10 +22,10 @@ export const openOrClosed = (open, close) => {
   const openHour = new Date().setHours(...open.split(':'))
   const closeHour = new Date().setHours(...close.split(':'))
   if (Date.now() < openHour && openHour-Date.now() <= 60*60*1000) {
-    return [false, 'Ouvre bientôt']
+    return [true, 'Bientôt ouvert']
   }
   if (Date.now() >= openHour && Date.now() < closeHour && closeHour-Date.now() <= 60*60*1000) {
-    return [true, 'Ferme bientôt']
+    return [true, 'Bientôt fermé']
   }
   if (Date.now() >= openHour && Date.now() < closeHour) {
     return [true, 'Ouvert']

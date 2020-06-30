@@ -11,8 +11,12 @@ import * as SecureStore from 'expo-secure-store'
 import App from './App';
 
 
+const devApiUrl =
+  // 'http://localhost:3000'
+  'http://elb-api-1880898738.eu-west-2.elb.amazonaws.com'
+
 const client = new ApolloClient({
-  link: createHttpLink({ uri: Constants.manifest.extra?.REACT_APP_API_URL || 'http://localhost:3000' }),
+  link: createHttpLink({ uri: Constants.manifest.extra?.REACT_APP_API_URL || devApiUrl }),
   cache: new InMemoryCache(),
   resolvers: {},
 });

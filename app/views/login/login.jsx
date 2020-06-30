@@ -1,7 +1,9 @@
 import React from 'react'
 import { StyleSheet, ScrollView, View, Text, Linking, Image } from 'react-native'
+import { useQuery } from "@apollo/react-hooks"
 import { useApolloClient } from "@apollo/react-hooks"
 import * as SecureStore from 'expo-secure-store'
+import gql from "graphql-tag"
 
 import Button from "../../components/atoms/Button"
 import Input from "../../components/atoms/Input"
@@ -11,6 +13,8 @@ import * as s from "../../styles/index"
 
 export default function Login({ navigation }) {
   const client = useApolloClient()
+  const { data: { isOnboarded } = {} } = useQuery(gql`{ isOnboarded @client }`)
+
   return (
     <View style={[ s.flex, s.backgroundPale ]}>
       <IllustrationLogin style={[ s.absolute, s.top, s.right ]} width={200} height={300} />
@@ -18,12 +22,14 @@ export default function Login({ navigation }) {
         <Text style={[ s.heading1, s.mtAuto, s.mb1 ]}>
           Bon retour{'\n'}parmi nous
         </Text>
-        <Text style={[ s.body1, s.mb2, { maxWidth: 260 } ]}>
-          Vous avez reçu votre mot de passe par mail
-        </Text>
-        <Input value={'example@company.com'} style={[ s.mb1 ]} />
+        {!isOnboarded && (
+          <Text style={[ s.body1, s.mb1, { maxWidth: 260 } ]}>
+            Vous avez reçu votre mot de passe par mail
+          </Text>
+        )}
+        <Input value={'example@company.com'} style={[ s.mt2, s.mb1 ]} />
         <Input value={'password'} isPwd style={[ s.mb2 ]} />
-        <Text style={[ s.grey, s.center, s.pb4, s.mbAuto ]} onPress={() => Linking.openURL('http://google.com')}>
+        <Text style={[ s.grey, s.center, s.pb4, s.mbAuto ]}>
           Mot de passe oublié ?
         </Text>
         <Button btnStyle='primary' label='Connexion' onPress={async () => {

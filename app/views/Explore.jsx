@@ -47,6 +47,7 @@ export default function Explore () {
         )}
         ListEmptyComponent={() => <CardAddressSkeleton full style={[ s.mx2 ]} />}
         ListFooterComponent={() => <View style={[ { height: 80 } ]} />}
+        keyExtractor={item => item.id}
       />
       <BottomSheet
         snapPoints={[400, 52]}
@@ -56,19 +57,19 @@ export default function Explore () {
             <View style={[ s.backgroundBlack, { width: 32, height: 2 }, s.rounded, s.selfCenter ]} />
             <ScrollView horizontal style={[ s.py1, { borderBottomWidth: 1, borderColor: s.c.bg } ]} contentContainerStyle={[ s.px2 ]} scrollEnabled={true}>
               <TouchableOpacity style={[ s.row, s.itemsCenter, s.my05 ]} onPress={() => setCategory()} activeOpacity={1}>
-                <Text style={[ s.body2, s.semiBold, !category && s.primary, s.mr2 ]}>Tout</Text>
+                <Text style={[ s.body2, s.bold, !category && s.primary, s.mr2 ]}>Tout</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[ s.row, s.itemsCenter, s.my05 ]} onPress={() => setCategory('FOOD')} activeOpacity={1}>
                 <Icon name="restaurant-fill" size={14} color={category === 'FOOD' ? s.primary.color : s.black.color} style={[ s.mr05 ]} />
-                <Text style={[ s.body2, s.semiBold, category === 'FOOD' && s.primary, s.mr2 ]}>{categories['FOOD']}</Text>
+                <Text style={[ s.body2, s.bold, category === 'FOOD' && s.primary, s.mr2 ]}>{categories['FOOD']}</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[ s.row, s.itemsCenter, s.my05 ]} onPress={() => setCategory('SHOP')} activeOpacity={1}>
                 <Icon name="store-2-fill" size={14} color={category === 'SHOP' ? s.primary.color : s.black.color} style={[ s.mr05 ]} />
-                <Text style={[ s.body2, s.semiBold, category === 'SHOP' && s.primary, s.mr2 ]}>{categories['SHOP']}</Text>
+                <Text style={[ s.body2, s.bold, category === 'SHOP' && s.primary, s.mr2 ]}>{categories['SHOP']}</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[ s.row, s.itemsCenter, s.my05 ]} onPress={() => setCategory('ACTIVITY')} activeOpacity={1}>
                 <Icon name="lightbulb-fill" size={14} color={category === 'ACTIVITY' ? s.primary.color : s.black.color} style={[ s.mr05 ]} />
-                <Text style={[ s.body2, s.semiBold, category === 'ACTIVITY' && s.primary ]}>{categories['ACTIVITY']}</Text>
+                <Text style={[ s.body2, s.bold, category === 'ACTIVITY' && s.primary ]}>{categories['ACTIVITY']}</Text>
               </TouchableOpacity>
             </ScrollView>
           </View>

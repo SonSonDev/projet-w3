@@ -55,7 +55,7 @@ export const heading6:any = { ...HKGroteskSemiBold, fontSize: 16, ...black }
 export const body1:any = { ...HKGrotesk, fontSize: 16, ...black }
 export const body2:any = { ...HKGrotesk, fontSize: 14, ...black }
 
-export const semiBold = { ...HKGroteskSemiBold }
+export const bold = { ...HKGroteskSemiBold }
 
 
 

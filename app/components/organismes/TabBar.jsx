@@ -48,7 +48,7 @@ function TabBar ({ state, descriptors, navigation }) {
             >
               <Icon name={icon} size={22} color={isFocused ? s.c.p100 : s.c.g100} />
               {isFocused && (
-                <Text style={[ s.body2, s.semiBold, s.primary, s.ml05 ]}>{label}</Text>
+                <Text style={[ s.body2, s.bold, s.primary, s.ml05 ]}>{label}</Text>
               )}
             </TouchableOpacity>
           </View>

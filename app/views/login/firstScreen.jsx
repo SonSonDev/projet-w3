@@ -19,7 +19,7 @@ export default function firstScreen({ navigation }) {
         <Text style={[ s.body1, s.mb2, { maxWidth: 220 } ]}>
           L’application qui vous aide à consommer responsable au quotidien.
         </Text>
-        <Text style={[ s.body1, s.primary, s.pb4, s.mbAuto ]}>
+        <Text style={[ s.body1, s.bold, s.primary, s.pb4, s.mbAuto ]}>
           Découvrir Madu
         </Text>
         <Button btnStyle='primary' label='J’ai déjà créé mon compte' onPress={() => navigation.navigate('Login')} style={[ s.mb1 ]} />
