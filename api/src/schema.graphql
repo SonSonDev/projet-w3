@@ -81,6 +81,10 @@ type Mutation {
   ): AuthPayload
   createUsers(users: [UserInput!]): [User]
 
+  addTagsToUser(userId: ID, tags: [String]): User
+  setTagsToUser(userId: ID, tags: [String]): User
+  removeTagsToUser(userId: ID, tags: [String]): User
+  
   createPlace(data: PlaceInput!): Place
   updatePlace(where: PlaceInputUnique!, data: PlaceInput!): Place
   deletePlace(where: PlaceInputUnique!): Place
@@ -143,6 +147,7 @@ type User {
   role: Role
   company: Company
   isRepresentative: Boolean
+  tags: [String]
   points: Int
   validatedChallenges: [Challenge]
   validatedQuizzes: [ValidatedQuiz]

@@ -854,9 +854,9 @@ export interface UserWhereInput {
   role_not?: Maybe<Role>;
   role_in?: Maybe<Role[] | Role>;
   role_not_in?: Maybe<Role[] | Role>;
+  company?: Maybe<CompanyWhereInput>;
   isRepresentative?: Maybe<Boolean>;
   isRepresentative_not?: Maybe<Boolean>;
-  company?: Maybe<CompanyWhereInput>;
   points?: Maybe<Int>;
   points_not?: Maybe<Int>;
   points_in?: Maybe<Int[] | Int>;
@@ -1370,9 +1370,14 @@ export interface UserCreateWithoutCompanyInput {
   password?: Maybe<String>;
   role?: Maybe<Role>;
   isRepresentative?: Maybe<Boolean>;
+  tags?: Maybe<UserCreatetagsInput>;
   points?: Maybe<Int>;
   validatedChallenges?: Maybe<ChallengeCreateManyInput>;
   validatedQuizzes?: Maybe<ValidatedQuizCreateManyInput>;
+}
+
+export interface UserCreatetagsInput {
+  set?: Maybe<String[] | String>;
 }
 
 export interface ChallengeCreateManyInput {
@@ -1524,9 +1529,14 @@ export interface UserUpdateWithoutCompanyDataInput {
   password?: Maybe<String>;
   role?: Maybe<Role>;
   isRepresentative?: Maybe<Boolean>;
+  tags?: Maybe<UserUpdatetagsInput>;
   points?: Maybe<Int>;
   validatedChallenges?: Maybe<ChallengeUpdateManyInput>;
   validatedQuizzes?: Maybe<ValidatedQuizUpdateManyInput>;
+}
+
+export interface UserUpdatetagsInput {
+  set?: Maybe<String[] | String>;
 }
 
 export interface ChallengeUpdateManyInput {
@@ -1862,6 +1872,7 @@ export interface UserUpdateManyDataInput {
   password?: Maybe<String>;
   role?: Maybe<Role>;
   isRepresentative?: Maybe<Boolean>;
+  tags?: Maybe<UserUpdatetagsInput>;
   points?: Maybe<Int>;
 }
 
@@ -2067,8 +2078,9 @@ export interface UserCreateInput {
   phone?: Maybe<String>;
   password?: Maybe<String>;
   role?: Maybe<Role>;
-  isRepresentative?: Maybe<Boolean>;
   company?: Maybe<CompanyCreateOneWithoutUsersInput>;
+  isRepresentative?: Maybe<Boolean>;
+  tags?: Maybe<UserCreatetagsInput>;
   points?: Maybe<Int>;
   validatedChallenges?: Maybe<ChallengeCreateManyInput>;
   validatedQuizzes?: Maybe<ValidatedQuizCreateManyInput>;
@@ -2157,8 +2169,9 @@ export interface UserUpdateDataInput {
   phone?: Maybe<String>;
   password?: Maybe<String>;
   role?: Maybe<Role>;
-  isRepresentative?: Maybe<Boolean>;
   company?: Maybe<CompanyUpdateOneWithoutUsersInput>;
+  isRepresentative?: Maybe<Boolean>;
+  tags?: Maybe<UserUpdatetagsInput>;
   points?: Maybe<Int>;
   validatedChallenges?: Maybe<ChallengeUpdateManyInput>;
   validatedQuizzes?: Maybe<ValidatedQuizUpdateManyInput>;
@@ -2462,8 +2475,9 @@ export interface UserUpdateInput {
   phone?: Maybe<String>;
   password?: Maybe<String>;
   role?: Maybe<Role>;
-  isRepresentative?: Maybe<Boolean>;
   company?: Maybe<CompanyUpdateOneWithoutUsersInput>;
+  isRepresentative?: Maybe<Boolean>;
+  tags?: Maybe<UserUpdatetagsInput>;
   points?: Maybe<Int>;
   validatedChallenges?: Maybe<ChallengeUpdateManyInput>;
   validatedQuizzes?: Maybe<ValidatedQuizUpdateManyInput>;
@@ -2477,6 +2491,7 @@ export interface UserUpdateManyMutationInput {
   password?: Maybe<String>;
   role?: Maybe<Role>;
   isRepresentative?: Maybe<Boolean>;
+  tags?: Maybe<UserUpdatetagsInput>;
   points?: Maybe<Int>;
 }
 
@@ -2971,6 +2986,7 @@ export interface User {
   password?: String;
   role?: Role;
   isRepresentative?: Boolean;
+  tags: String[];
   points?: Int;
 }
 
@@ -2982,8 +2998,9 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   phone: () => Promise<String>;
   password: () => Promise<String>;
   role: () => Promise<Role>;
-  isRepresentative: () => Promise<Boolean>;
   company: <T = CompanyPromise>() => T;
+  isRepresentative: () => Promise<Boolean>;
+  tags: () => Promise<String[]>;
   points: () => Promise<Int>;
   validatedChallenges: <T = FragmentableArray<Challenge>>(args?: {
     where?: ChallengeWhereInput;
@@ -3015,8 +3032,9 @@ export interface UserSubscription
   phone: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   role: () => Promise<AsyncIterator<Role>>;
-  isRepresentative: () => Promise<AsyncIterator<Boolean>>;
   company: <T = CompanySubscription>() => T;
+  isRepresentative: () => Promise<AsyncIterator<Boolean>>;
+  tags: () => Promise<AsyncIterator<String[]>>;
   points: () => Promise<AsyncIterator<Int>>;
   validatedChallenges: <
     T = Promise<AsyncIterator<ChallengeSubscription>>
@@ -3052,8 +3070,9 @@ export interface UserNullablePromise
   phone: () => Promise<String>;
   password: () => Promise<String>;
   role: () => Promise<Role>;
-  isRepresentative: () => Promise<Boolean>;
   company: <T = CompanyPromise>() => T;
+  isRepresentative: () => Promise<Boolean>;
+  tags: () => Promise<String[]>;
   points: () => Promise<Int>;
   validatedChallenges: <T = FragmentableArray<Challenge>>(args?: {
     where?: ChallengeWhereInput;
@@ -4070,6 +4089,7 @@ export interface UserPreviousValues {
   password?: String;
   role?: Role;
   isRepresentative?: Boolean;
+  tags: String[];
   points?: Int;
 }
 
@@ -4084,6 +4104,7 @@ export interface UserPreviousValuesPromise
   password: () => Promise<String>;
   role: () => Promise<Role>;
   isRepresentative: () => Promise<Boolean>;
+  tags: () => Promise<String[]>;
   points: () => Promise<Int>;
 }
 
@@ -4098,6 +4119,7 @@ export interface UserPreviousValuesSubscription
   password: () => Promise<AsyncIterator<String>>;
   role: () => Promise<AsyncIterator<Role>>;
   isRepresentative: () => Promise<AsyncIterator<Boolean>>;
+  tags: () => Promise<AsyncIterator<String[]>>;
   points: () => Promise<AsyncIterator<Int>>;
 }
 
