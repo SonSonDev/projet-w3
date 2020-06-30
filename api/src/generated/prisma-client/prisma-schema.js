@@ -2020,8 +2020,9 @@ type User {
   phone: String
   password: String
   role: Role
-  isRepresentative: Boolean
   company: Company
+  isRepresentative: Boolean
+  tags: [String!]!
   points: Int
   validatedChallenges(where: ChallengeWhereInput, orderBy: ChallengeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Challenge!]
   validatedQuizzes(where: ValidatedQuizWhereInput, orderBy: ValidatedQuizOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ValidatedQuiz!]
@@ -2041,8 +2042,9 @@ input UserCreateInput {
   phone: String
   password: String
   role: Role
-  isRepresentative: Boolean
   company: CompanyCreateOneWithoutUsersInput
+  isRepresentative: Boolean
+  tags: UserCreatetagsInput
   points: Int
   validatedChallenges: ChallengeCreateManyInput
   validatedQuizzes: ValidatedQuizCreateManyInput
@@ -2058,6 +2060,10 @@ input UserCreateOneInput {
   connect: UserWhereUniqueInput
 }
 
+input UserCreatetagsInput {
+  set: [String!]
+}
+
 input UserCreateWithoutCompanyInput {
   id: ID
   firstName: String
@@ -2067,6 +2073,7 @@ input UserCreateWithoutCompanyInput {
   password: String
   role: Role
   isRepresentative: Boolean
+  tags: UserCreatetagsInput
   points: Int
   validatedChallenges: ChallengeCreateManyInput
   validatedQuizzes: ValidatedQuizCreateManyInput
@@ -2107,6 +2114,7 @@ type UserPreviousValues {
   password: String
   role: Role
   isRepresentative: Boolean
+  tags: [String!]!
   points: Int
 }
 
@@ -2237,8 +2245,9 @@ input UserUpdateDataInput {
   phone: String
   password: String
   role: Role
-  isRepresentative: Boolean
   company: CompanyUpdateOneWithoutUsersInput
+  isRepresentative: Boolean
+  tags: UserUpdatetagsInput
   points: Int
   validatedChallenges: ChallengeUpdateManyInput
   validatedQuizzes: ValidatedQuizUpdateManyInput
@@ -2251,8 +2260,9 @@ input UserUpdateInput {
   phone: String
   password: String
   role: Role
-  isRepresentative: Boolean
   company: CompanyUpdateOneWithoutUsersInput
+  isRepresentative: Boolean
+  tags: UserUpdatetagsInput
   points: Int
   validatedChallenges: ChallengeUpdateManyInput
   validatedQuizzes: ValidatedQuizUpdateManyInput
@@ -2266,6 +2276,7 @@ input UserUpdateManyDataInput {
   password: String
   role: Role
   isRepresentative: Boolean
+  tags: UserUpdatetagsInput
   points: Int
 }
 
@@ -2277,6 +2288,7 @@ input UserUpdateManyMutationInput {
   password: String
   role: Role
   isRepresentative: Boolean
+  tags: UserUpdatetagsInput
   points: Int
 }
 
@@ -2306,6 +2318,10 @@ input UserUpdateOneInput {
   connect: UserWhereUniqueInput
 }
 
+input UserUpdatetagsInput {
+  set: [String!]
+}
+
 input UserUpdateWithoutCompanyDataInput {
   firstName: String
   lastName: String
@@ -2314,6 +2330,7 @@ input UserUpdateWithoutCompanyDataInput {
   password: String
   role: Role
   isRepresentative: Boolean
+  tags: UserUpdatetagsInput
   points: Int
   validatedChallenges: ChallengeUpdateManyInput
   validatedQuizzes: ValidatedQuizUpdateManyInput
@@ -2424,9 +2441,9 @@ input UserWhereInput {
   role_not: Role
   role_in: [Role!]
   role_not_in: [Role!]
+  company: CompanyWhereInput
   isRepresentative: Boolean
   isRepresentative_not: Boolean
-  company: CompanyWhereInput
   points: Int
   points_not: Int
   points_in: [Int!]

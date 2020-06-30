@@ -82,6 +82,29 @@ module.exports = {
       })
     },
 
+    async addTagsToUser (_, { userId, tags }, context) {
+      const user = await context.prisma.user({ id: userId })
+      return context.prisma.updateUser({
+        where: { id: userId },
+        data: { tags: { set: [...user.tags, tags] }},
+      })
+    },
+
+    async setTagsToUser (_, { userId, tags }, context) {
+      return context.prisma.updateUser({
+        where: { id: userId },
+        data: { tags: { set: tags }},
+      })
+    },
+
+    async removeTagsToUser (_, { userId, tags }, context) {
+      const user = await context.prisma.user({ id: userId })
+      return context.prisma.updateUser({
+        where: { id: userId },
+        data: { tags: { set: user.tags.filter(tag => !tags.includes(tag))}},
+      })
+    },
+
     async updateRepresentative(_, { userEmail, companyId, isRepresentative }, context) {
       console.log({ userEmail, companyId, isRepresentative })
       const update = await context.prisma.updateUser({

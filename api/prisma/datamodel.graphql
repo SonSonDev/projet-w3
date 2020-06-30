@@ -6,8 +6,9 @@ type User {
   phone: String
   password: String
   role: Role
-  isRepresentative: Boolean @default(value: false)
   company: Company @relation(link: INLINE)
+  isRepresentative: Boolean @default(value: false)
+  tags: [String]
   points: Int
   validatedChallenges: [Challenge] @relation(link: INLINE)
   validatedQuizzes: [ValidatedQuiz] @relation(link: INLINE)
