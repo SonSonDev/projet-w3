@@ -43,6 +43,7 @@ export default function () {
     Maragsa: require('./assets/fonts/Maragsa/Maragsâ.otf'),
     HKGrotesk: require('./assets/fonts/HK-Grotesk/HKGrotesk-Regular.otf'),
     HKGroteskSemiBold: require('./assets/fonts/HK-Grotesk/HKGrotesk-SemiBold.otf'),
+    NowAltMedium: require('./assets/fonts/Now-Alt/NowAlt-Medium.otf'),
   })
   // SecureStore.deleteItemAsync('isLoggedIn')
   // console.log({ isLoggedIn, isOnboarded })

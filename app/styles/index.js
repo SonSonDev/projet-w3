@@ -40,13 +40,13 @@ export const backgroundWhite = { backgroundColor: c.w }
 
 // TYPOGRAPHY
 
-export const Maragsa = { fontFamily: 'Maragsa' }
+export const NowAltMedium = { fontFamily: 'NowAltMedium' }
 export const HKGrotesk = { fontFamily: 'HKGrotesk' }
 export const HKGroteskSemiBold = { fontFamily: 'HKGroteskSemiBold' }
 
-export const heading1 = { ...Maragsa, fontSize: 40, lineHeight: 40, ...black }
-export const heading2 = { ...Maragsa, fontSize: 32, lineHeight: 32, ...black }
-export const heading3 = { ...Maragsa, fontSize: 24, lineHeight: 24, ...black }
+export const heading1 = { ...NowAltMedium, fontSize: 40, ...black }
+export const heading2 = { ...NowAltMedium, fontSize: 32, ...black }
+export const heading3 = { ...NowAltMedium, fontSize: 24, ...black }
 
 export const heading4 = { ...HKGroteskSemiBold, fontSize: 24, ...black }
 export const heading5 = { ...HKGroteskSemiBold, fontSize: 18, ...black }
