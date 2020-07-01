@@ -13,18 +13,18 @@ interface ButtonInterface {
 }
 
 const Button = ({ btnStyle, iconLeft, iconRight, label, iconName, onPress = () => alert('Pressed!'), style }: ButtonInterface): React.ReactElement => {
-  let containerStyle:any = StyleSheet.create({
+  let containerStyle: any = StyleSheet.create({
     main: {
       borderRadius: 8,
       backgroundColor: '#181B1B'
     }
   });
-  const styleUnderlayColor:any = {
-    primary : '#313535',
-    secondary : "#FBEAE9",
+  const styleUnderlayColor: any = {
+    primary: '#313535',
+    secondary: "#FBEAE9",
     icon: "#E4E6E6"
   }
-  let styleSheet:any = StyleSheet.create({
+  let styleSheet: any = StyleSheet.create({
     container: {
       width: '100%',
       height: 64,
@@ -110,12 +110,12 @@ const Button = ({ btnStyle, iconLeft, iconRight, label, iconName, onPress = () =
   const image = { uri: "https://www.pinclipart.com/picdir/middle/485-4851736_free-png-search-icon-search-icon-free-download.png" };
 
   return (
-    <TouchableOpacity 
+    <TouchableOpacity
       activeOpacity={1}
       underlayColor={styleUnderlayColor[btnStyle]}
       // onPress={onPress}
       onPressIn={onPress}
-      style={[ containerStyle.main, style ]}>
+      style={[containerStyle.main, style]}>
       <View style={styleSheet.container}>
         {iconLeft &&
           <Image
@@ -126,7 +126,7 @@ const Button = ({ btnStyle, iconLeft, iconRight, label, iconName, onPress = () =
 
         {label ?
           <Text style={styleSheet.text}>{label}</Text>
-          : <Icon name="arrow-left-line" size={20} color="#181B1B"/>
+          : <Icon name="arrow-left-line" size={20} color="#181B1B" />
         }
 
         {iconRight &&
