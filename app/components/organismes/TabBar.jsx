@@ -13,7 +13,7 @@ function TabBar ({ state, descriptors, navigation }) {
   }
 
   return (
-    <View style={[ s.shadow, s.backgroundWhite, s.row, s.justifyCenter, s.p1 ]}>
+    <View style={[ s.shadow1, s.backgroundWhite, s.row, s.justifyCenter, s.p1 ]}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -44,7 +44,7 @@ function TabBar ({ state, descriptors, navigation }) {
             <TouchableOpacity
               onPress={onPress}
               activeOpacity={1}
-              style={[ s.row, s.justifyCenter, s.itemsCenter, s.py1, s.px2, s.my05, s.mx1, isFocused && s.backgroundPrimaryPale, s.rounded ]}
+              style={[ s.row, s.justifyCenter, s.itemsCenter, s.py1, s.px2, s.my05, s.mx1, isFocused && s.backgroundPrimaryPale, s.round2 ]}
             >
               <Icon name={icon} size={22} color={isFocused ? s.c.p100 : s.c.g100} />
               {isFocused && (

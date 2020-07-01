@@ -21,6 +21,13 @@ export const days = {
   6: "SATURDAY",
 }
 
+export const themes = {
+  ALIMENTATION: "Alimentation",
+  CONSUMPTION: "Consommation/Déchets",
+  WATER: "Eau",
+  ENERGY: "Énergie",
+}
+
 export const openOrClosed = (open, close) => {
   if (!open || !close) {
     return [false, 'Fermé']

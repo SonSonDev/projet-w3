@@ -135,6 +135,11 @@ type Mutation {
     challengeId: ID!
   ): User
 
+  checkLocation(
+    placeId: ID!
+    coordinates: Coordinates!
+  ): User
+
   createStripeInvoice(stripeCustomerId: String!): StripeInvoice
 }
 

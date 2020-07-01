@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
-const { APP_SECRET, transporter, emailTemplate } = require("../utils")
+const { APP_SECRET, transporter, emailTemplate, getUserId } = require("../utils")
+const Mongoose = require("../services/mongoose")
 
 
 const createUser = async (returnToken, { firstName, lastName, email, role, companyId }, context) => {
@@ -167,6 +168,35 @@ module.exports = {
         })
       }
     },
+
+    async checkLocation (_, { placeId, coordinates }, { request, prisma }) {
+      const id = getUserId({ request })
+      const user = await prisma.user({ id })
+      if (!user) {
+        throw new Error("No user found")
+      }
+      // console.log(placeId, coordinates)
+      const found = await Mongoose.Place.findOne({
+        _id: placeId,
+        "address.location": {
+          $near: {
+            $maxDistance: 100,
+            $geometry: { type: "Point", coordinates }
+          }
+        }
+      })
+      if (!found) {
+        throw new Error("Not close enough")
+      }
+      // console.log(found)
+      return prisma.updateUser({
+        where: { id },
+        data: {
+          points: user.points + 50,
+        },
+      })
+    },
+
   },
   resolvers: {
     User: {

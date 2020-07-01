@@ -141,3 +141,19 @@ export const SET_TAGS_TO_USER = gql `
   }
   ${userFragment}
 `
+
+
+export const CHECK_LOCATION = gql`
+  mutation CheckLocation(
+    $placeId: ID!
+    $coordinates: Coordinates!
+  ) {
+    checkLocation(
+      placeId: $placeId
+      coordinates: $coordinates
+    ) {
+      ...UserFragment
+    }
+  }
+  ${userFragment}
+`

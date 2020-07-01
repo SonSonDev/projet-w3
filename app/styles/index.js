@@ -44,9 +44,9 @@ export const NowAltMedium = { fontFamily: 'NowAltMedium' }
 export const HKGrotesk = { fontFamily: 'HKGrotesk' }
 export const HKGroteskSemiBold = { fontFamily: 'HKGroteskSemiBold' }
 
-export const heading1 = { ...NowAltMedium, fontSize: 40, ...black }
-export const heading2 = { ...NowAltMedium, fontSize: 32, ...black }
-export const heading3 = { ...NowAltMedium, fontSize: 24, ...black }
+export const heading1 = { ...NowAltMedium, fontSize: 40, letterSpacing: -3, ...black }
+export const heading2 = { ...NowAltMedium, fontSize: 32, letterSpacing: -2, ...black }
+export const heading3 = { ...NowAltMedium, fontSize: 24, letterSpacing: -1, ...black }
 
 export const heading4 = { ...HKGroteskSemiBold, fontSize: 24, ...black }
 export const heading5 = { ...HKGroteskSemiBold, fontSize: 18, ...black }
@@ -218,7 +218,9 @@ export const flex = { flex: 1 }
 export const row = { flexDirection: 'row' }
 export const justifyCenter = { justifyContent: 'center' }
 export const itemsCenter = { alignItems: 'center' }
+export const itemsEnd = { alignItems: 'flex-end' }
 export const selfCenter = { alignSelf: 'center' }
+export const selfStart = { alignSelf: 'start' }
 export const center = { textAlign: 'center' }
 
 export const absolute = { position: 'absolute' }
@@ -232,17 +234,50 @@ export const fill = { ...top, ...bottom, ...right, ...left }
 
 // UTILS
 
-export const rounded = { borderRadius: 8 }
-export const rounder = { borderRadius: 16 }
+export const round1 = { borderRadius: 4 }
+export const round2 = { borderRadius: 8 }
+export const roundTop2 = { borderTopLeftRadius: 8, borderTopRightRadius: 8 }
+export const roundBottom2 = { borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }
+export const round3 = { borderRadius: 16 }
+export const roundTop3 = { borderTopLeftRadius: 16, borderTopRightRadius: 16 }
+export const roundBottom3 = { borderBottomLeftRadius: 16, borderBottomRightRadius: 16 }
+export const overflow = { overflow: 'hidden' }
+export const border = { borderWidth: 1, borderColor: c.g10 }
+export const borderBottom = { borderBottomWidth: 1, borderColor: c.g10 }
 
-export const shadow = {
+
+export const shadow1 = {
   shadowColor: "#000",
   shadowOffset: {
     width: 0,
     height: 1,
   },
-  shadowOpacity: 0.20,
-  shadowRadius: 1.41,
+  shadowOpacity: 0.18,
+  shadowRadius: 1.00,
 
-  elevation: 2,
+  elevation: 1,
+}
+
+export const shadow2 = {
+  shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 5,
+  },
+  shadowOpacity: 0.34,
+  shadowRadius: 6.27,
+  
+  elevation: 10,
+}
+
+export const shadow3 = {
+  shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 10,
+  },
+  shadowOpacity: 0.51,
+  shadowRadius: 13.16,
+  
+  elevation: 20,
 }

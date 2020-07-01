@@ -34,7 +34,7 @@ export default function Explore ({ navigation }) {
       <FlatList
         ListHeaderComponent={() => (
           <View style={[ s.backgroundPale, s.p2, s.pt3 ]}>
-            <Text style={[ s.body2, s.grey ]}>Restaurants</Text>
+            <Text style={[ s.body2, s.grey ]}>Adresses</Text>
             <Text style={[ s.heading4 ]}>
               À proximité de <Text style={[ s.primary ]}>Hetic</Text>
             </Text>
@@ -54,8 +54,8 @@ export default function Explore ({ navigation }) {
         initialSnap={1}
         renderHeader={() => (
           <View style={[ s.backgroundWhite, s.pt1, { borderTopLeftRadius: 16, borderTopRightRadius: 16 } ]}>
-            <View style={[ s.backgroundBlack, { width: 32, height: 2 }, s.rounded, s.selfCenter ]} />
-            <ScrollView horizontal style={[ s.py1, { borderBottomWidth: 1, borderColor: s.c.bg } ]} contentContainerStyle={[ s.px2 ]} scrollEnabled={true}>
+            <View style={[ s.backgroundBlack, { width: 32, height: 2 }, s.round1, s.selfCenter ]} />
+            <ScrollView horizontal style={[ s.py1, { borderBottomWidth: 1, borderColor: s.c.bg } ]} contentContainerStyle={[ s.px2 ]} scrollEnabled={true} showsHorizontalScrollIndicator={false}>
               <TouchableOpacity style={[ s.row, s.itemsCenter, s.my05 ]} onPress={() => setCategory()} activeOpacity={1}>
                 <Text style={[ s.body2, s.bold, !category && s.primary, s.mr2 ]}>Tout</Text>
               </TouchableOpacity>

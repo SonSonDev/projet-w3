@@ -6,16 +6,15 @@ import { GET_ARTICLE, GET_ARTICLES } from "../graphql/article";
 import Button from "../components/atoms/Button";
 import CardPost from "../components/organismes/CardPost";
 import { CardAddressSkeleton } from "../components/organismes/CardAddress";
+import { themes } from '../utils/wording';
 
-export default function Article({ route, navigation }) {
-  const { id } = route.params;
-  console.log(id);
-
-  const {
-    data: { getArticle: { theme, title, content, photo } = {} } = {},
-  } = useQuery(GET_ARTICLE, {
-    variables: { where: { id } },
-  });
+export default function Article({ route: { params: { article } }, navigation }) {
+  // const {
+  //   data: { getArticle: { theme, title, content, photo } = {} } = {},
+  // } = useQuery(GET_ARTICLE, {
+  //   variables: { where: { id } },
+  // });
+  const { theme, title, content, photo } = article
 
   const { data: { getArticles = [] } = {} } = useQuery(GET_ARTICLES, {
     onError: (error) => console.log(error.message),
@@ -33,23 +32,23 @@ export default function Article({ route, navigation }) {
         />
       </View>
       <View
-        style={[s.px2, s.py3, s.rounder, s.backgroundPale, { marginTop: -16 }]}
+        style={[s.px2, s.py3, s.round3, s.backgroundPale, { marginTop: -16 }]}
       >
-        <Text style={[s.body2, s.mb1]}>{theme}</Text>
+        <Text style={[s.body2, s.mb1]}>{themes[theme]}</Text>
         <Text style={[s.heading1, s.mb3]}>{title}</Text>
         <Text style={[s.body1, s.mb1]}>{content}</Text>
       </View>
       <Text style={[s.heading5, s.px2]}>Articles similaires</Text>
       <View>
         <FlatList
-          style={[]}
+          style={[ s.mb3 ]}
           contentContainerStyle={[s.px2, s.py1]}
           data={getArticles}
           renderItem={({ item: { title, theme, photo, id }, index }) => (
             <CardPost
               title={title}
               theme={theme}
-              photos={photo}
+              photo={photo}
               small
               onPress={() => {
                 navigation.navigate("Article", { id });

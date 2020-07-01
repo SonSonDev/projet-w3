@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Image, TouchableHighlight } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import Icon from './Icon';
 
+import * as s from '../../styles'
+
 interface ButtonInterface {
   btnStyle: string;
   iconLeft?: string;
@@ -12,7 +14,7 @@ interface ButtonInterface {
   onPress?: any;
 }
 
-const Button = ({ btnStyle, iconLeft, iconRight, label, iconName, onPress = () => alert('Pressed!'), style }: ButtonInterface): React.ReactElement => {
+const Button = ({ btnStyle, iconLeft, iconRight, label, iconName, onPress = () => alert('Pressed!'), style, disabled }: ButtonInterface): React.ReactElement => {
   let containerStyle: any = StyleSheet.create({
     main: {
       borderRadius: 8,
@@ -115,7 +117,9 @@ const Button = ({ btnStyle, iconLeft, iconRight, label, iconName, onPress = () =
       underlayColor={styleUnderlayColor[btnStyle]}
       // onPress={onPress}
       onPressIn={onPress}
-      style={[containerStyle.main, style]}>
+      style={[containerStyle.main, style]}
+      disabled={disabled}
+    >
       <View style={styleSheet.container}>
         {iconLeft &&
           <Image
@@ -125,8 +129,8 @@ const Button = ({ btnStyle, iconLeft, iconRight, label, iconName, onPress = () =
         }
 
         {label ?
-          <Text style={styleSheet.text}>{label}</Text>
-          : <Icon name="arrow-left-line" size={20} color="#181B1B" />
+          <Text style={[ s.body1, s.bold, btnStyle === 'primary' && s.white ]}>{label}</Text>
+          : <Icon name="arrow-left-line" size={20} color="#181B1B"/>
         }
 
         {iconRight &&
