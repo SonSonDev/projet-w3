@@ -4,6 +4,7 @@ const articleFragment = gql`
   fragment ArticleFragment on Article {
     id
     title
+    theme
     content
     photo {
       uri
@@ -36,8 +37,6 @@ export const GET_ARTICLE = gql`
   }
   ${articleFragment}
 `
-
-
 
 export const CREATE_ARTICLE = gql`
   mutation CreateArticle ($data: ArticleInput) {

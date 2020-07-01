@@ -42,6 +42,7 @@ const Typo = ({ text, iconLeft, fontFamily, iconRight, color, fontStyle, fontWei
   return (
     <View style={styles.container}>
       {iconLeft}
+      {/* @ts-ignore  */}
       <Text style={styles.text}>{text}</Text>
       {iconRight}
     </View>

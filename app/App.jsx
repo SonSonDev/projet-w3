@@ -18,6 +18,7 @@ import Home from './views/Home'
 import Explore from './views/Explore'
 import Place from './views/Explore/Place'
 import Profile from './views/Profile'
+import Article from './views/Article'
 import * as s from './styles'
 
 import Header from './components/organismes/Header'
@@ -86,6 +87,7 @@ function TabNavigator () {
       <Tab.Screen name="ExploreNavigator" component={ExploreNavigator} options={{ title: 'Découvrir', icon: 'map-2-line', header: Header }} />
       <Tab.Screen name="Challenges" component={Empty} options={{ title: 'Défis', icon: 'award-line' }} />
       <Tab.Screen name="Profile" component={Profile} options={{ title: 'Profil', icon: 'apps-2-line' }} />
+      <Tab.Screen name="Article" component={Article} />
     </Tab.Navigator>
   )
 }

@@ -66,7 +66,7 @@ const CardAddress = ({
 
 export function CardAddressSkeleton ({ onPress, full, style }) {
   return (
-    <TouchableOpacity style={[ s.flex, !full && { width: 280 }, style ]} onPress={onPress} activeOpacity={1}>
+    <TouchableOpacity style={[ s.flex, !full && { width: 363 }, style ]} onPress={onPress} activeOpacity={1}>
       <View style={[ { backgroundColor: 'rgba(0, 0, 0, 0.02)', height: full ? 200 : 120 }, s.rounder ]} />
       <View style={[ s.p2, s.pt1 ]}>
         <View style={[ s.row, s.itemsCenter, s.mt05, { height: 32 } ]}>
