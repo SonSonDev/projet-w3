@@ -27,13 +27,6 @@ export default function Home({ navigation }) {
     onError: (error) => console.log(error.message),
   });
 
-  const { data: { getArticles = [] } = {} } = useQuery(GET_ARTICLES, {
-    onError: (error) => console.log(error.message),
-  });
-
-  console.log("article", getArticles);
-  console.log("photo", getArticles[0]?.photo?.uri);
-
   return (
     <ScrollView style={[s.flex, s.backgroundPale]}>
       <Text style={[s.body2, s.grey, s.px2, s.pt3]}>Bonjour Utilisateur</Text>
