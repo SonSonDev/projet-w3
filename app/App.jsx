@@ -16,6 +16,7 @@ import OnboardingSecondStep from './views/login/onboarding/secondStep'
 import OnboardingThirdStep from './views/login/onboarding/thirdStep'
 import Home from './views/Home'
 import Explore from './views/Explore'
+import Place from './views/Explore/Place'
 import Profile from './views/Profile'
 import * as s from './styles'
 
@@ -79,11 +80,29 @@ const Empty = () => null
 function TabNavigator () {
   return (
     <Tab.Navigator tabBar={TabBar}>
-      <Tab.Screen name="Home" component={Home} options={{ title: 'Accueil', icon: 'home-line' }} />
-      <Tab.Screen name="Explore" component={Explore} options={{ title: 'Découvrir', icon: 'map-2-line' }} />
+      <Tab.Screen name="HomeNavigator" component={HomeNavigator} options={{ title: 'Accueil', icon: 'home-line' }} />
+      <Tab.Screen name="ExploreNavigator" component={ExploreNavigator} options={{ title: 'Découvrir', icon: 'map-2-line', header: Header }} />
       <Tab.Screen name="Challenges" component={Empty} options={{ title: 'Défis', icon: 'award-line' }} />
       <Tab.Screen name="Profile" component={Profile} options={{ title: 'Profil', icon: 'apps-2-line' }} />
     </Tab.Navigator>
+  )
+}
+
+function ExploreNavigator () {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Explore" component={Explore} />
+      <Stack.Screen name="Place" component={Place} />
+    </Stack.Navigator>
+  )
+}
+
+function HomeNavigator () {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Place" component={Place} />
+    </Stack.Navigator>
   )
 }
 

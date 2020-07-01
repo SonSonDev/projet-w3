@@ -10,7 +10,7 @@ import CardAddress, { CardAddressSkeleton } from "../components/organismes/CardA
 import * as s from '../styles'
 
 
-export default function Home () {
+export default function Home ({ navigation }) {
 
   const { data: { getPlaces = [] } = {}, loading, error } = useQuery(GET_PLACES, {
     onError: error => console.log(error.message),
@@ -34,8 +34,8 @@ export default function Home () {
           style={[  ]}
           contentContainerStyle={[ s.px2, s.py1 ]}
           data={getPlaces.slice(0, 5)}
-          renderItem={({ item, index }) => (
-            <CardAddress place={item} />
+          renderItem={({ item: place, index }) => (
+            <CardAddress place={place} onPress={() => navigation.navigate('Place', { place })} />
           )}
           ItemSeparatorComponent={() => <View style={[ s.mr2 ]} />}
           ListEmptyComponent={() => <CardAddressSkeleton />}
