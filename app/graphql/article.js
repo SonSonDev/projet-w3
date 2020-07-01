@@ -4,6 +4,7 @@ const articleFragment = gql`
   fragment ArticleFragment on Article {
     id
     title
+    theme
     content
     photo {
       uri

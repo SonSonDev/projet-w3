@@ -1,19 +1,8 @@
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  Text,
-  FlatList,
-  Platform,
-} from "react-native";
-import { useQuery, useMutation } from "@apollo/react-hooks";
-
-import { GET_PLACES, DELETE_PLACE, UPSERT_PLACES } from "../graphql/place";
+import { View, ScrollView, FlatList, Text } from "react-native";
+import { useQuery } from "@apollo/react-hooks";
+import { GET_PLACES } from "../graphql/place";
 import { GET_ARTICLES } from "../graphql/article";
-
-import Button from "../components/atoms/Button";
-import Input from "../components/atoms/Input";
 import CardAddress, {
   CardAddressSkeleton,
 } from "../components/organismes/CardAddress";
@@ -33,17 +22,13 @@ export default function Home({ navigation }) {
       },
     }
   );
-  // console.log(getPlaces)
 
   const { data: { getArticles = [] } = {} } = useQuery(GET_ARTICLES, {
     onError: (error) => console.log(error.message),
   });
 
-  console.log("article", getArticles);
-  console.log("photo", getArticles[0]?.photo?.uri);
-
   return (
-    <View style={[s.flex, s.backgroundPale]}>
+    <ScrollView style={[s.flex, s.backgroundPale]}>
       <Text style={[s.body2, s.grey, s.px2, s.pt3]}>Bonjour Utilisateur</Text>
       <Text style={[s.heading4, s.px2, s.mb2]}>
         C’est l’heure du déjeuner !
@@ -73,12 +58,16 @@ export default function Home({ navigation }) {
           style={[]}
           contentContainerStyle={[s.px2, s.py1]}
           data={getArticles}
-          renderItem={({ item, index }) => (
+          renderItem={({ item: { title, theme, photo, id }, index }) => (
             <CardPost
-              post={item}
-              cardStyle="small"
+              style={[s.mb2]}
+              title={title}
+              theme={theme}
+              photos={photo}
+              large={!index}
+              medium={!!index}
               onPress={() => {
-                navigation.navigate("Article", { itemId: id });
+                navigation.navigate("Article", { id });
               }}
             />
           )}
@@ -87,14 +76,6 @@ export default function Home({ navigation }) {
           vertical
         />
       </View>
-      <View style={[s.px2, s.py1]}>
-        <CardPost
-          title="Parfumer son intérieur sans péter"
-          subtitle="Maison"
-          photos="https://www.glenat.com/sites/default/files/images/livres/couv/9782344024393-001-T.jpeg"
-          large
-        />
-      </View>
-    </View>
+    </ScrollView>
   );
 }
