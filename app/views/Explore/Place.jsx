@@ -156,7 +156,7 @@ export default function Place ({ route: { params: { place } }, navigation }) {
         {/* <View style={[ { height: 100 } ]} /> */}
       </Animated.ScrollView>
       
-      <Animated.View style={[ s.absolute, s.left, s.right, s.backgroundWhite, s.px2, s.pb1, s.px4, s.shadow1,
+      <Animated.View style={[ s.absolute, s.left, s.right, s.backgroundWhite, s.px2, s.pb1, s.px4,
         { 
           // paddingTop: insets.top,
           transform: [
@@ -169,8 +169,8 @@ export default function Place ({ route: { params: { place } }, navigation }) {
           }
         ] }
       ]}>
-        <SafeAreaView>
-          <Animated.Text style={[ s.heading6, s.center, { top: -Constants.statusBarHeight + s.s2 }, { 
+        {/* <SafeAreaView style={[ s.backgroundGrey ]}> */}
+          <Animated.Text style={[ s.heading6, s.center, s.pt2, s.pb1, {  }, { 
             opacity: scroll.interpolate({
               inputRange: [160, 200],
               outputRange: [0, 1],
@@ -184,12 +184,12 @@ export default function Place ({ route: { params: { place } }, navigation }) {
               }) }
             ]
           } ]} numberOfLines={1}>{name}</Animated.Text>
-        </SafeAreaView>
+        {/* </SafeAreaView> */}
       </Animated.View>
       <Animated.View style={[ s.absolute, s.p1, { paddingTop: s.s1, zIndex: 2 } ]}>
         <Button btnStyle='icon' iconName='arrow-left-line' onPress={navigation.goBack} />
       </Animated.View>
-      <View style={[ s.absolute, s.bottom, s.right, s.left, s.p2, s.shadow3 ]}>
+      <View style={[ s.absolute, s.bottom, s.right, s.left ]}>
         <Button
           btnStyle='primary'
           label='J’y suis, localisez moi !'
@@ -219,7 +219,7 @@ export default function Place ({ route: { params: { place } }, navigation }) {
               }).start(() => fade.setValue(0))
             }
           }}
-          style={[ s.mb1, disabled && s.backgroundGrey ]}
+          style={[ s.m2, disabled && s.backgroundGrey, s.shadow3 ]}
           disabled={disabled}
         />
       </View>

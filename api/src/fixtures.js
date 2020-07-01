@@ -443,7 +443,7 @@ async function populateDb () {
     })
   }
   const companiesId = []
-  for (const [ name, type, [ street, zipCode, city ], [ firstName, lastName, email, phone, password ], emailDomains, stripeCustomerId ] of companies) {
+  for (const [ name, type, [ street, zipCode, city ], [ lastName, firstName, email, phone, password ], emailDomains, stripeCustomerId ] of companies) {
     const { id } = await prisma.createCompany({
       name,
       type,

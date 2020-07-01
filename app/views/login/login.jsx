@@ -22,7 +22,8 @@ export default function Login({ navigation }) {
   const [login, { loading }] = useMutation(LOGIN, {
     async update (cache, { data: { login } }) {
       await SecureStore.setItemAsync('authToken', login.token)
-      cache.writeQuery({
+      // cache.writeQuery({
+      client.writeData({
         query: CHECK_AUTH,
         data: { checkAuthApp: login.user },
       })
@@ -56,9 +57,7 @@ export default function Login({ navigation }) {
         <Text style={[ s.grey, s.center, s.pb4, s.mbAuto ]}>
           Mot de passe oublié ?
         </Text>
-        {loading ? <Text style={[ s.mb1, { textAlign: 'center' } ]}>Now Loading...</Text> : 
-          <Button btnStyle='primary' label='Connexion' onPress={onSubmit} style={[ s.mb1 ]} />      
-        }
+        <Button btnStyle='primary' label={`Connexion${loading ? '…' : ''}`} onPress={onSubmit} style={[ s.mb1 ]} disabled={loading} />      
       </ScrollView>
     </View>
   )
