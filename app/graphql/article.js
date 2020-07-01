@@ -37,8 +37,6 @@ export const GET_ARTICLE = gql`
   ${articleFragment}
 `
 
-
-
 export const CREATE_ARTICLE = gql`
   mutation CreateArticle ($data: ArticleInput) {
     createArticle(data: $data) {
