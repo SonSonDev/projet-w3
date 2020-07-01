@@ -31,14 +31,11 @@ export default function Place ({ route: { params: { place } }, navigation }) {
 
   const { name, category, headline, description, hours = [], tags = [], address: { street, zipCode, city, distance } = {}, user: { phone } = {}, social: { website } = {}, photos = [] } = place
   
-  const commitments = getTags.find(({ label }) => label === 'Engagements')
-  const filteredCommitments = commitments?.children.map(({ id, label, children }) => ({
+  const allCommitments = getTags.find(({ label }) => label === 'Engagements')
+  const commitments = allCommitments?.children.map(({ id, label, children }) => ({
     id, label,
-    children: getCommitmentsNested(children)
-      .filter(({ label }) => tags.some(t => t.label === label)),
-  }))
-    .filter(({ children }) => children.length)
-    .sort((a, b) => b.children.length - a.children.length)
+    children: getCommitmentsNested(children).filter(({ label }) => tags.some(t => t.label === label)),
+  })).filter(({ children }) => children.length).sort((a, b) => b.children.length - a.children.length)
 
   const { start, end } = { ...hours.filter(({ day }) => day === days[new Date().getDay()]).pop() }
   const [ open, openLabel ] = openOrClosed(start, end)
@@ -124,17 +121,17 @@ export default function Place ({ route: { params: { place } }, navigation }) {
         <View style={[ s.backgroundWhite, s.flex, s.pb1, { minHeight: 240 } ]}>
           <View>
             <ScrollView horizontal snapToInterval={100} style={[ s.pt1, s.mb2 ]} contentContainerStyle={[ s.px2, { borderBottomWidth: 1, borderColor: s.greyLight.color } ]}>
-              {filteredCommitments?.map(({ label, children }, index) => (
+              {commitments?.map(({ label, children }, index) => (
                 <TouchableOpacity onPress={() => setTabIndex(index)} style={[ s.row, s.mr2, s.itemsCenter, s.pb1, tabIndex === index && { borderBottomWidth: 1, borderColor: s.primary.color }, { bottom: -1 } ]} activeOpacity={1} key={label}>
                   <Text style={[ s.body2, tabIndex === index && s.primary, s.bold ]}>{label}</Text>
                 </TouchableOpacity>
               ))}
             </ScrollView>
           </View>
-          {filteredCommitments && filteredCommitments[0]?.children.map((_, i) => (
-            <View style={[ s.row, s.mx2, s.itemsCenter, s.pr2, s.rounded, { borderBottomWidth: 1, borderColor: filteredCommitments[tabIndex]?.children[i]?.label ? s.greyLight.color : 'transparent' }, s.mb1 ]} key={`c-${i}`}>
-              <Icon name="thumb-up-fill" size={22} {...s.white} style={[ filteredCommitments[tabIndex]?.children[i]?.label && s.backgroundPrimary, s.p2, s.mr1 ]} />
-              <Text style={[ s.body1, s.flex, s.ml05 ]}>{filteredCommitments[tabIndex]?.children[i]?.label}</Text>
+          {commitments && commitments[0]?.children.map((_, i) => (
+            <View style={[ s.row, s.mx2, s.itemsCenter, s.pr2, s.rounded, { borderBottomWidth: 1, borderColor: commitments[tabIndex]?.children[i]?.label ? s.greyLight.color : 'transparent' }, s.mb1 ]} key={`c-${i}`}>
+              <Icon name="thumb-up-fill" size={22} {...s.white} style={[ commitments[tabIndex]?.children[i]?.label && s.backgroundPrimary, s.p2, s.mr1 ]} />
+              <Text style={[ s.body1, s.flex, s.ml05 ]}>{commitments[tabIndex]?.children[i]?.label}</Text>
             </View>
           ))}
         </View>
@@ -159,16 +156,14 @@ export default function Place ({ route: { params: { place } }, navigation }) {
             outputRange: [0, 1],
             extrapolate: 'clamp',
           }),
-          transform: [ { translateY: scroll.interpolate({
-          inputRange: [160, 200],
-          outputRange: [-10, 0],
-          extrapolate: 'clamp',
-        }) }
-        
-        ] } ]}>
-            {name}
-        </Animated.Text>
-        <Text style={[ s.heading6 ]}>{' '}</Text>
+          transform: [
+            { translateY: scroll.interpolate({
+              inputRange: [160, 200],
+              outputRange: [-10, 0],
+              extrapolate: 'clamp',
+            }) }
+          ]
+        } ]}>{name}</Animated.Text>
       </Animated.View>
       <Animated.View style={[ s.absolute, s.p1, { paddingTop: s.s1, zIndex: 2 } ]}>
         <Button btnStyle='icon' iconName='arrow-left-line' onPress={navigation.goBack} style={[  ]} />
