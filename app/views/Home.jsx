@@ -57,7 +57,12 @@ export default function Home({ navigation }) {
           style={[]}
           contentContainerStyle={[s.px2, s.py1]}
           data={getPlaces.slice(0, 5)}
-          renderItem={({ item, index }) => <CardAddress place={item} />}
+          renderItem={({ item: place, index }) => (
+            <CardAddress
+              place={place}
+              onPress={() => navigation.navigate("Place", { place })}
+            />
+          )}
           ItemSeparatorComponent={() => <View style={[s.mr2]} />}
           ListEmptyComponent={() => <CardAddressSkeleton />}
           horizontal
@@ -82,7 +87,7 @@ export default function Home({ navigation }) {
           vertical
         />
       </View>
-      <View style={[ s.px2, s.py1 ]}>
+      <View style={[s.px2, s.py1]}>
         <CardPost
           title="Parfumer son intérieur sans péter"
           subtitle="Maison"
