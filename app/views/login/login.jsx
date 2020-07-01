@@ -20,14 +20,8 @@ export default function Login({ navigation }) {
   const [password, setPassword] = React.useState('admin')
 
   const [login, { loading }] = useMutation(LOGIN, {
-    onCompleted() {
-      console.log('coucou')
-    },
-    update (cache, { data: { login } }) {
-      console.log(login)
-      //await SecureStore.setItemAsync('authToken', res.login.token)
-      //await SecureStore.setItemAsync('isLoggedIn', 'true')
-      //client.writeData({ data: { isLoggedIn: true } })
+    async update (cache, { data: { login } }) {
+      await SecureStore.setItemAsync('authToken', login.token)
       cache.writeQuery({
         query: CHECK_AUTH,
         data: { checkAuthApp: login.user },
