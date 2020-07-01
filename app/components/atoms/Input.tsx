@@ -3,9 +3,11 @@ import { TextInput } from 'react-native';
 
 interface InputInterface {
   isPwd?: boolean;
+  style?: Object;
+  onChange: Function;
 }
 
-const Input = ({ isPwd, style, ...rest }: InputInterface): React.ReactElement => {
+const Input = ({ isPwd, style, onChange, ...rest }: InputInterface): React.ReactElement => {
   const [borderColor, setBorderColor] = useState('#E4E6E6');
 
   const onFocus = () => {
@@ -18,6 +20,7 @@ const Input = ({ isPwd, style, ...rest }: InputInterface): React.ReactElement =>
 
   return (
     <TextInput
+      onChangeText={text => onChange(text)}
       style={[
         {
           height: 56,

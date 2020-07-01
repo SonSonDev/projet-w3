@@ -8,6 +8,7 @@ const userFragment = gql`
     lastName
     email
     role
+    tags
     isRepresentative
     points
     company {
@@ -104,6 +105,36 @@ export const UPDATE_USER = gql `
       email: $email
       role: $role
       phone: $phone
+    ) {
+      ...UserFragment
+    }
+  }
+  ${userFragment}
+`
+
+export const ADD_TAGS_TO_USER = gql `
+  mutation AddTagsToUser(
+    $userId: ID!
+    $tags:[String]
+  ) {
+    addTagsToUser(
+      userId: $userId
+      tags: $tags
+    ) {
+      ...UserFragment
+    }
+  }
+  ${userFragment}
+`
+
+export const SET_TAGS_TO_USER = gql `
+  mutation SetTagsToUser(
+    $userId: ID!
+    $tags:[String]
+  ) {
+    setTagsToUser(
+      userId: $userId
+      tags: $tags
     ) {
       ...UserFragment
     }
