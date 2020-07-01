@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import CardPost from '../components/organismes/CardPost';
+import CardPost from '../components/organismes/CardPost.jsx';
 
 export default {
   title: 'CardPost',
@@ -13,6 +13,7 @@ export const Large = () => (
       title="Parfumer son intérieur sans polluer"
       subtitle="Maison"
       photos="https://www.phenicia-marseille.fr/templates/images/img1.jpg"
+      large
     />
   </View>
 );
@@ -23,6 +24,7 @@ export const Medium = () => (
       title="Parfumer son intérieur sans polluer"
       subtitle="Maison"
       photos="https://www.phenicia-marseille.fr/templates/images/img1.jpg"
+      medium
     />
   </View>
 );
@@ -33,6 +35,7 @@ export const Small = () => (
       title="Parfumer son intérieur sans polluer"
       subtitle="Maison"
       photos="https://www.phenicia-marseille.fr/templates/images/img1.jpg"
+      small
     />
   </View>
 );
