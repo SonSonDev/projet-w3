@@ -44,16 +44,16 @@ export const Maragsa = { fontFamily: 'Maragsa' }
 export const HKGrotesk = { fontFamily: 'HKGrotesk' }
 export const HKGroteskSemiBold = { fontFamily: 'HKGroteskSemiBold' }
 
-export const heading1:any = { ...Maragsa, fontSize: 40, lineHeight: 40, ...black }
-export const heading2:any = { ...Maragsa, fontSize: 32, lineHeight: 32, ...black }
-export const heading3:any = { ...Maragsa, fontSize: 24, lineHeight: 24, ...black }
+export const heading1 = { ...Maragsa, fontSize: 40, lineHeight: 40, ...black }
+export const heading2 = { ...Maragsa, fontSize: 32, lineHeight: 32, ...black }
+export const heading3 = { ...Maragsa, fontSize: 24, lineHeight: 24, ...black }
 
-export const heading4:any = { ...HKGroteskSemiBold, fontSize: 24, ...black }
-export const heading5:any = { ...HKGroteskSemiBold, fontSize: 18, ...black }
-export const heading6:any = { ...HKGroteskSemiBold, fontSize: 16, ...black }
+export const heading4 = { ...HKGroteskSemiBold, fontSize: 24, ...black }
+export const heading5 = { ...HKGroteskSemiBold, fontSize: 18, ...black }
+export const heading6 = { ...HKGroteskSemiBold, fontSize: 16, ...black }
 
-export const body1:any = { ...HKGrotesk, fontSize: 16, ...black }
-export const body2:any = { ...HKGrotesk, fontSize: 14, ...black }
+export const body1 = { ...HKGrotesk, fontSize: 16, ...black }
+export const body2 = { ...HKGrotesk, fontSize: 14, ...black }
 
 export const bold = { ...HKGroteskSemiBold }
 
@@ -156,7 +156,7 @@ export const mb3 = { marginBottom: s3 }
 export const mb4 = { marginBottom: s4 }
 export const mbAuto = { marginBottom: 'auto' }
 
-export const m:any = {
+export const m = {
   b00: {marginBottom: 0},
   b0: {marginBottom: 4},
   b1: {marginBottom: 8},
@@ -183,7 +183,7 @@ export const m:any = {
   l5: {marginLeft: 40},
 }
 
-export const p:any = {
+export const p = {
   b00: {paddingBottom: 0},
   b0: {paddingBottom: 4},
   b1: {paddingBottom: 8},

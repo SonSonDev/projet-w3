@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Button, TouchableHighlight, ActivityIndicatorComponent } from 'react-native';
 import Chip from "../atoms/Chip";
 import RoundButton from "../atoms/RoundButton";
 import Typo from "../atoms/Typography";
@@ -10,17 +10,19 @@ interface cardInterface {
   subtitle: string;
   photos: string;
   cardStyle?: "large" | "medium" | "small";
+  onPress: any;
 }
 
-const CardPost = ({ cardStyle, title, subtitle, photos }: cardInterface) => {
+const CardPost = ({ cardStyle, onPress, post }: cardInterface) => {
+  console.log("ici", post)
   let styles: any;
   switch (cardStyle) {
     case "small":
       styles = StyleSheet.create({
         container: {
-          width: 268,
+          width: 363,
           height: 221,
-          boxShadow: "0px 0px 1px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 10px 20px rgba(0, 0, 0, 0.04)",
+          // boxShadow: "0px 0px 1px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 10px 20px rgba(0, 0, 0, 0.04)",
           backgroundColor: "#181a1e",
           borderRadius: 16,
         },
@@ -76,14 +78,16 @@ const CardPost = ({ cardStyle, title, subtitle, photos }: cardInterface) => {
   }
 
   return (
-    <View style={styles.container}>
-      <ImageBackground style={styles.topBg} source={photos[0]}>
+    <TouchableHighlight onPress={onPress} style={styles.container}>
+      {/* @ts-ignore */}
+      <ImageBackground style={styles.topBg} source={{ uri: post.photo.id }}>
         <View style={styles.info}>
-          <Typo fontSize={14} lineHeight={18} fontWeight={200} color="#FFFFFF" text={subtitle} />
-          <Typo fontSize={24} lineHeight={31} fontWeight="normal" color="#FFFFFF" text={title} />
+          {/* @ts-ignore */}
+          {/* <Typo fontSize={14} lineHeight={18} fontWeight="200" color="#FFFFFF" text={subtitle} /> */}
+          <Typo fontSize={24} lineHeight={31} fontWeight="normal" color="#FFFFFF" text={post.title} />
         </View>
       </ImageBackground>
-    </View>
+    </TouchableHighlight >
   )
 }
 
