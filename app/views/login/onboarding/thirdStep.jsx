@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View, ScrollView, Text, Image } from 'react-native'
-import { useApolloClient } from "@apollo/react-hooks"
+import { useApolloClient, useMutation, useQuery } from "@apollo/react-hooks"
 import * as SecureStore from 'expo-secure-store'
 
 import Filter from "../../../components/atoms/Filter"
@@ -9,9 +9,12 @@ import Button from "../../../components/atoms/Button"
 import IllustrationOnboarding from "../../../assets/img/illu-onboarding.svg"
 import * as s from "../../../styles/index"
 
+import { ADD_TAGS_TO_USER } from '../../../graphql/user'
+import { CHECK_AUTH } from '../../../graphql/auth'
 
 export default function OBThirdStep () {
   const client = useApolloClient()
+  const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
 
   const [filterList, setFilterList] = useState([
     { label: 'Handicap visuel' },
@@ -19,6 +22,24 @@ export default function OBThirdStep () {
     { label: 'Handicap moteur' },
     { label: 'Pas de besoins particuliers', isUnique: true }
   ])
+
+  const [addTagsToUser, { loading }] = useMutation(ADD_TAGS_TO_USER, {
+    onCompleted: async res => {
+      await SecureStore.setItemAsync('isOnboarded', 'true')
+      client.writeData({ data: { isOnboarded: true } })
+    },
+    onError: error => console.log(error.message),
+  })
+
+  const onSubmit = async () => {
+    if (!filterList.some(item => item.selected)) {
+      setFilterList(filterList.map(item => ({ ...item, selected: item.isUnique })))
+    }
+    addTagsToUser({ variables: {
+      userId: userData.id,
+      tags: filterList.filter(item => item.selected && !item.isUnique).map(item => item.label)
+    }})
+  }
 
   return (
     <View style={[ s.flex, s.backgroundPale ]}>
@@ -32,13 +53,7 @@ export default function OBThirdStep () {
         </Text>
         <Filter filterList={filterList} setFilterList={setFilterList} numbColumns={3} />
         <Steps length={3} currentStep={3} style={[ s.mtAuto, s.mb2 ]} />
-        <Button btnStyle='primary' label='C’est parti !' style={[ s.mb1 ]} onPress={async () => {
-          if (!filterList.some(item => item.selected)) {
-            setFilterList(filterList.map(item => ({ ...item, selected: item.isUnique })))
-          }
-          await SecureStore.setItemAsync('isOnboarded', 'true')
-          client.writeData({ data: { isOnboarded: true } })
-        }} />
+        <Button btnStyle='primary' label='C’est parti !' style={[ s.mb1 ]} onPress={onSubmit} />
         <Button btnStyle='secondary' label='Passer' onPress={async () => {
           await SecureStore.setItemAsync('isOnboarded', 'true')
           client.writeData({ data: { isOnboarded: true } })

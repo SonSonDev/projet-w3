@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, ScrollView, View, Text, Linking, Image } from 'react-native'
-import { useQuery } from "@apollo/react-hooks"
+import { useQuery, useMutation } from "@apollo/react-hooks"
 import { useApolloClient } from "@apollo/react-hooks"
 import * as SecureStore from 'expo-secure-store'
 import gql from "graphql-tag"
@@ -9,11 +9,41 @@ import Button from "../../components/atoms/Button"
 import Input from "../../components/atoms/Input"
 import IllustrationLogin from "../../assets/img/illu-login.svg"
 import * as s from "../../styles/index"
+import { LOGIN, CHECK_AUTH } from "../../graphql/auth"
 
 
 export default function Login({ navigation }) {
   const client = useApolloClient()
   const { data: { isOnboarded } = {} } = useQuery(gql`{ isOnboarded @client }`)
+
+  const [email, setEmail] = React.useState('vpham@craftegg.fr')
+  const [password, setPassword] = React.useState('admin')
+
+  const [login, { loading }] = useMutation(LOGIN, {
+    onCompleted() {
+      console.log('coucou')
+    },
+    update (cache, { data: { login } }) {
+      console.log(login)
+      //await SecureStore.setItemAsync('authToken', res.login.token)
+      //await SecureStore.setItemAsync('isLoggedIn', 'true')
+      //client.writeData({ data: { isLoggedIn: true } })
+      cache.writeQuery({
+        query: CHECK_AUTH,
+        data: { checkAuthApp: login.user },
+      })
+    },
+    onError: error => console.log(error.message),
+  })
+  const onSubmit = async () => {
+    login({
+      variables: {
+        email,
+        password,
+      },
+    })
+  }
+
 
   return (
     <View style={[ s.flex, s.backgroundPale ]}>
@@ -27,16 +57,14 @@ export default function Login({ navigation }) {
             Vous avez reçu votre mot de passe par mail
           </Text>
         )}
-        <Input value={'example@company.com'} style={[ s.mt2, s.mb1 ]} />
-        <Input value={'password'} isPwd style={[ s.mb2 ]} />
+        <Input value={email} onChange={setEmail} style={[ s.mt2, s.mb1 ]} />
+        <Input value={password} onChange={setPassword} isPwd style={[ s.mb2 ]} />
         <Text style={[ s.grey, s.center, s.pb4, s.mbAuto ]}>
           Mot de passe oublié ?
         </Text>
-        <Button btnStyle='primary' label='Connexion' onPress={async () => {
-          await SecureStore.setItemAsync('isLoggedIn', 'true')
-          client.writeData({ data: { isLoggedIn: true } })
-          // navigation.navigate('OnboardingFirstStep')
-        }} style={[ s.mb1 ]} />
+        {loading ? <Text style={[ s.mb1, { textAlign: 'center' } ]}>Now Loading...</Text> : 
+          <Button btnStyle='primary' label='Connexion' onPress={onSubmit} style={[ s.mb1 ]} />      
+        }
       </ScrollView>
     </View>
   )
