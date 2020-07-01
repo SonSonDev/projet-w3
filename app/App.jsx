@@ -30,7 +30,6 @@ const Tab = createBottomTabNavigator()
 
 const GET_LOCAL_STATE = gql`
   {
-    isLoggedIn @client
     isOnboarded @client
   }
 `
@@ -38,7 +37,7 @@ const GET_LOCAL_STATE = gql`
 
 export default function () {
   const client = useApolloClient()
-  const { data: { isLoggedIn, isOnboarded } = {} } = useQuery(GET_LOCAL_STATE)
+  const { data: { isOnboarded } = {} } = useQuery(GET_LOCAL_STATE)
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
   const [ isLoaded ] = useFonts({
     Maragsa: require('./assets/fonts/Maragsa/Maragsâ.otf'),
@@ -49,24 +48,24 @@ export default function () {
   // console.log({ isLoggedIn, isOnboarded })
   useEffect(() => {
     Promise.all([
-      SecureStore.getItemAsync('isLoggedIn'),
       SecureStore.getItemAsync('isOnboarded'),
-    ]).then(([ isLoggedIn, isOnboarded ]) => {
-      client.writeData({ data: { isLoggedIn, isOnboarded } })
+    ]).then(([ isOnboarded ]) => {
+      client.writeData({ data: { isOnboarded } })
     })
   })
 
-  if (!isLoaded || typeof isLoggedIn === 'undefined') return <AppLoading />
-
+  if (!isLoaded) return <AppLoading />
+  console.log(isOnboarded)
+  console.log(userData)
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ header: Header }} headerMode='screen'>
-        {isLoggedIn && isOnboarded && userData ? (
+        {isOnboarded && userData ? (
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
         ) : (
           <>
-            {!isLoggedIn && !isOnboarded && <Stack.Screen name="FirstScreen" component={FirstScreen} options={{ animationTypeForReplace: 'pop' }} />}
-            {!isLoggedIn && <Stack.Screen name="Login" component={Login} />}
+            {!userData && !isOnboarded && <Stack.Screen name="FirstScreen" component={FirstScreen} options={{ animationTypeForReplace: 'pop' }} />}
+            {!userData && <Stack.Screen name="Login" component={Login} />}
             <Stack.Screen name="OnboardingFirstStep" component={OnboardingFirstStep} />
             <Stack.Screen name="OnboardingSecondStep" component={OnboardingSecondStep} />
             <Stack.Screen name="OnboardingThirdStep" component={OnboardingThirdStep} />

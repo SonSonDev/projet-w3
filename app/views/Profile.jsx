@@ -26,20 +26,21 @@ export default function Profile () {
         { `${userData?.company?.name}` }
       </Text>
       <TouchableOpacity activeOpacity={1} style={[ s.p2, s.backgroundWhite, { borderWidth: 1, borderColor: s.c.bg } ]} onPress={async () => {
-        await SecureStore.deleteItemAsync('isLoggedIn')
         await SecureStore.deleteItemAsync('authToken')
-        client.writeData({ data: { isLoggedIn: false } })
+        client.writeData({ data: { checkAuthApp: null } })        
       }}>
         <Text style={[ s.body1 ]}>Déconnexion</Text>
       </TouchableOpacity>
+      {/*       
       <TouchableOpacity activeOpacity={1} style={[ s.p2, s.backgroundWhite, { borderBottomWidth: 1, borderColor: s.c.bg } ]} onPress={async () => {
-        await SecureStore.deleteItemAsync('isLoggedIn')
         await SecureStore.deleteItemAsync('isOnboarded')
         await SecureStore.deleteItemAsync('authToken')
-        client.writeData({ data: { isLoggedIn: false, isOnboarded: false } })
+        client.writeData({ data: { checkAuthApp: null, isOnboarded: false } })
+        navigation.navigate('FirstScreen')
       }}>
         <Text style={[ s.body1 ]}>Réinitialiser</Text>
       </TouchableOpacity>
+      */}
       <Text style={[ s.body2, s.grey, s.p2 ]}>Version {Constants.manifest.version}</Text>
     </ScrollView>
   )

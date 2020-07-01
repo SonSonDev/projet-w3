@@ -10,6 +10,10 @@ export const LOGIN = gql`
         lastName
         email
         role
+        company {
+          id
+          name
+        }
       }
     }
   }
