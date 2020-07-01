@@ -98,7 +98,7 @@ const Button = ({ btnStyle, iconLeft, iconRight, label, iconName, onPress = () =
           height: 40,
           borderRadius: 50,
           backgroundColor: '#FFFFFF',
-          borderWidth: 1,
+          // borderWidth: 1,
           borderColor: '#E4E6E6'
         }
       });

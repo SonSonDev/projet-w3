@@ -24,6 +24,7 @@ const CardAddress = ({
   return (
     <TouchableOpacity style={[ s.backgroundWhite, s.rounder, s.flex, !full && { width: 280 }, style ]} onPress={onPress} activeOpacity={1}>
       <ImageBackground style={[ { height: full ? 200 : 120 }, s.p2 ]} source={photos[0]} resizeMode='cover' borderRadius={16}>
+        <View style={[ s.backgroundPrimaryLight, s.absolute, s.fill, s.rounder, { zIndex: -1 } ]} />
         <LinearGradient colors={[ 'transparent', full ? 'rgba(0, 0, 0, 0.8)' : 'rgba(0, 0, 0, 0.5)' ]} style={[ s.absolute, s.fill, s.rounder ]} />
         {/* {full && <Chip height={33} title="Gagnez des points en vous y rendant" />} */}
         {full && (
