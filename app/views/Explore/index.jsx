@@ -3,17 +3,17 @@ import { StyleSheet, View, ScrollView, Text, FlatList, Platform, TouchableOpacit
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import BottomSheet from 'reanimated-bottom-sheet'
 
-import { GET_PLACES, DELETE_PLACE, UPSERT_PLACES } from "../graphql/place"
-import { categories, categoryIcons } from '../utils/wording'
+import { GET_PLACES, DELETE_PLACE, UPSERT_PLACES } from "../../graphql/place"
+import { categories, categoryIcons } from '../../utils/wording'
 
-import Button from "../components/atoms/Button"
-import Input from "../components/atoms/Input"
-import Icon from "../components/atoms/Icon"
-import CardAddress, { CardAddressSkeleton } from "../components/organismes/CardAddress"
-import * as s from '../styles'
+import Button from "../../components/atoms/Button"
+import Input from "../../components/atoms/Input"
+import Icon from "../../components/atoms/Icon"
+import CardAddress, { CardAddressSkeleton } from "../../components/organismes/CardAddress"
+import * as s from '../../styles'
 
 
-export default function Explore () {
+export default function Explore ({ navigation }) {
   const [ category, setCategory ] = useState('FOOD')
 
   const { data: { getPlaces = [] } = {}, loading, error } = useQuery(GET_PLACES, {
@@ -43,7 +43,7 @@ export default function Explore () {
         stickyHeaderIndices={[0]}
         data={getPlaces}
         renderItem={({ item, index }) => (
-          <CardAddress full place={item} style={[ s.mx2, s.mb2 ]} />
+          <CardAddress full place={item} style={[ s.mx2, s.mb2 ]} onPress={() => navigation.navigate('Place', { place: item })} />
         )}
         ListEmptyComponent={() => <CardAddressSkeleton full style={[ s.mx2 ]} />}
         ListFooterComponent={() => <View style={[ { height: 80 } ]} />}
