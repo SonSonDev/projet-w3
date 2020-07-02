@@ -88,7 +88,7 @@ export default function Challenges({ navigation }) {
       )}/>
       { isOnChallengesTab() ?
       <>
-        <View style={[ s.flex, s.rounder, s.mx2, s.p2, {backgroundColor: '#FBEAE9', overflow: 'hidden'}]}>
+        <View style={[ s.flex, s.round3, s.mx2, s.p2, {backgroundColor: '#FBEAE9', overflow: 'hidden'}]}>
           <IllustrationChallenges style={[ s.absolute, {bottom: -48, right: -32}]} />
           <VectChallenges style={[s.absolute, s.bottom, s.left]} />
           <Text style={[s.heading2, {color:'#B4543A'}]}>Faites du tri</Text>
@@ -101,7 +101,7 @@ export default function Challenges({ navigation }) {
           data={getRewards}
           renderItem={({ item, index }) => (
             <TouchableOpacity
-              style={[s.rounder, s.backgroundWhite, s.px3, s.py2, s.mr2, {flex: 1, flexDirection: 'row', alignItems: 'center'}]}
+              style={[s.round3, s.backgroundWhite, s.px3, s.py2, s.mr2, {flex: 1, flexDirection: 'row', alignItems: 'center'}]}
               key={item.id}
               horizontal>
               { item.type === 'diy' ? <IconDIY/> : <IconRecipe/>}
@@ -112,16 +112,17 @@ export default function Challenges({ navigation }) {
             </TouchableOpacity>
           )}
           horizontal
+          showsHorizontalScrollIndicator={false}
         />
       </> :
       <>
         <Text style={[s.heading5, s.m2]}>Vos collègues sont déjà en course !</Text>
         <FlatList
-          style={[s.mx2, s.p2, s.backgroundWhite, s.rounder]}
+          style={[s.mx2, s.p2, s.backgroundWhite, s.round3]}
           data={getCompany.employees.sort((a,b)=>Number(b.pts-a.pts))}
           renderItem={({item, index}) => (
             <View
-              style={[s.rounder, s.px2, s.py1, s.mb05, {flex: 1, flexDirection: 'row', alignItems: 'center'}, (index === 0) && [{backgroundColor: '#FFBB6B'}, s.py2]]}
+              style={[s.round3, s.px2, s.py1, s.mb05, {flex: 1, flexDirection: 'row', alignItems: 'center'}, (index === 0) && [{backgroundColor: '#FFBB6B'}, s.py2]]}
               key={item.id}>
               {index === 0 ? <IconWinner/> : <Text style={[s.bold, {width: 22, textAlign: 'center'}]}>{index + 1}</Text>}
               <Text style={[s.pl2, s.bold, (index === 0 && s.white)]}>{item.firstName} {item.lastName}</Text>
