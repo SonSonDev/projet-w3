@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, Text, ImageBackground, TouchableOpacity } from 'react-native'
 
-import { categories, categoryIcons, days, openOrClosed } from '../../utils/wording'
+import { categories, categoryIcons, dayIndexes, openOrClosed } from '../../utils/wording'
 
 import Chip from "../atoms/Chip"
 import RoundButton from "../atoms/RoundButton"
@@ -18,7 +18,7 @@ const CardAddress = ({
   style,
 }) => {
 
-  const { start, end } = { ...hours.filter(({ day }) => day === days[new Date().getDay()]).pop() }
+  const { start, end } = { ...hours.filter(({ day }) => day === dayIndexes[new Date().getDay()]).pop() }
   const [ open, openLabel ] = openOrClosed(start, end)
 
   return (
@@ -26,7 +26,11 @@ const CardAddress = ({
       <ImageBackground style={[ { height: full ? 200 : 120 }, s.p2 ]} source={photos[0]} resizeMode='cover' borderRadius={16}>
         <View style={[ s.backgroundPrimaryLight, s.absolute, s.fill, s.round3, { zIndex: -1 } ]} />
         <LinearGradient colors={[ 'transparent', full ? 'rgba(0, 0, 0, 0.8)' : 'rgba(0, 0, 0, 0.5)' ]} style={[ s.absolute, s.fill, s.round3 ]} />
-        {/* {full && <Chip height={33} title="Gagnez des points en vous y rendant" />} */}
+        {full && (
+          <Text style={[ s.backgroundWhite, s.py1, s.px1, s.body2, s.bold, s.round2, { overflow: 'hidden', alignSelf: 'flex-start' }, s.mb3 ]}>
+            Gagnez 50 points en vous y rendant
+          </Text>
+        )}
         {full && (
           <Text style={[ s.heading3, s.white, s.mtAuto ]} numberOfLines={2}>
             “{headline}”
@@ -39,8 +43,8 @@ const CardAddress = ({
           <Text style={[ s.body2, s.primary, s.bold, s.mr1 ]}>{categories[category]}</Text>
           <Icon name="walk-fill" size={14} {...s.primary} style={[ s.mr05 ]} />
           <Text style={[ s.body2, s.primary, s.bold, s.mrAuto ]}>{Math.round(distance / 100)} min</Text>
-          {tags.some(({ label }) => label.includes('Vegan')) && <RoundButton backgroundColor="#DAEEE6" icon={<Icon name="leaf-fill" size={20} color="#44A881" />} />}
-          {tags.some(({ label }) => label.includes('Handicap')) && <RoundButton backgroundColor="#EDECF8" icon={<Icon name="wheelchair-fill" size={20} color="#9188F6" />} />}
+          {tags.some(({ label }) => label === 'Vegan') && <RoundButton backgroundColor="#DAEEE6" icon={<Icon name="leaf-fill" size={20} color="#0E562F" />} />}
+          {tags.some(({ label }) => label === 'Handicap moteur') && <RoundButton backgroundColor="#EDECF8" icon={<Icon name="wheelchair-fill" size={20} color="#463DAB" />} />}
         </View>
         <Text style={[ s.heading5, s.mb05 ]} numberOfLines={1}>
           {name}

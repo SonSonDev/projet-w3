@@ -180,7 +180,7 @@ module.exports = {
         _id: placeId,
         "address.location": {
           $near: {
-            $maxDistance: 100,
+            $maxDistance: 500,
             $geometry: { type: "Point", coordinates }
           }
         }

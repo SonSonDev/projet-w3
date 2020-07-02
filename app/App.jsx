@@ -40,7 +40,7 @@ const GET_LOCAL_STATE = gql`
 export default function () {
   const client = useApolloClient()
   const { data: { isOnboarded } = {} } = useQuery(GET_LOCAL_STATE)
-  const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
+  const { data: { checkAuthApp: userData } = {}, loading } = useQuery(CHECK_AUTH)
   const [ isLoaded ] = useFonts({
     Maragsa: require('./assets/fonts/Maragsa/Maragsâ.otf'),
     HKGrotesk: require('./assets/fonts/HK-Grotesk/HKGrotesk-Regular.otf'),
@@ -57,7 +57,7 @@ export default function () {
     })
   })
 
-  if (!isLoaded) return <AppLoading />
+  if (!isLoaded || loading) return <AppLoading />
   console.log(isOnboarded)
   console.log(userData)
   return (

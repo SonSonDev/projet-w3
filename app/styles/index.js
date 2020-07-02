@@ -134,6 +134,7 @@ export const mrAuto = { marginRight: 'auto' }
 export const ml05 = { marginLeft: s05 }
 export const ml1 = { marginLeft: s1 }
 export const ml2 = { marginLeft: s2 }
+export const ml3 = { marginLeft: s3 }
 export const mlAuto = { marginLeft: 'auto' }
 export const mx05 = { marginHorizontal: s05 }
 export const mx1 = { marginHorizontal: s1 }
@@ -220,7 +221,7 @@ export const justifyCenter = { justifyContent: 'center' }
 export const itemsCenter = { alignItems: 'center' }
 export const itemsEnd = { alignItems: 'flex-end' }
 export const selfCenter = { alignSelf: 'center' }
-export const selfStart = { alignSelf: 'start' }
+export const selfStart = { alignSelf: 'flex-start' }
 export const center = { textAlign: 'center' }
 
 export const absolute = { position: 'absolute' }

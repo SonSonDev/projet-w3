@@ -11,7 +11,13 @@ export const categoryIcons = {
   ACTIVITY: "lightbulb-fill",
 }
 
-export const days = {
+export const categorySubtitles = {
+  FOOD: { prefix: 'Cuisine ', tag: 'Type de cuisine'},
+  SHOP: { prefix: '', tag: 'Type de boutique' },
+  ACTIVITY: { prefix: '', tag: 'Type d\'activité/loisir'},
+}
+
+export const dayIndexes = {
   0: "SUNDAY",
   1: "MONDAY",
   2: "TUESDAY",
@@ -19,6 +25,22 @@ export const days = {
   4: "THURSDAY",
   5: "FRIDAY",
   6: "SATURDAY",
+}
+
+export const days = {
+  MONDAY: "lundi",
+  TUESDAY: "mardi",
+  WEDNESDAY: "mercredi",
+  THURSDAY: "jeudi",
+  FRIDAY: "vendredi",
+  SATURDAY: "samedi",
+  SUNDAY: "dimanche",
+}
+
+export const prices = {
+  '€': 'Prix bas',
+  '€€': 'Prix moyens',
+  '€€€': 'Prix élevés',
 }
 
 export const themes = {
