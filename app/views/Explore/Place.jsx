@@ -11,6 +11,7 @@ import MapView, { Marker } from 'react-native-maps'
 import { GET_PLACE, DELETE_PLACE, UPSERT_PLACES } from "../../graphql/place"
 import { GET_TAGS } from '../../graphql/tag'
 import { CHECK_LOCATION } from '../../graphql/user'
+import { CHECK_AUTH } from '../../graphql/auth'
 import { categories, categoryIcons, categorySubtitles, days, dayIndexes, openOrClosed, prices } from '../../utils/wording'
 
 import Button from "../../components/atoms/Button"
@@ -30,6 +31,7 @@ const getCommitmentsNested = children => children.reduce(
 
 
 export default function Place ({ route: { params: { place } }, navigation }) {
+  const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
   const scrollViewRef = useRef(null)
   const [ hoursCollapsed, setHoursCollapesed ] = useState(true)
   const [ toast, setToast ] = useState('')
@@ -79,7 +81,7 @@ export default function Place ({ route: { params: { place } }, navigation }) {
             <Icon name="walk-fill" size={14} {...s.primary} style={[ s.mr05 ]} />
             <Text style={[ s.body2, s.primary, s.bold, s.mrAuto ]}>{Math.round(distance / 100)} min</Text>
             <TouchableOpacity
-              onPress={() => Linking.openURL(`http://maps.google.com/?daddr=${encodeURIComponent(`${street}, ${zipCode} ${city}`)}`)}
+              onPress={() => Linking.openURL(`http://maps.google.com/?saddr=${encodeURIComponent(`${userData?.company.address.street}, ${userData?.company.address.zipCode} ${userData?.company.address.city}`)}&daddr=${encodeURIComponent(`${street}, ${zipCode} ${city}`)}`)}
               style={[ s.py1, s.px2, s.row, s.itemsCenter, s.round2, { borderWidth: 1, borderColor: s.black.color } ]} activeOpacity={1}
             >
               <Icon name="navigation-line" size={18} />
@@ -222,6 +224,7 @@ export default function Place ({ route: { params: { place } }, navigation }) {
               }}
               provider='google'
               style={[ { width: '100%', height: '100%' }, s.round3 ]}
+              scrollEnabled={false}
             >
               <Marker
                 coordinate={{ latitude, longitude }}

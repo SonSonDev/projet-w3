@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs")
 const { transporter, emailTemplate } = require("../utils")
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
+const GoogleMaps = require("../services/googleMaps")
 
 
 const createCompany = async (_, args, context) => {
@@ -106,23 +107,35 @@ module.exports = {
   },
   mutations: {
 
-    createCompany,
+    async createCompany (_, args, { prisma }) {
+      const [ data, representativeUser ] = await makeCompanyInput({ ...args, name: args.companyName, type: args.companyType, street: args.streetCompany, zipCode: args.zipCodeCompany, city: args.cityCompany }, prisma)
+      const created = await prisma.createCompany(data)
+
+      transporter.sendMail({
+        from: "madu.group7@gmail.com",
+        to: args.emailUser,
+        subject: "Votre mot de passe",
+        html: emailTemplate(`${args.firstNameUser} ${args.lastNameUser}`, args.randomPassword),
+      }, console.log)
+
+      return {
+        ...created,
+        userCount: 1,
+        representativeUser,
+        stripeInvoices: [],
+      }
+    },
 
     createCompanies (_, { companies }, context) {
       return Promise.all(companies.map(company => createCompany(_, company, context)))
     },
 
-    updateCompany(_, { companyId, name, type, street, zipCode, city, emailDomains }, context) {
-      return context.prisma.updateCompany({
+    async updateCompany (_, { companyId, name, type, street, zipCode, city, emailDomains }, { prisma }) {
+      const [ data ] = await makeCompanyInput({ name, type, street, zipCode, city, emailDomains }, prisma, true)
+
+      return prisma.updateCompany({
         where: { id: companyId },
-        data: {
-          name,
-          type,
-          address: {
-            update: { street, zipCode, city },
-          },
-          emailDomains: { set: emailDomains },
-        },
+        data,
       })
     },
 
@@ -162,4 +175,59 @@ module.exports = {
       },
     },
   },
+}
+
+async function makeCompanyInput ({ name, type, street, zipCode, city, emailDomains, firstNameUser, lastNameUser, emailUser, phoneUser, roleUser, isRepresentative }, prisma, update) {
+
+  const { data: { results } } = await GoogleMaps.client.geocode({ params: {
+    address: `${street}, ${zipCode} ${city}`, key: process.env.GOOGLE_MAPS_API_KEY,
+  } })
+  const { geometry: { location: { lat, lng } } } = results[0]
+
+  let randomPassword = Math.random().toString(36).substring(5)
+
+  const hashPassword = await bcrypt.hash(randomPassword, 10)
+
+  const representativeUser = !update && (
+    await prisma.user({ email: emailUser })
+  ) || (
+    await prisma.createUser({
+      firstName: firstNameUser,
+      lastName: lastNameUser,
+      email: emailUser,
+      password: hashPassword,
+      phone: phoneUser,
+      role: roleUser,
+      isRepresentative: isRepresentative,
+    })
+  )
+
+  const stripeCustomer = await stripe.customers.create({
+    name: name,
+    email: emailUser,
+  })
+
+  return [
+    {
+      name: name,
+      type: type,
+      address: {
+        create: {
+          street: street,
+          zipCode: zipCode,
+          city: city,
+          location: { create: {
+            type: "Point",
+            coordinates: { set: [ lat, lng ] },
+          } },
+        },
+      },
+      ...!update && { users: { connect: [ { id: representativeUser.id } ] } },
+      emailDomains: {
+        set: emailDomains,
+      },
+      stripeCustomerId: stripeCustomer.id,
+    },
+    representativeUser,
+  ]
 }

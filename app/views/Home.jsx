@@ -15,17 +15,19 @@ export default function Home({ navigation }) {
   const { data: { getPlaces = [] } = {}, loading, error } = useQuery(
     GET_PLACES,
     {
+      skip: !userData?.company.address.location,
       onError: (error) => console.log(error.message),
       variables: {
         where: { category: "FOOD" },
         nearby: {
-          coordinates: [48.8518269, 2.4204598], // HETIC
+          coordinates: userData?.company.address.location?.coordinates
         },
       },
     }
   );
 
   const { data: { getArticles = [] } = {} } = useQuery(GET_ARTICLES, {
+    skip: !getPlaces.length,
     onError: (error) => console.log(error.message),
   });
 
@@ -40,7 +42,7 @@ export default function Home({ navigation }) {
 
       <View style={[ s.row, s.mt2, s.px2, s.mb05, s.itemsEnd ]}>
         <Text style={[s.heading5 ]}>
-          À proximité de <Text style={[s.primary]}>Hetic</Text>
+          À proximité de <Text style={[s.primary]}>{userData?.company.name}</Text>
         </Text>
         <Text style={[s.body1, s.bold, s.mlAuto ]} onPress={() => navigation.navigate('Explore')}>
           Voir tout

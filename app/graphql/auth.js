@@ -1,22 +1,16 @@
 import gql from "graphql-tag"
+import { userFragment } from './user'
 
 export const LOGIN = gql`
   mutation Login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       token
       user {
-        id
-        firstName
-        lastName
-        email
-        role
-        company {
-          id
-          name
-        }
+        ...UserFragment
       }
     }
   }
+  ${userFragment}
 `
 
 export const LOGOUT = gql`
@@ -29,15 +23,8 @@ export const LOGOUT = gql`
 export const CHECK_AUTH = gql`
   {
     checkAuthApp {
-      id
-      firstName
-      lastName
-      email
-      role
-      company {
-        id
-        name
-      }
+      ...UserFragment
     }
   }
+  ${userFragment}
 `

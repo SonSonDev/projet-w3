@@ -267,6 +267,7 @@ const companies = [
     [ "12 Rue d'Enghien", "75010", "Paris" ],
     [ "Zeroual", "Mahel", "mahel.zeroual@bridge.audio", "0689364340", "admin" ],
     [ "bridge.audio", "creaminal.com", "velvetcream.io", "velvetica.io" ],
+    [ 48.8719021, 2.3521909 ],
     "cus_GlQOvvGAtVXSxO",
   ],
   [
@@ -274,6 +275,7 @@ const companies = [
     [ "1 Boulevard Saint-Martin", "75003", "Paris" ],
     [ "Yip", "Theodore", "theodore.yip@mono.net", "0666831336", "admin" ],
     [ "mono.net", "despair.com" ],
+    [ 48.8678081, 2.361957 ],
     "cus_GlQ5hFO0y1S5Zk",
   ],
   [
@@ -281,6 +283,7 @@ const companies = [
     [ "Shibuya City, Jingumae5-6-5", "〒150-0001", "Tokyo" ],
     [ "Sahbi", "Florian", "sahbi.s@otaku.com", "0610658929", "admin" ],
     [ "otaku.com", "otakupro.com" ],
+    [ 35.6660256, 139.70867 ],
     "cus_GlRIXTv11FPCQZ",
   ],
   [
@@ -288,6 +291,7 @@ const companies = [
     [ "5 rue Albert de mun", "93700", "Drancy" ],
     [ "Pham", "Vincent", "vpham@craftegg.fr", "0666066606", "admin" ],
     [ "craftegg.fr", "bushimo.fr" ],
+    [ 48.9133557, 2.4618855 ],
     "cus_Gm6ppabZl2gCbh",
   ],
   [
@@ -295,6 +299,7 @@ const companies = [
     [ "10 Rue Jules Genovesi", "93200", "Saint-Denis" ],
     [ "Lenglin", "Quentin", "lenglin.quentin@electronicarts.fr", "0612345789", "admin" ],
     [ "electronicarts.com", "electronicarts.fr" ],
+    [ 48.9263246, 2.3428107 ],
     "cus_Gm70xgevDCrt7L",
   ],
   [
@@ -302,6 +307,7 @@ const companies = [
     [ "126 Rue de Lagny", "93100", "Montreuil" ],
     [ "Leroy", "Valentine", "valentine.leroy@ubisoft.fr", "0698754321", "admin" ],
     [ "ubisoft.fr", "ubisoft.com" ],
+    [ 48.84973429999999, 2.4186524 ],
     "cus_Gm78XpecPzqsb9",
   ],
   [
@@ -309,6 +315,7 @@ const companies = [
     [ "276 Rue Saint-Honoré", "75001", "Paris" ],
     [ "Levieux", "Christella", "christella@pompom.fr", "0698754321", "admin" ],
     [ "pompom.fr" ],
+    [ 48.8645749, 2.3332693 ],
     "cus_Gm8cGgT1cfWIwq",
   ],
 ]
@@ -443,11 +450,17 @@ async function populateDb () {
     })
   }
   const companiesId = []
-  for (const [ name, type, [ street, zipCode, city ], [ lastName, firstName, email, phone, password ], emailDomains, stripeCustomerId ] of companies) {
+  for (const [ name, type, [ street, zipCode, city ], [ lastName, firstName, email, phone, password ], emailDomains, coordinates, stripeCustomerId ] of companies) {
     const { id } = await prisma.createCompany({
       name,
       type,
-      address: { create: { street, zipCode, city } },
+      address: { create: {
+        street, zipCode, city,
+        location: { create: {
+          type: "Point",
+          coordinates: { set: coordinates },
+        } },
+      } },
       users: { create: {
         firstName, lastName, email, phone,
         password: await bcrypt.hash(password, 10),

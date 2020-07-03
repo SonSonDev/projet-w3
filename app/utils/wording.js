@@ -6,9 +6,9 @@ export const categories = {
 }
 
 export const categoryIcons = {
-  FOOD: "restaurant-fill",
-  SHOP: "store-2-fill",
-  ACTIVITY: "lightbulb-fill",
+  FOOD: "restaurant-line",
+  SHOP: "store-2-line",
+  ACTIVITY: "flashlight-line",
 }
 
 export const categorySubtitles = {

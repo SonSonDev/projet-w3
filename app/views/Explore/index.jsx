@@ -4,7 +4,9 @@ import { useQuery, useMutation } from "@apollo/react-hooks"
 import BottomSheet from 'reanimated-bottom-sheet'
 
 import { GET_PLACES, DELETE_PLACE, UPSERT_PLACES } from "../../graphql/place"
+import { CHECK_AUTH } from "../../graphql/auth"
 import { categories, categoryIcons } from '../../utils/wording'
+import { GET_TAGS } from '../../graphql/tag'
 
 import Button from "../../components/atoms/Button"
 import Input from "../../components/atoms/Input"
@@ -16,18 +18,21 @@ import * as s from '../../styles'
 export default function Explore ({ navigation }) {
   const [ category, setCategory ] = useState('FOOD')
 
+  const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
+
   const { data: { getPlaces = [] } = {}, loading, error } = useQuery(GET_PLACES, {
+    skip: !userData?.company.address.location,
     onError: error => console.log(error.message),
     variables: {
       where: {
         category
       },
       nearby: {
-        coordinates: [48.8518269, 2.4204598] // HETIC
+        coordinates: userData?.company.address.location?.coordinates,
       }
     },
   })
-  // console.log(getPlaces)
+  const { data: { getTags = [] } = {} } = useQuery(GET_TAGS, { variables: { where: { root: true } } })
 
   return (
     <View style={[ s.flex, s.backgroundPale ]}>
@@ -36,7 +41,7 @@ export default function Explore ({ navigation }) {
           <View style={[ s.backgroundPale, s.p2, s.pt3 ]}>
             <Text style={[ s.body2, s.grey ]}>Adresses</Text>
             <Text style={[ s.heading4 ]}>
-              À proximité de <Text style={[ s.primary ]}>Hetic</Text>
+              À proximité de <Text style={[ s.primary ]}>{userData?.company.name}</Text>
             </Text>
           </View>
         )}
