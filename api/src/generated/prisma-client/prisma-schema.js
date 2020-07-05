@@ -108,6 +108,10 @@ type AggregatePlace {
   count: Int!
 }
 
+type AggregateReward {
+  count: Int!
+}
+
 type AggregateTag {
   count: Int!
 }
@@ -224,6 +228,15 @@ input ArticleUpdateManyMutationInput {
   theme: Theme
   videoUrl: String
   date: String
+}
+
+input ArticleUpdateOneInput {
+  create: ArticleCreateInput
+  update: ArticleUpdateDataInput
+  upsert: ArticleUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: ArticleWhereUniqueInput
 }
 
 input ArticleUpdateOneRequiredInput {
@@ -636,6 +649,7 @@ type Company {
   emailDomains: [String!]!
   stripeCustomerId: String
   challenges(where: ChallengeWhereInput, orderBy: ChallengeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Challenge!]
+  currentTheme: Theme
 }
 
 type CompanyConnection {
@@ -657,6 +671,7 @@ input CompanyCreateInput {
   emailDomains: CompanyCreateemailDomainsInput
   stripeCustomerId: String
   challenges: ChallengeCreateManyWithoutCompaniesInput
+  currentTheme: Theme
 }
 
 input CompanyCreateManyWithoutChallengesInput {
@@ -677,6 +692,7 @@ input CompanyCreateWithoutChallengesInput {
   users: UserCreateManyWithoutCompanyInput
   emailDomains: CompanyCreateemailDomainsInput
   stripeCustomerId: String
+  currentTheme: Theme
 }
 
 input CompanyCreateWithoutUsersInput {
@@ -687,6 +703,7 @@ input CompanyCreateWithoutUsersInput {
   emailDomains: CompanyCreateemailDomainsInput
   stripeCustomerId: String
   challenges: ChallengeCreateManyWithoutCompaniesInput
+  currentTheme: Theme
 }
 
 type CompanyEdge {
@@ -703,6 +720,8 @@ enum CompanyOrderByInput {
   type_DESC
   stripeCustomerId_ASC
   stripeCustomerId_DESC
+  currentTheme_ASC
+  currentTheme_DESC
 }
 
 type CompanyPreviousValues {
@@ -711,6 +730,7 @@ type CompanyPreviousValues {
   type: CompanyType
   emailDomains: [String!]!
   stripeCustomerId: String
+  currentTheme: Theme
 }
 
 input CompanyScalarWhereInput {
@@ -760,6 +780,10 @@ input CompanyScalarWhereInput {
   stripeCustomerId_not_starts_with: String
   stripeCustomerId_ends_with: String
   stripeCustomerId_not_ends_with: String
+  currentTheme: Theme
+  currentTheme_not: Theme
+  currentTheme_in: [Theme!]
+  currentTheme_not_in: [Theme!]
   AND: [CompanyScalarWhereInput!]
   OR: [CompanyScalarWhereInput!]
   NOT: [CompanyScalarWhereInput!]
@@ -800,6 +824,7 @@ input CompanyUpdateInput {
   emailDomains: CompanyUpdateemailDomainsInput
   stripeCustomerId: String
   challenges: ChallengeUpdateManyWithoutCompaniesInput
+  currentTheme: Theme
 }
 
 input CompanyUpdateManyDataInput {
@@ -807,6 +832,7 @@ input CompanyUpdateManyDataInput {
   type: CompanyType
   emailDomains: CompanyUpdateemailDomainsInput
   stripeCustomerId: String
+  currentTheme: Theme
 }
 
 input CompanyUpdateManyMutationInput {
@@ -814,6 +840,7 @@ input CompanyUpdateManyMutationInput {
   type: CompanyType
   emailDomains: CompanyUpdateemailDomainsInput
   stripeCustomerId: String
+  currentTheme: Theme
 }
 
 input CompanyUpdateManyWithoutChallengesInput {
@@ -849,6 +876,7 @@ input CompanyUpdateWithoutChallengesDataInput {
   users: UserUpdateManyWithoutCompanyInput
   emailDomains: CompanyUpdateemailDomainsInput
   stripeCustomerId: String
+  currentTheme: Theme
 }
 
 input CompanyUpdateWithoutUsersDataInput {
@@ -858,6 +886,7 @@ input CompanyUpdateWithoutUsersDataInput {
   emailDomains: CompanyUpdateemailDomainsInput
   stripeCustomerId: String
   challenges: ChallengeUpdateManyWithoutCompaniesInput
+  currentTheme: Theme
 }
 
 input CompanyUpdateWithWhereUniqueWithoutChallengesInput {
@@ -926,6 +955,10 @@ input CompanyWhereInput {
   stripeCustomerId_ends_with: String
   stripeCustomerId_not_ends_with: String
   challenges_some: ChallengeWhereInput
+  currentTheme: Theme
+  currentTheme_not: Theme
+  currentTheme_in: [Theme!]
+  currentTheme_not_in: [Theme!]
   AND: [CompanyWhereInput!]
 }
 
@@ -1119,6 +1152,12 @@ type Mutation {
   upsertPlace(where: PlaceWhereUniqueInput!, create: PlaceCreateInput!, update: PlaceUpdateInput!): Place!
   deletePlace(where: PlaceWhereUniqueInput!): Place
   deleteManyPlaces(where: PlaceWhereInput): BatchPayload!
+  createReward(data: RewardCreateInput!): Reward!
+  updateReward(data: RewardUpdateInput!, where: RewardWhereUniqueInput!): Reward
+  updateManyRewards(data: RewardUpdateManyMutationInput!, where: RewardWhereInput): BatchPayload!
+  upsertReward(where: RewardWhereUniqueInput!, create: RewardCreateInput!, update: RewardUpdateInput!): Reward!
+  deleteReward(where: RewardWhereUniqueInput!): Reward
+  deleteManyRewards(where: RewardWhereInput): BatchPayload!
   createTag(data: TagCreateInput!): Tag!
   updateTag(data: TagUpdateInput!, where: TagWhereUniqueInput!): Tag
   updateManyTags(data: TagUpdateManyMutationInput!, where: TagWhereInput): BatchPayload!
@@ -1591,6 +1630,9 @@ type Query {
   place(where: PlaceWhereUniqueInput!): Place
   places(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Place]!
   placesConnection(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PlaceConnection!
+  reward(where: RewardWhereUniqueInput!): Reward
+  rewards(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reward]!
+  rewardsConnection(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RewardConnection!
   tag(where: TagWhereUniqueInput!): Tag
   tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag]!
   tagsConnection(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TagConnection!
@@ -1689,6 +1731,206 @@ input QuizWhereInput {
   AND: [QuizWhereInput!]
 }
 
+type Reward {
+  id: ID!
+  type: String!
+  for: String!
+  name: String!
+  description: String!
+  startDate: String!
+  value: Int!
+  article: Article
+  winners(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+}
+
+type RewardConnection {
+  pageInfo: PageInfo!
+  edges: [RewardEdge]!
+  aggregate: AggregateReward!
+}
+
+input RewardCreateInput {
+  id: ID
+  type: String!
+  for: String!
+  name: String!
+  description: String!
+  startDate: String!
+  value: Int!
+  article: ArticleCreateOneInput
+  winners: UserCreateManyInput
+}
+
+type RewardEdge {
+  node: Reward!
+  cursor: String!
+}
+
+enum RewardOrderByInput {
+  id_ASC
+  id_DESC
+  type_ASC
+  type_DESC
+  for_ASC
+  for_DESC
+  name_ASC
+  name_DESC
+  description_ASC
+  description_DESC
+  startDate_ASC
+  startDate_DESC
+  value_ASC
+  value_DESC
+}
+
+type RewardPreviousValues {
+  id: ID!
+  type: String!
+  for: String!
+  name: String!
+  description: String!
+  startDate: String!
+  value: Int!
+}
+
+type RewardSubscriptionPayload {
+  mutation: MutationType!
+  node: Reward
+  updatedFields: [String!]
+  previousValues: RewardPreviousValues
+}
+
+input RewardSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: RewardWhereInput
+  AND: [RewardSubscriptionWhereInput!]
+}
+
+input RewardUpdateInput {
+  type: String
+  for: String
+  name: String
+  description: String
+  startDate: String
+  value: Int
+  article: ArticleUpdateOneInput
+  winners: UserUpdateManyInput
+}
+
+input RewardUpdateManyMutationInput {
+  type: String
+  for: String
+  name: String
+  description: String
+  startDate: String
+  value: Int
+}
+
+input RewardWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  type: String
+  type_not: String
+  type_in: [String!]
+  type_not_in: [String!]
+  type_lt: String
+  type_lte: String
+  type_gt: String
+  type_gte: String
+  type_contains: String
+  type_not_contains: String
+  type_starts_with: String
+  type_not_starts_with: String
+  type_ends_with: String
+  type_not_ends_with: String
+  for: String
+  for_not: String
+  for_in: [String!]
+  for_not_in: [String!]
+  for_lt: String
+  for_lte: String
+  for_gt: String
+  for_gte: String
+  for_contains: String
+  for_not_contains: String
+  for_starts_with: String
+  for_not_starts_with: String
+  for_ends_with: String
+  for_not_ends_with: String
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  startDate: String
+  startDate_not: String
+  startDate_in: [String!]
+  startDate_not_in: [String!]
+  startDate_lt: String
+  startDate_lte: String
+  startDate_gt: String
+  startDate_gte: String
+  startDate_contains: String
+  startDate_not_contains: String
+  startDate_starts_with: String
+  startDate_not_starts_with: String
+  startDate_ends_with: String
+  startDate_not_ends_with: String
+  value: Int
+  value_not: Int
+  value_in: [Int!]
+  value_not_in: [Int!]
+  value_lt: Int
+  value_lte: Int
+  value_gt: Int
+  value_gte: Int
+  article: ArticleWhereInput
+  winners_some: UserWhereInput
+  AND: [RewardWhereInput!]
+}
+
+input RewardWhereUniqueInput {
+  id: ID
+}
+
 enum Role {
   SUPER_ADMIN
   ADMIN
@@ -1784,6 +2026,7 @@ type Subscription {
   company(where: CompanySubscriptionWhereInput): CompanySubscriptionPayload
   photo(where: PhotoSubscriptionWhereInput): PhotoSubscriptionPayload
   place(where: PlaceSubscriptionWhereInput): PlaceSubscriptionPayload
+  reward(where: RewardSubscriptionWhereInput): RewardSubscriptionPayload
   tag(where: TagSubscriptionWhereInput): TagSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   validatedQuiz(where: ValidatedQuizSubscriptionWhereInput): ValidatedQuizSubscriptionPayload
@@ -2050,6 +2293,11 @@ input UserCreateInput {
   validatedQuizzes: ValidatedQuizCreateManyInput
 }
 
+input UserCreateManyInput {
+  create: [UserCreateInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
 input UserCreateManyWithoutCompanyInput {
   create: [UserCreateWithoutCompanyInput!]
   connect: [UserWhereUniqueInput!]
@@ -2280,6 +2528,18 @@ input UserUpdateManyDataInput {
   points: Int
 }
 
+input UserUpdateManyInput {
+  create: [UserCreateInput!]
+  update: [UserUpdateWithWhereUniqueNestedInput!]
+  upsert: [UserUpsertWithWhereUniqueNestedInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  deleteMany: [UserScalarWhereInput!]
+  updateMany: [UserUpdateManyWithWhereNestedInput!]
+}
+
 input UserUpdateManyMutationInput {
   firstName: String
   lastName: String
@@ -2336,12 +2596,23 @@ input UserUpdateWithoutCompanyDataInput {
   validatedQuizzes: ValidatedQuizUpdateManyInput
 }
 
+input UserUpdateWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateDataInput!
+}
+
 input UserUpdateWithWhereUniqueWithoutCompanyInput {
   where: UserWhereUniqueInput!
   data: UserUpdateWithoutCompanyDataInput!
 }
 
 input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
+}
+
+input UserUpsertWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput!
   update: UserUpdateDataInput!
   create: UserCreateInput!
 }

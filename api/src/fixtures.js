@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs")
 const faker = require("faker/locale/fr")
 const { prisma } = require("./generated/prisma-client")
-
+const { mutations : { setAllCompaniesChallenges }} = require("./resolvers/company.js")
 function shuffle(array) {
   return array.sort(() => Math.random() - 0.5)
 }
@@ -487,7 +487,7 @@ async function populateDb () {
   for (const [ name, description, value, theme ] of challenges) {
     await prisma.createChallenge({ name, description, value, theme })
   }
-
+  await setAllCompaniesChallenges(null, null, { prisma })
   for (const article of articles) {
     article.photo = { create: article.photo },
     article.quiz = { create: article.question },

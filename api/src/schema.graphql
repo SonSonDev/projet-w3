@@ -171,6 +171,7 @@ type Company {
   representativeUser: User
   stripeInvoices: [StripeInvoice]
   challenges: [Challenge]
+  currentTheme: Theme
 }
 
 type Place {
@@ -229,6 +230,7 @@ type Article {
   videoUrl: String
   quiz: Quiz
   date: String!
+  reward: Reward
 }
 
 type Quiz {
@@ -252,6 +254,18 @@ type Challenge {
   theme: Theme!
   value: Int!
   companies: [Company]
+}
+
+type Reward {
+  id: ID!
+  type: String!
+  for: String!
+  name: String!
+  description: String!
+  startDate: String!
+  value: Int!
+  article: Article
+  winners: [User]
 }
 
 type StripeInvoice {

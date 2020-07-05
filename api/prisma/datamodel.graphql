@@ -37,6 +37,7 @@ type Company {
   emailDomains: [String]! @scalarList(strategy: EMBEDDED)
   stripeCustomerId: String
   challenges: [Challenge] @relation(link: INLINE)
+  currentTheme: Theme
 }
 
 type Tag {
@@ -108,6 +109,18 @@ type Challenge {
   theme: Theme!
   value: Int!
   companies: [Company]
+}
+
+type Reward {
+  id: ID! @id
+  type: String!
+  for: String!
+  name: String!
+  description: String!
+  startDate: String!
+  value: Int!
+  article: Article @relation(link: INLINE)
+  winners: [User] @relation(link: INLINE)
 }
 
 enum CompanyType {

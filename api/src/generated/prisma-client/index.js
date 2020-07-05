@@ -57,6 +57,10 @@ var models = [
     embedded: false
   },
   {
+    name: "Reward",
+    embedded: false
+  },
+  {
     name: "CompanyType",
     embedded: false
   },
