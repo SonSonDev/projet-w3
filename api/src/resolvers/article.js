@@ -2,8 +2,14 @@ const Aws = require("../services/aws")
 
 module.exports = {
   queries: {
-    getArticles (_, { where }, { prisma }) {
-      return prisma.articles(where)
+    async getArticles (_, { where }, { prisma }) {
+      const allArticles = await prisma.articles(where)
+      const rewardsArticleId = (await prisma.rewards().article())
+        .filter(el => el.article)
+        .map(el => el.article.id)
+
+      return allArticles
+        .filter(article => !rewardsArticleId.includes(article.id))
     },
 
     getArticle (_, { where }, { prisma }) {
@@ -16,48 +22,11 @@ module.exports = {
       const data = await makeArticleInput(article, prisma, false)
       data.date = String(new Date().getTime())
       return prisma.createArticle(data)
-      /*
-      return prisma.createArticle({
-        title: args.title,
-        content: args.content,
-        picture: args.picture,
-        video: args.video,
-        date: String(new Date().getTime()),
-        quiz: {
-          create: {
-            question: args.quizQuestion,
-            answer: args.quizAnswer,
-            choices: { set: args.quizChoices },
-            value: args.quizValue,
-          }
-        }
-      })
-      */
     },
 
     async updateArticle (_, {where, data: article}, { prisma }) {
       const data = await makeArticleInput(article, prisma, true)
       return prisma.updateArticle({ where, data })
-      /*
-      return prisma.updateArticle({
-        where: { id: args.id },
-        data: {
-          title: args.title,
-          content: args.content,
-          picture: args.picture,
-          video: args.video,
-          quiz: {
-            update: {
-              name: args.quizName,
-              question: args.quizQuestion,
-              answer: args.quizAnswer,
-              choices: { set: args.quizChoices },
-              value: args.quizValue,
-            }
-          }
-        }
-      })
-      */
     },
 
     async deleteArticle (_, { where: { id } }, { prisma }) {
@@ -77,6 +46,10 @@ module.exports = {
       },
       photo ({ id }, _, { prisma }) {
         return prisma.article({ id }).photo()
+      },
+
+      async reward ({ id }, args, { prisma }) {
+        return (await prisma.rewards({ where: { article: { id }}}))[0] || null
       },
     },
   },

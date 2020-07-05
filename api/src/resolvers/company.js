@@ -3,6 +3,18 @@ const { transporter, emailTemplate } = require("../utils")
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
 
+const getNextTheme = (theme) => {
+  const themes = [
+    "ALIMENTATION",
+    "CONSUMPTION",
+    "WATER",
+    "ENERGY",
+  ]
+  const n = themes.length
+  const x = theme ? themes.findIndex(t => t === theme) : 0
+  return themes[((x + 1) % n + n) % n]
+}
+
 const createCompany = async (_, args, context) => {
   // if (await context.prisma.user({ email: args.emailUser })) throw new Error("User already exists")
 
@@ -67,12 +79,17 @@ const createCompany = async (_, args, context) => {
 }
 
 const setCompanyChallenges = async (_, { id }, context) => {
+  const company = await context.prisma.company({ id })
   const curChallenges = (await context.prisma.company({ id }).challenges())
     .map(el => ({id: el.id }))
+
+  const newTheme = getNextTheme(company.currentTheme)
   const newChallenges = (await context.prisma.challenges())
     .sort(() => Math.random() - 0.5)
     .reduce((acc, cur) => {
-      if(acc.length < 3 && !curChallenges.find(c => c.id === cur.id)) acc.push({ id: cur.id })
+      if(acc.length < 5 && !curChallenges.find(c => c.id === cur.id) && cur.theme === newTheme) {
+        acc.push({ id: cur.id })
+      }
       return acc
     }, [])
 
@@ -88,10 +105,13 @@ const setCompanyChallenges = async (_, { id }, context) => {
 
   return await context.prisma.updateCompany({
     where: { id },
-    data: { challenges: {
-      disconnect: curChallenges,
-      connect: newChallenges,
-    }},
+    data: {
+      currentTheme: newTheme,
+      challenges: {
+        disconnect: curChallenges,
+        connect: newChallenges,
+      },
+    },
   })
 }
 
