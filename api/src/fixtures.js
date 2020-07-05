@@ -490,13 +490,15 @@ async function populateDb () {
   await setAllCompaniesChallenges(null, null, { prisma })
   for (const article of articles) {
     article.photo = { create: article.photo },
-    article.quiz = { create: article.question },
+    article.quiz.choices = { set: article.quiz.choices }
+    article.quiz = { create: article.quiz },
     article.date = String(new Date().getTime())
     await prisma.createArticle(article)
   }
 }
 
 const clearDb = async () => {
+  await prisma.deleteManyValidatedQuizzes()
   await prisma.deleteManyUsers()
   await prisma.deleteManyTags()
   await prisma.deleteManyPhotos()

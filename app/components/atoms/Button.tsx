@@ -115,8 +115,8 @@ const Button = ({ btnStyle, iconLeft, iconRight, label, iconName, onPress = () =
     <TouchableOpacity
       activeOpacity={1}
       underlayColor={styleUnderlayColor[btnStyle]}
-      // onPress={onPress}
-      onPressIn={onPress}
+      onPress={onPress}
+      //onPressIn={onPress}
       style={[containerStyle.main, style]}
       disabled={disabled}
     >

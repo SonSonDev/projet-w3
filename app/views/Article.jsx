@@ -6,6 +6,7 @@ import { GET_ARTICLE, GET_ARTICLES } from "../graphql/article";
 import Button from "../components/atoms/Button";
 import CardPost from "../components/organismes/CardPost";
 import { CardAddressSkeleton } from "../components/organismes/CardAddress";
+import CardQuizz from '../components/organismes/CardQuizz.jsx';
 import { themes } from '../utils/wording';
 
 export default function Article({ route: { params: { article } }, navigation }) {
@@ -38,6 +39,11 @@ export default function Article({ route: { params: { article } }, navigation }) 
         <Text style={[s.heading1, s.mb3]}>{title}</Text>
         <Text style={[s.body1, s.mb1]}>{content}</Text>
       </View>
+      {article.quiz && 
+        <View style={[s.px2, s.py3, s.mb3]}>
+          <CardQuizz article={article}/>
+        </View>
+      }
       <Text style={[s.heading5, s.px2]}>Articles similaires</Text>
       <View>
         <FlatList
