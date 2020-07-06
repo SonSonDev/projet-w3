@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { View, ScrollView, Text, Image } from 'react-native'
 import { useApolloClient, useMutation, useQuery } from "@apollo/react-hooks"
 import * as SecureStore from 'expo-secure-store'
+import { CommonActions } from '@react-navigation/native'
 
 import Filter from "../../../components/atoms/Filter"
 import Steps from "../../../components/atoms/Steps"
@@ -65,6 +66,10 @@ export default function OBSecondStep ({ navigation }) {
         <Button btnStyle='secondary' label='Passer' onPress={async () => {
           await SecureStore.setItemAsync('isOnboarded', 'true')
           client.writeData({ data: { isOnboarded: true } })
+          navigation.dispatch(CommonActions.reset({
+            index: 0,
+            routes: [ { name: 'MainNavigator' } ],
+          }))
         }} />
       </ScrollView>
     </View>

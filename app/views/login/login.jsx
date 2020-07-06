@@ -4,6 +4,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks"
 import { useApolloClient } from "@apollo/react-hooks"
 import * as SecureStore from 'expo-secure-store'
 import gql from "graphql-tag"
+import { CommonActions } from '@react-navigation/native'
 
 import Button from "../../components/atoms/Button"
 import Input from "../../components/atoms/Input"
@@ -19,23 +20,29 @@ export default function Login({ navigation }) {
   /* Champs du formulaire de connexion */
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
+  const [loading, setLoading] = React.useState(false)
 
   /* Call API pour la connexion */
-  const [login, { loading }] = useMutation(LOGIN, {
+  const [login] = useMutation(LOGIN, {
     async update (cache, { data: { login } }) {
       await SecureStore.setItemAsync('authToken', login.token)
-      // cache.writeQuery({
-      client.writeData({
+      cache.writeQuery({
+      // client.writeData({
         query: CHECK_AUTH,
         data: { checkAuthApp: login.user },
       })
+      navigation.dispatch(CommonActions.reset({
+        index: 0,
+        routes: [ { name: isOnboarded ? 'MainNavigator' : 'OnboardingFirstStep' } ],
+      }))
     },
     onError: error => console.log(error.message),
   })
 
   /* Action à l'envoi du formulaire */
   const onSubmit = async () => {
-    login({
+    setLoading(true)
+    await login({
       variables: {
         email,
         password,
@@ -60,11 +67,20 @@ export default function Login({ navigation }) {
         <Input value={password} onChange={setPassword} isPwd style={[ s.mb2 ]} placeholder="Mot de passe" />
 
         {/* TODO */}
-        <Text style={[ s.grey, s.center, s.pb4, s.mbAuto ]}>
+        <Text style={[ s.grey, s.center, s.pb4, s.mbAuto ]} onPress={() => {
+          const defaultAccounts = [
+            'mahel.zeroual@bridge.audio',
+            'theodore.yip@mono.net',
+            'sahbi.s@otaku.com',
+            'vpham@craftegg.fr',
+          ]
+          setEmail(defaultAccounts[defaultAccounts.indexOf(email)+1] || defaultAccounts[0])
+          setPassword('admin')
+        }}>
           Mot de passe oublié ?
         </Text>
         
-        <Button btnStyle='primary' label={`Connexion${loading ? '…' : ''}`} onPress={onSubmit} style={[ s.mb1 ]} disabled={loading} />      
+        <Button btnStyle='primary' label={`Connexion${loading ? '…' : ''}`} onPress={onSubmit} style={[ s.mb1 ]} />      
       </ScrollView>
     </View>
   )

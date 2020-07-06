@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { View, ScrollView, Text, Image } from 'react-native'
 import { useApolloClient, useMutation, useQuery } from "@apollo/react-hooks"
 import * as SecureStore from 'expo-secure-store'
+import { CommonActions } from '@react-navigation/native'
 
 import Filter from "../../../components/atoms/Filter"
 import Steps from "../../../components/atoms/Steps"
@@ -12,7 +13,7 @@ import * as s from "../../../styles/index"
 import { ADD_TAGS_TO_USER } from '../../../graphql/user'
 import { CHECK_AUTH } from '../../../graphql/auth'
 
-export default function OBThirdStep () {
+export default function OBThirdStep ({ navigation }) {
   const client = useApolloClient()
 
   /* Information de l'utilisateur */
@@ -31,6 +32,10 @@ export default function OBThirdStep () {
     onCompleted: async res => {
       await SecureStore.setItemAsync('isOnboarded', 'true')
       client.writeData({ data: { isOnboarded: true } })
+      navigation.dispatch(CommonActions.reset({
+        index: 0,
+        routes: [ { name: 'MainNavigator' } ],
+      }))
     },
     onError: error => console.log(error.message),
   })
@@ -62,6 +67,10 @@ export default function OBThirdStep () {
         <Button btnStyle='secondary' label='Passer' onPress={async () => {
           await SecureStore.setItemAsync('isOnboarded', 'true')
           client.writeData({ data: { isOnboarded: true } })
+          navigation.dispatch(CommonActions.reset({
+            index: 0,
+            routes: [ { name: 'MainNavigator' } ],
+          }))
         }} />
       </ScrollView>
     </View>

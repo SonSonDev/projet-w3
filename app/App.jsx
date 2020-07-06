@@ -20,6 +20,7 @@ import Challenges from './views/Challenges'
 import Explore from './views/Explore'
 import Place from './views/Explore/Place'
 import Profile from './views/Profile'
+import Settings from './views/Profile/Settings'
 import Article from './views/Article'
 import * as s from './styles'
 
@@ -65,40 +66,48 @@ export default function () {
 
   if (!isLoaded || loading) return <AppLoading />
 
+  const initialRouteName = !isOnboarded
+    ? 'FirstScreen'
+    : !userData
+      ? 'Login'
+      : 'MainNavigator'
+
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ header: () => null }} headerMode='screen'>
-        {isOnboarded && userData ? (
-          <>
-            <Stack.Screen name="TabNavigator" component={TabNavigator} />
-            <Stack.Screen name="Place" component={Place} />
-            <Stack.Screen name="Article" component={Article} />
-          </>
-        ) : (
-          <>
-            {!userData && !isOnboarded && <Stack.Screen name="FirstScreen" component={FirstScreen} options={{ animationTypeForReplace: 'pop' }} />}
-            {!userData && <Stack.Screen name="Login" component={Login} />}
-            <Stack.Screen name="OnboardingFirstStep" component={OnboardingFirstStep} options={{ header: Header }} />
-            <Stack.Screen name="OnboardingSecondStep" component={OnboardingSecondStep} options={{ header: Header }} />
-            <Stack.Screen name="OnboardingThirdStep" component={OnboardingThirdStep} options={{ header: Header }} />
-          </>
-        )}
+      <Stack.Navigator screenOptions={{ header: () => null }} headerMode='screen' initialRouteName={initialRouteName}>
+        <Stack.Screen name="FirstScreen" component={FirstScreen} options={{ animationTypeForReplace: 'pop' }} />
+        <Stack.Screen name="Login" component={Login} options={{ animationTypeForReplace: 'pop' }} />
+
+        <Stack.Screen name="OnboardingFirstStep" component={OnboardingFirstStep} options={{ header: Header }} />
+        <Stack.Screen name="OnboardingSecondStep" component={OnboardingSecondStep} options={{ header: Header }} />
+        <Stack.Screen name="OnboardingThirdStep" component={OnboardingThirdStep} options={{ header: Header }} />
+
+        <Stack.Screen name="MainNavigator" component={MainNavigator} />
+        <Stack.Screen name="Place" component={Place} />
+        <Stack.Screen name="Article" component={Article} />
       </Stack.Navigator>
     </NavigationContainer>
   )
 }
 
-const Empty = () => null
-
 /* Barre de navigation */
-function TabNavigator () {
+function MainNavigator () {
   return (
     <Tab.Navigator tabBar={TabBar}>
       <Tab.Screen name="Home" component={Home} options={{ title: 'Accueil', icon: 'home-line' }} />
       <Tab.Screen name="Explore" component={Explore} options={{ title: 'Découvrir', icon: 'map-2-line' }} />
       <Tab.Screen name="Challenges" component={Challenges} options={{ title: 'Défis', icon: 'award-line' }} />
-      <Tab.Screen name="Profile" component={Profile} options={{ title: 'Profil', icon: 'apps-2-line' }} />
+      <Tab.Screen name="ProfileNavigator" component={ProfileNavigator} options={{ title: 'Profil', icon: 'apps-2-line' }} />
     </Tab.Navigator>
+  )
+}
+
+function ProfileNavigator () {
+  return (
+    <Stack.Navigator>
+      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Settings" component={Settings} />
+    </Stack.Navigator>
   )
 }
 

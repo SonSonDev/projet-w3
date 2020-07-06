@@ -14,7 +14,7 @@ interface ButtonInterface {
   onPress?: any;
 }
 
-const Button = ({ btnStyle, iconLeft, iconRight, label, iconName, onPress = () => alert('Pressed!'), style, disabled }: ButtonInterface): React.ReactElement => {
+const Button = ({ btnStyle, iconLeft, iconRight, label, iconName = "arrow-left-line", onPress = () => alert('Pressed!'), style, disabled }: ButtonInterface): React.ReactElement => {
   let containerStyle: any = StyleSheet.create({
     main: {
       borderRadius: 8,
@@ -130,7 +130,7 @@ const Button = ({ btnStyle, iconLeft, iconRight, label, iconName, onPress = () =
 
         {label ?
           <Text style={[ s.body1, s.bold, btnStyle === 'primary' && s.white ]}>{label}</Text>
-          : <Icon name="arrow-left-line" size={20} color="#181B1B"/>
+          : <Icon name={iconName} size={20} color="#181B1B"/>
         }
 
         {iconRight &&
