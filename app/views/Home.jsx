@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ScrollView, FlatList, Text } from "react-native";
+import { View, ScrollView, FlatList, Text, TouchableOpacity } from "react-native";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_PLACES } from "../graphql/place";
 import { GET_ARTICLES } from "../graphql/article";
@@ -7,6 +7,8 @@ import CardAddress, {
   CardAddressSkeleton,
 } from "../components/organismes/CardAddress";
 import CardPost from "../components/organismes/CardPost";
+import IllustrationChallenges from "../assets/img/illu-challenges.svg"
+import VectChallenges from "../assets/img/vect-challenges.svg"
 import * as s from "../styles";
 import { CHECK_AUTH } from '../graphql/auth';
 
@@ -47,7 +49,7 @@ export default function Home({ navigation }) {
       </View>
 
       <View style={[ s.row, s.mt2, s.px2, s.mb05, s.itemsEnd ]}>
-        <Text style={[s.heading5 ]}>
+        <Text style={[s.heading5, s.flex, s.mr1 ]} numberOfLines={1}>
           À proximité de <Text style={[s.primary]}>{userData?.company.name}</Text>
         </Text>
         <Text style={[s.body1, s.bold, s.mlAuto ]} onPress={() => navigation.navigate('Explore')}>
@@ -70,6 +72,16 @@ export default function Home({ navigation }) {
           horizontal
           showsHorizontalScrollIndicator={false}
         />
+      </View>
+
+      <View style={[ s.flex, s.round3, s.mx2, s.p2, s.mt1, s.mb3, {backgroundColor: '#FBEAE9', overflow: 'hidden'}]}>
+        <IllustrationChallenges style={[ s.absolute, {bottom: -48, right: -32}]} />
+        <VectChallenges style={[s.absolute, s.bottom, s.left]} />
+        <Text style={[s.heading2, {color:'#B4543A'}]}>Faites du tri</Text>
+        <Text style={[s.mt05, s.mb2, s.body2, {width: '60%'}]}>Débarassez-vous du superflu en adoptant des méthodes de tri responsables</Text>
+        <TouchableOpacity style={[ s.mtAuto, s.backgroundPrimary, s.px2, s.py1, s.selfStart, s.round2 ]} onPress={() => navigation.navigate('Challenges')} activeOpacity={1}>
+          <Text style={[ s.heading6, s.white, s.py05 ]}>Je participe</Text>
+        </TouchableOpacity>
       </View>
 
       <Text style={[s.heading5, s.px2, s.mb05]}>

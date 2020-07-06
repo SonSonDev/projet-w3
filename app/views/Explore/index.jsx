@@ -42,7 +42,7 @@ export default function Explore ({ navigation }) {
         ListHeaderComponent={() => (
           <View style={[ s.backgroundPale, s.p2, s.pt3 ]}>
             <Text style={[ s.body2, s.grey ]}>Adresses</Text>
-            <Text style={[ s.heading4 ]}>
+            <Text style={[ s.heading4 ]} numberOfLines={1}>
               À proximité de <Text style={[ s.primary ]}>{userData?.company.name}</Text>
             </Text>
           </View>

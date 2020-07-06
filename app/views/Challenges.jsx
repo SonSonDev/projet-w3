@@ -71,13 +71,16 @@ export default function Challenges({ navigation }) {
   const participate = () => {}
 
   return (
-    <ScrollView style={[s.flex, s.backgroundPale]}>
-      <Text style={[s.body2, s.grey, s.px2, s.pt3]}>
-        Bonjour { userData?.firstName } { userData?.lastName }
-      </Text>
-      <Text style={[s.heading4, s.px2, s.mb2]}>
-        Vos défis de la semaine
-      </Text>
+    <ScrollView style={[s.flex, s.backgroundPale]} stickyHeaderIndices={[0]}>
+      <View style={[ s.backgroundPale ]}>
+        <Text style={[s.body2, s.grey, s.px2, s.pt3]}>
+          Bonjour { userData?.firstName }
+        </Text>
+        <Text style={[s.heading4, s.px2, s.mb2]}>
+          Vos défis de la semaine
+        </Text>
+      </View>
+
       <FlatList 
         contentContainerStyle={[s.px2, s.py1, s.mb1]}
         data={tabs}
@@ -88,7 +91,7 @@ export default function Challenges({ navigation }) {
           key={item.key}
           underlayColor="transparent">
           <View 
-            style={[ { minHeight: 30, borderColor: '#949E9E', borderWidth: item.selected ? 0 : 1, borderRadius: 8, justifyContent: 'center', alignItems: 'center', backgroundColor: item.selected ? '#BA5A40' : 'transparent' }, s.p1, s.mr1 ]}>
+            style={[ { minHeight: 30, borderColor: item.selected ? '#BA5A40' : '#949E9E', borderWidth: 1, borderRadius: 8, justifyContent: 'center', alignItems: 'center', backgroundColor: item.selected ? '#BA5A40' : 'transparent' }, s.p1, s.mr1 ]}>
             <Text
               style={{ color: item.selected ? '#FFFFFF' : '#949E9E', fontSize: 16, textAlign: 'center' }}>{ item.label }</Text>
           </View>
@@ -102,7 +105,7 @@ export default function Challenges({ navigation }) {
           <Text style={[s.heading2, {color:'#B4543A'}]}>Faites du tri</Text>
           <Text style={[s.mt05, s.mb4, s.body2, {width: '60%'}]}>Débarassez-vous du superflu en adoptant des méthodes de tri responsables</Text>
         </View>
-        <Text style={[s.heading5, s.m2]}>À débloquer cette semaine...</Text>
+        <Text style={[s.heading5, s.m2, s.mb1]}>À débloquer cette semaine...</Text>
         <FlatList
           style={[]}
           contentContainerStyle={[s.pl2, s.py1]}
