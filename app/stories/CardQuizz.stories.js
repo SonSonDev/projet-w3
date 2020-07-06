@@ -7,22 +7,93 @@ export default {
   component: CardQuizz,
 };
 
-export const Large = () => {
-  const [answerList, setAnswerList] = useState([{
-    label: 'oui',
-    selected: false
-  }, {
-    label: 'non',
-    selected: false
-  }, {
-    label: 'bof',
-    selected: false
-  }, {
-    label: 'réponse D',
-    selected: false
-  }])
+const updateChoice = (index, answerList, setAnswerList) => {
+  const newList = [...answerList]
+  newList[index].selected = !answerList[index].selected
+  if (answerList[index].selected) {
+    newList.map((item, i) => {
+      if (i !== index) {
+        item.selected = false
+      }
+      return item
+    })
+  }
+  setAnswerList(newList)
+}
+const question = "Quel pourcentage d'énergie en plus est consommé par un congélateur non dégivré ?"
+const getChoices = () => ([{
+  label: '5%',
+  selected: false
+}, {
+  label: '15%',
+  selected: false
+}, {
+  label: '30%',
+  selected: false
+}, {
+  label: '60%',
+  selected: false
+}])
 
+const answer = "30%"
+
+export const Basic = () => {
+  const [answerList, setAnswerList] = useState(getChoices())
+
+  const updateState = (index) => updateChoice(index, answerList, setAnswerList)
+  const isAnswered = false
+  const message = ""
   return <View style={{ paddingTop: 5, paddingLeft: 5, width:364 }}>
-    <CardQuizz question="bonjour ça va ?" answerList={answerList} setAnswerList={setAnswerList}/>
+    <CardQuizz
+      question={question}
+      isAnswered={isAnswered}
+      answer={answer}
+      answerList={answerList}
+      setAnswerList={setAnswerList}
+      updateState={updateState}
+      quizMessage={message}
+      storybook={true}/>
+  </View>
+};
+
+export const GoodAnswer = () => {
+  const [answerList, setAnswerList] = useState(getChoices().map((e, i) => {
+    if (i === 2) e.selected = true
+    return e
+  }))
+  const updateState = (index) => updateChoice(index, answerList, setAnswerList)
+  const isAnswered = true
+  const message = "Bien joué ! Vous gagnez 10 pts !"
+  return <View style={{ paddingTop: 5, paddingLeft: 5, width:364 }}>
+    <CardQuizz
+      question={question}
+      isAnswered={isAnswered}
+      answer={answer}
+      answerList={answerList}
+      setAnswerList={setAnswerList}
+      updateState={updateState}
+      quizMessage={message}
+      storybook={true}/>
+  </View>
+};
+
+export const BadAnswer = () => {
+  const [answerList, setAnswerList] = useState(getChoices().map((e, i) => {
+    if (i === 1) e.selected = true
+    return e
+  }))
+  const updateState = (index) => updateChoice(index, answerList, setAnswerList)
+  const isAnswered = true
+  const message = "Raté !"
+  return <View style={{ paddingTop: 5, paddingLeft: 5, width:364 }}>
+    <CardQuizz
+      question={question}
+      isAnswered={isAnswered}
+      answer={answer}
+      answerList={answerList}
+      setAnswerList={setAnswerList}
+      updateState={updateState}
+      quizMessage={message}
+      storybook={true}/>
   </View>
 };

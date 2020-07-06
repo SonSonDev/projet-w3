@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useState }  from "react";
 import { View, ScrollView, Text, Image, FlatList, StatusBar } from "react-native";
+import { useQuery, useMutation } from "@apollo/react-hooks"
+
 import * as s from "../styles";
-import { useQuery } from "@apollo/react-hooks";
 import { GET_ARTICLE, GET_ARTICLES } from "../graphql/article";
 import Button from "../components/atoms/Button";
 import CardPost from "../components/organismes/CardPost";
 import { CardAddressSkeleton } from "../components/organismes/CardAddress";
 import CardQuizz from '../components/organismes/CardQuizz.jsx';
 import { themes } from '../utils/wording';
+import { VALIDATE_QUIZ } from "../graphql/user"
+import { CHECK_AUTH } from "../graphql/auth"
 
 export default function Article({ route: { params: { article } }, navigation }) {
 
@@ -19,6 +22,57 @@ export default function Article({ route: { params: { article } }, navigation }) 
     onError: (error) => console.log(error.message),
   });
   const hasQuiz = !!article.quiz
+
+
+  const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
+
+  const [quizMessage, setQuizMessage] = useState("")
+
+  const [validateQuiz] = useMutation(VALIDATE_QUIZ, {
+    async update (cache, { data: { validateQuiz } }) {
+      const quiz = validateQuiz.validatedQuizzes?.find(item => item.article.id === article.id)
+      setQuizMessage(quiz.status ? `Bonne réponse ! ${article.quiz.value} points !` : "Raté")
+      client.writeData({
+        query: CHECK_AUTH,
+        data: { checkAuthApp: validateQuiz },
+      })
+    },
+    onError: error => console.log(error.message),
+  })
+
+  const [answerList, setAnswerList] = article.quiz ? useState(article.quiz.choices.map(choice => ({
+    label: choice,
+    selected: false,
+  }))) : []
+
+  const updateState = (index) => {
+    const newList = [...answerList]
+    newList[index].selected = !answerList[index].selected
+    if (answerList[index].selected) {
+      newList.map((item, i) => {
+        if (i !== index) {
+          item.selected = false
+        }
+        return item
+      })
+    }
+    setAnswerList(newList)
+  }
+
+  const isAnswered = userData?.validatedQuizzes?.find(item => item.article.id === article.id)
+
+  const onSubmitQuiz = () => {
+    const choice = answerList.find(item => item.selected)?.label
+    if (choice && !isAnswered) {
+      validateQuiz({
+        variables: {
+          userId: userData.id,
+          articleId: article.id,
+          answer: choice,
+        }
+      })
+    }
+  }
 
   return (
     <ScrollView style={[s.flex, s.backgroundPale]}>
@@ -42,7 +96,14 @@ export default function Article({ route: { params: { article } }, navigation }) 
       {/* Section QUIZ */}
       {hasQuiz && 
         <View style={[s.px2, s.py3, s.mb3]}>
-          <CardQuizz article={article}/>
+          <CardQuizz onSubmit={onSubmitQuiz}
+                     isAnswered={isAnswered}
+                     updateState={updateState}
+                     question={article.quiz.question}
+                     answerList={answerList}
+                     answer={isAnswered?.article.quiz.answer}
+                     quizMessage={quizMessage}
+          />
         </View>
       }
 
