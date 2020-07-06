@@ -13,7 +13,7 @@ import Input from "../components/atoms/Input"
 import CardAddress from "../components/organismes/CardAddress"
 import * as s from '../styles'
 
-
+/* Page profil */
 export default function Profile () {
   const client = useApolloClient()
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)

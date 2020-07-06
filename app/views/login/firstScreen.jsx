@@ -6,7 +6,7 @@ import IllustrationLoginFull from "../../assets/img/illu-login-full.svg"
 import Logo from "../../assets/img/logo.svg"
 import * as s from "../../styles/index"
 
-
+/* Ecran de premier lancement */
 export default function firstScreen({ navigation }) {
   return (
     <View style={[ s.flex, s.backgroundPale ]}>

@@ -16,7 +16,10 @@ const devApiUrl =
   //'http://localhost:3000'
   'http://elb-api-1880898738.eu-west-2.elb.amazonaws.com'
 
+/* Configuration du endpoint de l'API */
 const httpLink = createHttpLink({ uri: Constants.manifest.extra?.REACT_APP_API_URL || devApiUrl })
+
+/* Configuration du header pour l'API */
 const authLink = setContext(async (_, { headers }) => {
   const token = await SecureStore.getItemAsync('authToken')
   return {
@@ -27,6 +30,7 @@ const authLink = setContext(async (_, { headers }) => {
   }
 })
 
+/* Initialidation du client apollo pour l'API */
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),

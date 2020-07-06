@@ -10,13 +10,11 @@ import CardQuizz from '../components/organismes/CardQuizz.jsx';
 import { themes } from '../utils/wording';
 
 export default function Article({ route: { params: { article } }, navigation }) {
-  // const {
-  //   data: { getArticle: { theme, title, content, photo } = {} } = {},
-  // } = useQuery(GET_ARTICLE, {
-  //   variables: { where: { id } },
-  // });
+
+  /* Détail de l'article */
   const { theme, title, content, photo } = article
 
+  /* Liste des articles en bas de page */
   const { data: { getArticles = [] } = {} } = useQuery(GET_ARTICLES, {
     onError: (error) => console.log(error.message),
   });
@@ -39,11 +37,14 @@ export default function Article({ route: { params: { article } }, navigation }) 
         <Text style={[s.heading1, s.mb3]}>{title}</Text>
         <Text style={[s.body1, s.mb1]}>{content}</Text>
       </View>
+
+      {/* Section QUIZ */}
       {article.quiz && 
         <View style={[s.px2, s.py3, s.mb3]}>
           <CardQuizz article={article}/>
         </View>
       }
+
       <Text style={[s.heading5, s.px2]}>Articles similaires</Text>
       <View>
         <FlatList

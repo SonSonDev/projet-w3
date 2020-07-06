@@ -39,6 +39,7 @@ const placeFragment = gql`
   }
 `
 
+/* Infos d'une liste d'adresse */
 export const GET_PLACES = gql`
   query GetPlaces($where: PlaceInput, $nearby: NearbyInput) {
     getPlaces(where: $where, nearby: $nearby) {
@@ -47,6 +48,8 @@ export const GET_PLACES = gql`
   }
   ${placeFragment}
 `
+
+/* Infos d'une adresse */
 export const GET_PLACE = gql`
   query GetPlace($where: PlaceInputUnique) {
     getPlace(where: $where) {

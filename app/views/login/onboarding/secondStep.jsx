@@ -12,10 +12,15 @@ import * as s from "../../../styles/index"
 import { SET_TAGS_TO_USER } from '../../../graphql/user'
 import { CHECK_AUTH } from '../../../graphql/auth'
 
+
+/* Sélection des besoins de l'utilisateur */
 export default function OBSecondStep ({ navigation }) {
   const client = useApolloClient()
+
+  /* Information de l'utilisateur' */
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
 
+  /* Liste de choix de l'utilisateur */
   const [filterList, setFilterList] = useState([
     { label: 'Casher' },
     { label: 'Halal' },
@@ -25,6 +30,7 @@ export default function OBSecondStep ({ navigation }) {
     { label: 'Pas de restrictions', isUnique: true }
   ])
 
+  /* Call API pour ajout des préférences */
   const [setTagsToUser, { loading }] = useMutation(SET_TAGS_TO_USER, {
     onCompleted: async res => {
       navigation.navigate('OnboardingThirdStep')
@@ -32,6 +38,7 @@ export default function OBSecondStep ({ navigation }) {
     onError: error => console.log(error.message),
   })
 
+  /* Action à l'envoi du formulaire */
   const onSubmit = async () => {
     if (!filterList.some(item => item.selected)) {
       setFilterList(filterList.map(item => ({ ...item, selected: item.isUnique })))

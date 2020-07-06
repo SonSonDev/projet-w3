@@ -14,8 +14,11 @@ import { CHECK_AUTH } from '../../../graphql/auth'
 
 export default function OBThirdStep () {
   const client = useApolloClient()
+
+  /* Information de l'utilisateur */
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
 
+  /* Liste de choix de l'utilisateur */
   const [filterList, setFilterList] = useState([
     { label: 'Handicap visuel' },
     { label: 'Handicap auditif' },
@@ -23,6 +26,7 @@ export default function OBThirdStep () {
     { label: 'Pas de besoins particuliers', isUnique: true }
   ])
 
+  /* Call API pour ajout des préférences */
   const [addTagsToUser, { loading }] = useMutation(ADD_TAGS_TO_USER, {
     onCompleted: async res => {
       await SecureStore.setItemAsync('isOnboarded', 'true')
@@ -31,6 +35,7 @@ export default function OBThirdStep () {
     onError: error => console.log(error.message),
   })
 
+  /* Action à l'envoi du formulaire */
   const onSubmit = async () => {
     if (!filterList.some(item => item.selected)) {
       setFilterList(filterList.map(item => ({ ...item, selected: item.isUnique })))

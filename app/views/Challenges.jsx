@@ -11,13 +11,20 @@ import IconRecipe from "../assets/img/ic-recipe.svg"
 import { CHECK_AUTH } from '../graphql/auth'
 import * as s from "../styles";
 
+/* Page défis */
 export default function Challenges({ navigation }) {
+
+  /* Informations de l'utilisateur */
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
+
+  /* Onglets */
   const [tabs, setTabs] = useState([
     { key: 'challenges', label: 'Défis de la semaine', selected: true },
     { key: 'ranking', label: 'Classement' },
   ])
 
+
+  /* TODO: Liste des récompense */
   const getRewards = [
     {
       id: '11',
@@ -31,6 +38,7 @@ export default function Challenges({ navigation }) {
     },
   ]
 
+  /* TODO: Liste des employés */
   const getCompany = {
     employees: [
       {

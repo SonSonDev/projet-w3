@@ -40,16 +40,21 @@ const GET_LOCAL_STATE = gql`
 
 export default function () {
   const client = useApolloClient()
+
+  /* Vérification de la validation de l'onboarding */
   const { data: { isOnboarded } = {} } = useQuery(GET_LOCAL_STATE)
+
+  /* Informations de l'utilisateur '*/
   const { data: { checkAuthApp: userData } = {}, loading } = useQuery(CHECK_AUTH)
+
+  /* Chargement des polices */
   const [ isLoaded ] = useFonts({
     Maragsa: require('./assets/fonts/Maragsa/Maragsâ.otf'),
     HKGrotesk: require('./assets/fonts/HK-Grotesk/HKGrotesk-Regular.otf'),
     HKGroteskSemiBold: require('./assets/fonts/HK-Grotesk/HKGrotesk-SemiBold.otf'),
     NowAltMedium: require('./assets/fonts/Now-Alt/NowAlt-Medium.otf'),
   })
-  // SecureStore.deleteItemAsync('isOnboarded')
-  // console.log({ isLoggedIn, isOnboarded })
+
   useEffect(() => {
     Promise.all([
       SecureStore.getItemAsync('isOnboarded'),
@@ -59,8 +64,7 @@ export default function () {
   })
 
   if (!isLoaded || loading) return <AppLoading />
-  console.log(isOnboarded)
-  console.log(userData)
+
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ header: () => null }} headerMode='screen'>
@@ -86,6 +90,7 @@ export default function () {
 
 const Empty = () => null
 
+/* Barre de navigation */
 function TabNavigator () {
   return (
     <Tab.Navigator tabBar={TabBar}>
