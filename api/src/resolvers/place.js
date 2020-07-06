@@ -16,7 +16,10 @@ module.exports = {
           { $lookup: { from: "Tag", foreignField: "_id", localField: "tags", as: "tags" } },
           { $lookup: { from: "Photo", foreignField: "_id", localField: "photos", as: "photos" } },
           { $addFields: { id: "$_id" } },
-          where && { $match: where },
+          where && { $match: {
+            ...where.category && { "category": where.category },
+            ...where.tags && where.tags.length && { "tags.label": { $in: where.tags.map(({ label }) => label) } },
+          } },
         ].filter(Boolean))
         : prisma.places(where)
     },

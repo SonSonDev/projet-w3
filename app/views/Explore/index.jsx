@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, ScrollView, Text, FlatList, Platform, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, ScrollView, Text, FlatList, Platform, TouchableOpacity, RefreshControl } from 'react-native'
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import BottomSheet from 'reanimated-bottom-sheet'
 
@@ -27,7 +27,11 @@ export default function Explore ({ navigation }) {
     onError: error => console.log(error.message),
     variables: {
       where: {
-        category
+        category,
+        tags: [
+          // { label: 'Vegan' },
+          // { label: 'Handicap moteur' },
+        ]
       },
       nearby: {
         coordinates: userData?.company.address.location?.coordinates,
