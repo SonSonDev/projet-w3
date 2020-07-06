@@ -14,7 +14,7 @@ import App from './App';
 
 const devApiUrl =
   //'http://localhost:3000'
-  'http://elb-api-1880898738.eu-west-2.elb.amazonaws.com'
+  'http://elb-api-1954936202.eu-west-2.elb.amazonaws.com/'
 
 /* Configuration du endpoint de l'API */
 const httpLink = createHttpLink({ uri: Constants.manifest.extra?.REACT_APP_API_URL || devApiUrl })

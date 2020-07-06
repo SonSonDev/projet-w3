@@ -56,7 +56,7 @@ export default function Login({ navigation }) {
             Vous avez reçu votre mot de passe par mail
           </Text>
         )}
-        <Input value={email} onChange={setEmail} style={[ s.mt2, s.mb1 ]} placeholder="Adresse email" />
+        <Input value={email} onChange={setEmail} style={[ s.mt2, s.mb1 ]} placeholder="Adresse email" autoCapitalize='none' />
         <Input value={password} onChange={setPassword} isPwd style={[ s.mb2 ]} placeholder="Mot de passe" />
 
         {/* TODO */}

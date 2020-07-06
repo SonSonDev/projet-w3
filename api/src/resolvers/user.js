@@ -6,6 +6,7 @@ const Mongoose = require("../services/mongoose")
 
 const createUser = async (returnToken, { firstName, lastName, email, role, companyId }, context) => {
   const userData = await context.getUserData()
+  email = email.toLowerCase().trim()
 
   if (!companyId && userData && userData.company) {
     companyId = userData.company.id
@@ -71,6 +72,7 @@ module.exports = {
     },
 
     updateUser(_, { userId, firstName, lastName, email, role, phone }, context) {
+      email = email.toLowerCase().trim()
       return context.prisma.updateUser({
         where: { id: userId },
         data: {

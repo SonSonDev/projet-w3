@@ -24,6 +24,7 @@ module.exports = {
   },
   mutations: {
     async login(_, { email, password }, context) {
+      email = email.toLowerCase().trim()
       const user = await context.prisma.user({ email: email })
       if (!user) {
         throw new Error("No such user found")
