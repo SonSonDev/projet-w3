@@ -16,18 +16,6 @@ const getNextTheme = (theme) => {
   return themes[((x + 1) % n + n) % n]
 }
 
-const getNextTheme = (theme) => {
-  const themes = [
-    "ALIMENTATION",
-    "CONSUMPTION",
-    "WATER",
-    "ENERGY",
-  ]
-  const n = themes.length
-  const x = theme ? themes.findIndex(t => t === theme) : 0
-  return themes[((x + 1) % n + n) % n]
-}
-
 const createCompany = async (_, args, context) => {
   // if (await context.prisma.user({ email: args.emailUser })) throw new Error("User already exists")
 
