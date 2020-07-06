@@ -10,7 +10,8 @@ export const c = {
   g50: "#949E9E",
   g10: "#E4E6E6",
   bg: "#FAF7F2",
-  w: "#FFFFFF"
+  w: "#FFFFFF",
+  green: "#44A881"
 }
 
 export const primaryDark = { color: c.p110 }
@@ -23,7 +24,7 @@ export const grey = { color: c.g50 }
 export const greyLight = { color: c.g10 }
 export const pale = { color: c.bg }
 export const white = { color: c.w }
-export const green = { color: '#44A881' }
+export const green = { color: c.green }
 
 export const backgroundPrimaryDark = { backgroundColor: c.p110 }
 export const backgroundPrimary = { backgroundColor: c.p100 }
@@ -35,6 +36,7 @@ export const backgroundGrey = { backgroundColor: c.g50 }
 export const backgroundGreyLight = { backgroundColor: c.g10 }
 export const backgroundPale = { backgroundColor: c.bg }
 export const backgroundWhite = { backgroundColor: c.w }
+export const backgroundGreen = { backgroundColor: c.green }
 
 
 

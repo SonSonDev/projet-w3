@@ -7,13 +7,6 @@ export default {
 };
 
 export const Primary = () => {
-  const [filterList, setFilterList] = useState({
-    food: false,
-    sport: false,
-    label: false,
-    Proutor: false
-  })
-
   const [filterList2, setFilterList2] = useState([{
     label: 'food',
     selected: false,

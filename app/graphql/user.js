@@ -21,6 +21,25 @@ export const userFragment = gql`
         location
       }
     }
+    validatedChallenges {
+      id
+      name
+      description
+      value
+    }
+    validatedQuizzes {
+      id
+      article {
+        id
+        quiz {
+          question
+          choices
+          answer
+          value
+        }
+      }
+      status
+    }
   }
 `
 
@@ -157,6 +176,23 @@ export const CHECK_LOCATION = gql`
     checkLocation(
       placeId: $placeId
       coordinates: $coordinates
+    ) {
+      ...UserFragment
+    }
+  }
+  ${userFragment}
+`
+
+export const VALIDATE_QUIZ = gql`
+  mutation ValidateQuiz(
+    $userId: ID!
+    $articleId: ID!
+    $answer: String!
+  ) {
+    validateQuiz(
+      userId: $userId
+      articleId: $articleId
+      answer: $answer
     ) {
       ...UserFragment
     }
