@@ -17,6 +17,7 @@ import * as s from '../../styles'
 
 export default function Explore ({ navigation }) {
   const [ category, setCategory ] = useState('FOOD')
+  const [ tags, setTags ] = useState([])
 
   /* Information de l'utilisateur */
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
@@ -28,10 +29,7 @@ export default function Explore ({ navigation }) {
     variables: {
       where: {
         category,
-        tags: [
-          // { label: 'Vegan' },
-          // { label: 'Handicap moteur' },
-        ]
+        tags: tags.map(label => ({ label })),
       },
       nearby: {
         coordinates: userData?.company.address.location?.coordinates,
@@ -39,6 +37,11 @@ export default function Explore ({ navigation }) {
     },
   })
   const { data: { getTags = [] } = {} } = useQuery(GET_TAGS, { variables: { where: { root: true } } })
+
+  useEffect(() => { setTags([]) }, [category])
+  const allTags = getTags
+    .filter(t => !category || t.category === category)
+    .filter(({ label }) => label !== 'Engagements')
 
   return (
     <View style={[ s.flex, s.backgroundPale ]}>
@@ -52,7 +55,7 @@ export default function Explore ({ navigation }) {
           </View>
         )}
         stickyHeaderIndices={[0]}
-        data={getPlaces}
+        data={loading ? [] : getPlaces}
         renderItem={({ item, index }) => (
           <CardAddress full place={item} style={[ s.mx2, s.mb2 ]} onPress={() => navigation.navigate('Place', { place: item })} />
         )}
@@ -86,8 +89,30 @@ export default function Explore ({ navigation }) {
           </View>
         )}
         renderContent={() => (
-          <View style={[ s.backgroundWhite ]}>
-            <View style={[ s.backgroundWhite, { height: 800 } ]} />
+          <View style={[ s.backgroundWhite, s.p2, { minHeight: 348 } ]}>
+            {allTags.map(({ id, label, children }) => (
+              <View key={id} style={[ s.mb2 ]}>
+                <Text style={[ s.body2, s.bold, s.mb1 ]}>{label}</Text>
+                <View style={[ s.row, { flexWrap: 'wrap' } ]}>
+                  {children.map(({ id, label }) => (
+                    <TouchableOpacity
+                      style={[
+                        s.border, s.px1, s.py1, s.mr05, s.mb05, s.round2,
+                        tags.includes(label) && [ s.backgroundPrimary, { borderColor: s.primary.color } ],
+                      ]}
+                      activeOpacity={1} key={id}
+                      onPress={() => setTags(
+                        tags.includes(label)
+                          ? tags.filter(tag => tag !== label)
+                          : [ ...tags, label ]
+                      )}
+                    >
+                      <Text style={[ s.body2, s.bold, tags.includes(label) ? s.white : s.grey ]}>{label}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+            ))}
           </View>
         )}
       />
