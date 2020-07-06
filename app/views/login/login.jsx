@@ -11,14 +11,16 @@ import IllustrationLogin from "../../assets/img/illu-login.svg"
 import * as s from "../../styles/index"
 import { LOGIN, CHECK_AUTH } from "../../graphql/auth"
 
-
+/* Ecran de connexion */
 export default function Login({ navigation }) {
   const client = useApolloClient()
   const { data: { isOnboarded } = {} } = useQuery(gql`{ isOnboarded @client }`)
 
-  const [email, setEmail] = React.useState('vpham@craftegg.fr')
-  const [password, setPassword] = React.useState('admin')
+  /* Champs du formulaire de connexion */
+  const [email, setEmail] = React.useState('')
+  const [password, setPassword] = React.useState('')
 
+  /* Call API pour la connexion */
   const [login, { loading }] = useMutation(LOGIN, {
     async update (cache, { data: { login } }) {
       await SecureStore.setItemAsync('authToken', login.token)
@@ -30,6 +32,8 @@ export default function Login({ navigation }) {
     },
     onError: error => console.log(error.message),
   })
+
+  /* Action à l'envoi du formulaire */
   const onSubmit = async () => {
     login({
       variables: {
@@ -52,11 +56,14 @@ export default function Login({ navigation }) {
             Vous avez reçu votre mot de passe par mail
           </Text>
         )}
-        <Input value={email} onChange={setEmail} style={[ s.mt2, s.mb1 ]} />
-        <Input value={password} onChange={setPassword} isPwd style={[ s.mb2 ]} />
+        <Input value={email} onChange={setEmail} style={[ s.mt2, s.mb1 ]} placeholder="Adresse email" />
+        <Input value={password} onChange={setPassword} isPwd style={[ s.mb2 ]} placeholder="Mot de passe" />
+
+        {/* TODO */}
         <Text style={[ s.grey, s.center, s.pb4, s.mbAuto ]}>
           Mot de passe oublié ?
         </Text>
+        
         <Button btnStyle='primary' label={`Connexion${loading ? '…' : ''}`} onPress={onSubmit} style={[ s.mb1 ]} disabled={loading} />      
       </ScrollView>
     </View>

@@ -29,7 +29,7 @@ const getCommitmentsNested = children => children.reduce(
   ]
 , [])
 
-
+/* Page adresse */
 export default function Place ({ route: { params: { place } }, navigation }) {
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
   const scrollViewRef = useRef(null)

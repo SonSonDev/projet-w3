@@ -10,8 +10,13 @@ import CardPost from "../components/organismes/CardPost";
 import * as s from "../styles";
 import { CHECK_AUTH } from '../graphql/auth';
 
+/* Page d'accueil */
 export default function Home({ navigation }) {
+
+  /* Informations de l'utilisateur */
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
+
+  /* Liste des adresses à afficher */
   const { data: { getPlaces = [] } = {}, loading, error } = useQuery(
     GET_PLACES,
     {
@@ -26,6 +31,7 @@ export default function Home({ navigation }) {
     }
   );
 
+  /* Liste des articles à afficher */
   const { data: { getArticles = [] } = {} } = useQuery(GET_ARTICLES, {
     skip: !getPlaces.length,
     onError: (error) => console.log(error.message),

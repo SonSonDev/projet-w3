@@ -137,6 +137,7 @@ export const UPDATE_USER = gql `
   ${userFragment}
 `
 
+/* Ajout de tags à un utilisateur */
 export const ADD_TAGS_TO_USER = gql `
   mutation AddTagsToUser(
     $userId: ID!
@@ -152,6 +153,7 @@ export const ADD_TAGS_TO_USER = gql `
   ${userFragment}
 `
 
+/* Remplacement des tags d'un utilisateur */
 export const SET_TAGS_TO_USER = gql `
   mutation SetTagsToUser(
     $userId: ID!
@@ -167,7 +169,7 @@ export const SET_TAGS_TO_USER = gql `
   ${userFragment}
 `
 
-
+/* Vérification de la position */
 export const CHECK_LOCATION = gql`
   mutation CheckLocation(
     $placeId: ID!
@@ -183,6 +185,7 @@ export const CHECK_LOCATION = gql`
   ${userFragment}
 `
 
+/* Validation d'une réponse à un quiz */
 export const VALIDATE_QUIZ = gql`
   mutation ValidateQuiz(
     $userId: ID!

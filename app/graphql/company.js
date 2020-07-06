@@ -38,7 +38,7 @@ const companyFragment = gql`
   }
 `
 
-
+/* Infos d'une entreprise */
 export const GET_COMPANY = gql`
   query GetCompany($id: ID!) {
     getCompany(id: $id) {

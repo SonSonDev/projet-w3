@@ -20,6 +20,7 @@ const articleFragment = gql`
   }
 `
 
+/* Infos d'une liste d'article */
 export const GET_ARTICLES = gql`
   query GetArticles($where: ArticleInput) {
     getArticles(where: $where) {
@@ -29,6 +30,7 @@ export const GET_ARTICLES = gql`
   ${articleFragment}
 `
 
+/* Info d'un article */
 export const GET_ARTICLE = gql`
   query GetArticle($where: ArticleInputUnique) {
     getArticle(where: $where) {
