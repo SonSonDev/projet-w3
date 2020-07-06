@@ -18,6 +18,7 @@ export default function Article({ route: { params: { article } }, navigation }) 
   const { data: { getArticles = [] } = {} } = useQuery(GET_ARTICLES, {
     onError: (error) => console.log(error.message),
   });
+  const hasQuiz = !!article.quiz
 
   return (
     <ScrollView style={[s.flex, s.backgroundPale]}>
@@ -39,7 +40,7 @@ export default function Article({ route: { params: { article } }, navigation }) 
       </View>
 
       {/* Section QUIZ */}
-      {article.quiz && 
+      {hasQuiz && 
         <View style={[s.px2, s.py3, s.mb3]}>
           <CardQuizz article={article}/>
         </View>

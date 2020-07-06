@@ -18,8 +18,10 @@ import * as s from '../../styles'
 export default function Explore ({ navigation }) {
   const [ category, setCategory ] = useState('FOOD')
 
+  /* Information de l'utilisateur */
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
 
+  /* Information de la liste d'adresses */
   const { data: { getPlaces = [] } = {}, loading, error } = useQuery(GET_PLACES, {
     skip: !userData?.company.address.location,
     onError: error => console.log(error.message),
