@@ -2,7 +2,7 @@
 
 - action:
     module: ec2_elb_info
-    names: elb-api
+    names: "{{ stage }}-elb-api"
     region: eu-west-2
   register: elb_api_info
 

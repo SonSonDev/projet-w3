@@ -7,21 +7,25 @@
     owner: "{{ application_user }}"
     group: "{{ application_group }}"
 
-- action:
+- name: Get instance back office info
+  action:
     module: ec2_instance_info
     region: eu-west-2
     filters:
-      "tag:Name": back_office
+      "tag:stage": "{{ stage }}"
+      "tag:component": back_office
       "instance-state-name": running
     aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
     aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
   register: ec2_bo_info
 
-- action:
+- name: Get instance database info
+  action:
     module: ec2_instance_info
     region: eu-west-2
     filters:
-      "tag:Name": database
+      "tag:stage": "{{ stage }}"
+      "tag:component": database
       "instance-state-name": running
     aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
     aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"

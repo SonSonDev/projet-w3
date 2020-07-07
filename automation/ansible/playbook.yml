@@ -1,23 +1,27 @@
 ---
 
-# - name: Install common libs and packages
-#   hosts: tag_component_madu_app
-#   gather_facts: no
-#   become: yes
-#   roles:
-#     - { role: common, tags: ["common"] }
-#     - { role: geerlingguy.docker, tags: ["common"] }
-
-- name: Build project
-  hosts: local
-  connection: local
+- name: Install common packages and dependencies
+  hosts: [ tag_component_api, tag_component_back_office, tag_component_database ]
+  become: yes
   roles:
-    - { role: build, tags: ["build", "deploy"] }
+    - { role: common, tags: ['install'] }
+    - { role: geerlingguy.docker, tags: ['install'] }
 
-# - name: Install web service
-#   hosts: tag_component_madu_app
-#   # vars_files:
-#   #   - ./inventory/group_vars/vault.yml
-#   become: yes
-#   roles:
-#     - { role: deploy, tags: ["deploy", "ci"] }
+- name: Set up database
+  hosts: [ tag_component_database ]
+  become: yes
+  roles:
+    - { role: database, tags: ['database'] }
+
+- name: Set up api
+  hosts: [ tag_component_api ]
+  become: yes
+  roles:
+    - { role: api, tags: ['deploy', 'api'] }
+
+- name: Set up back office
+  hosts: [ tag_component_back_office ]
+  become: yes
+  roles:
+    - { role: back_office, tags: ['deploy', 'back_office'] }
+

@@ -25,3 +25,5 @@ AWS_ACCESS_KEY_ID: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
 AWS_SECRET_ACCESS_KEY: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
 AWS_S3_BUCKET: "{{ lookup('env', 'AWS_S3_BUCKET') }}"
 GOOGLE_MAPS_API_KEY: "{{ lookup('env', 'GOOGLE_MAPS_API_KEY') }}"
+
+stage: staging

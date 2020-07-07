@@ -1,7 +1,7 @@
 ---
 
 - name: Insert fixtures in DB
-  hosts: tag_component_api
+  hosts: tag_component_api[0]
   become: yes
   tasks:
   - name: Execute fixture insert script

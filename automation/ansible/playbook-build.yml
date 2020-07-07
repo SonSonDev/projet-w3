@@ -1,0 +1,7 @@
+---
+
+- name: Build project
+  hosts: local
+  connection: local
+  roles:
+    - { role: build }
