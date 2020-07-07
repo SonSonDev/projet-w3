@@ -64,12 +64,12 @@ export default function OBSecondStep ({ navigation }) {
         <Steps length={3} currentStep={2} style={[ s.mtAuto, s.mb2 ]} />
         <Button btnStyle='primary' label='Continuer' onPress={onSubmit} style={[ s.mb1 ]} />
         <Button btnStyle='secondary' label='Passer' onPress={async () => {
-          await SecureStore.setItemAsync('isOnboarded', 'true')
           client.writeData({ data: { isOnboarded: true } })
           navigation.dispatch(CommonActions.reset({
             index: 0,
             routes: [ { name: 'MainNavigator' } ],
           }))
+          await SecureStore.setItemAsync('isOnboarded', 'true')
         }} />
       </ScrollView>
     </View>

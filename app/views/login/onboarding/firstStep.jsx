@@ -28,12 +28,12 @@ export default function OBFirstStep ({ navigation }) {
         <Steps length={3} currentStep={1} style={[ s.mtAuto, s.mb2 ]} />
         <Button btnStyle='primary' label='Commencer' onPress={() => navigation.navigate('OnboardingSecondStep')} style={[ s.mb1 ]} />
         <Button btnStyle='secondary' label='Passer' onPress={async () => {
-          await SecureStore.setItemAsync('isOnboarded', 'true')
           client.writeData({ data: { isOnboarded: true } })
           navigation.dispatch(CommonActions.reset({
             index: 0,
             routes: [ { name: 'MainNavigator' } ],
           }))
+          await SecureStore.setItemAsync('isOnboarded', 'true')
         }} />
       </ScrollView>
     </View>

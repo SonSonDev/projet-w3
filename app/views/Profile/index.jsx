@@ -20,7 +20,7 @@ import * as s from '../../styles'
 
 /* Page profil */
 export default function Profile ({ navigation }) {
-  const [ tabIndex, setTabIndex ] = useState(1)
+  const [ tabIndex, setTabIndex ] = useState(0)
   const client = useApolloClient()
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
   const { data: { getTags = [] } = {} } = useQuery(GET_TAGS, { variables: { where: { root: true } } })
@@ -104,24 +104,6 @@ export default function Profile ({ navigation }) {
         )
       )}
 
-      {/* <TouchableOpacity activeOpacity={1} style={[ s.p2, s.backgroundWhite, { borderWidth: 1, borderColor: s.c.bg } ]} onPress={async () => {
-        await SecureStore.deleteItemAsync('authToken')
-        client.writeData({ data: { checkAuthApp: null } })  
-        navigation.navigate('Login')      
-      }}>
-        <Text style={[ s.body1 ]}>Déconnexion</Text>
-      </TouchableOpacity> */}
-      {/*       
-      <TouchableOpacity activeOpacity={1} style={[ s.p2, s.backgroundWhite, { borderBottomWidth: 1, borderColor: s.c.bg } ]} onPress={async () => {
-        await SecureStore.deleteItemAsync('isOnboarded')
-        await SecureStore.deleteItemAsync('authToken')
-        client.writeData({ data: { checkAuthApp: null, isOnboarded: false } })
-        navigation.navigate('FirstScreen')
-      }}>
-        <Text style={[ s.body1 ]}>Réinitialiser</Text>
-      </TouchableOpacity>
-      */}
-      {/* <Text style={[ s.body2, s.grey, s.p2 ]}>Version {Constants.manifest.version}</Text> */}
     </ScrollView>
   )
 }

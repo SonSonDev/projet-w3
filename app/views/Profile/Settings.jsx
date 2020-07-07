@@ -54,22 +54,22 @@ export default function Profile ({ navigation }) {
           }))
         }}
       >
-        <Icon name="logout-circle-line" size={24} color={s.grey.color} style={[ s.p1, s.round2, s.backgroundGreyLight, s.overflow, s.mr1 ]} />
+        <Icon name="logout-circle-line" size={24} color={s.grey.color} style={[ s.p1, s.round2, { backgroundColor: '#f4f4f4' }, s.overflow, s.mr1 ]} />
         <Text style={[ s.body1, s.grey, s.mx05 ]}>Déconnexion</Text>
       </TouchableOpacity>
             
       <TouchableOpacity activeOpacity={1} style={[ s.row, s.itemsCenter, s.p2, s.pt1, s.mx2, s.backgroundWhite, s.roundBottom2, { borderBottomWidth: 0, borderColor: s.c.bg } ]}
         onPress={async () => {
-          await SecureStore.deleteItemAsync('isOnboarded')
-          await SecureStore.deleteItemAsync('authToken')
           client.writeData({ data: { checkAuthApp: null, isOnboarded: false } })
           navigation.dispatch(CommonActions.reset({
             index: 0,
             routes: [ { name: 'FirstScreen' } ],
           }))
+          await SecureStore.deleteItemAsync('isOnboarded')
+          await SecureStore.deleteItemAsync('authToken')
         }}
       >
-        <Icon name="loader-2-line" size={24} color={s.grey.color} style={[ s.p1, s.round2, s.backgroundGreyLight, s.overflow, s.mr1 ]} />
+        <Icon name="loader-2-line" size={24} color={s.grey.color} style={[ s.p1, s.round2, { backgroundColor: '#f4f4f4' }, s.overflow, s.mr1 ]} />
         <Text style={[ s.body1, s.grey, s.mx05 ]}>Réinitialiser</Text>
       </TouchableOpacity>
      

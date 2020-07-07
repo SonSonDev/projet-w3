@@ -7,6 +7,8 @@ import * as Linking from 'expo-linking'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import * as Location from 'expo-location'
 import MapView, { Marker } from 'react-native-maps'
+import { useApolloClient } from "@apollo/react-hooks"
+import gql from "graphql-tag"
 
 import { GET_PLACE, DELETE_PLACE, UPSERT_PLACES } from "../../graphql/place"
 import { GET_TAGS } from '../../graphql/tag'
@@ -31,14 +33,13 @@ const getCommitmentsNested = children => children.reduce(
 
 /* Page adresse */
 export default function Place ({ route: { params: { place } }, navigation }) {
+  const client = useApolloClient()
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
   const scrollViewRef = useRef(null)
   const [ hoursCollapsed, setHoursCollapesed ] = useState(true)
-  const [ toast, setToast ] = useState('')
   const { data: { getTags = [] } = {} } = useQuery(GET_TAGS, { variables: { where: { root: true } } })
   const [ tabIndex, setTabIndex ] = useState(0)
   const scroll = useRef(new Animated.Value(0)).current
-  const fade = useRef(new Animated.Value(0)).current
   const hide = useRef(new Animated.Value(0)).current
   const [ disabled, setDisabled ] = useState(false)
   const [ checkLocation, { loading } ] = useMutation(CHECK_LOCATION)
@@ -281,19 +282,18 @@ export default function Place ({ route: { params: { place } }, navigation }) {
           onPress={async () => {
             const { status } = await Location.requestPermissionsAsync()
             if (status !== 'granted') {
-              setToast('Une erreur est survenue')
+              client.writeData({ data: {
+                toast: `ERROR::Une erreur est survenue::${Date.now()}`,
+              } })
             }
             const { coords: { latitude, longitude } } = await Location.getCurrentPositionAsync()
             console.log({ latitude, longitude }, id)
 
             try {
               await checkLocation({ variables: { placeId: id, coordinates: [ latitude, longitude ] } })
-              setToast('Vous vous êtes géolocalisés sur une adresse éco-responsable, 50 points de plus dans votre cagnotte !')
-              Animated.timing(fade, {
-                toValue: 5,
-                duration: 5000,
-                useNativeDriver: true,
-              }).start(() => fade.setValue(0))
+              client.writeData({ data: {
+                toast: `SUCCESS::Tu t’es géolocalisé sur une adresse éco-responsable, __50 points__ de plus dans ta cagnotte !::${Date.now()}`,
+              } })
               setDisabled(true)
               Animated.spring(hide, {
                 toValue: 1,
@@ -302,12 +302,9 @@ export default function Place ({ route: { params: { place } }, navigation }) {
               }).start()
             } catch (error) {
               console.log(error)
-              setToast('Vous êtes encore trop loin, rendez-vous à l’adresse de ce point d’intérêt pour vous y géolocaliser')
-              Animated.timing(fade, {
-                toValue: 5,
-                duration: 5000,
-                useNativeDriver: true,
-              }).start(() => fade.setValue(0))
+              client.writeData({ data: {
+                toast: `FAIL::Tu es encore trop loin, rendez-vous à l’adresse de ce point d’intérêt pour t’y géolocaliser et gagner des points::${Date.now()}`,
+              } })
             }
           }}
           style={[ s.m2, s.shadow3, { transform: [
@@ -321,24 +318,6 @@ export default function Place ({ route: { params: { place } }, navigation }) {
           disabled={disabled}
         />
       </View>
-      {!!toast && (
-        <Animated.View style={[ s.absolute, s.row, s.itemsCenter, s.top, s.right, s.left, s.mx2, s.mt3, s.backgroundWhite, s.round3, s.py2, s.px2, { zIndex: 3 }, s.shadow2, {
-          transform: [
-            { translateY: fade.interpolate({
-              inputRange: [0, 0.02, 5-0.02, 5],
-              outputRange: [-20, 0, 0, -20],
-            }) }
-          ],
-          opacity: fade.interpolate({
-            inputRange: [0, 0.02, 5-0.02, 5],
-            outputRange: [0, 1, 1, 0],
-          }),
-          
-        } ]} pointerEvents='none'>
-          <Icon name={toast.includes('50') ? "check-line" : 'emotion-unhappy-line'} size={20} color={toast.includes('50') ? '#0E562F' : '#B4543A'} style={[ s.p1, s.round2, { backgroundColor: toast.includes('50') ? '#DAEEE6' : '#FBEAE9' }, s.overflow, s.mr1 ]} />
-          <Text style={[ s.body1, s.bold, s.flex, s.mx1 ]}>{toast}</Text>
-        </Animated.View>
-      )}
     </View>
   )
 }

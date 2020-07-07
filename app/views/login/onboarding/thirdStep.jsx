@@ -30,12 +30,12 @@ export default function OBThirdStep ({ navigation }) {
   /* Call API pour ajout des préférences */
   const [addTagsToUser, { loading }] = useMutation(ADD_TAGS_TO_USER, {
     onCompleted: async res => {
-      await SecureStore.setItemAsync('isOnboarded', 'true')
       client.writeData({ data: { isOnboarded: true } })
       navigation.dispatch(CommonActions.reset({
         index: 0,
         routes: [ { name: 'MainNavigator' } ],
       }))
+      await SecureStore.setItemAsync('isOnboarded', 'true')
     },
     onError: error => console.log(error.message),
   })
@@ -65,12 +65,12 @@ export default function OBThirdStep ({ navigation }) {
         <Steps length={3} currentStep={3} style={[ s.mtAuto, s.mb2 ]} />
         <Button btnStyle='primary' label='C’est parti !' style={[ s.mb1 ]} onPress={onSubmit} />
         <Button btnStyle='secondary' label='Passer' onPress={async () => {
-          await SecureStore.setItemAsync('isOnboarded', 'true')
           client.writeData({ data: { isOnboarded: true } })
           navigation.dispatch(CommonActions.reset({
             index: 0,
             routes: [ { name: 'MainNavigator' } ],
           }))
+          await SecureStore.setItemAsync('isOnboarded', 'true')
         }} />
       </ScrollView>
     </View>

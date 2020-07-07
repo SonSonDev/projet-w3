@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { SafeAreaView, Text } from 'react-native'
+import React, { useState, useEffect, useRef } from 'react'
+import { SafeAreaView, Text, Animated } from 'react-native'
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -22,10 +22,11 @@ import Place from './views/Explore/Place'
 import Profile from './views/Profile'
 import Settings from './views/Profile/Settings'
 import Article from './views/Article'
-import * as s from './styles'
 
 import Header from './components/organismes/Header'
 import TabBar from './components/organismes/TabBar'
+import Toaster from './components/organismes/Toaster'
+import * as s from './styles'
 
 import { CHECK_AUTH } from './graphql/auth'
 
@@ -73,6 +74,7 @@ export default function () {
       : 'MainNavigator'
 
   return (
+    <>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ header: () => null }} headerMode='screen' initialRouteName={initialRouteName}>
         <Stack.Screen name="FirstScreen" component={FirstScreen} options={{ animationTypeForReplace: 'pop' }} />
@@ -87,6 +89,8 @@ export default function () {
         <Stack.Screen name="Article" component={Article} />
       </Stack.Navigator>
     </NavigationContainer>
+    <Toaster />
+    </>
   )
 }
 
