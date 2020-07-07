@@ -391,6 +391,8 @@ input UserInput {
 input TagInput {
   id: ID
   label: String
+  label_in: [String!]
+  label_not_in: [String!]
   root: Boolean
   leaf: Boolean
   category: Category

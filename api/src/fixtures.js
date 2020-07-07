@@ -44,7 +44,7 @@ const defaultTags = {
       "€€€",
     ],
     "Engagements": {
-      "Matériels/Equipement": {
+      "Matériels/Équipement": {
         "Nature": [
           "Circuit court/Locaux",
           "Industrie biologique",
@@ -68,9 +68,9 @@ const defaultTags = {
         "Dématérialisation",
       ],
       "Social": [
-        "Déplacements/transports des salarié - Transports en commun",
-        "Déplacements/transports des salarié - Mobilité douces",
-        "Déplacements/transports des salarié - Covoiturage",
+        "Déplacements/transports des salariés - Transports en commun",
+        "Déplacements/transports des salariés - Mobilité douces",
+        "Déplacements/transports des salariés - Covoiturage",
         "Contrats aidés, équité, diversité",
         "Dons à des associations - Invendus",
         "Dons à des associations - % de la marge",
@@ -128,9 +128,9 @@ const defaultTags = {
         "Dématérialisation",
       ],
       "Social": [
-        "Déplacements/transports des salarié - Transports en commun",
-        "Déplacements/transports des salarié - Mobilité douces",
-        "Déplacements/transports des salarié - Covoiturage",
+        "Déplacements/transports des salariés - Transports en commun",
+        "Déplacements/transports des salariés - Mobilité douces",
+        "Déplacements/transports des salariés - Covoiturage",
         "Contrats aidés, équité, diversité",
         "Dons à des associations - Invendus",
         "Dons à des associations - % de la marge",
@@ -153,12 +153,12 @@ const defaultTags = {
       "Salon de thé/Pâtisserie",
     ],
     "Type de cuisine": [
-      "Junkfood",
+      "Junk food",
       "Afro",
       "Asiatique",
       "Indienne",
       "Italienne",
-      "Méxicaine",
+      "Mexicaine",
       "Orientale",
       "Traditionnelle",
     ],
@@ -208,9 +208,9 @@ const defaultTags = {
         "Dématérialisation",
       ],
       "Social": [
-        "Déplacements/transports des salarié - Transports en commun",
-        "Déplacements/transports des salarié - Mobilité douces",
-        "Déplacements/transports des salarié - Covoiturage",
+        "Déplacements/transports des salariés - Transports en commun",
+        "Déplacements/transports des salariés - Mobilité douces",
+        "Déplacements/transports des salariés - Covoiturage",
         "Contrats aidés, équité, diversité",
         "Dons à des associations - Invendus",
         "Dons à des associations - % de la marge",

@@ -11,6 +11,7 @@ import IllustrationChallenges from "../assets/img/illu-challenges.svg"
 import VectChallenges from "../assets/img/vect-challenges.svg"
 import * as s from "../styles";
 import { CHECK_AUTH } from '../graphql/auth';
+import { GET_TAGS } from '../graphql/tag';
 
 /* Page d'accueil */
 export default function Home({ navigation }) {
@@ -18,14 +19,21 @@ export default function Home({ navigation }) {
   /* Informations de l'utilisateur */
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
 
+  const { data: { getTags = [] } = {} } = useQuery(GET_TAGS, { variables: { where: { root: true } } })
+
   /* Liste des adresses à afficher */
   const { data: { getPlaces = [] } = {}, loading, error } = useQuery(
     GET_PLACES,
     {
-      skip: !userData?.company.address.location,
+      skip: !userData?.company.address.location || !getTags.length,
       onError: (error) => console.log(error.message),
       variables: {
-        where: { category: "FOOD" },
+        where: {
+          category: "FOOD",
+          tags: Object.values(
+            getTags.reduce((acc, { id, label: parent, children }) => ({ ...acc, [parent]: userData?.tags.filter(tag => children.some(({ label }) => tag === label)) }), {})
+          ).filter(t => t?.length).map(label_in => ({ label_in }))
+        },
         nearby: {
           coordinates: userData?.company.address.location?.coordinates
         },

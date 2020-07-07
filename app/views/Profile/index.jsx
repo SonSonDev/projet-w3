@@ -97,9 +97,9 @@ export default function Profile ({ navigation }) {
             ))}
           </View>
         ) : (
-          <View style={[ s.mx2, s.backgroundWhite, s.p2, s.round3 ]}>
-            <Text style={[ s.body2, s.grey, s.center ]}>Aucune adresse trouvée.</Text>
-            <Text style={[ s.body2, s.grey, s.center ]}>Revenez plus tard !</Text>
+          <View style={[ s.mx2, s.backgroundWhite, s.p2, s.py3, s.round3 ]}>
+            <Text style={[ s.body1, s.grey, s.center ]}>Aucune adresse trouvée.</Text>
+            <Text style={[ s.body1, s.grey, s.center ]}>Revenez plus tard !</Text>
           </View>
         )
       )}

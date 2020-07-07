@@ -18,7 +18,11 @@ module.exports = {
           { $addFields: { id: "$_id" } },
           where && { $match: {
             ...where.category && { "category": where.category },
-            ...where.tags && where.tags.length && { "tags.label": { $in: where.tags.map(({ label }) => label) } },
+            ...where.tags && where.tags.length && {
+              $and: where.tags.map(({ label_in }) => ({
+                $or: label_in.map(label => ({ "tags.label": label })),
+              })),
+            },
           } },
         ].filter(Boolean))
         : prisma.places(where)
