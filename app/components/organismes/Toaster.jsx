@@ -21,7 +21,7 @@ export default function () {
   }, [toast])
 
   const [ type, message = '' ] = toast.split('::')
-  const [ [ isBold ] = [] ] = [...message.matchAll(/__[^_]*__/g)]
+  const [ isBold ] = message.match(/__[^_]*__/g) || []
   console.log(isBold)
 
   return toast ? (
