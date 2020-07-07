@@ -107,7 +107,6 @@ type Mutation {
   deleteArticle(where: ArticleInputUnique!): Article
 
   validateQuiz(
-    userId: ID!
     articleId: ID!
     answer: String!
   ): User
@@ -131,7 +130,6 @@ type Mutation {
   ): Challenge
 
   validateChallenge(
-    userId: ID!
     challengeId: ID!
   ): User
 
@@ -155,8 +153,6 @@ type User {
   isRepresentative: Boolean
   tags: [String]
   points: Int
-  validatedChallenges: [Challenge]
-  validatedQuizzes: [ValidatedQuiz]
   history: [History]
 }
 
@@ -249,13 +245,6 @@ type Quiz {
   choices: [String]
   answer: String
   value: Int
-  answeredBy: [User]
-}
-
-type ValidatedQuiz {
-  id: ID!
-  article: Article!
-  status: Boolean!
 }
 
 type Challenge {

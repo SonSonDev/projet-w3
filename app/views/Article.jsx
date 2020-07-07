@@ -23,15 +23,14 @@ export default function Article({ route: { params: { article } }, navigation }) 
   });
   const hasQuiz = !!article.quiz
 
-
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
 
   const [quizMessage, setQuizMessage] = useState("")
 
   const [validateQuiz] = useMutation(VALIDATE_QUIZ, {
     async update (cache, { data: { validateQuiz } }) {
-      const quiz = validateQuiz.validatedQuizzes?.find(item => item.article.id === article.id)
-      setQuizMessage(quiz.status ? `Bonne réponse ! ${article.quiz.value} points !` : "Raté")
+      const quiz = validateQuiz.history.find(item => item.originId === article.id)
+      setQuizMessage(quiz.bounty ? `Bonne réponse ! ${article.quiz.value} points !` : "Raté")
       client.writeData({
         query: CHECK_AUTH,
         data: { checkAuthApp: validateQuiz },
@@ -59,14 +58,13 @@ export default function Article({ route: { params: { article } }, navigation }) 
     setAnswerList(newList)
   }
 
-  const isAnswered = userData?.validatedQuizzes?.find(item => item.article.id === article.id)
+  const isAnswered = userData?.history?.find(item => item.originId === article.id) || false
 
   const onSubmitQuiz = () => {
     const choice = answerList.find(item => item.selected)?.label
     if (choice && !isAnswered) {
       validateQuiz({
         variables: {
-          userId: userData.id,
           articleId: article.id,
           answer: choice,
         }
@@ -101,7 +99,7 @@ export default function Article({ route: { params: { article } }, navigation }) 
                      updateState={updateState}
                      question={article.quiz.question}
                      answerList={answerList}
-                     answer={isAnswered?.article.quiz.answer}
+                     answer={article.quiz.answer}
                      quizMessage={quizMessage}
           />
         </View>

@@ -94,16 +94,6 @@ const setCompanyChallenges = async (_, { id }, context) => {
       return acc
     }, [])
 
-  //empty users validated challenges
-  const users = await context.prisma.company({ id }).users()
-  users.forEach(await async function ({id}) {
-    const ids = (await context.prisma.user({ id }).validatedChallenges()).map(c => ({ id: c.id }))
-    await context.prisma.updateUser({
-      where: { id },
-      data: { validatedChallenges: { disconnect: ids }},
-    })
-  })
-
   return await context.prisma.updateCompany({
     where: { id },
     data: {

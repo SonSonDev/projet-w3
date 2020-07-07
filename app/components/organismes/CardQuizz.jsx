@@ -6,7 +6,6 @@ import * as s from "../../styles/index"
 import Illustration from "../../assets/img/illuCardQuizz.svg"
 
 const CardQuizz = ({ onSubmit, isAnswered, updateState, question, answerList, answer, quizMessage, storybook = false }) => {
-  console.log(storybook)
   return (
     <View style={[{backgroundColor: '#FBEAE9', overflow: 'hidden'}, s.round3]}>
       {!storybook && <Illustration style={[s.absolute, s.bottom]}/>}

@@ -21,25 +21,6 @@ export const userFragment = gql`
         location
       }
     }
-    validatedChallenges {
-      id
-      name
-      description
-      value
-    }
-    validatedQuizzes {
-      id
-      article {
-        id
-        quiz {
-          question
-          choices
-          answer
-          value
-        }
-      }
-      status
-    }
     history {
       bounty
       originType
@@ -203,13 +184,11 @@ export const CHECK_LOCATION = gql`
 
 /* Validation d'une réponse à un quiz */
 export const VALIDATE_QUIZ = gql`
-  mutation ValidateQuiz(
-    $userId: ID!
+  mutation validateQuiz(
     $articleId: ID!
     $answer: String!
   ) {
     validateQuiz(
-      userId: $userId
       articleId: $articleId
       answer: $answer
     ) {

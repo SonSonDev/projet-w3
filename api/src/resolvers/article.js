@@ -30,7 +30,6 @@ module.exports = {
     },
 
     async deleteArticle (_, { where: { id } }, { prisma }) {
-      await prisma.deleteManyValidatedQuizzes({ article: { id } })
       return await prisma.deleteArticle({ id })
     },
   },
@@ -39,9 +38,6 @@ module.exports = {
       async quiz (parent, args, { prisma }) {
         return {
           ...parent.quiz,
-          answeredBy: await prisma.users({ where:
-            { validatedQuizzes_some: { article: { id: parent.id }}},
-          }),
         }
       },
       photo ({ id }, _, { prisma }) {

@@ -53,10 +53,6 @@ var models = [
     embedded: true
   },
   {
-    name: "ValidatedQuiz",
-    embedded: false
-  },
-  {
     name: "Challenge",
     embedded: false
   },

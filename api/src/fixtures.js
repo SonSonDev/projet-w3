@@ -500,7 +500,6 @@ async function populateDb () {
 }
 
 const clearDb = async () => {
-  await prisma.deleteManyValidatedQuizzes()
   await prisma.deleteManyUsers()
   await prisma.deleteManyTags()
   await prisma.deleteManyPhotos()

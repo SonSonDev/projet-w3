@@ -120,10 +120,6 @@ type AggregateUser {
   count: Int!
 }
 
-type AggregateValidatedQuiz {
-  count: Int!
-}
-
 type Article {
   id: ID!
   title: String!
@@ -236,13 +232,6 @@ input ArticleUpdateOneInput {
   upsert: ArticleUpsertNestedInput
   delete: Boolean
   disconnect: Boolean
-  connect: ArticleWhereUniqueInput
-}
-
-input ArticleUpdateOneRequiredInput {
-  create: ArticleCreateInput
-  update: ArticleUpdateDataInput
-  upsert: ArticleUpsertNestedInput
   connect: ArticleWhereUniqueInput
 }
 
@@ -369,11 +358,6 @@ input ChallengeCreateInput {
   companies: CompanyCreateManyWithoutChallengesInput
 }
 
-input ChallengeCreateManyInput {
-  create: [ChallengeCreateInput!]
-  connect: [ChallengeWhereUniqueInput!]
-}
-
 input ChallengeCreateManyWithoutCompaniesInput {
   create: [ChallengeCreateWithoutCompaniesInput!]
   connect: [ChallengeWhereUniqueInput!]
@@ -489,14 +473,6 @@ input ChallengeSubscriptionWhereInput {
   AND: [ChallengeSubscriptionWhereInput!]
 }
 
-input ChallengeUpdateDataInput {
-  name: String
-  description: String
-  theme: Theme
-  value: Int
-  companies: CompanyUpdateManyWithoutChallengesInput
-}
-
 input ChallengeUpdateInput {
   name: String
   description: String
@@ -510,18 +486,6 @@ input ChallengeUpdateManyDataInput {
   description: String
   theme: Theme
   value: Int
-}
-
-input ChallengeUpdateManyInput {
-  create: [ChallengeCreateInput!]
-  update: [ChallengeUpdateWithWhereUniqueNestedInput!]
-  upsert: [ChallengeUpsertWithWhereUniqueNestedInput!]
-  delete: [ChallengeWhereUniqueInput!]
-  connect: [ChallengeWhereUniqueInput!]
-  set: [ChallengeWhereUniqueInput!]
-  disconnect: [ChallengeWhereUniqueInput!]
-  deleteMany: [ChallengeScalarWhereInput!]
-  updateMany: [ChallengeUpdateManyWithWhereNestedInput!]
 }
 
 input ChallengeUpdateManyMutationInput {
@@ -555,20 +519,9 @@ input ChallengeUpdateWithoutCompaniesDataInput {
   value: Int
 }
 
-input ChallengeUpdateWithWhereUniqueNestedInput {
-  where: ChallengeWhereUniqueInput!
-  data: ChallengeUpdateDataInput!
-}
-
 input ChallengeUpdateWithWhereUniqueWithoutCompaniesInput {
   where: ChallengeWhereUniqueInput!
   data: ChallengeUpdateWithoutCompaniesDataInput!
-}
-
-input ChallengeUpsertWithWhereUniqueNestedInput {
-  where: ChallengeWhereUniqueInput!
-  update: ChallengeUpdateDataInput!
-  create: ChallengeCreateInput!
 }
 
 input ChallengeUpsertWithWhereUniqueWithoutCompaniesInput {
@@ -1340,12 +1293,6 @@ type Mutation {
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   deleteUser(where: UserWhereUniqueInput!): User
   deleteManyUsers(where: UserWhereInput): BatchPayload!
-  createValidatedQuiz(data: ValidatedQuizCreateInput!): ValidatedQuiz!
-  updateValidatedQuiz(data: ValidatedQuizUpdateInput!, where: ValidatedQuizWhereUniqueInput!): ValidatedQuiz
-  updateManyValidatedQuizzes(data: ValidatedQuizUpdateManyMutationInput!, where: ValidatedQuizWhereInput): BatchPayload!
-  upsertValidatedQuiz(where: ValidatedQuizWhereUniqueInput!, create: ValidatedQuizCreateInput!, update: ValidatedQuizUpdateInput!): ValidatedQuiz!
-  deleteValidatedQuiz(where: ValidatedQuizWhereUniqueInput!): ValidatedQuiz
-  deleteManyValidatedQuizzes(where: ValidatedQuizWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -1815,9 +1762,6 @@ type Query {
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
-  validatedQuiz(where: ValidatedQuizWhereUniqueInput!): ValidatedQuiz
-  validatedQuizzes(where: ValidatedQuizWhereInput, orderBy: ValidatedQuizOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ValidatedQuiz]!
-  validatedQuizzesConnection(where: ValidatedQuizWhereInput, orderBy: ValidatedQuizOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ValidatedQuizConnection!
   node(id: ID!): Node
 }
 
@@ -2205,7 +2149,6 @@ type Subscription {
   reward(where: RewardSubscriptionWhereInput): RewardSubscriptionPayload
   tag(where: TagSubscriptionWhereInput): TagSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
-  validatedQuiz(where: ValidatedQuizSubscriptionWhereInput): ValidatedQuizSubscriptionPayload
 }
 
 type Tag {
@@ -2443,8 +2386,6 @@ type User {
   isRepresentative: Boolean
   tags: [String!]!
   points: Int
-  validatedChallenges(where: ChallengeWhereInput, orderBy: ChallengeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Challenge!]
-  validatedQuizzes(where: ValidatedQuizWhereInput, orderBy: ValidatedQuizOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ValidatedQuiz!]
   history: [History!]
 }
 
@@ -2466,8 +2407,6 @@ input UserCreateInput {
   isRepresentative: Boolean
   tags: UserCreatetagsInput
   points: Int
-  validatedChallenges: ChallengeCreateManyInput
-  validatedQuizzes: ValidatedQuizCreateManyInput
   history: HistoryCreateManyInput
 }
 
@@ -2501,8 +2440,6 @@ input UserCreateWithoutCompanyInput {
   isRepresentative: Boolean
   tags: UserCreatetagsInput
   points: Int
-  validatedChallenges: ChallengeCreateManyInput
-  validatedQuizzes: ValidatedQuizCreateManyInput
   history: HistoryCreateManyInput
 }
 
@@ -2676,8 +2613,6 @@ input UserUpdateDataInput {
   isRepresentative: Boolean
   tags: UserUpdatetagsInput
   points: Int
-  validatedChallenges: ChallengeUpdateManyInput
-  validatedQuizzes: ValidatedQuizUpdateManyInput
   history: HistoryUpdateManyInput
 }
 
@@ -2692,8 +2627,6 @@ input UserUpdateInput {
   isRepresentative: Boolean
   tags: UserUpdatetagsInput
   points: Int
-  validatedChallenges: ChallengeUpdateManyInput
-  validatedQuizzes: ValidatedQuizUpdateManyInput
   history: HistoryUpdateManyInput
 }
 
@@ -2773,8 +2706,6 @@ input UserUpdateWithoutCompanyDataInput {
   isRepresentative: Boolean
   tags: UserUpdatetagsInput
   points: Int
-  validatedChallenges: ChallengeUpdateManyInput
-  validatedQuizzes: ValidatedQuizUpdateManyInput
   history: HistoryUpdateManyInput
 }
 
@@ -2905,8 +2836,6 @@ input UserWhereInput {
   points_lte: Int
   points_gt: Int
   points_gte: Int
-  validatedChallenges_some: ChallengeWhereInput
-  validatedQuizzes_some: ValidatedQuizWhereInput
   history_some: HistoryWhereInput
   history_every: HistoryRestrictedWhereInput
   history_none: HistoryRestrictedWhereInput
@@ -2916,155 +2845,6 @@ input UserWhereInput {
 input UserWhereUniqueInput {
   id: ID
   email: String
-}
-
-type ValidatedQuiz {
-  id: ID!
-  article: Article!
-  status: Boolean!
-}
-
-type ValidatedQuizConnection {
-  pageInfo: PageInfo!
-  edges: [ValidatedQuizEdge]!
-  aggregate: AggregateValidatedQuiz!
-}
-
-input ValidatedQuizCreateInput {
-  id: ID
-  article: ArticleCreateOneInput!
-  status: Boolean!
-}
-
-input ValidatedQuizCreateManyInput {
-  create: [ValidatedQuizCreateInput!]
-  connect: [ValidatedQuizWhereUniqueInput!]
-}
-
-type ValidatedQuizEdge {
-  node: ValidatedQuiz!
-  cursor: String!
-}
-
-enum ValidatedQuizOrderByInput {
-  id_ASC
-  id_DESC
-  status_ASC
-  status_DESC
-}
-
-type ValidatedQuizPreviousValues {
-  id: ID!
-  status: Boolean!
-}
-
-input ValidatedQuizScalarWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  status: Boolean
-  status_not: Boolean
-  AND: [ValidatedQuizScalarWhereInput!]
-  OR: [ValidatedQuizScalarWhereInput!]
-  NOT: [ValidatedQuizScalarWhereInput!]
-}
-
-type ValidatedQuizSubscriptionPayload {
-  mutation: MutationType!
-  node: ValidatedQuiz
-  updatedFields: [String!]
-  previousValues: ValidatedQuizPreviousValues
-}
-
-input ValidatedQuizSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: ValidatedQuizWhereInput
-  AND: [ValidatedQuizSubscriptionWhereInput!]
-}
-
-input ValidatedQuizUpdateDataInput {
-  article: ArticleUpdateOneRequiredInput
-  status: Boolean
-}
-
-input ValidatedQuizUpdateInput {
-  article: ArticleUpdateOneRequiredInput
-  status: Boolean
-}
-
-input ValidatedQuizUpdateManyDataInput {
-  status: Boolean
-}
-
-input ValidatedQuizUpdateManyInput {
-  create: [ValidatedQuizCreateInput!]
-  update: [ValidatedQuizUpdateWithWhereUniqueNestedInput!]
-  upsert: [ValidatedQuizUpsertWithWhereUniqueNestedInput!]
-  delete: [ValidatedQuizWhereUniqueInput!]
-  connect: [ValidatedQuizWhereUniqueInput!]
-  set: [ValidatedQuizWhereUniqueInput!]
-  disconnect: [ValidatedQuizWhereUniqueInput!]
-  deleteMany: [ValidatedQuizScalarWhereInput!]
-  updateMany: [ValidatedQuizUpdateManyWithWhereNestedInput!]
-}
-
-input ValidatedQuizUpdateManyMutationInput {
-  status: Boolean
-}
-
-input ValidatedQuizUpdateManyWithWhereNestedInput {
-  where: ValidatedQuizScalarWhereInput!
-  data: ValidatedQuizUpdateManyDataInput!
-}
-
-input ValidatedQuizUpdateWithWhereUniqueNestedInput {
-  where: ValidatedQuizWhereUniqueInput!
-  data: ValidatedQuizUpdateDataInput!
-}
-
-input ValidatedQuizUpsertWithWhereUniqueNestedInput {
-  where: ValidatedQuizWhereUniqueInput!
-  update: ValidatedQuizUpdateDataInput!
-  create: ValidatedQuizCreateInput!
-}
-
-input ValidatedQuizWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  article: ArticleWhereInput
-  status: Boolean
-  status_not: Boolean
-  AND: [ValidatedQuizWhereInput!]
-}
-
-input ValidatedQuizWhereUniqueInput {
-  id: ID
 }
 `
       }

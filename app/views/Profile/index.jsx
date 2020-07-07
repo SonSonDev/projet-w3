@@ -76,7 +76,7 @@ export default function Profile ({ navigation }) {
       ) : (
         userData?.history.length ? (
           <View>
-            {Object.values(userData?.history.reduce((acc, { originId, ...rest }) => ({
+            {Object.values(userData?.history.filter(e => e.originType === "PLACE").reduce((acc, { originId, ...rest }) => ({
               ...acc,
               [originId]: {
                 ...acc[originId],

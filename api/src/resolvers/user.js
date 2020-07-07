@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const getWeek = require("date-fns/getWeek")
 const { APP_SECRET, transporter, emailTemplate, getUserId } = require("../utils")
 const Mongoose = require("../services/mongoose")
 
@@ -123,49 +124,46 @@ module.exports = {
       return update
     },
 
-    async validateQuiz (parent, { userId, articleId, answer }, { prisma }) {
-      const users = await prisma.users({
-        where: {
-          id: userId,
-          validatedQuizzes_some: { article: { id: articleId }}
-        }
-      })
-      if (users[0]) {
-        return users[0]
+    async validateQuiz (parent, { articleId, answer }, { request, prisma }) {
+      const id = getUserId({ request })
+      const user = await prisma.user({ id })
+      const validatedQuiz = user.history.find(item => item.originId === articleId)
+      if (validatedQuiz) {
+        throw new Error("Quiz already answered")
       } else {
-        const article = (await prisma.article({ id: articleId }))
-        const user = await prisma.user({ id: userId })
-        const status = article.quiz.answer === answer
-        return await prisma.updateUser({
-          where: { id: userId },
+        const article = await prisma.article({ id: articleId })
+        return prisma.updateUser({
+          where: { id },
           data: {
-            points: user.points + (status ? article.quiz.value : 1),
-            validatedQuizzes: {
-              create: {
-                article: { connect: { id: articleId }},
-                status
-              }
-            }
-          }
+            history: { create: [ {
+              bounty: article.quiz.answer === answer ? article.quiz.value : 0,
+              originType: "ARTICLE",
+              originId: articleId,
+              date: String(Date.now()),
+            } ] },
+          },
         })
       }
     },
 
-    async validateChallenge (_, { userId, challengeId }, context) {
-      const user = await context.prisma.user({ id: userId })
-      const challenge = (await context.prisma.user({ id: userId })
-        .company()
-        .challenges({ where: { id: challengeId }}))[0]
-      const validatedChallenge = (await context.prisma.user({ id: userId }).validatedChallenges({ where: { id: challengeId }})).length
-      console.log(validatedChallenge)
-      if (!challenge || validatedChallenge) {
-        return user
+    async validateChallenge (_, { challengeId }, { request, prisma }) {
+      const id = getUserId({ request })
+      const user = await prisma.user({ id })
+      const currentWeek = getWeek(Date.now(), { weekStartsOn: 1 })
+      const validatedChallenge = user.history.find(item => item.originId === challengeId && getWeek(Number(item.date), { weekStartsOn: 1 }) === currentWeek)
+      if (validatedChallenge) {
+        throw new Error("Challenge already validated")
       } else {
-        return await context.prisma.updateUser({
-          where: { id: userId },
+        const challenge = await prisma.challenge({ id: challengeId })
+        return prisma.updateUser({
+          where: { id },
           data: {
-            points: user.points + challenge.value,
-            validatedChallenges: { connect: { id: challengeId }},
+            history: { create: [ {
+              bounty: challenge.value,
+              originType: "CHALLENGE",
+              originId: challengeId,
+              date: String(Date.now()),
+            } ] },
           },
         })
       }
@@ -194,7 +192,6 @@ module.exports = {
       return prisma.updateUser({
         where: { id },
         data: {
-          // points: user.points + 50,
           history: { create: [ {
             bounty: 50,
             originType: "PLACE",
@@ -212,14 +209,6 @@ module.exports = {
         return context.prisma.user({ id: parent.id }).company()
       },
 
-      validatedChallenges(parent, args, context) {
-        return context.prisma.user({ id: parent.id }).validatedChallenges()
-      },
-
-      async validatedQuizzes(parent, args, { prisma }) {
-        return prisma.user({ id: parent.id }).validatedQuizzes()
-      },
-
       async history ({ history }, args, { prisma }) {
         return Promise.all(
           history.map(({ originType, originId, ...rest }) => (
@@ -235,11 +224,5 @@ module.exports = {
         return history.reduce((points, { bounty }) => points + bounty, 0)
       },
     },
-
-    ValidatedQuiz: {
-      article(parent, args, { prisma }) {
-        return prisma.validatedQuiz({ id: parent.id }).article()
-      }
-    }
   },
 }

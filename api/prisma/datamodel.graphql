@@ -10,8 +10,6 @@ type User {
   isRepresentative: Boolean @default(value: false)
   tags: [String]
   points: Int
-  validatedChallenges: [Challenge] @relation(link: INLINE)
-  validatedQuizzes: [ValidatedQuiz] @relation(link: INLINE)
   history: [History]
 }
 
@@ -102,12 +100,6 @@ type Quiz @embedded {
   choices: [String!]
   answer: String!
   value: Int!
-}
-
-type ValidatedQuiz {
-  id: ID! @id
-  article: Article! @relation(link: INLINE)
-  status: Boolean!
 }
 
 type Challenge {

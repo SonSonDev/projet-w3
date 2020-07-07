@@ -22,7 +22,6 @@ export default function () {
 
   const [ type, message = '' ] = toast.split('::')
   const [ isBold ] = message.match(/__[^_]*__/g) || []
-  console.log(isBold)
 
   return toast ? (
     <Animated.View style={[ s.absolute, s.row, s.itemsCenter, s.top, s.right, s.left, s.mx2, s.mt3, s.backgroundWhite, s.round3, s.py2, s.px2, { zIndex: 3 }, s.shadow2, {
