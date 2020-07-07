@@ -31,10 +31,10 @@ module "staging" {
   aws_ami_id = data.aws_ami.ubuntu.id
 }
 
-module "production" {
-  source = "./application"
+# module "production" {
+#   source = "./application"
 
-  stage = "production"
-  keypair_keyname = aws_key_pair.key_pair.key_name
-  aws_ami_id = data.aws_ami.ubuntu.id
-}
+#   stage = "production"
+#   keypair_keyname = aws_key_pair.key_pair.key_name
+#   aws_ami_id = data.aws_ami.ubuntu.id
+# }
