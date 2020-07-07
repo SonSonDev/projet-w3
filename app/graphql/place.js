@@ -1,6 +1,6 @@
 import gql from "graphql-tag"
 
-const placeFragment = gql`
+export const placeFragment = gql`
   fragment PlaceFragment on Place {
     id
     name

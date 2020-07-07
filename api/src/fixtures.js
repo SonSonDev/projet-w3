@@ -249,6 +249,8 @@ const places = [
   [ "Paint In Green",                         "78 rue Compans ",            "75019", "Paris", "FOOD", [ 48.87930900000001, 2.3921176 ], "https://madu-staging.s3.eu-west-2.amazonaws.com/Paint%20In%20Green.jpg" ],
   [ "Les Petites Pâtisseries - Raw & Vegan",  "44 rue du chemin vert",      "75011", "Paris", "FOOD", [ 48.8590064, 2.3747393 ], "https://madu-staging.s3.eu-west-2.amazonaws.com/Les%20Petites%20Pa%CC%82tisseries%20-%20Raw%20%26%20Vegan.jpg" ],
   [ "La Vie Claire",                          "194 rue Lecourbe",           "75015", "Paris", "SHOP", [ 48.8406747, 2.2960318 ], "https://madu-staging.s3.eu-west-2.amazonaws.com/La%20Vie%20Claire.jpeg" ],
+  [ "La Vie Claire 2",                        "71 rue Saint-Dominique",     "75007", "Paris", "SHOP", [ 48.8598655, 2.309814 ], "https://madu-staging.s3.eu-west-2.amazonaws.com/La%20Vie%20Claire.jpeg" ],
+  [ "La Vie Claire 3",                        "5 rue Albert de mun",        "93700", "Drancy", "SHOP", [ 48.9133557, 2.4618855 ], "https://madu-staging.s3.eu-west-2.amazonaws.com/La%20Vie%20Claire.jpeg" ],
 ]
 
 // for (let i = 0; i < Math.floor(Math.random() * 20 + 20); i++) {
@@ -272,10 +274,10 @@ const companies = [
   ],
   [
     "Hope's Peak Academy", "SCHOOL",
-    [ "1 Boulevard Saint-Martin", "75003", "Paris" ],
+    [ "71 rue Saint-Dominique", "75007", "Paris" ],
     [ "Yip", "Theodore", "theodore.yip@mono.net", "0666831336", "admin" ],
     [ "mono.net", "despair.com" ],
-    [ 48.8678081, 2.361957 ],
+    [ 48.8598655, 2.309814 ],
     "cus_GlQ5hFO0y1S5Zk",
   ],
   [
@@ -399,7 +401,7 @@ async function populateDb () {
     })
   }
 
-  for (const uri of photos) {
+  for (const uri of photos.filter((p, i, a) => a.indexOf(p) === i)) {
     await prisma.createPhoto({ uri })
   }
 

@@ -183,8 +183,8 @@ module.exports = {
         "address.location": {
           $near: {
             $maxDistance: 500,
-            $geometry: { type: "Point", coordinates }
-          }
+            $geometry: { type: "Point", coordinates },
+          },
         }
       })
       if (!found) {
@@ -194,7 +194,13 @@ module.exports = {
       return prisma.updateUser({
         where: { id },
         data: {
-          points: user.points + 50,
+          // points: user.points + 50,
+          history: { create: [ {
+            bounty: 50,
+            originType: "PLACE",
+            originId: placeId,
+            date: String(Date.now()),
+          } ] },
         },
       })
     },
@@ -212,6 +218,21 @@ module.exports = {
 
       async validatedQuizzes(parent, args, { prisma }) {
         return prisma.user({ id: parent.id }).validatedQuizzes()
+      },
+
+      async history ({ history }, args, { prisma }) {
+        return Promise.all(
+          history.map(({ originType, originId, ...rest }) => (
+            prisma[originType.toLowerCase()]({ id: originId })
+              .then(data => ({
+                originType, originId, ...rest,
+                [`_${originType}`]: data,
+              }))
+          )),
+        )
+      },
+      async points ({ history }, args, { prisma }) {
+        return history.reduce((points, { bounty }) => points + bounty, 0)
       },
     },
 

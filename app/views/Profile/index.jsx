@@ -7,8 +7,11 @@ import Constants from 'expo-constants'
 
 import { GET_PLACES, DELETE_PLACE, UPSERT_PLACES } from "../../graphql/place"
 import { CHECK_AUTH } from "../../graphql/auth"
+import { GET_TAGS } from '../../graphql/tag'
+import { categoryIcons, categorySubtitles } from '../../utils/wording'
 
 import Button from "../../components/atoms/Button"
+import Icon from "../../components/atoms/Icon"
 import Input from "../../components/atoms/Input"
 import CardAddress from "../../components/organismes/CardAddress"
 import IllustrationChallenges from "../../assets/img/illu-challenges.svg"
@@ -17,9 +20,10 @@ import * as s from '../../styles'
 
 /* Page profil */
 export default function Profile ({ navigation }) {
-  const [ tabIndex, setTabIndex ] = useState(0)
+  const [ tabIndex, setTabIndex ] = useState(1)
   const client = useApolloClient()
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
+  const { data: { getTags = [] } = {} } = useQuery(GET_TAGS, { variables: { where: { root: true } } })
   // console.log(userData)
   return (
     <ScrollView style={[ s.flex, s.backgroundPale ]} contentContainerStyle={[  ]} stickyHeaderIndices={[0]}>
@@ -70,10 +74,34 @@ export default function Profile ({ navigation }) {
           </TouchableOpacity>
         </View>
       ) : (
-        <View style={[ s.mx2, s.backgroundWhite, s.p2, s.round3 ]}>
-          <Text style={[ s.body2, s.grey, s.center ]}>Aucune adresse trouvée.</Text>
-          <Text style={[ s.body2, s.grey, s.center ]}>Revenez plus tard !</Text>
-        </View>        
+        userData?.history.length ? (
+          <View>
+            {Object.values(userData?.history.reduce((acc, { originId, ...rest }) => ({
+              ...acc,
+              [originId]: {
+                ...acc[originId],
+                originId, ...rest,
+                count: (acc[originId]?.count || 0) + 1,
+              },
+            }), {}) || {})
+            .map(({ bounty, originType, originId, date, _PLACE, count }, i, a) => (
+              <TouchableOpacity activeOpacity={1} style={[ s.row, s.itemsCenter, s.p2, i === 0 ? [s.pt2, s.roundTop3] : s.pt1, i === a.length-1 ? [s.pb2, s.roundBottom3] : s.pb1, s.mx2, s.backgroundWhite, { borderBottomWidth: 0, borderColor: s.c.bg } ]}>
+                <Icon name={categoryIcons[_PLACE?.category]} size={24} color={s.primary.color} style={[ s.p1, s.round2, s.backgroundPrimaryPale, s.overflow, s.mr1 ]} />
+                <View style={[ s.flex, s.mx05 ]}>
+                  <Text style={[ s.heading6 ]}>{_PLACE?.name}</Text>
+                  <Text style={[ s.body2 ]}>{categorySubtitles[_PLACE?.category]?.prefix}{getTags.find(({ label }) => label === categorySubtitles[_PLACE?.category]?.tag)?.children.find(({ label }) => _PLACE?.tags.some(t => t.label === label))?.label}</Text>
+                </View>
+                {/* <Text style={[ s.body2, s.flex ]}>{new Date(+date).toLocaleDateString()}</Text> */}
+                <Text style={[ s.py1, s.px1, s.body2, s.bold, s.round2, { overflow: 'hidden', backgroundColor: '#f4f4f4' } ]}>{count} visite{count > 1 ? 's' : ''}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        ) : (
+          <View style={[ s.mx2, s.backgroundWhite, s.p2, s.round3 ]}>
+            <Text style={[ s.body2, s.grey, s.center ]}>Aucune adresse trouvée.</Text>
+            <Text style={[ s.body2, s.grey, s.center ]}>Revenez plus tard !</Text>
+          </View>
+        )
       )}
 
       {/* <TouchableOpacity activeOpacity={1} style={[ s.p2, s.backgroundWhite, { borderWidth: 1, borderColor: s.c.bg } ]} onPress={async () => {

@@ -976,6 +976,176 @@ enum Day {
   SUNDAY
 }
 
+type History {
+  bounty: Int!
+  originType: OriginType!
+  originId: ID!
+  date: String!
+}
+
+input HistoryCreateInput {
+  bounty: Int!
+  originType: OriginType!
+  originId: ID!
+  date: String!
+}
+
+input HistoryCreateManyInput {
+  create: [HistoryCreateInput!]
+}
+
+input HistoryRestrictedWhereInput {
+  bounty: Int
+  bounty_not: Int
+  bounty_in: [Int!]
+  bounty_not_in: [Int!]
+  bounty_lt: Int
+  bounty_lte: Int
+  bounty_gt: Int
+  bounty_gte: Int
+  originType: OriginType
+  originType_not: OriginType
+  originType_in: [OriginType!]
+  originType_not_in: [OriginType!]
+  originId: ID
+  originId_not: ID
+  originId_in: [ID!]
+  originId_not_in: [ID!]
+  originId_lt: ID
+  originId_lte: ID
+  originId_gt: ID
+  originId_gte: ID
+  originId_contains: ID
+  originId_not_contains: ID
+  originId_starts_with: ID
+  originId_not_starts_with: ID
+  originId_ends_with: ID
+  originId_not_ends_with: ID
+  date: String
+  date_not: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_lt: String
+  date_lte: String
+  date_gt: String
+  date_gte: String
+  date_contains: String
+  date_not_contains: String
+  date_starts_with: String
+  date_not_starts_with: String
+  date_ends_with: String
+  date_not_ends_with: String
+  AND: [HistoryRestrictedWhereInput!]
+}
+
+input HistoryScalarWhereInput {
+  bounty: Int
+  bounty_not: Int
+  bounty_in: [Int!]
+  bounty_not_in: [Int!]
+  bounty_lt: Int
+  bounty_lte: Int
+  bounty_gt: Int
+  bounty_gte: Int
+  originType: OriginType
+  originType_not: OriginType
+  originType_in: [OriginType!]
+  originType_not_in: [OriginType!]
+  originId: ID
+  originId_not: ID
+  originId_in: [ID!]
+  originId_not_in: [ID!]
+  originId_lt: ID
+  originId_lte: ID
+  originId_gt: ID
+  originId_gte: ID
+  originId_contains: ID
+  originId_not_contains: ID
+  originId_starts_with: ID
+  originId_not_starts_with: ID
+  originId_ends_with: ID
+  originId_not_ends_with: ID
+  date: String
+  date_not: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_lt: String
+  date_lte: String
+  date_gt: String
+  date_gte: String
+  date_contains: String
+  date_not_contains: String
+  date_starts_with: String
+  date_not_starts_with: String
+  date_ends_with: String
+  date_not_ends_with: String
+  AND: [HistoryScalarWhereInput!]
+  OR: [HistoryScalarWhereInput!]
+  NOT: [HistoryScalarWhereInput!]
+}
+
+input HistoryUpdateManyDataInput {
+  bounty: Int
+  originType: OriginType
+  originId: ID
+  date: String
+}
+
+input HistoryUpdateManyInput {
+  create: [HistoryCreateInput!]
+  deleteMany: [HistoryScalarWhereInput!]
+  updateMany: [HistoryUpdateManyWithWhereNestedInput!]
+}
+
+input HistoryUpdateManyWithWhereNestedInput {
+  where: HistoryScalarWhereInput!
+  data: HistoryUpdateManyDataInput!
+}
+
+input HistoryWhereInput {
+  bounty: Int
+  bounty_not: Int
+  bounty_in: [Int!]
+  bounty_not_in: [Int!]
+  bounty_lt: Int
+  bounty_lte: Int
+  bounty_gt: Int
+  bounty_gte: Int
+  originType: OriginType
+  originType_not: OriginType
+  originType_in: [OriginType!]
+  originType_not_in: [OriginType!]
+  originId: ID
+  originId_not: ID
+  originId_in: [ID!]
+  originId_not_in: [ID!]
+  originId_lt: ID
+  originId_lte: ID
+  originId_gt: ID
+  originId_gte: ID
+  originId_contains: ID
+  originId_not_contains: ID
+  originId_starts_with: ID
+  originId_not_starts_with: ID
+  originId_ends_with: ID
+  originId_not_ends_with: ID
+  date: String
+  date_not: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_lt: String
+  date_lte: String
+  date_gt: String
+  date_gte: String
+  date_contains: String
+  date_not_contains: String
+  date_starts_with: String
+  date_not_starts_with: String
+  date_ends_with: String
+  date_not_ends_with: String
+  AND: [HistoryWhereInput!]
+}
+
 type Hour {
   day: Day
   start: String
@@ -1186,6 +1356,12 @@ enum MutationType {
 
 interface Node {
   id: ID!
+}
+
+enum OriginType {
+  PLACE
+  CHALLENGE
+  ARTICLE
 }
 
 type PageInfo {
@@ -2269,6 +2445,7 @@ type User {
   points: Int
   validatedChallenges(where: ChallengeWhereInput, orderBy: ChallengeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Challenge!]
   validatedQuizzes(where: ValidatedQuizWhereInput, orderBy: ValidatedQuizOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ValidatedQuiz!]
+  history: [History!]
 }
 
 type UserConnection {
@@ -2291,6 +2468,7 @@ input UserCreateInput {
   points: Int
   validatedChallenges: ChallengeCreateManyInput
   validatedQuizzes: ValidatedQuizCreateManyInput
+  history: HistoryCreateManyInput
 }
 
 input UserCreateManyInput {
@@ -2325,6 +2503,7 @@ input UserCreateWithoutCompanyInput {
   points: Int
   validatedChallenges: ChallengeCreateManyInput
   validatedQuizzes: ValidatedQuizCreateManyInput
+  history: HistoryCreateManyInput
 }
 
 type UserEdge {
@@ -2499,6 +2678,7 @@ input UserUpdateDataInput {
   points: Int
   validatedChallenges: ChallengeUpdateManyInput
   validatedQuizzes: ValidatedQuizUpdateManyInput
+  history: HistoryUpdateManyInput
 }
 
 input UserUpdateInput {
@@ -2514,6 +2694,7 @@ input UserUpdateInput {
   points: Int
   validatedChallenges: ChallengeUpdateManyInput
   validatedQuizzes: ValidatedQuizUpdateManyInput
+  history: HistoryUpdateManyInput
 }
 
 input UserUpdateManyDataInput {
@@ -2594,6 +2775,7 @@ input UserUpdateWithoutCompanyDataInput {
   points: Int
   validatedChallenges: ChallengeUpdateManyInput
   validatedQuizzes: ValidatedQuizUpdateManyInput
+  history: HistoryUpdateManyInput
 }
 
 input UserUpdateWithWhereUniqueNestedInput {
@@ -2725,6 +2907,9 @@ input UserWhereInput {
   points_gte: Int
   validatedChallenges_some: ChallengeWhereInput
   validatedQuizzes_some: ValidatedQuizWhereInput
+  history_some: HistoryWhereInput
+  history_every: HistoryRestrictedWhereInput
+  history_none: HistoryRestrictedWhereInput
   AND: [UserWhereInput!]
 }
 

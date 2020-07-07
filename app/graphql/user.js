@@ -1,5 +1,5 @@
 import gql from "graphql-tag"
-
+import { placeFragment } from './place'
 
 export const userFragment = gql`
   fragment UserFragment on User {
@@ -40,7 +40,23 @@ export const userFragment = gql`
       }
       status
     }
+    history {
+      bounty
+      originType
+      originId
+      date
+      _PLACE {
+        ...PlaceFragment
+      }
+      _CHALLENGE {
+        name
+      }
+      _ARTICLE {
+        title
+      }
+    }
   }
+  ${placeFragment}
 `
 
 export const GET_USER = gql`

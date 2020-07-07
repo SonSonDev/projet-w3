@@ -157,6 +157,7 @@ type User {
   points: Int
   validatedChallenges: [Challenge]
   validatedQuizzes: [ValidatedQuiz]
+  history: [History]
 }
 
 type Company {
@@ -196,6 +197,16 @@ type AuthPayload {
 
 type LogoutResponse {
   response: String
+}
+
+type History {
+  bounty: Int!
+  originType: OriginType!
+  originId: ID!
+  date: String!
+  _PLACE: Place
+  _CHALLENGE: Challenge
+  _ARTICLE: Article
 }
 
 type Address {
@@ -321,6 +332,12 @@ enum Theme {
   CONSUMPTION
   WATER
   ENERGY
+}
+
+enum OriginType {
+  PLACE
+  CHALLENGE
+  ARTICLE
 }
 
 type Social {

@@ -20,28 +20,31 @@ export default function Login({ navigation }) {
   /* Champs du formulaire de connexion */
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
-  const [loading, setLoading] = React.useState(false)
 
   /* Call API pour la connexion */
-  const [login] = useMutation(LOGIN, {
+  const [login, { loading, error }] = useMutation(LOGIN, {
     async update (cache, { data: { login } }) {
-      await SecureStore.setItemAsync('authToken', login.token)
-      cache.writeQuery({
-      // client.writeData({
-        query: CHECK_AUTH,
-        data: { checkAuthApp: login.user },
-      })
-      navigation.dispatch(CommonActions.reset({
-        index: 0,
-        routes: [ { name: isOnboarded ? 'MainNavigator' : 'OnboardingFirstStep' } ],
-      }))
+      try {
+        cache.writeQuery({
+        // client.writeData({
+          query: CHECK_AUTH,
+          data: { checkAuthApp: login.user },
+        })
+        navigation.dispatch(CommonActions.reset({
+          index: 0,
+          routes: [ { name: isOnboarded ? 'MainNavigator' : 'OnboardingFirstStep' } ],
+        }))
+        await SecureStore.setItemAsync('authToken', login.token)
+        // await SecureStore.setItemAsync('userEmail', login.user.email)
+      } catch (error) {
+        console.log(error)
+      }
     },
     onError: error => console.log(error.message),
   })
 
   /* Action à l'envoi du formulaire */
   const onSubmit = async () => {
-    setLoading(true)
     await login({
       variables: {
         email,
@@ -50,7 +53,6 @@ export default function Login({ navigation }) {
     })
   }
 
-
   return (
     <View style={[ s.flex, s.backgroundPale ]}>
       <IllustrationLogin style={[ s.absolute, s.top, s.right ]} width={200} height={300} />
@@ -58,9 +60,10 @@ export default function Login({ navigation }) {
         <Text style={[ s.heading1, s.mtAuto, s.mb1 ]}>
           Bon retour{'\n'}parmi nous
         </Text>
-        {!isOnboarded && (
+        {(!!error || (!loading && !isOnboarded)) && (
           <Text style={[ s.body1, s.mb1, { maxWidth: 260 } ]}>
-            Vous avez reçu votre mot de passe par mail
+            {error ? 'Une erreur est survenue'
+              : (!isOnboarded && 'Vous avez reçu votre mot de passe par mail')}
           </Text>
         )}
         <Input value={email} onChange={setEmail} style={[ s.mt2, s.mb1 ]} placeholder="Adresse email" autoCapitalize='none' />
@@ -80,7 +83,7 @@ export default function Login({ navigation }) {
           Mot de passe oublié ?
         </Text>
         
-        <Button btnStyle='primary' label={`Connexion${loading ? '…' : ''}`} onPress={onSubmit} style={[ s.mb1 ]} />      
+        <Button btnStyle='primary' label={`Connexion${loading && !error ? '…' : ''}`} onPress={onSubmit} style={[ s.mb1 ]} />      
       </ScrollView>
     </View>
   )

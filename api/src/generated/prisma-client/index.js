@@ -25,6 +25,10 @@ var models = [
     embedded: false
   },
   {
+    name: "History",
+    embedded: true
+  },
+  {
     name: "Address",
     embedded: true
   },
@@ -78,6 +82,10 @@ var models = [
   },
   {
     name: "Theme",
+    embedded: false
+  },
+  {
+    name: "OriginType",
     embedded: false
   }
 ];

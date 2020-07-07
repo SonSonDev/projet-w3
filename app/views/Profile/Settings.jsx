@@ -10,6 +10,7 @@ import { GET_PLACES, DELETE_PLACE, UPSERT_PLACES } from "../../graphql/place"
 import { CHECK_AUTH } from "../../graphql/auth"
 
 import Button from "../../components/atoms/Button"
+import Icon from "../../components/atoms/Icon"
 import Input from "../../components/atoms/Input"
 import CardAddress from "../../components/organismes/CardAddress"
 import * as s from '../../styles'
@@ -43,7 +44,7 @@ export default function Profile ({ navigation }) {
       <Text style={[s.heading5, s.px2, s.mb05, s.mt2]}>
         Paramètres
       </Text>
-      <TouchableOpacity activeOpacity={1} style={[ s.mt1, s.p2, s.mx2, s.backgroundWhite, s.roundTop2, { borderWidth: 0, borderColor: s.c.bg } ]}
+      <TouchableOpacity activeOpacity={1} style={[ s.row, s.itemsCenter, s.mt1, s.p2, s.pb1, s.mx2, s.backgroundWhite, s.roundTop2, { borderWidth: 0, borderColor: s.c.bg } ]}
         onPress={async () => {
           await SecureStore.deleteItemAsync('authToken')
           client.writeData({ data: { checkAuthApp: null } })  
@@ -53,10 +54,11 @@ export default function Profile ({ navigation }) {
           }))
         }}
       >
-        <Text style={[ s.body1 ]}>Déconnexion</Text>
+        <Icon name="logout-circle-line" size={24} color={s.grey.color} style={[ s.p1, s.round2, s.backgroundGreyLight, s.overflow, s.mr1 ]} />
+        <Text style={[ s.body1, s.grey, s.mx05 ]}>Déconnexion</Text>
       </TouchableOpacity>
             
-      <TouchableOpacity activeOpacity={1} style={[ s.p2, s.mx2, s.backgroundWhite, s.roundBottom2, { borderBottomWidth: 0, borderColor: s.c.bg } ]}
+      <TouchableOpacity activeOpacity={1} style={[ s.row, s.itemsCenter, s.p2, s.pt1, s.mx2, s.backgroundWhite, s.roundBottom2, { borderBottomWidth: 0, borderColor: s.c.bg } ]}
         onPress={async () => {
           await SecureStore.deleteItemAsync('isOnboarded')
           await SecureStore.deleteItemAsync('authToken')
@@ -67,7 +69,8 @@ export default function Profile ({ navigation }) {
           }))
         }}
       >
-        <Text style={[ s.body1 ]}>Réinitialiser</Text>
+        <Icon name="loader-2-line" size={24} color={s.grey.color} style={[ s.p1, s.round2, s.backgroundGreyLight, s.overflow, s.mr1 ]} />
+        <Text style={[ s.body1, s.grey, s.mx05 ]}>Réinitialiser</Text>
       </TouchableOpacity>
      
       <Text style={[ s.body2, s.grey, s.p2, s.center ]}>Version {Constants.manifest.version}</Text>

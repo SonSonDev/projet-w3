@@ -12,6 +12,7 @@ type User {
   points: Int
   validatedChallenges: [Challenge] @relation(link: INLINE)
   validatedQuizzes: [ValidatedQuiz] @relation(link: INLINE)
+  history: [History]
 }
 
 type Place {
@@ -52,6 +53,13 @@ type Tag {
 type Photo {
   id: ID! @id
   uri: String! @unique
+}
+
+type History @embedded {
+  bounty: Int!
+  originType: OriginType!
+  originId: ID!
+  date: String!
 }
 
 type Address @embedded {
@@ -159,4 +167,10 @@ enum Theme {
   CONSUMPTION
   WATER
   ENERGY
+}
+
+enum OriginType {
+  PLACE
+  CHALLENGE
+  ARTICLE
 }

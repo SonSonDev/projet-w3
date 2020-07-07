@@ -439,6 +439,8 @@ export type CompanyType = "COMPANY" | "SCHOOL" | "PLACE" | "COWORKING";
 
 export type Role = "SUPER_ADMIN" | "ADMIN" | "MODERATOR" | "USER" | "PLACE";
 
+export type OriginType = "PLACE" | "CHALLENGE" | "ARTICLE";
+
 export type CompanyOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -928,6 +930,9 @@ export interface UserWhereInput {
   points_gte?: Maybe<Int>;
   validatedChallenges_some?: Maybe<ChallengeWhereInput>;
   validatedQuizzes_some?: Maybe<ValidatedQuizWhereInput>;
+  history_some?: Maybe<HistoryWhereInput>;
+  history_every?: Maybe<HistoryRestrictedWhereInput>;
+  history_none?: Maybe<HistoryRestrictedWhereInput>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
@@ -1009,6 +1014,94 @@ export interface ValidatedQuizWhereInput {
   status?: Maybe<Boolean>;
   status_not?: Maybe<Boolean>;
   AND?: Maybe<ValidatedQuizWhereInput[] | ValidatedQuizWhereInput>;
+}
+
+export interface HistoryWhereInput {
+  bounty?: Maybe<Int>;
+  bounty_not?: Maybe<Int>;
+  bounty_in?: Maybe<Int[] | Int>;
+  bounty_not_in?: Maybe<Int[] | Int>;
+  bounty_lt?: Maybe<Int>;
+  bounty_lte?: Maybe<Int>;
+  bounty_gt?: Maybe<Int>;
+  bounty_gte?: Maybe<Int>;
+  originType?: Maybe<OriginType>;
+  originType_not?: Maybe<OriginType>;
+  originType_in?: Maybe<OriginType[] | OriginType>;
+  originType_not_in?: Maybe<OriginType[] | OriginType>;
+  originId?: Maybe<ID_Input>;
+  originId_not?: Maybe<ID_Input>;
+  originId_in?: Maybe<ID_Input[] | ID_Input>;
+  originId_not_in?: Maybe<ID_Input[] | ID_Input>;
+  originId_lt?: Maybe<ID_Input>;
+  originId_lte?: Maybe<ID_Input>;
+  originId_gt?: Maybe<ID_Input>;
+  originId_gte?: Maybe<ID_Input>;
+  originId_contains?: Maybe<ID_Input>;
+  originId_not_contains?: Maybe<ID_Input>;
+  originId_starts_with?: Maybe<ID_Input>;
+  originId_not_starts_with?: Maybe<ID_Input>;
+  originId_ends_with?: Maybe<ID_Input>;
+  originId_not_ends_with?: Maybe<ID_Input>;
+  date?: Maybe<String>;
+  date_not?: Maybe<String>;
+  date_in?: Maybe<String[] | String>;
+  date_not_in?: Maybe<String[] | String>;
+  date_lt?: Maybe<String>;
+  date_lte?: Maybe<String>;
+  date_gt?: Maybe<String>;
+  date_gte?: Maybe<String>;
+  date_contains?: Maybe<String>;
+  date_not_contains?: Maybe<String>;
+  date_starts_with?: Maybe<String>;
+  date_not_starts_with?: Maybe<String>;
+  date_ends_with?: Maybe<String>;
+  date_not_ends_with?: Maybe<String>;
+  AND?: Maybe<HistoryWhereInput[] | HistoryWhereInput>;
+}
+
+export interface HistoryRestrictedWhereInput {
+  bounty?: Maybe<Int>;
+  bounty_not?: Maybe<Int>;
+  bounty_in?: Maybe<Int[] | Int>;
+  bounty_not_in?: Maybe<Int[] | Int>;
+  bounty_lt?: Maybe<Int>;
+  bounty_lte?: Maybe<Int>;
+  bounty_gt?: Maybe<Int>;
+  bounty_gte?: Maybe<Int>;
+  originType?: Maybe<OriginType>;
+  originType_not?: Maybe<OriginType>;
+  originType_in?: Maybe<OriginType[] | OriginType>;
+  originType_not_in?: Maybe<OriginType[] | OriginType>;
+  originId?: Maybe<ID_Input>;
+  originId_not?: Maybe<ID_Input>;
+  originId_in?: Maybe<ID_Input[] | ID_Input>;
+  originId_not_in?: Maybe<ID_Input[] | ID_Input>;
+  originId_lt?: Maybe<ID_Input>;
+  originId_lte?: Maybe<ID_Input>;
+  originId_gt?: Maybe<ID_Input>;
+  originId_gte?: Maybe<ID_Input>;
+  originId_contains?: Maybe<ID_Input>;
+  originId_not_contains?: Maybe<ID_Input>;
+  originId_starts_with?: Maybe<ID_Input>;
+  originId_not_starts_with?: Maybe<ID_Input>;
+  originId_ends_with?: Maybe<ID_Input>;
+  originId_not_ends_with?: Maybe<ID_Input>;
+  date?: Maybe<String>;
+  date_not?: Maybe<String>;
+  date_in?: Maybe<String[] | String>;
+  date_not_in?: Maybe<String[] | String>;
+  date_lt?: Maybe<String>;
+  date_lte?: Maybe<String>;
+  date_gt?: Maybe<String>;
+  date_gte?: Maybe<String>;
+  date_contains?: Maybe<String>;
+  date_not_contains?: Maybe<String>;
+  date_starts_with?: Maybe<String>;
+  date_not_starts_with?: Maybe<String>;
+  date_ends_with?: Maybe<String>;
+  date_not_ends_with?: Maybe<String>;
+  AND?: Maybe<HistoryRestrictedWhereInput[] | HistoryRestrictedWhereInput>;
 }
 
 export type CompanyWhereUniqueInput = AtLeastOne<{
@@ -1538,6 +1631,7 @@ export interface UserCreateWithoutCompanyInput {
   points?: Maybe<Int>;
   validatedChallenges?: Maybe<ChallengeCreateManyInput>;
   validatedQuizzes?: Maybe<ValidatedQuizCreateManyInput>;
+  history?: Maybe<HistoryCreateManyInput>;
 }
 
 export interface UserCreatetagsInput {
@@ -1565,6 +1659,17 @@ export interface ValidatedQuizCreateInput {
 export interface ArticleCreateOneInput {
   create?: Maybe<ArticleCreateInput>;
   connect?: Maybe<ArticleWhereUniqueInput>;
+}
+
+export interface HistoryCreateManyInput {
+  create?: Maybe<HistoryCreateInput[] | HistoryCreateInput>;
+}
+
+export interface HistoryCreateInput {
+  bounty: Int;
+  originType: OriginType;
+  originId: ID_Input;
+  date: String;
 }
 
 export interface CompanyCreateemailDomainsInput {
@@ -1698,6 +1803,7 @@ export interface UserUpdateWithoutCompanyDataInput {
   points?: Maybe<Int>;
   validatedChallenges?: Maybe<ChallengeUpdateManyInput>;
   validatedQuizzes?: Maybe<ValidatedQuizUpdateManyInput>;
+  history?: Maybe<HistoryUpdateManyInput>;
 }
 
 export interface UserUpdatetagsInput {
@@ -1912,6 +2018,73 @@ export interface ValidatedQuizUpdateManyWithWhereNestedInput {
 
 export interface ValidatedQuizUpdateManyDataInput {
   status?: Maybe<Boolean>;
+}
+
+export interface HistoryUpdateManyInput {
+  create?: Maybe<HistoryCreateInput[] | HistoryCreateInput>;
+  deleteMany?: Maybe<HistoryScalarWhereInput[] | HistoryScalarWhereInput>;
+  updateMany?: Maybe<
+    | HistoryUpdateManyWithWhereNestedInput[]
+    | HistoryUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface HistoryScalarWhereInput {
+  bounty?: Maybe<Int>;
+  bounty_not?: Maybe<Int>;
+  bounty_in?: Maybe<Int[] | Int>;
+  bounty_not_in?: Maybe<Int[] | Int>;
+  bounty_lt?: Maybe<Int>;
+  bounty_lte?: Maybe<Int>;
+  bounty_gt?: Maybe<Int>;
+  bounty_gte?: Maybe<Int>;
+  originType?: Maybe<OriginType>;
+  originType_not?: Maybe<OriginType>;
+  originType_in?: Maybe<OriginType[] | OriginType>;
+  originType_not_in?: Maybe<OriginType[] | OriginType>;
+  originId?: Maybe<ID_Input>;
+  originId_not?: Maybe<ID_Input>;
+  originId_in?: Maybe<ID_Input[] | ID_Input>;
+  originId_not_in?: Maybe<ID_Input[] | ID_Input>;
+  originId_lt?: Maybe<ID_Input>;
+  originId_lte?: Maybe<ID_Input>;
+  originId_gt?: Maybe<ID_Input>;
+  originId_gte?: Maybe<ID_Input>;
+  originId_contains?: Maybe<ID_Input>;
+  originId_not_contains?: Maybe<ID_Input>;
+  originId_starts_with?: Maybe<ID_Input>;
+  originId_not_starts_with?: Maybe<ID_Input>;
+  originId_ends_with?: Maybe<ID_Input>;
+  originId_not_ends_with?: Maybe<ID_Input>;
+  date?: Maybe<String>;
+  date_not?: Maybe<String>;
+  date_in?: Maybe<String[] | String>;
+  date_not_in?: Maybe<String[] | String>;
+  date_lt?: Maybe<String>;
+  date_lte?: Maybe<String>;
+  date_gt?: Maybe<String>;
+  date_gte?: Maybe<String>;
+  date_contains?: Maybe<String>;
+  date_not_contains?: Maybe<String>;
+  date_starts_with?: Maybe<String>;
+  date_not_starts_with?: Maybe<String>;
+  date_ends_with?: Maybe<String>;
+  date_not_ends_with?: Maybe<String>;
+  AND?: Maybe<HistoryScalarWhereInput[] | HistoryScalarWhereInput>;
+  OR?: Maybe<HistoryScalarWhereInput[] | HistoryScalarWhereInput>;
+  NOT?: Maybe<HistoryScalarWhereInput[] | HistoryScalarWhereInput>;
+}
+
+export interface HistoryUpdateManyWithWhereNestedInput {
+  where: HistoryScalarWhereInput;
+  data: HistoryUpdateManyDataInput;
+}
+
+export interface HistoryUpdateManyDataInput {
+  bounty?: Maybe<Int>;
+  originType?: Maybe<OriginType>;
+  originId?: Maybe<ID_Input>;
+  date?: Maybe<String>;
 }
 
 export interface UserUpsertWithWhereUniqueWithoutCompanyInput {
@@ -2257,6 +2430,7 @@ export interface UserCreateInput {
   points?: Maybe<Int>;
   validatedChallenges?: Maybe<ChallengeCreateManyInput>;
   validatedQuizzes?: Maybe<ValidatedQuizCreateManyInput>;
+  history?: Maybe<HistoryCreateManyInput>;
 }
 
 export interface CompanyCreateOneWithoutUsersInput {
@@ -2349,6 +2523,7 @@ export interface UserUpdateDataInput {
   points?: Maybe<Int>;
   validatedChallenges?: Maybe<ChallengeUpdateManyInput>;
   validatedQuizzes?: Maybe<ValidatedQuizUpdateManyInput>;
+  history?: Maybe<HistoryUpdateManyInput>;
 }
 
 export interface CompanyUpdateOneWithoutUsersInput {
@@ -2733,6 +2908,7 @@ export interface UserUpdateInput {
   points?: Maybe<Int>;
   validatedChallenges?: Maybe<ChallengeUpdateManyInput>;
   validatedQuizzes?: Maybe<ValidatedQuizUpdateManyInput>;
+  history?: Maybe<HistoryUpdateManyInput>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -3253,6 +3429,7 @@ export interface User {
   isRepresentative?: Boolean;
   tags: String[];
   points?: Int;
+  history?: <T = FragmentableArray<History>>() => T;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
@@ -3285,6 +3462,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  history: <T = FragmentableArray<History>>() => T;
 }
 
 export interface UserSubscription
@@ -3323,6 +3501,7 @@ export interface UserSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  history: <T = Promise<AsyncIterator<HistorySubscription>>>() => T;
 }
 
 export interface UserNullablePromise
@@ -3357,6 +3536,7 @@ export interface UserNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  history: <T = FragmentableArray<History>>() => T;
 }
 
 export interface ValidatedQuiz {
@@ -3386,6 +3566,38 @@ export interface ValidatedQuizNullablePromise
   id: () => Promise<ID_Output>;
   article: <T = ArticlePromise>() => T;
   status: () => Promise<Boolean>;
+}
+
+export interface History {
+  bounty: Int;
+  originType: OriginType;
+  originId: ID_Output;
+  date: String;
+}
+
+export interface HistoryPromise extends Promise<History>, Fragmentable {
+  bounty: () => Promise<Int>;
+  originType: () => Promise<OriginType>;
+  originId: () => Promise<ID_Output>;
+  date: () => Promise<String>;
+}
+
+export interface HistorySubscription
+  extends Promise<AsyncIterator<History>>,
+    Fragmentable {
+  bounty: () => Promise<AsyncIterator<Int>>;
+  originType: () => Promise<AsyncIterator<OriginType>>;
+  originId: () => Promise<AsyncIterator<ID_Output>>;
+  date: () => Promise<AsyncIterator<String>>;
+}
+
+export interface HistoryNullablePromise
+  extends Promise<History | null>,
+    Fragmentable {
+  bounty: () => Promise<Int>;
+  originType: () => Promise<OriginType>;
+  originId: () => Promise<ID_Output>;
+  date: () => Promise<String>;
 }
 
 export interface ChallengeConnection {
@@ -4676,6 +4888,10 @@ export const models: Model[] = [
     embedded: false
   },
   {
+    name: "History",
+    embedded: true
+  },
+  {
     name: "Address",
     embedded: true
   },
@@ -4729,6 +4945,10 @@ export const models: Model[] = [
   },
   {
     name: "Theme",
+    embedded: false
+  },
+  {
+    name: "OriginType",
     embedded: false
   }
 ];
