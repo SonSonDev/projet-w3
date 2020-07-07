@@ -13,6 +13,8 @@ const { resolvers: articleResolvers } = require("./resolvers/article")
 
 const { APP_SECRET, parseCookie } = require("./utils")
 
+const scheduledFunction = require("./scheduled-functions.js")
+
 const resolvers = {
   Query,
   Mutation,
@@ -58,4 +60,5 @@ server.start({
   },
 }, async () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`)
+  scheduledFunction()
 })

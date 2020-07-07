@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs")
 const faker = require("faker/locale/fr")
 const { prisma } = require("./generated/prisma-client")
-const { mutations : { setAllCompaniesChallenges }} = require("./resolvers/company.js")
+const { mutations: { setAllCompaniesChallenges }} = require("./resolvers/company.js")
 function shuffle(array) {
   return array.sort(() => Math.random() - 0.5)
 }
