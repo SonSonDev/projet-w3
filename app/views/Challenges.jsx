@@ -15,11 +15,14 @@ import IconDIY from "../assets/img/ic-diy.svg";
 import IconRecipe from "../assets/img/ic-recipe.svg";
 import { CHECK_AUTH } from "../graphql/auth";
 import * as s from "../styles";
+import isThisWeek from 'date-fns/is_this_week';
 
 /* Page défis */
 export default function Challenges({ navigation }) {
   /* Informations de l'utilisateur */
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH);
+
+  console.log("ok", userData.company.users[1].history);
 
   /* Onglets */
   const [tabs, setTabs] = useState([
@@ -73,6 +76,7 @@ export default function Challenges({ navigation }) {
   };
 
   const participate = () => {};
+  const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
   return (
     <ScrollView style={[s.flex, s.backgroundPale]} stickyHeaderIndices={[0]}>
@@ -80,7 +84,9 @@ export default function Challenges({ navigation }) {
         <Text style={[s.body2, s.px2, s.pt3]}>
           Bonjour {userData?.firstName}
         </Text>
-        <Text style={[s.heading4, s.px2, s.mb2]}>Vos défis de la semaine</Text>
+        <Text style={[s.heading4, s.px2, s.mb2]}>
+          Tes défis éco-responsables de la semaine
+        </Text>
       </View>
 
       <FlatList
@@ -184,7 +190,23 @@ export default function Challenges({ navigation }) {
           </Text>
           <FlatList
             style={[s.mx2, s.p2, s.backgroundWhite, s.round3]}
-            data={getCompany.employees.sort((a, b) => Number(b.pts - a.pts))}
+            //ICICICICICICICICCICICICICI‹
+            //ICICICICICICICICCICICICICI‹
+            //ICICICICICICICICCICICICICI‹
+            data={userData.company.users.map(
+              ({ firstName, history, lastName }) => {
+                if (history.length <= 0) {
+                  return { firstName, lastName, pts: "0" };
+                } else {
+                  const msgTotal = history
+                    .reduce((prev, cur) => {
+                      return prev + cur.bounty;
+                    }, 0)
+                  return { firstName, lastName, pts: msgTotal };
+                }
+              }
+            )}
+            // data={[]}
             renderItem={({ item, index }) => (
               <View
                 style={[

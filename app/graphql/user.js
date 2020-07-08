@@ -14,6 +14,14 @@ export const userFragment = gql`
     company {
       id
       name
+      users {
+        firstName
+        lastName
+        history {
+          bounty
+          date
+        }
+      }
       address {
         street
         zipCode
@@ -111,7 +119,7 @@ export const DELETE_USER = gql`
   }
 `
 
-export const UPDATE_USER = gql `
+export const UPDATE_USER = gql`
   mutation UpdateUser(
     $userId: ID!
     $firstName: String
@@ -135,7 +143,7 @@ export const UPDATE_USER = gql `
 `
 
 /* Ajout de tags à un utilisateur */
-export const ADD_TAGS_TO_USER = gql `
+export const ADD_TAGS_TO_USER = gql`
   mutation AddTagsToUser(
     $userId: ID!
     $tags:[String]
@@ -151,7 +159,7 @@ export const ADD_TAGS_TO_USER = gql `
 `
 
 /* Remplacement des tags d'un utilisateur */
-export const SET_TAGS_TO_USER = gql `
+export const SET_TAGS_TO_USER = gql`
   mutation SetTagsToUser(
     $userId: ID!
     $tags:[String]
