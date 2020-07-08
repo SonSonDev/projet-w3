@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableHighlight, TouchableOpacity } from 'react-native';
 import Icon from './Icon';
-
+//@ts-ignore
 import * as s from '../../styles'
 
 interface ButtonInterface {
@@ -11,6 +11,8 @@ interface ButtonInterface {
   label?: string;
   iconName?: string;
   onPress?: any;
+  style?: any;
+  disabled?: boolean;
 }
 
 const Button = ({ btnStyle, iconLeft, iconRight, label, iconName = "arrow-left-line", onPress = () => alert('Pressed!'), style, disabled }: ButtonInterface): React.ReactElement => {
@@ -113,6 +115,7 @@ const Button = ({ btnStyle, iconLeft, iconRight, label, iconName = "arrow-left-l
   return (
     <TouchableOpacity
       activeOpacity={1}
+      //@ts-ignore
       underlayColor={styleUnderlayColor[btnStyle]}
       onPress={onPress}
       enabledContentTapInteraction={false}
@@ -128,8 +131,8 @@ const Button = ({ btnStyle, iconLeft, iconRight, label, iconName = "arrow-left-l
         }
 
         {label ?
-          <Text style={[ s.body1, s.bold, btnStyle === 'primary' && s.white ]}>{label}</Text>
-          : <Icon name={iconName} size={20} color="#181B1B"/>
+          <Text style={[s.body1, s.bold, btnStyle === 'primary' && s.white]}>{label}</Text>
+          : <Icon name={iconName} size={20} color="#181B1B" />
         }
 
         {iconRight &&

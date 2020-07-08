@@ -1,6 +1,5 @@
 import React from "react"
 import { View, Text, FlatList, TouchableHighlight } from "react-native"
-
 import Button from "../atoms/Button"
 import * as s from "../../styles/index"
 import Illustration from "../../assets/img/illuCardQuizz.svg"
@@ -31,4 +30,4 @@ const CardQuizz = ({ onSubmit, isAnswered, updateState, question, answerList, an
   )
 }
 
-export default CardQuizz
+export default CardQuizz;

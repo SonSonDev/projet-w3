@@ -1,10 +1,8 @@
 import React from 'react'
 import { View } from 'react-native'
 import Constants from 'expo-constants'
-
 import Button from '../atoms/Button'
 import * as s from '../../styles'
-
 
 function Header ({ scene, previous, navigation }) {
   return (
