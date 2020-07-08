@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - ansible-prune
 
 env:
   STAGE: staging
@@ -47,7 +48,7 @@ jobs:
         run: |
           ansible-playbook get_elb_dns.yml -i inventory/hosts
           echo "::set-env name=REACT_APP_API_URL::$(cat elb_api_dns.txt)"
-      - name: Build API
+      - name: Build and push API
         uses: docker/build-push-action@v1
         with:
           path: ./api
@@ -56,7 +57,7 @@ jobs:
           repository: ${{ env.DOCKER_USERNAME }}/madu_api
           tag_with_ref: true
           tag_with_sha: true
-      - name: Build Back-office
+      - name: Build and push Back-office
         uses: docker/build-push-action@v1
         with:
           path: ./back-office

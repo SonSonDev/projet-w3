@@ -30,7 +30,15 @@
     aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
     aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
   register: ec2_db_info
-  
+
+- name: Prune docker objects
+  docker_prune:
+    containers: yes
+    images: yes
+    networks: yes
+    volumes: yes
+    builder_cache: yes
+
 - name: Copy docker-compose file
   template:
     src: templates/docker-compose.yml
