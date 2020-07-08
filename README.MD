@@ -1,5 +1,13 @@
 # MADU
 
+<p align="center">
+  <img height="100" src="https://i.imgur.com/KukPjFy.png">
+</p>
+<p align="center"> Projet final de Web 3 à Hetic - Groupe 7 </p>
+
+---
+
+
 ## Mise en place de l'application
 
 On utilise le fichier `.env` pour contenir les variables d'environnement nécessaires à l'exécution de :
@@ -19,7 +27,7 @@ Pour faire fonctionner __github-actions__, ajoutez le mot de passe utilisé pour
 
 ### Variables d'environnement
 
-#### Amazon Web Services
+#### 📦 Amazon Web Services
 On utilise les __services d'Amazon__ pour créer et gérer les différentes instances de l'applications. __terraform__ et __Ansible__ ont besoin d'identifiants pour se connecter aux services d'Amazon et gérer ces instances.
 
 Il est nécessaire de créer un __utilisateur IAM__ avec les permissions :
@@ -38,7 +46,7 @@ Une fois les instances créées via __terraform__, pour utiliser le Bucket S3 po
 - __AWS_S3_BUCKET__ : Nom du bucket S3
 
 
-#### Docker
+#### 🐳 Docker
 On utilise __Docker__ pour monter différentes parties de l'application :
 - une serveur API en __GraphQL__ utilisant __Prisma__ et __Mongoose__
 - une Base de données __mongoDB__
@@ -49,35 +57,35 @@ Il faut créer un compte __Docker Hub__ sur lequel seront stockés les images co
 - __DOCKER_PASSWORD__ : Mot de passe du compte Docker Hub
 
 
-#### mongoDB
+#### 🍃 mongoDB
 On utilise __mongoDB__ pour la base de données. Les variables à choisir sont :
 - __MONGO_INITDB_ROOT_USERNAME__ : Nom d'utilisateur pour accéder à la base de données
 - __MONGO_INITDB_ROOT_PASSWORD__ : Mot de passe pour accéder à la base de données
 
 
-#### Prisma
+#### 💾 Prisma
 On utilise __Prisma__ ([Documentation](https://www.prisma.io/docs/)) qui permet de faire des requêtes de l'API vers la base de données avec une syntaxe objet. La variable à choisir est :
 - __PRISMA_SECRET__
 
 
-#### Stripe
+#### 🏦 Stripe
 On utilise __Stripe__ ([Documentation](https://stripe.com/docs)) pour gérer la facturation des entreprises. Il faut créer un compte Stripe. La variable nécessaire est :
 - __STRIPE_SECRET_KEY__ : Clé secrète du compte Stripe
 - __STRIPE_EMAIL__ : Adresse email du compte Stripe
 - __STRIPE_PASSWORD__ : Mot de passe du compte Stripe
 
 
-#### JSON Web Token
+#### 🕵️ JSON Web Token
 On utilise le __JSON Web Token__  ([Introduction](https://jwt.io/introduction/)) pour encrypter les informations de l'utilisateur nécessaires l'authentification au Back-office et à l'application et autoriser les requêtes vers l'API. La variable à choisir est :
 - __APP_SECRET__
 
 
-#### Google Maps API
+#### 📍 Google Maps API
 On utilise l'__API Google Maps__ ([Documentation](https://developers.google.com/maps/documentation)) pour obtenir les coordonnées GPS des entreprises et des points d'intérêt à partir de leur adresse lors de l'ajout à base de données. Il faut un compte Google. La variable nécessaire à générer :
 - __GOOGLE_MAPS_API_KEY__ : [Pour obtenir la clé](https://developers.google.com/maps/documentation/javascript/get-api-key)
 
 
-#### Expo
+#### 📱 Expo
 On utilise __Expo__ ([Documentation](https://docs.expo.io/)) pour développer l'application en __React Native__ et pour déployer l'application avec github-actions lors d'un push sur la branche master. Il faut créer un compte Expo. La variable nécessaire est :
 - __EXPO_USERNAME__ : Nom d'utilsateur Expo
 - __EXPO_PASSWORD__ : Mot de passe Expo
@@ -85,28 +93,28 @@ On utilise __Expo__ ([Documentation](https://docs.expo.io/)) pour développer l'
 
 ## Developpement
 
-Cloner le projet:
+**Cloner le projet:**
 ```sh
 git clone https://github.com/ShonhTan/projet-w3.git
 cd projet-w3
 ```
 
-Créer le fichier `.env`:
+**Créer le fichier `.env`:**
 ```
 ansible-vault decrypt .env.encrypted --output .env --ask-vault-pass
 ```
  
-Démarrer le projet en mode développement:
+**Démarrer le projet en mode développement:**
 ```sh
 docker-compose up
 ```
 
-Pour initialiser la base de donnée ou mettre à jour les modèles de données prisma:
+**Pour initialiser la base de donnée ou mettre à jour les modèles de données prisma:**
 ```sh
 docker-compose exec api yarn deploy 
 ```
 
-Insérer des fausses données dans la base:
+**Insérer des fausses données dans la base:**
 ```sh
 docker-compose exec api node src/fixtures.js
 ```
@@ -118,3 +126,15 @@ docker-compose exec api node src/fixtures.js
 - [Automation](/automation)
   - [Création du serveur AWS avec Terraform](/automation/terraform)
   - [Déploiement avec Ansible](/automation/ansible)
+  
+  
+## Contributors 
+
+- [Christella Levieux](https://www.linkedin.com/in/christella-levieux/) - Designer
+- [Quentin Lenglin](https://quentinlenglin.xyz/) - Designer
+- [Valentine Leroy](https://www.linkedin.com/in/valentine-leroy/) - Designer
+- [Vincent Pham](https://github.com/ShonhTan) - Développeur
+- [Florian Sahbi](https://github.com/FlorianSahbi) - Développeur
+- [Théodore Yip](https://github.com/yip-theodore) - Développeur
+- [Mahel Zeroual](https://github.com/M00NBOY) - Développeur
+
