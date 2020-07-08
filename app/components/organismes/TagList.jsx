@@ -19,12 +19,17 @@ export default function TagList ({ tags, setTags }) {
     >
       {Object.entries(tags).map(([ parent, children ]) => (
         children.map(label => (
-          <View style={[ s.row, s.itemsCenter, s.mr05, s.mb05, s.round2, s.backgroundPrimary, s.pl1 ]} key={label}>
+          <TouchableOpacity
+            style={[ s.row, s.itemsCenter, s.mr05, s.mb05, s.round2, s.backgroundPrimary, s.pl1 ]}
+            onPress={() => setTags({ ...tags, [parent]: tags[parent].filter(tag => tag !== label) })}
+            activeOpacity={1}
+            key={label}
+          >
             <Text style={[ s.body2, s.white ]}>{label}</Text>
-            <TouchableOpacity style={[ s.p1, s.pl05 ]} onPress={() => setTags({ ...tags, [parent]: tags[parent].filter(tag => tag !== label) })}>
+            <View style={[ s.p1, s.pl05 ]}>
               <Icon name='close-line' size={16} color='white' />
-            </TouchableOpacity>
-          </View>
+            </View>
+          </TouchableOpacity>
         ))
       ))}
     </ScrollView>

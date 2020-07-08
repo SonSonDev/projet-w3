@@ -51,6 +51,8 @@ const server = new GraphQLServer({
   },
 })
 
+server.express.get("/", (req, res) => res.send("up"))
+
 server.start({
   port: process.env.PORT,
   cors: {
