@@ -135,6 +135,7 @@ export default function Explore ({ navigation }) {
             ))}
           </View>
         )}
+        enabledContentTapInteraction={false}
       />
     </View>
   )
