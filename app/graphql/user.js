@@ -229,3 +229,17 @@ export const VALIDATE_QUIZ = gql`
   }
   ${userFragment}
 `
+
+/* Validation d'un challenge */
+export const VALIDATE_CHALLENGE = gql`
+  mutation validateChallenge(
+    $challengeId: ID!
+  ) {
+    validateChallenge(
+      challengeId: $challengeId
+    ) {
+      ...UserFragment
+    }
+  }
+  ${userFragment}
+`

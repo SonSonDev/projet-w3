@@ -7,7 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import getWeek from "date-fns/getWeek"
 import setDay from "date-fns/setDay"
 import format from "date-fns/format"
@@ -18,8 +18,10 @@ import VectChallenges from "../assets/img/vect-challenges.svg";
 import IconWinner from "../assets/img/ic-winner.svg";
 import IconDIY from "../assets/img/ic-diy.svg";
 import IconRecipe from "../assets/img/ic-recipe.svg";
+import Icon from "../components/atoms/Icon"
 
 import { CHECK_AUTH } from '../graphql/auth'
+import { VALIDATE_CHALLENGE } from '../graphql/user'
 import * as s from "../styles";
 import * as fns from "date-fns";
 
@@ -27,7 +29,7 @@ import * as fns from "date-fns";
 export default function Challenges({ navigation }) {
   /* Informations de l'utilisateur */
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
-  const weekPoints = userData.history?.filter(item => getWeek(Number(item.date)) === getWeek(Date.now()))
+  const weekPoints = userData?.history?.filter(item => getWeek(Number(item.date)) === getWeek(Date.now()))
     .reduce((acc, cur) => acc + cur.bounty, 0)
 
   /* Onglets */
@@ -36,17 +38,37 @@ export default function Challenges({ navigation }) {
     { key: 'ranking', label: 'Classement' },
   ])
 
-  const challengeList = userData.company.challenges.reduce((acc, cur, i) => {
+  const challengeList = userData?.company?.challenges.reduce((acc, cur, i) => {
     const day = new Date().getDay()
     if (i+1 <= day) {
       acc.push({
         ...cur,
         date: format(setDay(Date.now(), i+1), "E d", {locale: fr}).split('.').join(''),
+        validated: userData.history.filter(({ date }) => {
+          const msDate = new Date(parseInt(date));
+          return fns.isThisWeek(msDate, { weekStartsOn: 1 });
+        }).find(({ originId }) => originId === cur.id)?.bounty,
         selected: i+1 === day
       })
     }
     return acc
   }, []).reverse()
+
+  const [validateChallenge] = useMutation(VALIDATE_CHALLENGE, {
+    async update (cache, { data: { validateChallenge } }) {
+      const challenge = validateChallenge.history[validateChallenge.history.length - 1]
+      client.writeData({ data: {
+        toast: challenge.bounty
+          ? `SUCCESS::Bonne réponse ! Tu gagnes __${challenge.bounty} points__ dans ta cagnotte de la semaine !::${Date.now()}`
+          : `FAIL::Mauvaise réponse ! Continue de lire le blog et retente ta chance::${Date.now()}`
+      } })
+    },
+    onError: error => console.log(error.message),
+  })
+
+  const participate = (challengeId) => {
+    validateChallenge({ variables: { challengeId }})
+  };
 
   /* TODO: Liste des récompense */
   const getRewards = [
@@ -69,7 +91,6 @@ export default function Challenges({ navigation }) {
     setTabs(tabs.map((tab, i) => ({ ...tab, selected: i === index })));
   };
 
-  const participate = () => {};
   const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
   return (
@@ -83,6 +104,7 @@ export default function Challenges({ navigation }) {
         </Text>
       </View>
 
+      {/* Onglets */}
       <View style={[s.mx2, s.mt2]}>
         <View horizontal snapToInterval={100} style={[s.row, s.pt1, s.mb2, { borderBottomWidth: 1, borderColor: s.greyLight.color }]} contentContainerStyle={[]} showsHorizontalScrollIndicator={false}>
           {tabs.map((item, index) => (
@@ -95,6 +117,7 @@ export default function Challenges({ navigation }) {
 
       {isOnChallengesTab() ? (
         <>
+          {/* Points cumulés */}
           <View style={[s.flex, s.round3, s.mx2, s.p2, s.mb2, { backgroundColor: '#B4543A' }]}>
             <Text style={[s.body1, { color: '#FFFFFF' }]}>
               { weekPoints ? `Tu as déjà cumulé ${weekPoints} points cette semaine ! Continue de participer tous les jours !` : "Tu n'as obtenu aucun point cette semaine."}
@@ -107,26 +130,53 @@ export default function Challenges({ navigation }) {
             <Text style={[s.mt05, s.mb4, s.body2, { width: '60%' }]}>Débarassez-vous du superflu en adoptant des méthodes de tri responsables</Text>
           </View>
 
+          {/* Liste des défis */}
           <FlatList
             style={{width: '100%'}}
             data={challengeList}
-            renderItem={({ item, index }) => (
+            renderItem={({ item }) => (
               <View style={[s.px2, s.mt2, { flex: 1, flexDirection: 'row', alignItems: 'center'}]}>
-                <View style={{flex: 0, alignItems: 'center', flexDirection: 'column', paddingBottom: 20, width: 48}}>
-                  <Text style={[s.bold, {textTransform: "capitalize"}, item.selected && {color: "#B4543A"}]}>{ item.date }</Text>
-                  <View style={{borderWidth: 8, borderColor: item.selected ? "#B4543A" : "#DDDDDD", borderRadius: 16}}>
-                    <View style={{borderWidth: 4, borderColor: "#FFFFFF", borderRadius: 16}}></View>
-                  </View>
+
+                {/* Date du défi */}
+                <View style={{flex: 0, alignItems: 'center', flexDirection: 'column', paddingBottom: 24, width: 48}}>
+                  <Text style={[s.body1, s.bold, {textTransform: "capitalize"}, item.selected && {color: "#B4543A"}]}>{ item.date }</Text>
+                  { 
+                    item.selected ? (
+                      <View style={{borderWidth: 8, padding: 4, borderColor:"#B4543A", borderRadius: 16}}/>
+                    ) : (
+                      <View 
+                        style={[
+                          item.validated ? {backgroundColor: "#0D6166", borderColor:"#DAEEEE"} : { backgroundColor: "#E8AEA2", borderColor:"#FBEAE9" },
+                          {borderWidth: 4, padding: 4, margin: 4, borderRadius: 16}
+                        ]}
+                      />
+                    )
+                  }
                 </View>
 
-                <View style={[s.backgroundWhite, s.border, s.round3, s.p2, s.ml2, {borderColor: "#B4543A", flex: 1, alignItems: "flex-start"}]}>
-                  <Text style={[s.body1, s.bold, s.mb05, {color: '#B4543A', lineHeight: 18}]}>{ item.name }</Text>
-                  <Text style={[item.selected && s.mb1]}>{ item.description }</Text>
-                  { item.selected &&
+                {/* Détail du défi */}
+                <View style={[s.backgroundWhite, s.border, s.round3, s.p2, s.ml2, {borderColor: item.selected ? "#B4543A" : "#FFFFFF", flex: 1, alignItems: "flex-start"}]}>
+                  <Text style={[s.body1, s.bold, s.mb05, item.validated && !item.selected && s.pr3, {color: '#B4543A', lineHeight: 18}]}>{ item.name }</Text>
+                  <Text style={[(item.selected || item.validated) && s.mb1]}>{ item.description }</Text>
+                  { item.selected && !item.validated &&
                     <TouchableOpacity
-                      style={[ s.py1, s.px2, s.row, s.itemsCenter, s.round2, { borderWidth: 1, borderColor: s.black.color } ]} activeOpacity={1}>
+                      style={[ s.py1, s.px2, s.row, s.itemsCenter, s.round2, { borderWidth: 1, borderColor: s.black.color } ]} activeOpacity={1}
+                      onPress={() => participate(item.id)}>
                       <Text style={s.bold}>Je l'ai fait (+{item.value} pts)</Text>
                     </TouchableOpacity>
+                  }
+
+                  {/* Si le défi est validé */}
+                  {
+                    item.validated && (
+                    <>
+                      <View style={[ s.py1, s.px1, s.row, s.itemsCenter, s.round2, s.bold, { borderWidth: 1, borderColor: "#0D6166" } ]}>
+                        <Icon name="check-fill" size={20} color="#0D6166" style={[{paddingTop: 1}]} />
+                        <Text style={[s.ml1, {color: "#0D6166"}]}>{ item.validated } pts gagnés</Text>
+                      </View>
+                      {!item.selected && <Icon name="checkbox-circle-fill" color="#0D6166" size={20} style={[s.absolute, {top: 10, right : 10}]} />}
+                    </>
+                    )
                   }
                 </View>
               </View>
@@ -186,7 +236,7 @@ export default function Challenges({ navigation }) {
                   return { firstName, lastName, pts: msgTotal };
                 }
               })
-              .sort((a, b) => a.pts <= b.pts)}
+              .sort((a, b) => b.pts - a.pts)}
             renderItem={({ item, index }) => (
               <View
                 style={[
