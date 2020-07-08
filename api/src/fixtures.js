@@ -448,7 +448,7 @@ async function populateDb () {
         { day: "SUNDAY",    start: null, end: null },
       ] },
       photos: { connect: [ { uri: uri || defaultPhoto } ] },
-      tags: { connect: tags.filter(t => t.category === category && Math.random() < 0.3 || t.label === "€€").map(({ id }) => ({ id })) },
+      tags: { connect: tags.filter(t => t.category === category && Math.random() < 0.2 || t.label === "€€").map(({ id }) => ({ id })) },
     })
   }
   const companiesId = []

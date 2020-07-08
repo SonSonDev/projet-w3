@@ -74,7 +74,7 @@ export default function Profile ({ navigation }) {
           </TouchableOpacity>
         </View>
       ) : (
-        userData?.history.length ? (
+        userData?.history.filter(e => e.originType === "PLACE").length ? (
           <View>
             {Object.values(userData?.history.filter(e => e.originType === "PLACE").reduce((acc, { originId, ...rest }) => ({
               ...acc,

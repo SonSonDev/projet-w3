@@ -50,7 +50,7 @@ const CardAddress = ({
               icon={<Icon name={icon} size={20} color={color === 'green' ? "#0E562F" : "#463DAB"} />}
               key={`${name}_${label}`}
             />
-          ))}
+          )).filter(Boolean).slice(0, full ? 3 : 2)}
         </View>
         <Text style={[ s.heading5, s.mb05 ]} numberOfLines={1}>
           {name}

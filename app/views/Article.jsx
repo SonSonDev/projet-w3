@@ -1,6 +1,7 @@
-import React, { useState }  from "react";
-import { View, ScrollView, Text, Image, FlatList, StatusBar } from "react-native";
+import React, { useState, useRef }  from "react";
+import { View, ScrollView, Text, Image, FlatList, StatusBar, Animated } from "react-native";
 import { useQuery, useMutation } from "@apollo/react-hooks"
+import { useApolloClient } from "@apollo/react-hooks"
 
 import * as s from "../styles";
 import { GET_ARTICLE, GET_ARTICLES } from "../graphql/article";
@@ -12,10 +13,14 @@ import { themes } from '../utils/wording';
 import { VALIDATE_QUIZ } from "../graphql/user"
 import { CHECK_AUTH } from "../graphql/auth"
 
+
+let started = false
+
 export default function Article({ route: { params: { article } }, navigation }) {
+  const client = useApolloClient()
 
   /* Détail de l'article */
-  const { theme, title, content, photo } = article
+  const { id, theme, title, content, photo } = article
 
   /* Liste des articles en bas de page */
   const { data: { getArticles = [] } = {} } = useQuery(GET_ARTICLES, {
@@ -31,10 +36,15 @@ export default function Article({ route: { params: { article } }, navigation }) 
     async update (cache, { data: { validateQuiz } }) {
       const quiz = validateQuiz.history.find(item => item.originId === article.id)
       setQuizMessage(quiz.bounty ? `Bonne réponse ! ${article.quiz.value} points !` : "Raté")
-      client.writeData({
-        query: CHECK_AUTH,
-        data: { checkAuthApp: validateQuiz },
-      })
+      client.writeData({ data: {
+        toast: quiz.bounty
+          ? `SUCCESS::Bonne réponse ! Tu gagnes __50 points__ dans ta cagnotte de la semaine !::${Date.now()}`
+          : `FAIL::Mauvaise réponse ! Continue de lire le blog et retente ta chance::${Date.now()}`
+      } })
+      // client.writeData({
+      //   query: CHECK_AUTH,
+      //   data: { checkAuthApp: validateQuiz },
+      // })
     },
     onError: error => console.log(error.message),
   })
@@ -72,61 +82,92 @@ export default function Article({ route: { params: { article } }, navigation }) 
     }
   }
 
+  const animated = useRef(new Animated.Value(-100 - s.s2)).current
+
   return (
-    <ScrollView style={[s.flex, s.backgroundPale]}>
+    <View style={[ s.backgroundPale, s.flex ]}>
       <StatusBar hidden animated />
-      <Image style={[s.p0]} source={photo} style={{ height: 308 }} />
-      <View style={[ s.absolute, s.p2, { paddingTop: s.s2, zIndex: 2 } ]}>
-        <Button
-          btnStyle="icon"
-          iconName="arrow-left-line"
-          onPress={navigation.goBack}
-        />
+      <Image source={photo} style={[ s.absolute, s.fill, { height: 300 }]} />
+
+      <View style={[ s.absolute, s.p1, { zIndex: 3 } ]}>
+        <Button btnStyle="icon" iconName="arrow-left-line" onPress={navigation.goBack} />
       </View>
-      <View
-        style={[s.px2, s.py3, s.round3, s.backgroundPale, { marginTop: -16 }]}
+      <Animated.View style={[ s.absolute, s.pt2, s.left, s.right, s.backgroundWhite, s.pb1, s.px4, s.borderBottom, { zIndex: 2 },
+        { transform: [
+          { translateY: animated }
+        ] }
+      ]}>
+        <Animated.Text style={[ s.heading6, s.center, s.pt2, s.pb1, {  }, { 
+        } ]} numberOfLines={1}>{title}</Animated.Text>
+      </Animated.View>
+      
+      <ScrollView
+        style={[]}
+        contentContainerStyle={[ { paddingTop: 220 } ]}
+        onScroll={({ nativeEvent: { contentOffset: { y } } }) => {
+          if (started) return
+          // console.log(y)
+          if (y <= 200) {
+            started = true
+            Animated.spring(animated, {
+              toValue: -100 - s.s2,
+              useNativeDriver: true,
+            }).start(() => started = false)
+          } else {
+            started = true
+            Animated.spring(animated, {
+              toValue: -s.s2,
+              useNativeDriver: true,
+            }).start(() => started = false)
+          }
+        }}
+        scrollEventThrottle={100}
       >
-        <Text style={[s.body2, s.mb1]}>{themes[theme]}</Text>
-        <Text style={[s.heading1, s.mb3]}>{title}</Text>
-        <Text style={[s.body1, s.mb1]}>{content}</Text>
-      </View>
-
-      {/* Section QUIZ */}
-      {hasQuiz && 
-        <View style={[s.px2, s.py3, s.mb3]}>
-          <CardQuizz onSubmit={onSubmitQuiz}
-                     isAnswered={isAnswered}
-                     updateState={updateState}
-                     question={article.quiz.question}
-                     answerList={answerList}
-                     answer={article.quiz.answer}
-                     quizMessage={quizMessage}
-          />
+        <View
+          style={[s.px2, s.py3, s.roundTop3, s.backgroundPale, { marginTop: -16 }]}
+        >
+          <Text style={[s.body2, s.mb1]}>{themes[theme]}</Text>
+          <Text style={[s.heading1, s.mb3]}>{title}</Text>
+          <Text style={[s.body1, s.mb1]}>{content}</Text>
         </View>
-      }
-
-      <Text style={[s.heading5, s.px2]}>Articles similaires</Text>
-      <View>
-        <FlatList
-          style={[ s.mb3 ]}
-          contentContainerStyle={[s.px2, s.py1]}
-          data={getArticles}
-          renderItem={({ item: { title, theme, photo, id }, index }) => (
-            <CardPost
-              title={title}
-              theme={theme}
-              photo={photo}
-              small
-              onPress={() => {
-                navigation.navigate("Article", { id });
-              }}
+  
+        {/* Section QUIZ */}
+        {hasQuiz && 
+          <View style={[s.px2, s.pb3, s.backgroundPale]}>
+            <CardQuizz onSubmit={onSubmitQuiz}
+                       isAnswered={isAnswered}
+                       updateState={updateState}
+                       question={article.quiz.question}
+                       answerList={answerList}
+                       answer={article.quiz.answer}
+                       quizMessage={quizMessage}
             />
-          )}
-          ItemSeparatorComponent={() => <View style={[s.mr2]} />}
-          ListEmptyComponent={() => <CardAddressSkeleton />}
-          horizontal
-        />
-      </View>
-    </ScrollView>
+          </View>
+        }
+        <View style={[ s.backgroundPale ]}>
+          <Text style={[s.heading5, s.px2]}>Articles similaires</Text>
+          <View>
+            <FlatList
+              style={[ s.mb4 ]}
+              contentContainerStyle={[s.px2, s.py1]}
+              data={getArticles.filter(a => a.id !== id)}
+              renderItem={({ item: article, index }) => (
+                <CardPost
+                  {...article}
+                  small
+                  onPress={() => {
+                    navigation.replace("Article", { article });
+                  }}
+                />
+              )}
+              ItemSeparatorComponent={() => <View style={[s.mr2]} />}
+              ListEmptyComponent={() => <CardAddressSkeleton />}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+        </View>
+      </ScrollView>
+    </View>
   );
 }
