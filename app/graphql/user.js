@@ -28,6 +28,30 @@ export const userFragment = gql`
         city
         location
       }
+      users {
+        id
+        firstName
+        lastName
+        history {
+          bounty
+          originType
+          originId
+          date
+        }
+      }
+      currentTheme
+      challenges {
+        id
+        name
+        description
+        value
+      }
+    }
+    history {
+      bounty
+      originType
+      originId
+      date
     }
     history {
       bounty
