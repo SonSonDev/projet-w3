@@ -13,8 +13,9 @@ import setDay from "date-fns/setDay"
 import format from "date-fns/format"
 import { fr } from 'date-fns/locale'
 
-import IllustrationChallenges from "../assets/img/illu-challenges.svg";
+import { challengeContent } from "../utils/wording"
 import VectChallenges from "../assets/img/vect-challenges.svg";
+import Blob from "../assets/img/blob.svg";
 import IconWinner from "../assets/img/ic-winner.svg";
 import IconDIY from "../assets/img/ic-diy.svg";
 import IconRecipe from "../assets/img/ic-recipe.svg";
@@ -123,11 +124,14 @@ export default function Challenges({ navigation }) {
               { weekPoints ? `Tu as déjà cumulé ${weekPoints} points cette semaine ! Continue de participer tous les jours !` : "Tu n'as obtenu aucun point cette semaine."}
             </Text>
           </View>
+
+          {/* Thème de la semaine */}
           <View style={[s.flex, s.round3, s.mx2, s.p2, { backgroundColor: '#FBEAE9', overflow: 'hidden' }]}>
-            <IllustrationChallenges style={[s.absolute, { bottom: -48, right: -32 }]} />
+            <Blob style={[s.absolute, s.bottom, s.right]}/>
+            { challengeContent[userData?.company.currentTheme]?.illustation([s.absolute, { bottom: -32, right: -32 }]) }
             <VectChallenges style={[s.absolute, s.bottom, s.left]} />
-            <Text style={[s.heading2, { color: '#B4543A' }]}>Faites du tri</Text>
-            <Text style={[s.mt05, s.mb4, s.body2, { width: '60%' }]}>Débarassez-vous du superflu en adoptant des méthodes de tri responsables</Text>
+            <Text style={[s.heading2, { color: '#B4543A' }]}>{ challengeContent[userData?.company.currentTheme]?.title }</Text>
+            <Text style={[s.mt05, s.mb4, s.body2, { width: '60%' }]}>{ challengeContent[userData?.company.currentTheme]?.text }</Text>
           </View>
 
           {/* Liste des défis */}

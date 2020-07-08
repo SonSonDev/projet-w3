@@ -14,7 +14,7 @@ import Button from "../../components/atoms/Button"
 import Icon from "../../components/atoms/Icon"
 import Input from "../../components/atoms/Input"
 import CardAddress from "../../components/organismes/CardAddress"
-import IllustrationChallenges from "../../assets/img/illu-challenges.svg"
+import { challengeContent } from "../../utils/wording"
 import VectChallenges from "../../assets/img/vect-challenges.svg"
 import * as s from '../../styles'
 
@@ -65,10 +65,10 @@ export default function Profile ({ navigation }) {
 
       {tabIndex === 0 ? (
         <View style={[ s.flex, s.round3, s.mx2, s.p2, {backgroundColor: '#FBEAE9', overflow: 'hidden'}]}>
-          <IllustrationChallenges style={[ s.absolute, {bottom: -48, right: -32}]} />
+          { challengeContent[userData?.company.currentTheme]?.illustation([s.absolute, { bottom: -32, right: -32 }]) }
           <VectChallenges style={[s.absolute, s.bottom, s.left]} />
-          <Text style={[s.heading2, {color:'#B4543A'}]}>Faites du tri</Text>
-          <Text style={[s.mt05, s.mb2, s.body2, {width: '60%'}]}>Débarassez-vous du superflu en adoptant des méthodes de tri responsables</Text>
+          <Text style={[s.heading2, { color: '#B4543A' }]}>{ challengeContent[userData?.company.currentTheme]?.title }</Text>
+          <Text style={[s.mt05, s.mb2, s.body2, { width: '60%' }]}>{ challengeContent[userData?.company.currentTheme]?.text }</Text>
           <TouchableOpacity style={[ s.mtAuto, s.backgroundPrimary, s.px2, s.py1, s.selfStart, s.round2 ]}>
             <Text style={[ s.heading6, s.white, s.py05 ]}>Récompenses</Text>
           </TouchableOpacity>

@@ -111,7 +111,7 @@ export default function Place ({ route: { params: { place } }, navigation }) {
             {description}
           </Text>
           <Text style={[ s.backgroundPrimary, s.py1, s.px1, s.body2, s.white, s.bold, s.round2, { overflow: 'hidden', alignSelf: 'flex-start' }, s.mb3 ]}>
-            Géolocalisez-vous pour gagner 50 points
+            Géolocalise-toi pour gagner 50 points
           </Text>
 
           <View>

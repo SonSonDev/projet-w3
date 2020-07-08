@@ -17,8 +17,8 @@ const CardQuizz = ({ onSubmit, isAnswered, updateState, question, answerList, an
           ItemSeparatorComponent={() => <View style={[ s.pt2 ]}></View>}
           renderItem={({ item, index }) => (
             <TouchableHighlight onPress={() => { if(!isAnswered) updateState(index)} } underlayColor="transparent" style={[ index % 1 !== 0 && s.pl1, s.flex ]}>
-              <View style={[ s.round2, { minHeight: 64, borderColor: '#E8AEA2', borderWidth: item.selected ? 0 : 1, justifyContent: 'center', backgroundColor: item.selected ? '#BA5A40' : '#FFFFFF' }, s.p1, [{paddingLeft:24}, isAnswered && item.label === answer && s.backgroundGreen] ]}>
-                <Text style={{ color: item.selected ? '#FFFFFF' : '#181B1B', fontSize: 16}}>{item.label}</Text>
+              <View style={[ s.round2, { minHeight: 64, borderColor: '#E8AEA2', borderWidth: item.selected ? 0 : 1, justifyContent: 'center', backgroundColor: item.selected ? '#BA5A40' : '#FFFFFF' }, s.p1, [{paddingLeft:24}, isAnswered && item.label === answer && {backgroundColor: "#0E562F"}] ]}>
+                <Text style={[{ color: item.selected ? '#FFFFFF' : '#181B1B', fontSize: 16}, isAnswered && item.label === answer && { color: "#ffffff"}]}>{item.label}</Text>
               </View>
             </TouchableHighlight>
           )}

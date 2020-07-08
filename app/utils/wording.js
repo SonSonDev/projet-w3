@@ -1,3 +1,8 @@
+import React from "react";
+import IllustrationChallengeAlimentation from "../assets/img/illu-challenge_alimentation.svg"
+import IllustrationChallengeConso from "../assets/img/illu-challenge_conso.svg"
+import IllustrationChallengeEau from "../assets/img/illu-challenge_eau.svg"
+import IllustrationChallengeEnergie from "../assets/img/illu-challenge_energie.svg"
 
 export const categories = {
   FOOD: "Restaurant",
@@ -74,4 +79,28 @@ export const openOrClosed = (open, close) => {
     return [true, 'Ouvert']
   }
   return [false, 'Fermé']
+}
+
+
+export const challengeContent = {
+  ALIMENTATION: {
+    title: "Mangez sain",
+    text: "Cette semaine, relevez le défis liés à l’alimentation et gagnez des points",
+    illustation: (style) => <IllustrationChallengeAlimentation style={style} />,
+  },
+  CONSUMPTION: {
+    title: "Consommez malin",
+    text: "Cette semaine, relevez le défis liés à la consommation et gagnez des points",
+    illustation: (style) => <IllustrationChallengeConso style={style} />,
+  },
+  WATER: {
+    title: "Consommez moins",
+    content: "Cette semaine, relevez le défis liés à l’eau et gagnez des points",
+    illustation: (style) => <IllustrationChallengeEau style={style} />,
+  },
+  ENERGY: {
+    title: "Consommez moins",
+    text: "Cette semaine, relevez le défis liés à l’énergie et gagnez des points",
+    illustation: (style) => <IllustrationChallengeEnergie style={style} />,
+  },
 }

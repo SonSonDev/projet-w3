@@ -35,7 +35,7 @@ export default function Article({ route: { params: { article } }, navigation }) 
   const [validateQuiz] = useMutation(VALIDATE_QUIZ, {
     async update (cache, { data: { validateQuiz } }) {
       const quiz = validateQuiz.history.find(item => item.originId === article.id)
-      setQuizMessage(quiz.bounty ? `Bonne réponse ! ${quiz.bounty} points !` : "Raté")
+      setQuizMessage(quiz.bounty ? `Bonne réponse ! ${quiz.bounty} points !` : "Dommage ! Mauvaise réponse.")
       client.writeData({ data: {
         toast: quiz.bounty
           ? `SUCCESS::Bonne réponse ! Tu gagnes __${quiz.bounty} points__ dans ta cagnotte de la semaine !::${Date.now()}`
