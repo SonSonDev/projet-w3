@@ -58,6 +58,7 @@ server.start({
     // origin: [ process.env.FRONT_URL, process.env.FRONT_URL+":19006", process.env.FRONT_URL+":19001" ],
     origin: (origin, callback) => callback(null, true),
   },
+  playground: null,
 }, async () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`)
   scheduledFunction()
