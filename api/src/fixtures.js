@@ -339,7 +339,7 @@ const challenges = [
   ["Mettre une plante sur le bureau",               "...",                                                                                1000, "ALIMENTATION"],
 ]
 
-const articles = [
+const defaultArticles = [
   {
     "theme": "ENERGY",
     "title": "Dégivrer son congélateur régulièrement pour faire des économies",
@@ -475,27 +475,38 @@ async function populateDb () {
     companiesId.push(id)
   }
 
-  for (let i = 0; i < 100; i++) {
-    await prisma.createUser({
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
-      email: faker.internet.email().toLowerCase(),
-      password: await bcrypt.hash("user", 10),
-      role: "USER",
-      company: { connect: { id: randomFromArray(companiesId) } },
-    })
-  }
-
   for (const [ name, description, value, theme ] of challenges) {
     await prisma.createChallenge({ name, description, value, theme })
   }
   await setAllCompaniesChallenges(null, null, { prisma })
-  for (const article of articles) {
+
+  const articles = await Promise.all(defaultArticles.map(article => {
     article.photo = { create: article.photo },
     article.quiz.choices = { set: article.quiz.choices }
     article.quiz = { create: article.quiz },
     article.date = String(new Date().getTime())
-    await prisma.createArticle(article)
+    return prisma.createArticle(article)
+  }))
+
+  for (let i = 0; i < 100; i++) {
+    try {
+      await prisma.createUser({
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        email: faker.internet.email().toLowerCase(),
+        password: await bcrypt.hash("user", 10),
+        role: "USER",
+        company: { connect: { id: randomFromArray(companiesId) } },
+        history: {
+          create: articles.map(({ id }) => Math.random() < 0.2 && ({
+            bounty: 50,
+            originType: "ARTICLE",
+            originId: id,
+            date: String(Date.now()),
+          })).filter(Boolean),
+        },
+      })
+    } catch (error) { console.log(error) }
   }
 }
 
