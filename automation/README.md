@@ -32,13 +32,27 @@ Créer une paire de clé ssh
 ```
 ssh-keygen -t rsa -b 4096 -f ./id_rsa
 ```
+
 Ajouter les clés ssh au .env
 ```
 echo "SSH_PUBLIC_KEY=\"$(cat id_rsa.pub)\"" >> ../../.env
 echo "SSH_PRIVATE_KEY=\"$(cat id_rsa)\"" >> ../../.env
 ```
-Créer les ressources aws
+
+Ajouter les identifiants de l'utilisateur IAM d'Amazon Web Services au .env (remplacer les `{value}`)
 ```
+echo "AWS_ACCESS_KEY_ID=\"{value}\"" >> ../../.env
+echo "AWS_SECRET_ACCESS_KEY=\"{value}\"" >> ../../.env
+```
+
+Exporter toutes les variables d’environnement
+```
+set -a && source .env && set +a
+```
+
+Créer les ressources AWS
+```
+terraform init
 terraform apply -var=ssh_public_key=${SSH_PUBLIC_KEY}
 ```
 
@@ -49,23 +63,28 @@ Recréer la clé privée depuis la variable d’environnement
 echo ${SSH_PRIVATE_KEY} > ./id_rsa
 chmod 600 ./id_rsa
 ```
+
 Lancer le playbook ansible pour la première fois
-```
-ansible-playbook -i inventory/ec2.py -l tag_stage_staging playbook.yml -u ubuntu --key ./id_rsa
-ansible-playbook -i inventory/ec2.py -l tag_stage_staging playbook-fixtures.yml -u ubuntu --key ./id_rsa
-```
-Lancer le playbook pour redéployer
 ```
 ansible-galaxy install -r requirements.yml
 chmod +x inventory/ec2.py
+ansible-playbook -i inventory/ec2.py -l tag_stage_staging playbook.yml -u ubuntu --key ./id_rsa
+ansible-playbook -i inventory/ec2.py -l tag_stage_staging playbook-fixtures.yml -u ubuntu --key ./id_rsa
+```
+
+Lancer le playbook pour redéployer
+```
 ansible-playbook -i inventory/ec2.py tag_stage_staging playbook.yml --tags deploy -u ubuntu --key ./id_rsa
 ```
 <!-- ansible -i inventory/ec2.py -m ping -u ubuntu --key ./id_rsa -->
 
-Ajouter un utilisateur (remplacer les valeurs `{value}`)
+
+Ajouter un utilisateur (remplacer les `{value}`)
 ```
 ansible-playbook -i inventory/ec2.py playbook-insert.yml -u ubuntu --key ./id_rsa -e user_firstName={value} -e user_lastName={value} -e user_email={value} -e user_password={value}
 ```
+
+
 
 <details>
 
