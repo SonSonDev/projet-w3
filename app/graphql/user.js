@@ -28,6 +28,30 @@ export const userFragment = gql`
         city
         location
       }
+      users {
+        id
+        firstName
+        lastName
+        history {
+          bounty
+          originType
+          originId
+          date
+        }
+      }
+      currentTheme
+      challenges {
+        id
+        name
+        description
+        value
+      }
+    }
+    history {
+      bounty
+      originType
+      originId
+      date
     }
     history {
       bounty
@@ -199,6 +223,20 @@ export const VALIDATE_QUIZ = gql`
     validateQuiz(
       articleId: $articleId
       answer: $answer
+    ) {
+      ...UserFragment
+    }
+  }
+  ${userFragment}
+`
+
+/* Validation d'un challenge */
+export const VALIDATE_CHALLENGE = gql`
+  mutation validateChallenge(
+    $challengeId: ID!
+  ) {
+    validateChallenge(
+      challengeId: $challengeId
     ) {
       ...UserFragment
     }

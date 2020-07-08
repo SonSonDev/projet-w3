@@ -122,6 +122,7 @@ type Mutation {
     id: ID!
     name: String!
     description: String!
+    theme: Theme!
     value: Int!
   ): Challenge
 
