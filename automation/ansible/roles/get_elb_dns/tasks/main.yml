@@ -5,10 +5,13 @@
     names: "{{ stage }}-elb-api"
     region: eu-west-2
   register: elb_api_info
+  when: API_URL == ""
+
+- set_fact: API_URL="{{ application_scheme }}://{{ elb_api_info.elbs.0.dns_name }}"
+  when: API_URL == ""
 
 - name: copy the output to a local file
   copy:
-    content: "http://{{ elb_api_info.elbs.0.dns_name }}"
+    content: "{{ API_URL }}"
     dest: "./elb_api_dns.txt"
   delegate_to: localhost
-  when: elb_api_info.elbs.0 is defined

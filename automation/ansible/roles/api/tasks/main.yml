@@ -18,6 +18,10 @@
     aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
     aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
   register: ec2_bo_info
+  when: FRONT_URL == ""
+
+- set_fact: FRONT_URL="{{ application_scheme }}://{{ ec2_bo_info.instances.0.public_ip_address }}"
+  when: FRONT_URL == ""
 
 - name: Get instance database info
   action:
