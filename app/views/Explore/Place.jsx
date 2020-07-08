@@ -103,7 +103,7 @@ export default function Place ({ route: { params: { place } }, navigation }) {
           <Text style={[ s.heading2, s.mt1 ]}>
             {name}
           </Text>
-          <Text style={[ s.heading6, s.mb2 ]}>
+          <Text style={[ s.heading6, s.mt05, s.mb2 ]}>
             {categorySubtitles[category].prefix}{getTags.find(({ label }) => label === categorySubtitles[category].tag)
               ?.children.find(({ label }) => tags.some(t => t.label === label))?.label}
           </Text>
@@ -183,7 +183,7 @@ export default function Place ({ route: { params: { place } }, navigation }) {
         </View>
 
         <View style={[ s.backgroundWhite, s.flex, s.py3 ]}>
-          <Text style={[ s.body2, s.grey, s.mx2 ]}>En détail</Text>
+          <Text style={[ s.body2, s.grey, s.mx2, s.mb05 ]}>En détail</Text>
           <Text style={[ s.heading3, s.mx2, s.mb2 ]}>
             Ils s’engagent…
           </Text>

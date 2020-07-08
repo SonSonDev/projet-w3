@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, ScrollView, Text, FlatList, Platform, RefreshControl } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import React, { useState, useEffect, useRef } from 'react'
+import { StyleSheet, View, ScrollView, Text, FlatList, Platform, RefreshControl, TouchableOpacity } from 'react-native'
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import BottomSheet from 'reanimated-bottom-sheet'
 
@@ -45,12 +44,14 @@ export default function Explore ({ navigation }) {
     ? getTags.filter(t => t.category === category).filter(({ label }) => label !== 'Engagements')
     : getTags.slice(0, 2)
 
+  const scrollViewRef = useRef(null)
+
   return (
     <View style={[ s.flex, s.backgroundPale ]}>
       <FlatList
         ListHeaderComponent={() => (
           <View style={[ s.backgroundPale, s.p2, s.pt3 ]}>
-            <Text style={[ s.body2, s.grey ]}>Adresses</Text>
+            <Text style={[ s.body2 ]}>Adresses</Text>
             <Text style={[ s.heading4 ]} numberOfLines={1}>
               À proximité de <Text style={[ s.primary ]}>{userData?.company.name}</Text>
             </Text>
@@ -79,32 +80,34 @@ export default function Explore ({ navigation }) {
         keyExtractor={item => item.id}
       />
       <BottomSheet
-        snapPoints={[400, 54]}
+        snapPoints={[400, 63]}
         initialSnap={1}
         renderHeader={() => (
-          <View style={[ s.backgroundWhite, s.pt1, { borderTopLeftRadius: 16, borderTopRightRadius: 16 } ]}>
-            <View style={[ s.backgroundBlack, { width: 32, height: 2 }, s.round1, s.selfCenter ]} />
-            <ScrollView horizontal style={[ s.py1, { borderBottomWidth: 1, borderColor: s.c.bg } ]} contentContainerStyle={[ s.px2 ]} scrollEnabled={true} showsHorizontalScrollIndicator={false}>
-              <TouchableOpacity style={[ s.row, s.itemsCenter, s.my05 ]} onPress={() => setTags({}) || setCategory()} activeOpacity={1}>
-                <Text style={[ s.body1, s.bold, !category && s.primary, s.mr2 ]}>Tout</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={[ s.row, s.itemsCenter, s.my05 ]} onPress={() => setTags({}) || setCategory('FOOD')} activeOpacity={1}>
-                <Icon name={categoryIcons['FOOD']} size={16} color={category === 'FOOD' ? s.primary.color : s.black.color} style={[ s.mr05 ]} />
-                <Text style={[ s.body1, s.bold, category === 'FOOD' && s.primary, s.mr2 ]}>{categories['FOOD']}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={[ s.row, s.itemsCenter, s.my05 ]} onPress={() => setTags({}) || setCategory('SHOP')} activeOpacity={1}>
-                <Icon name={categoryIcons['SHOP']} size={16} color={category === 'SHOP' ? s.primary.color : s.black.color} style={[ s.mr05 ]} />
-                <Text style={[ s.body1, s.bold, category === 'SHOP' && s.primary, s.mr2 ]}>{categories['SHOP']}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={[ s.row, s.itemsCenter, s.my05 ]} onPress={() => setTags({}) || setCategory('ACTIVITY')} activeOpacity={1}>
-                <Icon name={categoryIcons['ACTIVITY']} size={16} color={category === 'ACTIVITY' ? s.primary.color : s.black.color} style={[ s.mr05 ]} />
-                <Text style={[ s.body1, s.bold, category === 'ACTIVITY' && s.primary ]}>{categories['ACTIVITY']}</Text>
-              </TouchableOpacity>
-            </ScrollView>
+          <View style={[ s.overflow, s.pt1 ]}>
+            <View style={[ s.shadow2, s.roundTop3, s.pt1, s.backgroundWhite ]}>
+              <View style={[ s.backgroundBlack, { width: 32, height: 2 }, s.round1, s.selfCenter ]} />
+              <ScrollView horizontal style={[ s.backgroundWhite, s.py1, { borderBottomWidth: 1, borderColor: s.c.bg, zIndex: 10 } ]} contentContainerStyle={[ s.px2 ]} scrollEnabled={true} showsHorizontalScrollIndicator={false} ref={scrollViewRef}>
+                <TouchableOpacity style={[ s.row, s.itemsCenter, s.py05, s.px1, !category && s.backgroundPrimaryPale, s.round2 ]} onPress={() => setTags({}) || setCategory()} activeOpacity={1}>
+                  <Text style={[ s.body1, s.bold, !category && s.primary ]}>Tout</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[ s.row, s.itemsCenter, s.py05, s.px1, category === 'FOOD' && s.backgroundPrimaryPale, s.round2 ]} onPress={() => setTags({}) || setCategory('FOOD')} activeOpacity={1}>
+                  <Icon name={categoryIcons['FOOD'].replace('line', category === 'FOOD' ? 'fill' : 'line')} size={16} color={category === 'FOOD' ? s.primary.color : s.black.color} style={[ s.mr05 ]} />
+                  <Text style={[ s.body1, s.bold, category === 'FOOD' && s.primary ]}>{categories['FOOD']}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[ s.row, s.itemsCenter, s.py05, s.px1, category === 'SHOP' && s.backgroundPrimaryPale, s.round2 ]} onPress={() => setTags({}) || setCategory('SHOP')} activeOpacity={1}>
+                  <Icon name={categoryIcons['SHOP'].replace('line', category === 'SHOP' ? 'fill' : 'line')} size={16} color={category === 'SHOP' ? s.primary.color : s.black.color} style={[ s.mr05 ]} />
+                  <Text style={[ s.body1, s.bold, category === 'SHOP' && s.primary ]}>{categories['SHOP']}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[ s.row, s.itemsCenter, s.py05, s.px1, category === 'ACTIVITY' && s.backgroundPrimaryPale, s.round2 ]} onPress={() => setTags({}) || setCategory('ACTIVITY') || scrollViewRef.current?.scrollToEnd()} activeOpacity={1}>
+                  <Icon name={categoryIcons['ACTIVITY'].replace('line', category === 'ACTIVITY' ? 'fill' : 'line')} size={16} color={category === 'ACTIVITY' ? s.primary.color : s.black.color} style={[ s.mr05 ]} />
+                  <Text style={[ s.body1, s.bold, category === 'ACTIVITY' && s.primary ]}>{categories['ACTIVITY']}</Text>
+                </TouchableOpacity>
+              </ScrollView>
+            </View>
           </View>
         )}
         renderContent={() => (
-          <View style={[ s.backgroundWhite, { minHeight: 348 } ]}>
+          <View style={[ s.backgroundWhite, { minHeight: 348 }, s.shadow3 ]}>
             {allTags.map(({ id, label: parent, children }) => (
               <View key={id} style={[ s.p2, s.borderBottom, { borderColor: s.c.bg } ]}>
                 <Text style={[ s.body2, s.bold, s.mb1 ]}>{parent}</Text>
@@ -122,6 +125,7 @@ export default function Explore ({ navigation }) {
                           ? tags[parent].filter(tag => tag !== label)
                           : [ ...tags[parent] || [], label ],
                       })}
+                      enabledContentTapInteraction={false}
                     >
                       <Text style={[ s.body1, s.bold, tags[parent]?.includes(label) ? s.white : s.grey ]}>{label}</Text>
                     </TouchableOpacity>

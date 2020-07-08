@@ -40,18 +40,19 @@ function TabBar ({ state, descriptors, navigation }) {
         const { icon } = options
 
         return (
-          <View style={[ s.row, s.justifyCenter, isFocused && { width: 120 } ]} key={label}>
-            <TouchableOpacity
-              onPress={onPress}
-              activeOpacity={1}
-              style={[ s.row, s.justifyCenter, s.itemsCenter, s.py1, s.px2, s.my05, s.mx1, isFocused && s.backgroundPrimaryPale, s.round2 ]}
-            >
+          <TouchableOpacity
+            onPress={onPress}
+            activeOpacity={1}
+            style={[ s.row, s.justifyCenter, isFocused && { width: 120 } ]}
+            key={label}
+          >
+            <View style={[ s.row, s.justifyCenter, s.itemsCenter, s.py1, s.px2, s.my05, s.mx1, isFocused && s.backgroundPrimaryPale, s.round2, s.overflow ]}>
               <Icon name={icon} size={22} color={isFocused ? s.c.p100 : s.c.g100} />
               {isFocused && (
                 <Text style={[ s.body2, s.bold, s.primary, s.ml05 ]}>{label}</Text>
               )}
-            </TouchableOpacity>
-          </View>
+            </View>
+          </TouchableOpacity>
         );
       })}
     </View>

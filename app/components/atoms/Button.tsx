@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableHighlight } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { StyleSheet, Text, View, Image, TouchableHighlight, TouchableOpacity } from 'react-native';
 import Icon from './Icon';
 
 import * as s from '../../styles'
@@ -116,7 +115,7 @@ const Button = ({ btnStyle, iconLeft, iconRight, label, iconName = "arrow-left-l
       activeOpacity={1}
       underlayColor={styleUnderlayColor[btnStyle]}
       onPress={onPress}
-      //onPressIn={onPress}
+      enabledContentTapInteraction={false}
       style={[containerStyle.main, style]}
       disabled={disabled}
     >

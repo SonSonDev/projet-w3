@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { SafeAreaView, Text, Animated } from 'react-native'
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
+import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useFonts } from '@use-expo/font'
 import { AppLoading } from 'expo'
@@ -78,11 +78,11 @@ export default function () {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ header: () => null }} headerMode='screen' initialRouteName={initialRouteName}>
         <Stack.Screen name="FirstScreen" component={FirstScreen} options={{ animationTypeForReplace: 'pop' }} />
-        <Stack.Screen name="Login" component={Login} options={{ animationTypeForReplace: 'pop' }} />
+        <Stack.Screen name="Login" component={Login} options={{ animationTypeForReplace: 'pop', cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS }} />
 
-        <Stack.Screen name="OnboardingFirstStep" component={OnboardingFirstStep} options={{ header: Header }} />
-        <Stack.Screen name="OnboardingSecondStep" component={OnboardingSecondStep} options={{ header: Header }} />
-        <Stack.Screen name="OnboardingThirdStep" component={OnboardingThirdStep} options={{ header: Header }} />
+        <Stack.Screen name="OnboardingFirstStep" component={OnboardingFirstStep} options={{ header: Header, cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS }} />
+        <Stack.Screen name="OnboardingSecondStep" component={OnboardingSecondStep} options={{ header: Header, cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS }} />
+        <Stack.Screen name="OnboardingThirdStep" component={OnboardingThirdStep} options={{ header: Header, cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS }} />
 
         <Stack.Screen name="MainNavigator" component={MainNavigator} />
         <Stack.Screen name="Place" component={Place} />

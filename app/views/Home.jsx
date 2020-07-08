@@ -50,7 +50,7 @@ export default function Home({ navigation }) {
   return (
     <ScrollView style={[s.flex, s.backgroundPale]} stickyHeaderIndices={[0]}>
       <View style={[ s.backgroundPale ]}>
-        <Text style={[s.body2, s.grey, s.px2, s.pt3]}>Bonjour {userData?.firstName}</Text>
+        <Text style={[s.body2, s.px2, s.pt3]}>Bonjour {userData?.firstName}</Text>
         <Text style={[s.heading4, s.px2, s.mb2]}>
           C’est l’heure du déjeuner !
         </Text>
