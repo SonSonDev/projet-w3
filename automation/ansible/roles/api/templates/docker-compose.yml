@@ -36,5 +36,5 @@ services:
         databases:
           default:
             connector: mongo
-            uri: mongodb://{{ MONGO_INITDB_ROOT_USERNAME }}:{{ MONGO_INITDB_ROOT_PASSWORD }}@{{ ec2_db_info.instances.0.public_ip_address }}
+            uri: mongodb://{{ DATABASE_MONGO_INITDB_ROOT_USERNAME }}:{{ DATABASE_MONGO_INITDB_ROOT_PASSWORD }}@{{ ec2_db_info.instances.0.public_ip_address }}
             port: 27017

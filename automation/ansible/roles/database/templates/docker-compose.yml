@@ -5,8 +5,8 @@ services:
     image: mongo:3.6
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: "{{ MONGO_INITDB_ROOT_USERNAME }}"
-      MONGO_INITDB_ROOT_PASSWORD: "{{ MONGO_INITDB_ROOT_PASSWORD }}"
+      MONGO_INITDB_ROOT_USERNAME: "{{ DATABASE_MONGO_INITDB_ROOT_USERNAME }}"
+      MONGO_INITDB_ROOT_PASSWORD: "{{ DATABASE_MONGO_INITDB_ROOT_PASSWORD }}"
     ports:
       - "27017:27017"
     volumes:
