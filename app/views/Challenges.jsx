@@ -133,7 +133,7 @@ export default function Challenges({ navigation }) {
           data={getCompany.employees.sort((a,b)=>Number(b.pts-a.pts))}
           renderItem={({item, index}) => (
             <View
-              style={[s.round3, s.px2, s.py1, s.mb05, {flex: 1, flexDirection: 'row', alignItems: 'center'}, (index === 0) && [{backgroundColor: '#FFBB6B'}, s.py2]]}
+              style={[s.round3, s.px2, s.py1, s.mb05, {flex: 1, flexDirection: 'row', alignItems: 'center'}, (index === 0) && [{backgroundColor: '#B4543A'}, s.py2]]}
               key={item.id}>
               {index === 0 ? <IconWinner/> : <Text style={[s.bold, {width: 22, textAlign: 'center'}]}>{index + 1}</Text>}
               <Text style={[s.pl2, s.bold, (index === 0 && s.white)]}>{item.firstName} {item.lastName}</Text>
@@ -143,7 +143,6 @@ export default function Challenges({ navigation }) {
         />
       </>
       }
-      <Button btnStyle='primary' label='Je participe !' onPress={participate} style={[ s.mx2, s.my2 ]} />
 
     </ScrollView>
   );
