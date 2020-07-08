@@ -38,7 +38,7 @@ export default function Challenges({ navigation }) {
     { key: 'challenges', label: 'Défis de la semaine', selected: true },
     { key: 'ranking', label: 'Classement' },
   ])
-
+  // console.log(userData?.company?.challenges)
   const challengeList = userData?.company?.challenges.reduce((acc, cur, i) => {
     const day = new Date().getDay()
     if (i+1 <= day) {
@@ -100,26 +100,25 @@ export default function Challenges({ navigation }) {
         <Text style={[s.body2, s.px2, s.pt3]}>
           Bonjour {userData?.firstName}
         </Text>
-        <Text style={[s.heading4, s.px2, s.mb2]}>
+        <Text style={[s.heading4, s.px2, s.mb1]}>
           Tes défis éco-responsables de la semaine
         </Text>
-      </View>
-
-      {/* Onglets */}
-      <View style={[s.mx2, s.mt2]}>
-        <View horizontal snapToInterval={100} style={[s.row, s.pt1, s.mb2, { borderBottomWidth: 1, borderColor: s.greyLight.color }]} contentContainerStyle={[]} showsHorizontalScrollIndicator={false}>
-          {tabs.map((item, index) => (
-            <TouchableOpacity onPress={() => toggleTab(index)} style={[s.flex, s.justifyCenter, s.row, s.px05, s.itemsCenter, s.pb1, { borderBottomWidth: 1, borderColor: item.selected ? s.primary.color : 'transparent' }]} activeOpacity={1} key={item.label}>
-              <Text style={[s.body1, item.selected ? s.primary : s.black, s.bold]}>{item.label}</Text>
-            </TouchableOpacity>
-          ))}
+        {/* Onglets */}
+        <View style={[s.mx2]}>
+          <View horizontal snapToInterval={100} style={[s.row, s.pt1, { borderBottomWidth: 0, borderColor: s.greyLight.color }]} contentContainerStyle={[]} showsHorizontalScrollIndicator={false}>
+            {tabs.map((item, index) => (
+              <TouchableOpacity onPress={() => toggleTab(index)} style={[s.flex, s.justifyCenter, s.row, s.px05, s.itemsCenter, s.pb1, { borderBottomWidth: 1, borderColor: item.selected ? s.primary.color : s.greyLight.color }]} activeOpacity={1} key={item.label}>
+                <Text style={[s.body1, item.selected ? s.primary : s.black, s.bold]}>{item.label}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
       </View>
 
       {isOnChallengesTab() ? (
         <>
           {/* Points cumulés */}
-          <View style={[s.flex, s.round3, s.mx2, s.p2, s.mb2, { backgroundColor: '#B4543A' }]}>
+          <View style={[ s.mt2, s.flex, s.round3, s.mx2, s.p2, s.mb2, { backgroundColor: '#B4543A' }]}>
             <Text style={[s.body1, { color: '#FFFFFF' }]}>
               { weekPoints ? `Tu as déjà cumulé ${weekPoints} points cette semaine ! Continue de participer tous les jours !` : "Tu n'as obtenu aucun point cette semaine."}
             </Text>
@@ -189,7 +188,7 @@ export default function Challenges({ navigation }) {
           <Text style={[s.heading5, s.m2, s.mb1]}>À débloquer cette semaine...</Text>
           <FlatList
             style={[]}
-            contentContainerStyle={[s.pl2, s.py1]}
+            contentContainerStyle={[s.pl2, s.py1, s.mb1]}
             data={getRewards}
             renderItem={({ item, index }) => (
               <TouchableOpacity
@@ -223,7 +222,7 @@ export default function Challenges({ navigation }) {
             Vos collègues sont déjà en course !
           </Text>
           <FlatList
-            style={[s.mx2, s.p2, s.backgroundWhite, s.round3]}
+            style={[s.mx2, s.p2, s.backgroundWhite, s.round3, s.mb2]}
             data={userData.company.users
               .map(({ firstName, history, lastName }) => {
                 if (history.length <= 0) {
