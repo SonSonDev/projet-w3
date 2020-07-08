@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Text, ImageBackground, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Text, ImageBackground, TouchableOpacity, Platform } from 'react-native'
 
 import { categories, categoryIcons, dayIndexes, openOrClosed, restrictionIcons } from '../../utils/wording'
 
@@ -22,7 +22,7 @@ const CardAddress = ({
   const [ open, openLabel ] = openOrClosed(start, end)
 
   return (
-    <TouchableOpacity style={[ s.backgroundWhite, s.round3, s.flex, !full && { width: 280 }, style ]} onPress={onPress} activeOpacity={1}>
+    <TouchableOpacity style={[ s.backgroundWhite, s.round3, s.flex, !full && { width: Platform.OS === 'android' ? 300 : 280 }, style ]} onPress={onPress} activeOpacity={1}>
       <ImageBackground style={[ { height: full ? 200 : 120 }, s.p2 ]} source={photos[0]} resizeMode='cover' borderRadius={16}>
         <View style={[ s.backgroundPrimaryLight, s.absolute, s.fill, s.round3, { zIndex: -1 } ]} />
         <LinearGradient colors={[ 'transparent', full ? 'rgba(0, 0, 0, 0.8)' : 'rgba(0, 0, 0, 0.5)' ]} style={[ s.absolute, s.fill, s.round3 ]} />
