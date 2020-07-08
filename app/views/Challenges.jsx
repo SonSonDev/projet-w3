@@ -15,14 +15,12 @@ import IconDIY from "../assets/img/ic-diy.svg";
 import IconRecipe from "../assets/img/ic-recipe.svg";
 import { CHECK_AUTH } from "../graphql/auth";
 import * as s from "../styles";
-import isThisWeek from 'date-fns/is_this_week';
+import * as fns from "date-fns";
 
 /* Page défis */
 export default function Challenges({ navigation }) {
   /* Informations de l'utilisateur */
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH);
-
-  console.log("ok", userData.company.users[1].history);
 
   /* Onglets */
   const [tabs, setTabs] = useState([
@@ -43,30 +41,6 @@ export default function Challenges({ navigation }) {
       neededPts: 80,
     },
   ];
-
-  /* TODO: Liste des employés */
-  const getCompany = {
-    employees: [
-      {
-        id: "1",
-        firstName: "Quentin",
-        lastName: "Lenglin",
-        pts: "1230",
-      },
-      {
-        id: "2",
-        firstName: "Mahel",
-        lastName: "Zeroual",
-        pts: "1000",
-      },
-      {
-        id: "3",
-        firstName: "Christella",
-        lastName: "Levieux",
-        pts: "3000",
-      },
-    ],
-  };
 
   const isOnChallengesTab = () =>
     tabs.find((tab) => tab.key === "challenges").selected;
@@ -190,23 +164,23 @@ export default function Challenges({ navigation }) {
           </Text>
           <FlatList
             style={[s.mx2, s.p2, s.backgroundWhite, s.round3]}
-            //ICICICICICICICICCICICICICI‹
-            //ICICICICICICICICCICICICICI‹
-            //ICICICICICICICICCICICICICI‹
-            data={userData.company.users.map(
-              ({ firstName, history, lastName }) => {
+            data={userData.company.users
+              .map(({ firstName, history, lastName }) => {
                 if (history.length <= 0) {
                   return { firstName, lastName, pts: "0" };
                 } else {
-                  const msgTotal = history
-                    .reduce((prev, cur) => {
-                      return prev + cur.bounty;
-                    }, 0)
+                  const data = history.filter(({ date }) => {
+                    const msDate = new Date(parseInt(date));
+                    return fns.isThisWeek(msDate, { weekStartsOn: 1 });
+                  });
+
+                  const msgTotal = data.reduce((prev, cur) => {
+                    return prev + cur.bounty;
+                  }, 0);
                   return { firstName, lastName, pts: msgTotal };
                 }
-              }
-            )}
-            // data={[]}
+              })
+              .sort((a, b) => a.pts <= b.pts)}
             renderItem={({ item, index }) => (
               <View
                 style={[
