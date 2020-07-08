@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { SafeAreaView, Text, Animated } from 'react-native'
+import React, { useEffect, useRef } from 'react'
+import { Text, Animated } from 'react-native'
 import { useQuery } from "@apollo/react-hooks"
 import gql from "graphql-tag"
-
 import Icon from '../atoms/Icon'
 import * as s from '../../styles'
 
-
 export default function () {
-  const { data: { isOnboarded, toast = '' } = {} } = useQuery(gql`{ toast @client }`)
+  const { data: { toast = '' } = {} } = useQuery(gql`{ toast @client }`)
 
   const fade = useRef(new Animated.Value(0)).current
 

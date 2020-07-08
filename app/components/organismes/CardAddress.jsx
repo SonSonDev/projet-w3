@@ -1,15 +1,13 @@
 import React from 'react'
-import { StyleSheet, View, Text, ImageBackground, TouchableOpacity, Platform } from 'react-native'
+import {  View, Text, ImageBackground, TouchableOpacity, Platform } from 'react-native'
 
 import { categories, categoryIcons, dayIndexes, openOrClosed, restrictionIcons } from '../../utils/wording'
 
 import Chip from "../atoms/Chip"
 import RoundButton from "../atoms/RoundButton"
-import Typo from "../atoms/Typography"
 import Icon from '../atoms/Icon'
 import { LinearGradient } from 'expo-linear-gradient'
 import * as s from '../../styles'
-
 
 const CardAddress = ({
   place: { name, category, headline, description, hours = [], tags = [], address: { distance } = {}, photos = [] } = {},
@@ -17,9 +15,7 @@ const CardAddress = ({
   full,
   style,
 }) => {
-
   const { start, end } = { ...hours.filter(({ day }) => day === dayIndexes[new Date().getDay()]).pop() }
-  const [ open, openLabel ] = openOrClosed(start, end)
 
   return (
     <TouchableOpacity style={[ s.backgroundWhite, s.round3, s.flex, !full && { width: Platform.OS === 'android' ? 300 : 280 }, style ]} onPress={onPress} activeOpacity={1}>
@@ -58,15 +54,6 @@ const CardAddress = ({
         {full && (
           <>
             <Text style={[ s.body1, s.overflow, s.mb1 ]} numberOfLines={3}>{description}</Text>
-            {/* <View style={[ s.row, s.itemsCenter, s.mt1 ]}>
-              <Text style={[ s.body2, s.grey ]}>
-                <Text style={[ tags.some(({ label }) => label.includes('€')) && s.black ]}>€</Text>
-                <Text style={[ tags.some(({ label }) => label.includes('€€')) && s.black ]}>€</Text>
-                <Text style={[ tags.some(({ label }) => label.includes('€€€')) && s.black ]}>€</Text>
-              </Text>
-              <View style={[ s.backgroundGreyLight, { width: 1, height: 14 }, s.mx1 ]} />
-              <Text style={[ s.body2, open ? s.primary : s.grey ]}>{openLabel}</Text>
-            </View> */}
           </>
         )}
       </View>
@@ -86,9 +73,6 @@ export function CardAddressSkeleton ({ onPress, full, style }) {
         {full && (
           <>
             <Text style={[ s.body1, { backgroundColor: 'rgba(0, 0, 0, 0.02)' }, s.mb1 ]} numberOfLines={3}>{'\n\n'}</Text>
-            {/* <View style={[ s.row, s.itemsCenter, s.mt1 ]}>
-              <Text style={[ s.body2, { backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '20%' } ]}>{' '}</Text>
-            </View> */}
           </>
         )}
       </View>
@@ -96,4 +80,4 @@ export function CardAddressSkeleton ({ onPress, full, style }) {
   )
 }
 
-export default CardAddress
+export default CardAddress;

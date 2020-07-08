@@ -1,9 +1,7 @@
-import React, { useState, useRef } from 'react'
-import { StyleSheet, View, ScrollView, Text, TouchableOpacity } from 'react-native'
-
+import React, { useRef } from 'react'
+import { View, ScrollView, Text, TouchableOpacity } from 'react-native'
 import Icon from "../../components/atoms/Icon"
 import * as s from '../../styles'
-
 
 export default function TagList ({ tags, setTags }) {
   const scrollViewRef = useRef(null)
@@ -15,7 +13,6 @@ export default function TagList ({ tags, setTags }) {
       horizontal
       showsHorizontalScrollIndicator={false}
       ref={scrollViewRef}
-      // onContentSizeChange={() => scrollViewRef.current.scrollToEnd()}
     >
       {Object.entries(tags).map(([ parent, children ]) => (
         children.map(label => (

@@ -1,9 +1,7 @@
 import React from "react"
 import { View, Text, TouchableOpacity } from 'react-native'
-
 import Icon from '../atoms/Icon'
 import * as s from '../../styles'
-
 
 function TabBar ({ state, descriptors, navigation }) {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
@@ -59,4 +57,4 @@ function TabBar ({ state, descriptors, navigation }) {
   );
 }
 
-export default TabBar
+export default TabBar;

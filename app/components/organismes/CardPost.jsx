@@ -1,15 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, ImageBackground, TouchableOpacity } from "react-native";
+import { Text, View, ImageBackground, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { themes } from '../../utils/wording'
-import Chip from "../atoms/Chip";
-import RoundButton from "../atoms/RoundButton";
-import Typo from "../atoms/Typography";
-import Icon from '../atoms/Icon';
-
 import * as s from '../../styles/index.js'
-
-
 
 const CardPost = ({
   large,

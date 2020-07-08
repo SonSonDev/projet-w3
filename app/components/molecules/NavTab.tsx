@@ -19,7 +19,6 @@ const Tab = ({ title, id, isActive, cb }: TabInterface): React.ReactElement => {
       alignItems: "center",
       borderBottomColor: isActive ? "#2C463C" : "#9E9794",
       borderBottomWidth: 2,
-      // boxSizing: "border-box",
     },
     text: {
       color: isActive ? "#2C463C" : "#9E9794",
