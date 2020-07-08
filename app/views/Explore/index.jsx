@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, ScrollView, Text, FlatList, Platform, TouchableOpacity, RefreshControl } from 'react-native'
+import { StyleSheet, View, ScrollView, Text, FlatList, Platform, RefreshControl } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import BottomSheet from 'reanimated-bottom-sheet'
 
@@ -40,9 +41,9 @@ export default function Explore ({ navigation }) {
     },
   })
 
-  const allTags = getTags
-    .filter(t => !category || t.category === category)
-    .filter(({ label }) => label !== 'Engagements')
+  const allTags = category
+    ? getTags.filter(t => t.category === category).filter(({ label }) => label !== 'Engagements')
+    : getTags.slice(0, 2)
 
   return (
     <View style={[ s.flex, s.backgroundPale ]}>
@@ -103,19 +104,19 @@ export default function Explore ({ navigation }) {
           </View>
         )}
         renderContent={() => (
-          <View style={[ s.backgroundWhite, s.p2, { minHeight: 348 } ]}>
+          <View style={[ s.backgroundWhite, { minHeight: 348 } ]}>
             {allTags.map(({ id, label: parent, children }) => (
-              <View key={id} style={[ s.mb2 ]}>
+              <View key={id} style={[ s.p2, s.borderBottom, { borderColor: s.c.bg } ]}>
                 <Text style={[ s.body2, s.bold, s.mb1 ]}>{parent}</Text>
                 <View style={[ s.row, { flexWrap: 'wrap' } ]}>
                   {children.map(({ id, label }) => (
                     <TouchableOpacity
                       style={[
-                        s.border, s.px2, s.py1, s.mr1, s.mb1, s.round2,
+                        s.border, s.px2, s.py1, s.mr05, s.mb05, s.round2,
                         tags[parent]?.includes(label) && [ s.backgroundPrimary, { borderColor: s.primary.color } ],
                       ]}
                       activeOpacity={1} key={id}
-                      onPress={() => setTags({
+                      onPressIn={() => setTags({
                         ...tags,
                         [parent]: tags[parent]?.includes(label)
                           ? tags[parent].filter(tag => tag !== label)

@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, Text, ImageBackground, TouchableOpacity } from 'react-native'
 
-import { categories, categoryIcons, dayIndexes, openOrClosed } from '../../utils/wording'
+import { categories, categoryIcons, dayIndexes, openOrClosed, restrictionIcons } from '../../utils/wording'
 
 import Chip from "../atoms/Chip"
 import RoundButton from "../atoms/RoundButton"
@@ -43,8 +43,14 @@ const CardAddress = ({
           <Text style={[ s.body2, s.primary, s.bold, s.mr1 ]}>{categories[category]}</Text>
           <Icon name="walk-fill" size={14} {...s.primary} style={[ s.mr05 ]} />
           <Text style={[ s.body2, s.primary, s.bold, s.mrAuto ]}>{Math.round(distance / 100)} min</Text>
-          {tags.some(({ label }) => label === 'Vegan') && <RoundButton backgroundColor="#DAEEE6" icon={<Icon name="leaf-fill" size={20} color="#0E562F" />} />}
-          {tags.some(({ label }) => label === 'Handicap moteur') && <RoundButton backgroundColor="#EDECF8" icon={<Icon name="wheelchair-fill" size={20} color="#463DAB" />} />}
+          {Object.entries(restrictionIcons).map(([ label, { icon, color } ]) =>
+            tags.some(t => t.label === label) && (
+            <RoundButton
+              backgroundColor={color === 'green' ? "#DAEEE6" : "#EDECF8"}
+              icon={<Icon name={icon} size={20} color={color === 'green' ? "#0E562F" : "#463DAB"} />}
+              key={`${name}_${label}`}
+            />
+          ))}
         </View>
         <Text style={[ s.heading5, s.mb05 ]} numberOfLines={1}>
           {name}

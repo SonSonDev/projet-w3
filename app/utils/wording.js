@@ -17,6 +17,14 @@ export const categorySubtitles = {
   ACTIVITY: { prefix: '', tag: 'Type d\'activité/loisir'},
 }
 
+export const restrictionIcons = {
+  'Vegan': { icon: 'leaf-fill', text: 'Option vegan', color: 'green' },
+  'Végétarien': { icon: 'seedling-fill', text: 'Option végétarienne', color: 'green' },
+  'Handicap moteur': { icon: 'wheelchair-fill', text: 'Accès handicap moteur', color: 'purple' },
+  'Handicap auditif': { icon: 'voiceprint-fill', text: 'Accès handicap auditif', color: 'purple' },
+  'Handicap visuel': { icon: 'eye-off-fill', text: 'Accès handicap visuel', color: 'purple' },
+}
+
 export const dayIndexes = {
   0: "SUNDAY",
   1: "MONDAY",
@@ -39,8 +47,8 @@ export const days = {
 
 export const prices = {
   '€': 'Prix bas',
-  '€€': 'Prix moyens',
-  '€€€': 'Prix élevés',
+  '€€': 'Prix moyen',
+  '€€€': 'Prix élevé',
 }
 
 export const themes = {

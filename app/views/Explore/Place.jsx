@@ -14,7 +14,7 @@ import { GET_PLACE, DELETE_PLACE, UPSERT_PLACES } from "../../graphql/place"
 import { GET_TAGS } from '../../graphql/tag'
 import { CHECK_LOCATION } from '../../graphql/user'
 import { CHECK_AUTH } from '../../graphql/auth'
-import { categories, categoryIcons, categorySubtitles, days, dayIndexes, openOrClosed, prices } from '../../utils/wording'
+import { categories, categoryIcons, categorySubtitles, days, dayIndexes, openOrClosed, prices, restrictionIcons } from '../../utils/wording'
 
 import Button from "../../components/atoms/Button"
 import RoundButton from "../../components/atoms/RoundButton"
@@ -36,7 +36,7 @@ export default function Place ({ route: { params: { place } }, navigation }) {
   const client = useApolloClient()
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
   const scrollViewRef = useRef(null)
-  const [ hoursCollapsed, setHoursCollapesed ] = useState(true)
+  const [ hoursCollapsed, setHoursCollapsed ] = useState(true)
   const { data: { getTags = [] } = {} } = useQuery(GET_TAGS, { variables: { where: { root: true } } })
   const [ tabIndex, setTabIndex ] = useState(0)
   const scroll = useRef(new Animated.Value(0)).current
@@ -90,20 +90,15 @@ export default function Place ({ route: { params: { place } }, navigation }) {
             </TouchableOpacity>
           </View>
 
-          <View style={[ s.row ]}>
-            {tags.some(({ label }) => label === 'Vegan') && (
-              <View style={[ s.row, s.my1, s.p1, { backgroundColor: "#DAEEE6" }, s.selfStart, s.round2, s.mr1 ]}>
-                <Icon name="leaf-fill" size={20} color="#0E562F" style={[ s.mr05 ]} />
-                <Text style={[ s.body2, s.bold, { color: "#0E562F" } ]}>Option vegan</Text>
+          <ScrollView style={[ s.row, { marginHorizontal: -s.s2 } ]} contentContainerStyle={[ s.px2 ]} horizontal showsHorizontalScrollIndicator={false}>
+            {Object.entries(restrictionIcons).map(([ label, { icon, text, color } ]) =>
+              tags.some(t => t.label === label) && (
+              <View style={[ s.row, s.my1, s.p1, { backgroundColor: color === 'green' ? "#DAEEE6" : "#EDECF8" }, s.selfStart, s.round2, s.mr1 ]} key={label}>
+                <Icon name={icon} size={20} color={color === 'green' ? "#0E562F" : "#463DAB"} style={[ s.mr05 ]} />
+                <Text style={[ s.body2, s.bold, { color: color === 'green' ? "#0E562F" : "#463DAB" } ]}>{text}</Text>
               </View>
-            )}
-            {tags.some(({ label }) => label === 'Handicap moteur') && (
-              <View style={[ s.row, s.my1, s.p1, { backgroundColor: "#EDECF8" }, s.selfStart, s.round2 ]}>
-                <Icon name="wheelchair-fill" size={20} color="#463DAB" style={[ s.mr05 ]} />
-                <Text style={[ s.body2, s.bold, { color: "#463DAB" } ]}>Accès handicap moteur</Text>
-              </View>
-            )}
-          </View>
+            ))}
+          </ScrollView>
           
           <Text style={[ s.heading2, s.mt1 ]}>
             {name}
@@ -121,7 +116,7 @@ export default function Place ({ route: { params: { place } }, navigation }) {
 
           <View>
             <View style={[ s.border, s.p2, s.roundTop3 ]}>
-              <TouchableOpacity onPress={() => setHoursCollapesed(!hoursCollapsed)} style={[ s.row, s.itemsCenter ]} activeOpacity={1}>
+              <TouchableOpacity onPress={() => setHoursCollapsed(!hoursCollapsed)} style={[ s.row, s.itemsCenter ]} activeOpacity={1}>
                 <Icon name="time-line" size={20} color={open ? '#1BC071' : s.grey.color} style={[ s.mr1 ]} />
                 <Text style={[ s.body1, s.bold ]}>{openLabel}</Text>
                 <Icon name={hoursCollapsed ? "arrow-drop-down-fill" : "arrow-drop-up-fill"} size={20} {...s.black} style={[ s.mlAuto ]} />

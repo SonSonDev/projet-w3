@@ -23,6 +23,16 @@ const users = [
 
 const defaultTags = {
   ACTIVITY: {
+    "Accessibilité": [
+      "Handicap moteur",
+      "Handicap auditif",
+      "Handicap visuel",
+    ],
+    "Prix": [
+      "€",
+      "€€",
+      "€€€",
+    ],
     "Type d'activité/loisir": [
       "Cuisine/dégustation",
       "Beauté/Bien-être",
@@ -37,11 +47,6 @@ const defaultTags = {
       "Sans gluten",
       "Vegan",
       "Végétarien",
-    ],
-    "Prix": [
-      "€",
-      "€€",
-      "€€€",
     ],
     "Engagements": {
       "Matériels/Équipement": {
@@ -77,24 +82,24 @@ const defaultTags = {
         "Dons à des associations - 1 acheté / 1 donné",
         "Dons à des associations - Partenariat Carillon",
       ],
-      "Accessibilité": [
-        "Handicap moteur",
-        "Handicap auditif",
-        "Handicap visuel",
-      ],
     },
   },
   SHOP: {
-    "Type de boutique": [
-      "Alimentaire",
-      "Hygiène/beauté",
-      "Mode",
-      "Maison",
+    "Accessibilité": [
+      "Handicap moteur",
+      "Handicap auditif",
+      "Handicap visuel",
     ],
     "Prix": [
       "€",
       "€€",
       "€€€",
+    ],
+    "Type de boutique": [
+      "Alimentaire",
+      "Hygiène/beauté",
+      "Mode",
+      "Maison",
     ],
     "Engagements": {
       "Marchandise": {
@@ -138,13 +143,18 @@ const defaultTags = {
         "Dons à des associations - Partenariat Carillon",
       ],
     },
+  },
+  FOOD: {
     "Accessibilité": [
       "Handicap moteur",
       "Handicap auditif",
       "Handicap visuel",
     ],
-  },
-  FOOD: {
+    "Prix": [
+      "€",
+      "€€",
+      "€€€",
+    ],
     "Type de restaurant": [
       "Classique",
       "Fast good/Healthy",
@@ -168,11 +178,6 @@ const defaultTags = {
       "Sans gluten",
       "Vegan",
       "Végétarien",
-    ],
-    "Prix": [
-      "€",
-      "€€",
-      "€€€",
     ],
     "Engagements": {
       "Produits": {
@@ -218,11 +223,6 @@ const defaultTags = {
         "Dons à des associations - Partenariat Carillon",
       ],
     },
-    "Accessibilité": [
-      "Handicap moteur",
-      "Handicap auditif",
-      "Handicap visuel",
-    ],
   },
 }
 
