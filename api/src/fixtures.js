@@ -379,10 +379,10 @@ const defaultRewards = {
 - un bidon\n\n
 - une étiquette\n\n
 ## Préparation :\n\n
-1. Tamiser la cendre avec le tamis afin de ne conserver que la cendre fine, sans morceaux.\n\n
-2. Chauffer l’eau et, dès que les bulles apparaissent, la verser sur la cendre, dans le récipient de préparation. Mélanger.\n\n
-3. Laisser macérer à couvert pendant 24 à 48 heures.\n\n
-4. Enfiler les gants (le mélange peut être irritant) et filtrer la préparation à l’aide du filtre et la verser dans le bidon. Pour plus de facilité, on peut utiliser un entonnoir et placer le filtre dedans.\n\n
+1. Tamiser la cendre avec le tamis afin de ne conserver que la cendre fine, sans morceaux.
+2. Chauffer l’eau et, dès que les bulles apparaissent, la verser sur la cendre, dans le récipient de préparation. Mélanger.
+3. Laisser macérer à couvert pendant 24 à 48 heures.
+4. Enfiler les gants (le mélange peut être irritant) et filtrer la préparation à l’aide du filtre et la verser dans le bidon. Pour plus de facilité, on peut utiliser un entonnoir et placer le filtre dedans.
 5. Etiqueter le bidon.\n\n
 ## Utilisation :\n\n
 Utiliser 150 à 300 ml de lessive par machine (à ajuster et tester en fonction de la saleté du linge et de l’essence de bois utilisée pour fabriquer la lessive). On pense à se protéger avec des gants car la lessive à la cendre peut irriter la peau. Et on garde hors de portée des enfants.\n\n
@@ -487,15 +487,15 @@ On peut acheter tous ces ingrédients en magasin bio, en herboristerie, en pharm
 - un flacon ou un pot de récup’, de préférence en verre teinté\n\n
 - une étiquette\n\n
 ## Préparation :\n\n
-1. Bien se laver les mains au savon. Désinfecter TOUT le matériel à l’aide de l’alcool. Pour le matériel résistant à la chaleur, on peut aussi le plonger dans une eau en ébullition pendant 10 minutes avant de le sécher soigneusement. On pense bien à tout, y compris l’assiette ou le bol où l’on posera la cuillère et le fouet. Une bonne désinfection du matériel limite les bactéries et aide à conserver la crème.\n\n
-2. Mettre un poêlon à chauffer au bain-marie. Verser l’huile et la cire d’abeille (on appelle cela la phase huileuse).\n\n
-3. Faire fondre en remuant jusqu’à une température d’environ 60°C, c’est-à-dire jusqu’à ce que la cire soit totalement fondue.\n\n
-4. De la même façon, mettre le second poêlon au bain-marie et y faire chauffer l’eau ou l’ hydrolat (la phase aqueuse).\n\n
-5. Quand les deux mélanges sont chauds, retirer du feu.\n\n
-6. Verser l’eau par petites quantités dans la phase huileuse et fouetter sans arrêt.\n\n
-7. Continuer à fouetter jusqu’à ce que les ingrédients soient liés et le mélange tiédi. Pour aider l’émulsion à prendre, on peut plonger son récipient dans un bain-marie d’eau froide, sans cesser de fouetter.\n\n
-8. Ajouter l’extrait de pépin de pamplemousse.\n\n
-9. Mélanger une dernière fois et transvaser dans le flacon.\n\n
+1. Bien se laver les mains au savon. Désinfecter TOUT le matériel à l’aide de l’alcool. Pour le matériel résistant à la chaleur, on peut aussi le plonger dans une eau en ébullition pendant 10 minutes avant de le sécher soigneusement. On pense bien à tout, y compris l’assiette ou le bol où l’on posera la cuillère et le fouet. Une bonne désinfection du matériel limite les bactéries et aide à conserver la crème.
+2. Mettre un poêlon à chauffer au bain-marie. Verser l’huile et la cire d’abeille (on appelle cela la phase huileuse).
+3. Faire fondre en remuant jusqu’à une température d’environ 60°C, c’est-à-dire jusqu’à ce que la cire soit totalement fondue.
+4. De la même façon, mettre le second poêlon au bain-marie et y faire chauffer l’eau ou l’ hydrolat (la phase aqueuse).
+5. Quand les deux mélanges sont chauds, retirer du feu.
+6. Verser l’eau par petites quantités dans la phase huileuse et fouetter sans arrêt.
+7. Continuer à fouetter jusqu’à ce que les ingrédients soient liés et le mélange tiédi. Pour aider l’émulsion à prendre, on peut plonger son récipient dans un bain-marie d’eau froide, sans cesser de fouetter.
+8. Ajouter l’extrait de pépin de pamplemousse.
+9. Mélanger une dernière fois et transvaser dans le flacon.
 10. Étiqueter sans oublier d’indiquer la date de fabrication.\n\n
 ## Utilisation :\n\n
 Comme pour tout nouveau cosmétique, on réalise d’abord un test allergique avant d’enduire tout son corps. C’est simple : on applique une petite quantité de produit dans le creux du bras. Si après 24 heures, aucun problème n’apparaît (rougeur, boutons, démangeaison, gonflement…), on peut utiliser le produit.\n\n
@@ -566,12 +566,12 @@ On trouve ces ingrédients en magasin bio, en herboristerie, en pharmacie ou sur
 - un tube de baume ou rouge à lèvres (par exemple de récup’ bien lavé). On peut aussi utiliser un petit pot (type en verre) mais l’idéal sera alors de prélever du baume avec une petite cuillère, sans mettre le doigt dans le pot pour éviter des contaminations.\n\n
 - une étiquette\n\n
 ## Préparation :\n\n
-1. Bien se laver les mains au savon. Désinfecter la cuillère, le poêlon et le tube avec l’alcool. On en étale bien partout. Une alternative est aussi de plonger ces ustensiles dans de l’eau en ébullition pendant 10 minutes avant de les sécher soigneusement. Attention à ce que tout résiste à la chaleur (pas de tube avec du plastique par exemple).\n\n
-2. Mettre le poêlon à chauffer au bain-marie.\n\n
-3. Verser l’huile et la cire d’abeille et faire chauffer jusqu’à ce que la cire soit totalement fondue.\n\n
-4. Mélanger puis verser dans le flacon.\n\n
+1. Bien se laver les mains au savon. Désinfecter la cuillère, le poêlon et le tube avec l’alcool. On en étale bien partout. Une alternative est aussi de plonger ces ustensiles dans de l’eau en ébullition pendant 10 minutes avant de les sécher soigneusement. Attention à ce que tout résiste à la chaleur (pas de tube avec du plastique par exemple).
+2. Mettre le poêlon à chauffer au bain-marie.
+3. Verser l’huile et la cire d’abeille et faire chauffer jusqu’à ce que la cire soit totalement fondue.
+4. Mélanger puis verser dans le flacon.
 5. Étiqueter sans oublier d’indiquer la date de fabrication.\n\n
-Utilisation :\n\n
+## Utilisation :\n\n
 On réalise un test allergique avant d’utiliser le produit : on applique une petite quantité de produit dans le creux du bras. Si après 24 heures, aucun problème n’apparaît (rougeur, boutons, démangeaison, gonflement…), on peut s’en tartiner la bouche.\n\n
       `,
     },
@@ -638,11 +638,11 @@ Ou bien un peu de cannelle en poudre, d'essence d'orange ou encore de gingembre 
 - 2 bocaux de récup en verre (d’une contenance d’environ 250ml).\n\n
 - Quelques couverts\n\n
 ## Recette :\n\n
-1. Faire fondre le chocolat avec le beurre. L’idéal c’est le bain-marie. On peut aussi faire fondre le chocolat directement dans un poêlon sur le feu ou au micro-ondes mais il faut être très attentif à ne pas le brûler.\n\n
-2. Bien mélanger jusqu’à avoir un résultat homogène.\n\n
-3. Couper le feu et ajouter le lait concentré sucré.\n\n
-4. Optionnel : ajouter la purée de noisettes (préalablement mélangée si elle est stockée depuis un moment dans l’armoire et s’est « déphasée ») ou les autres ingrédients pour personnaliser la pâte à tartiner (cannelle en poudre, écorces d’oranges confites…).\n\n
-5. Bien mélanger.\n\n
+1. Faire fondre le chocolat avec le beurre. L’idéal c’est le bain-marie. On peut aussi faire fondre le chocolat directement dans un poêlon sur le feu ou au micro-ondes mais il faut être très attentif à ne pas le brûler.
+2. Bien mélanger jusqu’à avoir un résultat homogène.
+3. Couper le feu et ajouter le lait concentré sucré.
+4. Optionnel : ajouter la purée de noisettes (préalablement mélangée si elle est stockée depuis un moment dans l’armoire et s’est « déphasée ») ou les autres ingrédients pour personnaliser la pâte à tartiner (cannelle en poudre, écorces d’oranges confites…).
+5. Bien mélanger.
 6. Remplir les deux pots et étiqueter avec le nom et la date de préparation. Mettre un des deux pots au frigo.\n\n
 ## Utilisation :\n\n
 Comme toutes les pâtes à tartiner : sur du pain, des crêpes… ou pur, à la cuillère, pour les plus décadent·e·s.\n\n

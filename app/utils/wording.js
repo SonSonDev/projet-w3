@@ -127,5 +127,6 @@ export const markdownStyles = {
   heading2: [ s.heading4, s.mt3, s.mb1 ],
   text: [ s.body1, { lineHeight: 24 } ],
   listItemBullet: [ s.mx1, s.heading5, s.selfStart ],
+  listItemNumber: [ s.ml1, s.heading5, s.selfStart ],
   listItemText: [ s.pr3 ],
 }
