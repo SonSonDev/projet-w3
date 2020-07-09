@@ -2,6 +2,7 @@ import React, { useState, useRef }  from "react";
 import { View, ScrollView, Text, Image, FlatList, StatusBar, Animated } from "react-native";
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { useApolloClient } from "@apollo/react-hooks"
+import Markdown from 'react-native-simple-markdown'
 
 import * as s from "../styles";
 import { GET_ARTICLE, GET_ARTICLES } from "../graphql/article";
@@ -9,7 +10,7 @@ import Button from "../components/atoms/Button";
 import CardPost from "../components/organismes/CardPost";
 import { CardAddressSkeleton } from "../components/organismes/CardAddress";
 import CardQuizz from '../components/organismes/CardQuizz.jsx';
-import { themes } from '../utils/wording';
+import { themes, markdownStyles } from '../utils/wording';
 import { VALIDATE_QUIZ } from "../graphql/user"
 import { CHECK_AUTH } from "../graphql/auth"
 
@@ -128,7 +129,9 @@ export default function Article({ route: { params: { article } }, navigation }) 
         >
           <Text style={[s.body2, s.mb1]}>{themes[theme]}</Text>
           <Text style={[s.heading1, s.mb3]}>{title}</Text>
-          <Text style={[s.body1, s.mb1]}>{content}</Text>
+          <Markdown styles={markdownStyles}>
+            {content}
+          </Markdown>
         </View>
   
         {/* Section QUIZ */}

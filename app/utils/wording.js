@@ -1,4 +1,6 @@
 import React from "react";
+import * as s from '../styles'
+
 import IllustrationChallengeAlimentation from "../assets/img/illu-challenge_alimentation.svg"
 import IllustrationChallengeConso from "../assets/img/illu-challenge_conso.svg"
 import IllustrationChallengeEau from "../assets/img/illu-challenge_eau.svg"
@@ -119,4 +121,11 @@ export const contextualisation = () => {
     return { title: 'L’heure de dîner', category: 'FOOD', greeting: 'Bonsoir' }
   else
     return { title: 'Bonne soirée', category: undefined, greeting: 'Vous voilà' }
+}
+
+export const markdownStyles = {
+  heading2: [ s.heading4, s.mt3, s.mb1 ],
+  text: [ s.body1, { lineHeight: 24 } ],
+  listItemBullet: [ s.mx1, s.heading5, s.selfStart ],
+  listItemText: [ s.pr3 ],
 }
