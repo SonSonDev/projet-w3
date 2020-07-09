@@ -14,7 +14,7 @@ import format from "date-fns/format"
 import { fr } from 'date-fns/locale'
 import { useApolloClient } from "@apollo/react-hooks"
 
-import { challengeContent } from "../utils/wording"
+import { challengeContent, contextualisation } from "../utils/wording"
 import VectChallenges from "../assets/img/vect-challenges.svg";
 import Blob from "../assets/img/blob.svg";
 import IconWinner from "../assets/img/ic-winner.svg";
@@ -104,7 +104,7 @@ export default function Challenges({ navigation }) {
     <ScrollView style={[s.flex, s.backgroundPale]} stickyHeaderIndices={[0]}>
       <View style={[s.backgroundPale]}>
         <Text style={[s.body2, s.px2, s.pt3]}>
-          Bonjour {userData?.firstName}
+          {contextualisation().greeting || 'Bonjour'} {userData?.firstName}
         </Text>
         <Text style={[s.heading4, s.px2, s.mb1]}>
           Tes défis éco-responsables de la semaine

@@ -21,6 +21,7 @@ import Explore from './views/Explore'
 import Place from './views/Explore/Place'
 import Profile from './views/Profile'
 import Settings from './views/Profile/Settings'
+import Rewards from './views/Profile/Rewards'
 import Article from './views/Article'
 
 import Header from './components/organismes/Header'
@@ -110,6 +111,7 @@ function ProfileNavigator () {
   return (
     <Stack.Navigator>
       <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Rewards" component={Rewards} />
       <Tab.Screen name="Settings" component={Settings} />
     </Stack.Navigator>
   )

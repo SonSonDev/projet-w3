@@ -4,10 +4,12 @@ import { useQuery, useMutation } from "@apollo/react-hooks"
 import { useApolloClient } from "@apollo/react-hooks"
 import * as SecureStore from 'expo-secure-store'
 import Constants from 'expo-constants'
+import * as fns from "date-fns"
 
 import { GET_PLACES, DELETE_PLACE, UPSERT_PLACES } from "../../graphql/place"
 import { CHECK_AUTH } from "../../graphql/auth"
 import { GET_TAGS } from '../../graphql/tag'
+import { GET_REWARDS } from '../../graphql/reward'
 import { categoryIcons, categorySubtitles } from '../../utils/wording'
 
 import Button from "../../components/atoms/Button"
@@ -24,7 +26,9 @@ export default function Profile ({ navigation }) {
   const client = useApolloClient()
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
   const { data: { getTags = [] } = {} } = useQuery(GET_TAGS, { variables: { where: { root: true } } })
-  // console.log(userData)
+  const { data: { getRewards = [] } = {} } = useQuery(GET_REWARDS)
+  const weekPoints = userData?.history?.filter(item => fns.getWeek(Number(item.date), { weekStartsOn: 1 }) === fns.getWeek(Date.now(), { weekStartsOn: 1 })).reduce((acc, cur) => acc + cur.bounty, 0)
+  console.log(getRewards)
   return (
     <ScrollView style={[ s.flex, s.backgroundPale ]} contentContainerStyle={[  ]} stickyHeaderIndices={[0]}>
       
@@ -67,11 +71,19 @@ export default function Profile ({ navigation }) {
         <View style={[ s.flex, s.round3, s.mx2, s.p2, {backgroundColor: '#FBEAE9', overflow: 'hidden'}]}>
           { challengeContent[userData?.company.currentTheme]?.illustation([s.absolute, { bottom: -32, right: -32 }]) }
           <VectChallenges style={[s.absolute, s.bottom, s.left]} />
-          <Text style={[s.heading2, { color: '#B4543A' }]}>{ challengeContent[userData?.company.currentTheme]?.title }</Text>
-          <Text style={[s.mt05, s.mb2, s.body2, { width: '60%' }]}>{ challengeContent[userData?.company.currentTheme]?.text }</Text>
-          <TouchableOpacity style={[ s.mtAuto, s.backgroundPrimary, s.px2, s.py1, s.selfStart, s.round2 ]}>
-            <Text style={[ s.heading6, s.white, s.py05 ]}>Récompenses</Text>
-          </TouchableOpacity>
+          <Text style={[s.heading2, s.primary ]}>
+            { challengeContent[userData?.company.currentTheme]?.title } <Text style={[ s.heading6, s.primary, { letterSpacing: 0 } ]}>
+              {userData?.history.filter(({ originId }) => userData?.company.challenges.some(({ id }) => id === originId)).length}/{userData?.company.challenges.length}
+            </Text>
+          </Text>
+          <Text style={[s.mt05, s.mb3, s.body2, { width: '60%' }]}>{ challengeContent[userData?.company.currentTheme]?.text }</Text>
+          {!!getRewards.filter(({ value }) => weekPoints >= value).length && (
+            <TouchableOpacity style={[ s.mtAuto, s.backgroundPrimary, s.px2, s.py1, s.selfStart, s.round2 ]} activeOpacity={1}
+              onPress={() => navigation.navigate('Rewards')}
+            >
+              <Text style={[ s.heading6, s.white, s.py05 ]}>Récompenses</Text>
+            </TouchableOpacity>
+          )}
         </View>
       ) : (
         userData?.history.filter(e => e.originType === "PLACE").length ? (
