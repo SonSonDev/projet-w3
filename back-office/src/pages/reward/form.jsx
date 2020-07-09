@@ -92,8 +92,8 @@ const RewardForm = ({ history, match: { params: { id } } }) => {
 
   const onDelete = id && (async () => {
     try {
-      await deleteReward({ variables: { where: { id } } })
-      history.push("/articles")
+      await deleteReward({ variables: { id } })
+      history.push("/rewards")
       setToast({ type: "success" })
     } catch (error) {
       setToast({ type: "danger" })
