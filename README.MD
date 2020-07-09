@@ -15,19 +15,32 @@ On utilise le fichier `.env` pour contenir les variables d'environnement nécess
 - __ansible__ pour le déploiement des projets sur ces instances
 - __github-actions__ pour le déploiement continu lorsqu'on met à jour le projet sur la branch __master__
 
-Copiez le fichier `.env-example` et renommez le `.env` et remplissez le avec les variables nécessaires.
+Copiez le fichier `.env-example` et renommez le `.env` et remplissez le avec les variables d'environnement.
 
-Puis encryptez le avec __ansible-vault__
+
+### ⚠️ Attention
+
+Pour exécuter le script __terraform__, il est nécessaire d'avoir entrer les variables :
+- __AWS_ACCESS_KEY_ID__
+- __AWS_SECRET_ACCESS_KEY__
+- __SSH_PUBLIC_KEY__
+- __SSH_PRIVATE_KEY__
+
+Pour exécuter le playbook __Ansible__ et pour le bon fonctionnement de l'application, toutes les variables sont nécessaires (à l'exception de FRONT_URL et API_URL).
+
+Après avoir rempli le fichier `.env`, avant d'exécuter ces scripts, il faut exporter toutes les variables d’environnement.
+```
+set -a && source .env && set +a
+```
+
+Pour faire fonctionner __github-actions__, il faut encrypter le fichier `.env` avec __ansible-vault__
 ```
 ansible-vault encrypt .env --output .env.encrypted --ask-vault-pass
 ```
+Ajoutez ensuite le mot de passe utilisé pour encrypter le fichier `.env` dans __VAULT_PASS__ dans les Secrets du projet Github.
 
-Pour faire fonctionner __github-actions__, ajoutez le mot de passe utilisé pour encrypter le fichier `.env` dans __VAULT_PASS__ dans les Secrets du projet Github.
-
-
-### Variables d'environnement
-
-Les variables sont à rentrer dans le fichier `.env`
+---
+### 🧩 Variables d'environnement
 
 #### 📦 Amazon Web Services
 On utilise les __services d'Amazon__ pour créer et gérer les différentes instances de l'applications. __terraform__ et __Ansible__ ont besoin d'identifiants pour se connecter aux services d'Amazon et gérer ces instances.
@@ -98,6 +111,7 @@ Si des noms de domaines particuliers sont désirés pour l'API et le Back-office
 - __FRONT_URL__ : URL du back-office
 - __API_URL__ : URL de l'API
 
+---
 
 ## Developpement
 
