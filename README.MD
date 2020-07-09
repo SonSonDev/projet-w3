@@ -27,6 +27,8 @@ Pour faire fonctionner __github-actions__, ajoutez le mot de passe utilisé pour
 
 ### Variables d'environnement
 
+Les variables sont à rentrer dans le fichier `.env`
+
 #### 📦 Amazon Web Services
 On utilise les __services d'Amazon__ pour créer et gérer les différentes instances de l'applications. __terraform__ et __Ansible__ ont besoin d'identifiants pour se connecter aux services d'Amazon et gérer ces instances.
 
@@ -63,7 +65,7 @@ On utilise __mongoDB__ pour la base de données. Les variables à choisir sont :
 - __MONGO_INITDB_ROOT_PASSWORD__ : Mot de passe pour accéder à la base de données
 
 
-#### 💾 Prisma
+#### 💎 Prisma
 On utilise __Prisma__ ([Documentation](https://www.prisma.io/docs/)) qui permet de faire des requêtes de l'API vers la base de données avec une syntaxe objet. La variable à choisir est :
 - __PRISMA_SECRET__
 
@@ -89,6 +91,12 @@ On utilise l'__API Google Maps__ ([Documentation](https://developers.google.com/
 On utilise __Expo__ ([Documentation](https://docs.expo.io/)) pour développer l'application en __React Native__ et pour déployer l'application avec github-actions lors d'un push sur la branche master. Il faut créer un compte Expo. La variable nécessaire est :
 - __EXPO_USERNAME__ : Nom d'utilsateur Expo
 - __EXPO_PASSWORD__ : Mot de passe Expo
+
+
+#### 🌐 Noms de domaine
+Si des noms de domaines particuliers sont désirés pour l'API et le Back-office, les variables sont :
+- __FRONT_URL__ : URL du back-office
+- __API_URL__ : URL de l'API
 
 
 ## Developpement
