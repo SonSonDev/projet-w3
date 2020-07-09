@@ -12,6 +12,7 @@ import getWeek from "date-fns/getWeek"
 import setDay from "date-fns/setDay"
 import format from "date-fns/format"
 import { fr } from 'date-fns/locale'
+import { useApolloClient } from "@apollo/react-hooks"
 
 import { challengeContent } from "../utils/wording"
 import VectChallenges from "../assets/img/vect-challenges.svg";
@@ -28,6 +29,7 @@ import * as fns from "date-fns";
 
 /* Page défis */
 export default function Challenges({ navigation }) {
+  const client = useApolloClient()
   /* Informations de l'utilisateur */
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
   const weekPoints = userData?.history?.filter(item => getWeek(Number(item.date)) === getWeek(Date.now()))
@@ -224,9 +226,9 @@ export default function Challenges({ navigation }) {
           <FlatList
             style={[s.mx2, s.p2, s.backgroundWhite, s.round3, s.mb2]}
             data={userData.company.users
-              .map(({ firstName, history, lastName }) => {
+              .map(({ id, firstName, history, lastName }) => {
                 if (history.length <= 0) {
-                  return { firstName, lastName, pts: "0" };
+                  return { id, firstName, lastName, pts: "0" };
                 } else {
                   const data = history.filter(({ date }) => {
                     const msDate = new Date(parseInt(date));
@@ -236,7 +238,7 @@ export default function Challenges({ navigation }) {
                   const msgTotal = data.reduce((prev, cur) => {
                     return prev + cur.bounty;
                   }, 0);
-                  return { firstName, lastName, pts: msgTotal };
+                  return { id, firstName, lastName, pts: msgTotal };
                 }
               })
               .sort((a, b) => b.pts - a.pts)}
@@ -255,14 +257,14 @@ export default function Challenges({ navigation }) {
                 {index === 0 ? (
                   <IconWinner />
                 ) : (
-                  <Text style={[s.bold, { width: 22, textAlign: "center" }]}>
+                  <Text style={[s.bold, { width: 22, textAlign: "center" }, item.id === userData.id && s.primary]}>
                     {index + 1}
                   </Text>
                 )}
-                <Text style={[s.pl2, s.bold, index === 0 && s.white]}>
+                <Text style={[s.pl2, s.bold, item.id === userData.id && s.primary, index === 0 && s.white]}>
                   {item.firstName} {item.lastName}
                 </Text>
-                <Text style={[index === 0 && s.white, { marginLeft: "auto" }]}>
+                <Text style={[item.id === userData.id && s.primary, index === 0 && s.white, { marginLeft: "auto" }]}>
                   {item.pts} pts
                 </Text>
               </View>

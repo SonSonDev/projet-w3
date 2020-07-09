@@ -5,7 +5,7 @@ import BottomSheet from 'reanimated-bottom-sheet'
 
 import { GET_PLACES, DELETE_PLACE, UPSERT_PLACES } from "../../graphql/place"
 import { CHECK_AUTH } from "../../graphql/auth"
-import { categories, categoryIcons } from '../../utils/wording'
+import { categories, categoryIcons, contextualisation } from '../../utils/wording'
 import { GET_TAGS } from '../../graphql/tag'
 
 import Button from "../../components/atoms/Button"
@@ -22,7 +22,7 @@ export default function Explore ({ navigation }) {
 
   const { data: { getTags = [] } = {} } = useQuery(GET_TAGS, { variables: { where: { root: true } } })
 
-  const [ category, setCategory ] = useState('FOOD')
+  const [ category, setCategory ] = useState(contextualisation()?.category)
   const [ tags, setTags ] = useState(getTags.reduce((acc, { id, label: parent, children }) => ({ ...acc, [parent]: userData?.tags.filter(tag => children.some(({ label }) => tag === label)) }), {}))
 
   /* Information de la liste d'adresses */

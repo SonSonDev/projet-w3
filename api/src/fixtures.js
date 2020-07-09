@@ -2,6 +2,8 @@ const bcrypt = require("bcryptjs")
 const faker = require("faker/locale/fr")
 const { prisma } = require("./generated/prisma-client")
 const { mutations: { setAllCompaniesChallenges }} = require("./resolvers/company.js")
+const subDays = require("date-fns/sub_days")
+
 function shuffle(array) {
   return array.sort(() => Math.random() - 0.5)
 }
@@ -322,7 +324,7 @@ const companies = [
   ],
 ]
 
-const challenges = [
+const defaultChallenges = [
   ["Vider sa corbeille de mails",                   "Clique sur un bouton.",                                                                10,       "ENERGY"],
   ["Utilise moins ta voiture",                      "Va au travail à pied, c'est bon pour la santé.",                                       10,       "ENERGY"],
   ["Mange ton déjeuner froid",                      "Ne fais pas chauffer ou cuire ton manger, ça consomme l'énergie Mako.",                20,       "ENERGY"],
@@ -468,6 +470,13 @@ async function populateDb () {
       tags: { connect: tags.filter(t => t.category === category && Math.random() < 0.2 || t.label === "€€").map(({ id }) => ({ id })) },
     })
   }
+
+  const challenges = await Promise.all(
+    defaultChallenges.map(([ name, description, value, theme ]) => (
+      prisma.createChallenge({ name, description, value, theme })
+    )),
+  )
+
   const companiesId = []
   for (const [ name, type, [ street, zipCode, city ], [ lastName, firstName, email, phone, password ], emailDomains, coordinates, stripeCustomerId ] of companies) {
     const { id } = await prisma.createCompany({
@@ -485,6 +494,14 @@ async function populateDb () {
         password: await bcrypt.hash(password, 10),
         role: "ADMIN",
         isRepresentative: true,
+        history: {
+          create: challenges.map(({ id, value }, i) => Math.random() < 0.5 && ({
+            bounty: value,
+            originType: "CHALLENGE",
+            originId: id,
+            date: String(subDays(new Date(), i)),
+          })).filter(Boolean),
+        },
       } },
       emailDomains: { set: emailDomains },
       stripeCustomerId,
@@ -492,9 +509,6 @@ async function populateDb () {
     companiesId.push(id)
   }
 
-  for (const [ name, description, value, theme ] of challenges) {
-    await prisma.createChallenge({ name, description, value, theme })
-  }
   await setAllCompaniesChallenges(null, null, { prisma })
 
   const articles = await Promise.all(defaultArticles.map(article => {

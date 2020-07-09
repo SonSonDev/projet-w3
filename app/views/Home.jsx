@@ -12,11 +12,11 @@ import * as s from "../styles";
 import { CHECK_AUTH } from '../graphql/auth';
 import { GET_TAGS } from '../graphql/tag';
 
-import { challengeContent } from "../utils/wording"
+import { challengeContent, contextualisation } from "../utils/wording"
 
 /* Page d'accueil */
 export default function Home({ navigation }) {
-
+  const { title, category, greeting } = contextualisation()
   /* Informations de l'utilisateur */
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
 
@@ -30,7 +30,7 @@ export default function Home({ navigation }) {
       onError: (error) => console.log(error.message),
       variables: {
         where: {
-          category: "FOOD",
+          category,
           tags: Object.values(
             getTags.reduce((acc, { id, label: parent, children }) => ({ ...acc, [parent]: userData?.tags.filter(tag => children.some(({ label }) => tag === label)) }), {})
           ).filter(t => t?.length).map(label_in => ({ label_in }))
@@ -51,9 +51,9 @@ export default function Home({ navigation }) {
   return (
     <ScrollView style={[s.flex, s.backgroundPale]} stickyHeaderIndices={[0]}>
       <View style={[ s.backgroundPale ]}>
-        <Text style={[s.body2, s.px2, s.pt3]}>Bonjour {userData?.firstName}</Text>
+        <Text style={[s.body2, s.px2, s.pt3]}>{greeting || 'Bonjour'} {userData?.firstName}</Text>
         <Text style={[s.heading4, s.px2, s.mb2]}>
-          C’est l’heure du déjeuner !
+          {title}
         </Text>
       </View>
 

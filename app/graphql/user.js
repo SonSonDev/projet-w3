@@ -14,14 +14,6 @@ export const userFragment = gql`
     company {
       id
       name
-      users {
-        firstName
-        lastName
-        history {
-          bounty
-          date
-        }
-      }
       address {
         street
         zipCode
@@ -46,12 +38,6 @@ export const userFragment = gql`
         description
         value
       }
-    }
-    history {
-      bounty
-      originType
-      originId
-      date
     }
     history {
       bounty

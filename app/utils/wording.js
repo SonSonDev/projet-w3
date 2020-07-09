@@ -104,3 +104,19 @@ export const challengeContent = {
     illustation: (style) => <IllustrationChallengeEnergie style={style} />,
   },
 }
+
+export const contextualisation = () => {
+  const currentHour = new Date().getHours()
+  if (currentHour < 6)
+    return { title: 'Au dodo', category: undefined, greeting: 'Vous voilà' }
+  if (currentHour < 12)
+    return { title: 'Pour bien commencer la journée', category: 'ACTIVITY' }
+  if (currentHour < 15)
+    return { title: 'C’est l’heure du déjeuner !', category: 'FOOD' }
+  if (currentHour < 19)
+    return { title: 'Après midi en douceur', category: 'SHOP' }
+  if (currentHour < 21)
+    return { title: 'L’heure de dîner', category: 'FOOD', greeting: 'Bonsoir' }
+  else
+    return { title: 'Bonne soirée', category: undefined, greeting: 'Vous voilà' }
+}
