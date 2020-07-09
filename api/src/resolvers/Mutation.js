@@ -7,6 +7,7 @@ const { mutations: tagMutations } = require("./tag")
 const { mutations: challengeMutations } = require("./challenge")
 const { mutations: articleMutations } = require("./article")
 const { mutations: authMutation } = require("./auth")
+const { mutations: rewardMutations } = require("./reward")
 
 async function updateHour(_, { id, day, start, end }, context) {
   return await context.prisma.updatePlace({
@@ -54,4 +55,5 @@ module.exports = {
   ...challengeMutations,
   ...articleMutations,
   ...authMutation,
+  ...rewardMutations,
 }

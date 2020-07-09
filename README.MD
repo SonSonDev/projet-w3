@@ -15,12 +15,12 @@ On utilise le fichier `.env` pour contenir les variables d'environnement nécess
 - __ansible__ pour le déploiement des projets sur ces instances
 - __github-actions__ pour le déploiement continu lorsqu'on met à jour le projet sur la branch __master__
 
-Copiez le fichier `.env-example` et renommez le `.env` et remplissez le avec les variables d'environnement.
+Copiez le fichier `.env-example` et renommez-le `.env` et remplissez le avec les variables d'environnement.
 
 
 ### ⚠️ Attention
 
-Pour exécuter le script __terraform__, il est nécessaire d'avoir entrer les variables :
+Pour exécuter le script __terraform__, il est nécessaire d'avoir entré les variables :
 - __AWS_ACCESS_KEY_ID__
 - __AWS_SECRET_ACCESS_KEY__
 - __SSH_PUBLIC_KEY__
@@ -43,7 +43,7 @@ Ajoutez ensuite le mot de passe utilisé pour encrypter le fichier `.env` dans _
 ### 🧩 Variables d'environnement
 
 #### 📦 Amazon Web Services
-On utilise les __services d'Amazon__ pour créer et gérer les différentes instances de l'applications. __terraform__ et __Ansible__ ont besoin d'identifiants pour se connecter aux services d'Amazon et gérer ces instances.
+On utilise les __services d'Amazon__ pour créer et gérer les différentes instances de l'application. __terraform__ et __Ansible__ ont besoin d'identifiants pour se connecter aux services d'Amazon et gérer ces instances.
 
 Il est nécessaire de créer un __utilisateur IAM__ avec les permissions :
 - AmazonEC2FullAccess
@@ -63,11 +63,11 @@ Une fois les instances créées via __terraform__, pour utiliser le Bucket S3 po
 
 #### 🐳 Docker
 On utilise __Docker__ pour monter différentes parties de l'application :
-- une serveur API en __GraphQL__ utilisant __Prisma__ et __Mongoose__
+- un serveur API en __GraphQL__ utilisant __Prisma__ et __Mongoose__
 - une Base de données __mongoDB__
 - le Back-Office, développé en __React__, servi avec un serveur __Nginx__
 
-Il faut créer un compte __Docker Hub__ sur lequel seront stockés les images construites lors de l'éxecution des scripts __ansible__ ou __github-actions__. Les variables nécessaires sont :
+Il faut créer un compte __Docker Hub__ sur lequel seront stockés les images construites lors de l'exécution des scripts __ansible__ ou __github-actions__. Les variables nécessaires sont :
 - __DOCKER_USERNAME__ : Nom d'utilisateur du compte Docker Hub
 - __DOCKER_PASSWORD__ : Mot de passe du compte Docker Hub
 
@@ -106,14 +106,14 @@ On utilise __Expo__ ([Documentation](https://docs.expo.io/)) pour développer l'
 - __EXPO_PASSWORD__ : Mot de passe Expo
 
 
-#### 🌐 Noms de domaine
+#### 🌐 Noms de domaines
 Si des noms de domaines particuliers sont désirés pour l'API et le Back-office, les variables sont :
 - __FRONT_URL__ : URL du back-office
 - __API_URL__ : URL de l'API
 
 ---
 
-## Developpement
+## Développement
 
 **Cloner le projet:**
 ```sh
@@ -131,7 +131,7 @@ ansible-vault decrypt .env.encrypted --output .env --ask-vault-pass
 docker-compose up
 ```
 
-**Pour initialiser la base de donnée ou mettre à jour les modèles de données prisma:**
+**Pour initialiser la base de données ou mettre à jour les modèles de données prisma:**
 ```sh
 docker-compose exec api yarn deploy 
 ```

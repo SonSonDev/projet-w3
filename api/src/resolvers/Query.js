@@ -6,6 +6,7 @@ const { queries: companyQueries } = require("./company")
 const { queries: challengeQueries } = require("./challenge")
 const { queries: articleQueries } = require("./article")
 const { queries: authQueries } = require("./auth")
+const { queries: rewardQueries } = require("./reward")
 
 //
 
@@ -26,4 +27,5 @@ module.exports = {
   ...challengeQueries,
   ...articleQueries,
   ...authQueries,
+  ...rewardQueries,
 }

@@ -23,6 +23,9 @@ import ChallengeForm from "./pages/challenge/form"
 import ArticlesIndex from "./pages/article/index"
 import ArticleForm from "./pages/article/form"
 
+import RewardsIndex from "./pages/reward/index"
+import RewardForm from "./pages/reward/form"
+
 import NotFound from "./pages/NotFound"
 
 import ItemNav from "./components/itemNav"
@@ -137,6 +140,9 @@ const App = () => {
                 <ItemNav links={["articles", "article"]} icon="ri-article-line">
                   Articles
                 </ItemNav>
+                <ItemNav links={["rewards", "reward"]} icon="ri-award-line">
+                  Récompenses
+                </ItemNav>
               </>}
 
             </ul>
@@ -173,6 +179,10 @@ const App = () => {
                 <Route exact path="/article/create" component={ArticleForm} />
                 <Route exact path="/article/:id/edit" component={ArticleForm} />
                 <Route exact path="/articles/" component={ArticlesIndex} />
+
+                <Route exact path="/reward/create" component={RewardForm} />
+                <Route exact path="/reward/:id/edit" component={RewardForm} />
+                <Route exact path="/rewards/" component={RewardsIndex} />
 
                 <Route component={NotFound} />
 

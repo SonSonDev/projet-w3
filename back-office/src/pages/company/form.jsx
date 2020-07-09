@@ -14,9 +14,9 @@ import { companyTypeNames } from "../../utils/wording"
 const autofill = on => on && ({
   companyName: `Company n°${Math.random()*10e17}`,
   companyType: "SCHOOL",
-  streetCompany: "sdfgh jgjhkg",
-  zipCodeCompany: "93000",
-  cityCompany: "Bobi",
+  streetCompany: "10 rue albert de mun",
+  zipCodeCompany: "93700",
+  cityCompany: "Drancy",
   firstNameUser: "Vin",
   lastNameUser: "P",
   emailUser: `heycuson+${Math.random()*10e17}@gmail.com`,
@@ -57,7 +57,7 @@ function CompanyForm ({ history,  match: { params: { id } } }) {
       label: "Entreprise",
       children: [
         { key: "companyName", label: "Nom de l’établissement", type: "T", required: true },
-        { key: "companyType", label: "Type d'entreprise", type: "R", options: Object.entries(companyTypeNames).map(([ value, label ]) => ({ value, label })), required: true },
+        { key: "companyType", label: "Catégorie d'entreprise", type: "R", options: Object.entries(companyTypeNames).map(([ value, label ]) => ({ value, label })), required: true },
         { key: "streetCompany", label: "Adresse", type: "T", required: true },
         { className: "is-grouped", children: [
           { key: "zipCodeCompany", label: "Code postal", type: "T", required: true, className: "control is-expanded" },
