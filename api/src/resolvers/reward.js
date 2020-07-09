@@ -1,21 +1,28 @@
+const Aws = require("../services/aws")
+
 module.exports = {
   queries: {
-    getReward (_, { where }, { prisma }) {
-      return prisma.reward(where)
+    getRewards (_, __, { prisma }) {
+      return prisma.rewards()
+    },
+
+    getReward (_, { id }, { prisma }) {
+      return prisma.reward({ id })
     },
   },
   mutations: {
-    async createReward (_, { data: reward }, { prisma }) {
-      const data = await makeRewardInput(reward, prisma, false)
+    async createReward (_, { type, value, article }, { prisma }) {
+      const data = await makeRewardInput({ type, value, article }, prisma)
+      console.log(data)
       return prisma.createReward(data)
     },
 
-    async updateReward (_, {where, data: reward}, { prisma }) {
-      const data = await makeRewardInput(reward, prisma, true)
-      return prisma.updateReward({ where, data })
+    async updateReward (_, { id, type, value, article }, { prisma }) {
+      const data = await makeRewardInput({ type, value, article }, prisma, true)
+      return prisma.updateReward({ where: { id }, data })
     },
 
-    async deleteReward (_, { where: { id } }, { prisma }) {
+    async deleteReward (_, { id }, { prisma }) {
       return await prisma.deleteReward({ id })
     },
   },
@@ -28,6 +35,44 @@ module.exports = {
   },
 }
 
-async function makeRewardInput ({}, prisma, update) {
-  return {}
+async function makeRewardInput ({ type, value, article }, prisma, update) {
+  const articleInput = await makeArticleInput(article, prisma, update)
+  if (!update) {
+    articleInput.date = String(Date.now())
+  }
+  return {
+    type,
+    value,
+    article: {
+      [update ? "update" : "create"]: articleInput,
+    },
+  }
+}
+
+async function makeArticleInput ({title, content, photo: { uri, file } = {}, theme, videoUrl, quiz}, prisma, update) {
+  return {
+    title: title,
+    content: content,
+    theme: theme,
+    ...(file || uri) && {
+      photo: {
+        ...file
+          ? { create: await Aws.s3.upload({
+            Bucket: process.env.AWS_S3_BUCKET,
+            Key: (await file).filename,
+            Body: (await file).createReadStream(),
+          }).promise().then(({ Location }) => ({ uri: Location })) }
+          : { connect: { uri } },
+      },
+    },
+    videoUrl: videoUrl,
+    quiz: quiz && {
+      [update ? "update" : "create"]: {
+        question: quiz.question,
+        answer: quiz.answer,
+        choices: { set: quiz.choices },
+        value: quiz.value,
+      },
+    },
+  }
 }

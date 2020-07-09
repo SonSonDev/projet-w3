@@ -396,6 +396,8 @@ export type Role = "SUPER_ADMIN" | "ADMIN" | "MODERATOR" | "USER" | "PLACE";
 
 export type OriginType = "PLACE" | "CHALLENGE" | "ARTICLE";
 
+export type RewardType = "DIY" | "RECIPE";
+
 export type CompanyOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -440,6 +442,14 @@ export type ChallengeOrderByInput =
   | "value_ASC"
   | "value_DESC";
 
+export type RewardOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "type_ASC"
+  | "type_DESC"
+  | "value_ASC"
+  | "value_DESC";
+
 export type PhotoOrderByInput = "id_ASC" | "id_DESC" | "uri_ASC" | "uri_DESC";
 
 export type Category = "FOOD" | "SHOP" | "ACTIVITY";
@@ -476,22 +486,6 @@ export type PlaceOrderByInput =
   | "headline_DESC"
   | "description_ASC"
   | "description_DESC";
-
-export type RewardOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "type_ASC"
-  | "type_DESC"
-  | "for_ASC"
-  | "for_DESC"
-  | "name_ASC"
-  | "name_DESC"
-  | "description_ASC"
-  | "description_DESC"
-  | "startDate_ASC"
-  | "startDate_DESC"
-  | "value_ASC"
-  | "value_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -705,6 +699,7 @@ export interface CompanyWhereInput {
   stripeCustomerId_ends_with?: Maybe<String>;
   stripeCustomerId_not_ends_with?: Maybe<String>;
   challenges_some?: Maybe<ChallengeWhereInput>;
+  rewards_some?: Maybe<RewardWhereInput>;
   currentTheme?: Maybe<Theme>;
   currentTheme_not?: Maybe<Theme>;
   currentTheme_in?: Maybe<Theme[] | Theme>;
@@ -1030,6 +1025,38 @@ export interface ChallengeWhereInput {
   AND?: Maybe<ChallengeWhereInput[] | ChallengeWhereInput>;
 }
 
+export interface RewardWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  type?: Maybe<RewardType>;
+  type_not?: Maybe<RewardType>;
+  type_in?: Maybe<RewardType[] | RewardType>;
+  type_not_in?: Maybe<RewardType[] | RewardType>;
+  value?: Maybe<Int>;
+  value_not?: Maybe<Int>;
+  value_in?: Maybe<Int[] | Int>;
+  value_not_in?: Maybe<Int[] | Int>;
+  value_lt?: Maybe<Int>;
+  value_lte?: Maybe<Int>;
+  value_gt?: Maybe<Int>;
+  value_gte?: Maybe<Int>;
+  article?: Maybe<ArticleWhereInput>;
+  winners_some?: Maybe<UserWhereInput>;
+  AND?: Maybe<RewardWhereInput[] | RewardWhereInput>;
+}
+
 export type CompanyWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
@@ -1279,104 +1306,6 @@ export type RewardWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface RewardWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  type?: Maybe<String>;
-  type_not?: Maybe<String>;
-  type_in?: Maybe<String[] | String>;
-  type_not_in?: Maybe<String[] | String>;
-  type_lt?: Maybe<String>;
-  type_lte?: Maybe<String>;
-  type_gt?: Maybe<String>;
-  type_gte?: Maybe<String>;
-  type_contains?: Maybe<String>;
-  type_not_contains?: Maybe<String>;
-  type_starts_with?: Maybe<String>;
-  type_not_starts_with?: Maybe<String>;
-  type_ends_with?: Maybe<String>;
-  type_not_ends_with?: Maybe<String>;
-  for?: Maybe<String>;
-  for_not?: Maybe<String>;
-  for_in?: Maybe<String[] | String>;
-  for_not_in?: Maybe<String[] | String>;
-  for_lt?: Maybe<String>;
-  for_lte?: Maybe<String>;
-  for_gt?: Maybe<String>;
-  for_gte?: Maybe<String>;
-  for_contains?: Maybe<String>;
-  for_not_contains?: Maybe<String>;
-  for_starts_with?: Maybe<String>;
-  for_not_starts_with?: Maybe<String>;
-  for_ends_with?: Maybe<String>;
-  for_not_ends_with?: Maybe<String>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  description?: Maybe<String>;
-  description_not?: Maybe<String>;
-  description_in?: Maybe<String[] | String>;
-  description_not_in?: Maybe<String[] | String>;
-  description_lt?: Maybe<String>;
-  description_lte?: Maybe<String>;
-  description_gt?: Maybe<String>;
-  description_gte?: Maybe<String>;
-  description_contains?: Maybe<String>;
-  description_not_contains?: Maybe<String>;
-  description_starts_with?: Maybe<String>;
-  description_not_starts_with?: Maybe<String>;
-  description_ends_with?: Maybe<String>;
-  description_not_ends_with?: Maybe<String>;
-  startDate?: Maybe<String>;
-  startDate_not?: Maybe<String>;
-  startDate_in?: Maybe<String[] | String>;
-  startDate_not_in?: Maybe<String[] | String>;
-  startDate_lt?: Maybe<String>;
-  startDate_lte?: Maybe<String>;
-  startDate_gt?: Maybe<String>;
-  startDate_gte?: Maybe<String>;
-  startDate_contains?: Maybe<String>;
-  startDate_not_contains?: Maybe<String>;
-  startDate_starts_with?: Maybe<String>;
-  startDate_not_starts_with?: Maybe<String>;
-  startDate_ends_with?: Maybe<String>;
-  startDate_not_ends_with?: Maybe<String>;
-  value?: Maybe<Int>;
-  value_not?: Maybe<Int>;
-  value_in?: Maybe<Int[] | Int>;
-  value_not_in?: Maybe<Int[] | Int>;
-  value_lt?: Maybe<Int>;
-  value_lte?: Maybe<Int>;
-  value_gt?: Maybe<Int>;
-  value_gte?: Maybe<Int>;
-  article?: Maybe<ArticleWhereInput>;
-  winners_some?: Maybe<UserWhereInput>;
-  AND?: Maybe<RewardWhereInput[] | RewardWhereInput>;
-}
-
 export type TagWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
@@ -1506,6 +1435,7 @@ export interface CompanyCreateWithoutChallengesInput {
   users?: Maybe<UserCreateManyWithoutCompanyInput>;
   emailDomains?: Maybe<CompanyCreateemailDomainsInput>;
   stripeCustomerId?: Maybe<String>;
+  rewards?: Maybe<RewardCreateManyInput>;
   currentTheme?: Maybe<Theme>;
 }
 
@@ -1573,6 +1503,77 @@ export interface CompanyCreateemailDomainsInput {
   set?: Maybe<String[] | String>;
 }
 
+export interface RewardCreateManyInput {
+  create?: Maybe<RewardCreateInput[] | RewardCreateInput>;
+  connect?: Maybe<RewardWhereUniqueInput[] | RewardWhereUniqueInput>;
+}
+
+export interface RewardCreateInput {
+  id?: Maybe<ID_Input>;
+  type: RewardType;
+  value: Int;
+  article: ArticleCreateOneInput;
+  winners?: Maybe<UserCreateManyInput>;
+}
+
+export interface ArticleCreateOneInput {
+  create?: Maybe<ArticleCreateInput>;
+  connect?: Maybe<ArticleWhereUniqueInput>;
+}
+
+export interface UserCreateManyInput {
+  create?: Maybe<UserCreateInput[] | UserCreateInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+}
+
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  email?: Maybe<String>;
+  phone?: Maybe<String>;
+  password?: Maybe<String>;
+  role?: Maybe<Role>;
+  company?: Maybe<CompanyCreateOneWithoutUsersInput>;
+  isRepresentative?: Maybe<Boolean>;
+  tags?: Maybe<UserCreatetagsInput>;
+  points?: Maybe<Int>;
+  history?: Maybe<HistoryCreateManyInput>;
+}
+
+export interface CompanyCreateOneWithoutUsersInput {
+  create?: Maybe<CompanyCreateWithoutUsersInput>;
+  connect?: Maybe<CompanyWhereUniqueInput>;
+}
+
+export interface CompanyCreateWithoutUsersInput {
+  id?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  type?: Maybe<CompanyType>;
+  address?: Maybe<AddressCreateOneInput>;
+  emailDomains?: Maybe<CompanyCreateemailDomainsInput>;
+  stripeCustomerId?: Maybe<String>;
+  challenges?: Maybe<ChallengeCreateManyWithoutCompaniesInput>;
+  rewards?: Maybe<RewardCreateManyInput>;
+  currentTheme?: Maybe<Theme>;
+}
+
+export interface ChallengeCreateManyWithoutCompaniesInput {
+  create?: Maybe<
+    | ChallengeCreateWithoutCompaniesInput[]
+    | ChallengeCreateWithoutCompaniesInput
+  >;
+  connect?: Maybe<ChallengeWhereUniqueInput[] | ChallengeWhereUniqueInput>;
+}
+
+export interface ChallengeCreateWithoutCompaniesInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  description: String;
+  theme: Theme;
+  value: Int;
+}
+
 export interface ChallengeUpdateInput {
   name?: Maybe<String>;
   description?: Maybe<String>;
@@ -1616,6 +1617,7 @@ export interface CompanyUpdateWithoutChallengesDataInput {
   users?: Maybe<UserUpdateManyWithoutCompanyInput>;
   emailDomains?: Maybe<CompanyUpdateemailDomainsInput>;
   stripeCustomerId?: Maybe<String>;
+  rewards?: Maybe<RewardUpdateManyInput>;
   currentTheme?: Maybe<Theme>;
 }
 
@@ -1903,124 +1905,117 @@ export interface CompanyUpdateemailDomainsInput {
   set?: Maybe<String[] | String>;
 }
 
-export interface CompanyUpsertWithWhereUniqueWithoutChallengesInput {
-  where: CompanyWhereUniqueInput;
-  update: CompanyUpdateWithoutChallengesDataInput;
-  create: CompanyCreateWithoutChallengesInput;
-}
-
-export interface CompanyScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  type?: Maybe<CompanyType>;
-  type_not?: Maybe<CompanyType>;
-  type_in?: Maybe<CompanyType[] | CompanyType>;
-  type_not_in?: Maybe<CompanyType[] | CompanyType>;
-  stripeCustomerId?: Maybe<String>;
-  stripeCustomerId_not?: Maybe<String>;
-  stripeCustomerId_in?: Maybe<String[] | String>;
-  stripeCustomerId_not_in?: Maybe<String[] | String>;
-  stripeCustomerId_lt?: Maybe<String>;
-  stripeCustomerId_lte?: Maybe<String>;
-  stripeCustomerId_gt?: Maybe<String>;
-  stripeCustomerId_gte?: Maybe<String>;
-  stripeCustomerId_contains?: Maybe<String>;
-  stripeCustomerId_not_contains?: Maybe<String>;
-  stripeCustomerId_starts_with?: Maybe<String>;
-  stripeCustomerId_not_starts_with?: Maybe<String>;
-  stripeCustomerId_ends_with?: Maybe<String>;
-  stripeCustomerId_not_ends_with?: Maybe<String>;
-  currentTheme?: Maybe<Theme>;
-  currentTheme_not?: Maybe<Theme>;
-  currentTheme_in?: Maybe<Theme[] | Theme>;
-  currentTheme_not_in?: Maybe<Theme[] | Theme>;
-  AND?: Maybe<CompanyScalarWhereInput[] | CompanyScalarWhereInput>;
-  OR?: Maybe<CompanyScalarWhereInput[] | CompanyScalarWhereInput>;
-  NOT?: Maybe<CompanyScalarWhereInput[] | CompanyScalarWhereInput>;
-}
-
-export interface CompanyUpdateManyWithWhereNestedInput {
-  where: CompanyScalarWhereInput;
-  data: CompanyUpdateManyDataInput;
-}
-
-export interface CompanyUpdateManyDataInput {
-  name?: Maybe<String>;
-  type?: Maybe<CompanyType>;
-  emailDomains?: Maybe<CompanyUpdateemailDomainsInput>;
-  stripeCustomerId?: Maybe<String>;
-  currentTheme?: Maybe<Theme>;
-}
-
-export interface ChallengeUpdateManyMutationInput {
-  name?: Maybe<String>;
-  description?: Maybe<String>;
-  theme?: Maybe<Theme>;
-  value?: Maybe<Int>;
-}
-
-export interface CompanyCreateInput {
-  id?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  type?: Maybe<CompanyType>;
-  address?: Maybe<AddressCreateOneInput>;
-  users?: Maybe<UserCreateManyWithoutCompanyInput>;
-  emailDomains?: Maybe<CompanyCreateemailDomainsInput>;
-  stripeCustomerId?: Maybe<String>;
-  challenges?: Maybe<ChallengeCreateManyWithoutCompaniesInput>;
-  currentTheme?: Maybe<Theme>;
-}
-
-export interface ChallengeCreateManyWithoutCompaniesInput {
-  create?: Maybe<
-    | ChallengeCreateWithoutCompaniesInput[]
-    | ChallengeCreateWithoutCompaniesInput
+export interface RewardUpdateManyInput {
+  create?: Maybe<RewardCreateInput[] | RewardCreateInput>;
+  update?: Maybe<
+    | RewardUpdateWithWhereUniqueNestedInput[]
+    | RewardUpdateWithWhereUniqueNestedInput
   >;
-  connect?: Maybe<ChallengeWhereUniqueInput[] | ChallengeWhereUniqueInput>;
+  upsert?: Maybe<
+    | RewardUpsertWithWhereUniqueNestedInput[]
+    | RewardUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<RewardWhereUniqueInput[] | RewardWhereUniqueInput>;
+  connect?: Maybe<RewardWhereUniqueInput[] | RewardWhereUniqueInput>;
+  set?: Maybe<RewardWhereUniqueInput[] | RewardWhereUniqueInput>;
+  disconnect?: Maybe<RewardWhereUniqueInput[] | RewardWhereUniqueInput>;
+  deleteMany?: Maybe<RewardScalarWhereInput[] | RewardScalarWhereInput>;
+  updateMany?: Maybe<
+    | RewardUpdateManyWithWhereNestedInput[]
+    | RewardUpdateManyWithWhereNestedInput
+  >;
 }
 
-export interface ChallengeCreateWithoutCompaniesInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  description: String;
-  theme: Theme;
-  value: Int;
+export interface RewardUpdateWithWhereUniqueNestedInput {
+  where: RewardWhereUniqueInput;
+  data: RewardUpdateDataInput;
 }
 
-export interface CompanyUpdateInput {
+export interface RewardUpdateDataInput {
+  type?: Maybe<RewardType>;
+  value?: Maybe<Int>;
+  article?: Maybe<ArticleUpdateOneRequiredInput>;
+  winners?: Maybe<UserUpdateManyInput>;
+}
+
+export interface ArticleUpdateOneRequiredInput {
+  create?: Maybe<ArticleCreateInput>;
+  update?: Maybe<ArticleUpdateDataInput>;
+  upsert?: Maybe<ArticleUpsertNestedInput>;
+  connect?: Maybe<ArticleWhereUniqueInput>;
+}
+
+export interface ArticleUpdateDataInput {
+  title?: Maybe<String>;
+  content?: Maybe<String>;
+  theme?: Maybe<Theme>;
+  photo?: Maybe<PhotoUpdateOneInput>;
+  videoUrl?: Maybe<String>;
+  quiz?: Maybe<QuizUpdateOneInput>;
+  date?: Maybe<String>;
+}
+
+export interface ArticleUpsertNestedInput {
+  update: ArticleUpdateDataInput;
+  create: ArticleCreateInput;
+}
+
+export interface UserUpdateManyInput {
+  create?: Maybe<UserCreateInput[] | UserCreateInput>;
+  update?: Maybe<
+    | UserUpdateWithWhereUniqueNestedInput[]
+    | UserUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    | UserUpsertWithWhereUniqueNestedInput[]
+    | UserUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  updateMany?: Maybe<
+    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface UserUpdateWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateDataInput;
+}
+
+export interface UserUpdateDataInput {
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  email?: Maybe<String>;
+  phone?: Maybe<String>;
+  password?: Maybe<String>;
+  role?: Maybe<Role>;
+  company?: Maybe<CompanyUpdateOneWithoutUsersInput>;
+  isRepresentative?: Maybe<Boolean>;
+  tags?: Maybe<UserUpdatetagsInput>;
+  points?: Maybe<Int>;
+  history?: Maybe<HistoryUpdateManyInput>;
+}
+
+export interface CompanyUpdateOneWithoutUsersInput {
+  create?: Maybe<CompanyCreateWithoutUsersInput>;
+  update?: Maybe<CompanyUpdateWithoutUsersDataInput>;
+  upsert?: Maybe<CompanyUpsertWithoutUsersInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<CompanyWhereUniqueInput>;
+}
+
+export interface CompanyUpdateWithoutUsersDataInput {
   name?: Maybe<String>;
   type?: Maybe<CompanyType>;
   address?: Maybe<AddressUpdateOneInput>;
-  users?: Maybe<UserUpdateManyWithoutCompanyInput>;
   emailDomains?: Maybe<CompanyUpdateemailDomainsInput>;
   stripeCustomerId?: Maybe<String>;
   challenges?: Maybe<ChallengeUpdateManyWithoutCompaniesInput>;
+  rewards?: Maybe<RewardUpdateManyInput>;
   currentTheme?: Maybe<Theme>;
 }
 
@@ -2138,6 +2133,172 @@ export interface ChallengeUpdateManyDataInput {
   value?: Maybe<Int>;
 }
 
+export interface CompanyUpsertWithoutUsersInput {
+  update: CompanyUpdateWithoutUsersDataInput;
+  create: CompanyCreateWithoutUsersInput;
+}
+
+export interface UserUpsertWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
+}
+
+export interface RewardUpsertWithWhereUniqueNestedInput {
+  where: RewardWhereUniqueInput;
+  update: RewardUpdateDataInput;
+  create: RewardCreateInput;
+}
+
+export interface RewardScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  type?: Maybe<RewardType>;
+  type_not?: Maybe<RewardType>;
+  type_in?: Maybe<RewardType[] | RewardType>;
+  type_not_in?: Maybe<RewardType[] | RewardType>;
+  value?: Maybe<Int>;
+  value_not?: Maybe<Int>;
+  value_in?: Maybe<Int[] | Int>;
+  value_not_in?: Maybe<Int[] | Int>;
+  value_lt?: Maybe<Int>;
+  value_lte?: Maybe<Int>;
+  value_gt?: Maybe<Int>;
+  value_gte?: Maybe<Int>;
+  AND?: Maybe<RewardScalarWhereInput[] | RewardScalarWhereInput>;
+  OR?: Maybe<RewardScalarWhereInput[] | RewardScalarWhereInput>;
+  NOT?: Maybe<RewardScalarWhereInput[] | RewardScalarWhereInput>;
+}
+
+export interface RewardUpdateManyWithWhereNestedInput {
+  where: RewardScalarWhereInput;
+  data: RewardUpdateManyDataInput;
+}
+
+export interface RewardUpdateManyDataInput {
+  type?: Maybe<RewardType>;
+  value?: Maybe<Int>;
+}
+
+export interface CompanyUpsertWithWhereUniqueWithoutChallengesInput {
+  where: CompanyWhereUniqueInput;
+  update: CompanyUpdateWithoutChallengesDataInput;
+  create: CompanyCreateWithoutChallengesInput;
+}
+
+export interface CompanyScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  type?: Maybe<CompanyType>;
+  type_not?: Maybe<CompanyType>;
+  type_in?: Maybe<CompanyType[] | CompanyType>;
+  type_not_in?: Maybe<CompanyType[] | CompanyType>;
+  stripeCustomerId?: Maybe<String>;
+  stripeCustomerId_not?: Maybe<String>;
+  stripeCustomerId_in?: Maybe<String[] | String>;
+  stripeCustomerId_not_in?: Maybe<String[] | String>;
+  stripeCustomerId_lt?: Maybe<String>;
+  stripeCustomerId_lte?: Maybe<String>;
+  stripeCustomerId_gt?: Maybe<String>;
+  stripeCustomerId_gte?: Maybe<String>;
+  stripeCustomerId_contains?: Maybe<String>;
+  stripeCustomerId_not_contains?: Maybe<String>;
+  stripeCustomerId_starts_with?: Maybe<String>;
+  stripeCustomerId_not_starts_with?: Maybe<String>;
+  stripeCustomerId_ends_with?: Maybe<String>;
+  stripeCustomerId_not_ends_with?: Maybe<String>;
+  currentTheme?: Maybe<Theme>;
+  currentTheme_not?: Maybe<Theme>;
+  currentTheme_in?: Maybe<Theme[] | Theme>;
+  currentTheme_not_in?: Maybe<Theme[] | Theme>;
+  AND?: Maybe<CompanyScalarWhereInput[] | CompanyScalarWhereInput>;
+  OR?: Maybe<CompanyScalarWhereInput[] | CompanyScalarWhereInput>;
+  NOT?: Maybe<CompanyScalarWhereInput[] | CompanyScalarWhereInput>;
+}
+
+export interface CompanyUpdateManyWithWhereNestedInput {
+  where: CompanyScalarWhereInput;
+  data: CompanyUpdateManyDataInput;
+}
+
+export interface CompanyUpdateManyDataInput {
+  name?: Maybe<String>;
+  type?: Maybe<CompanyType>;
+  emailDomains?: Maybe<CompanyUpdateemailDomainsInput>;
+  stripeCustomerId?: Maybe<String>;
+  currentTheme?: Maybe<Theme>;
+}
+
+export interface ChallengeUpdateManyMutationInput {
+  name?: Maybe<String>;
+  description?: Maybe<String>;
+  theme?: Maybe<Theme>;
+  value?: Maybe<Int>;
+}
+
+export interface CompanyCreateInput {
+  id?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  type?: Maybe<CompanyType>;
+  address?: Maybe<AddressCreateOneInput>;
+  users?: Maybe<UserCreateManyWithoutCompanyInput>;
+  emailDomains?: Maybe<CompanyCreateemailDomainsInput>;
+  stripeCustomerId?: Maybe<String>;
+  challenges?: Maybe<ChallengeCreateManyWithoutCompaniesInput>;
+  rewards?: Maybe<RewardCreateManyInput>;
+  currentTheme?: Maybe<Theme>;
+}
+
+export interface CompanyUpdateInput {
+  name?: Maybe<String>;
+  type?: Maybe<CompanyType>;
+  address?: Maybe<AddressUpdateOneInput>;
+  users?: Maybe<UserUpdateManyWithoutCompanyInput>;
+  emailDomains?: Maybe<CompanyUpdateemailDomainsInput>;
+  stripeCustomerId?: Maybe<String>;
+  challenges?: Maybe<ChallengeUpdateManyWithoutCompaniesInput>;
+  rewards?: Maybe<RewardUpdateManyInput>;
+  currentTheme?: Maybe<Theme>;
+}
+
 export interface CompanyUpdateManyMutationInput {
   name?: Maybe<String>;
   type?: Maybe<CompanyType>;
@@ -2171,37 +2332,6 @@ export interface PlaceCreateInput {
 export interface UserCreateOneInput {
   create?: Maybe<UserCreateInput>;
   connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface UserCreateInput {
-  id?: Maybe<ID_Input>;
-  firstName?: Maybe<String>;
-  lastName?: Maybe<String>;
-  email?: Maybe<String>;
-  phone?: Maybe<String>;
-  password?: Maybe<String>;
-  role?: Maybe<Role>;
-  company?: Maybe<CompanyCreateOneWithoutUsersInput>;
-  isRepresentative?: Maybe<Boolean>;
-  tags?: Maybe<UserCreatetagsInput>;
-  points?: Maybe<Int>;
-  history?: Maybe<HistoryCreateManyInput>;
-}
-
-export interface CompanyCreateOneWithoutUsersInput {
-  create?: Maybe<CompanyCreateWithoutUsersInput>;
-  connect?: Maybe<CompanyWhereUniqueInput>;
-}
-
-export interface CompanyCreateWithoutUsersInput {
-  id?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  type?: Maybe<CompanyType>;
-  address?: Maybe<AddressCreateOneInput>;
-  emailDomains?: Maybe<CompanyCreateemailDomainsInput>;
-  stripeCustomerId?: Maybe<String>;
-  challenges?: Maybe<ChallengeCreateManyWithoutCompaniesInput>;
-  currentTheme?: Maybe<Theme>;
 }
 
 export interface SocialCreateOneInput {
@@ -2263,44 +2393,6 @@ export interface UserUpdateOneInput {
   delete?: Maybe<Boolean>;
   disconnect?: Maybe<Boolean>;
   connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface UserUpdateDataInput {
-  firstName?: Maybe<String>;
-  lastName?: Maybe<String>;
-  email?: Maybe<String>;
-  phone?: Maybe<String>;
-  password?: Maybe<String>;
-  role?: Maybe<Role>;
-  company?: Maybe<CompanyUpdateOneWithoutUsersInput>;
-  isRepresentative?: Maybe<Boolean>;
-  tags?: Maybe<UserUpdatetagsInput>;
-  points?: Maybe<Int>;
-  history?: Maybe<HistoryUpdateManyInput>;
-}
-
-export interface CompanyUpdateOneWithoutUsersInput {
-  create?: Maybe<CompanyCreateWithoutUsersInput>;
-  update?: Maybe<CompanyUpdateWithoutUsersDataInput>;
-  upsert?: Maybe<CompanyUpsertWithoutUsersInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<CompanyWhereUniqueInput>;
-}
-
-export interface CompanyUpdateWithoutUsersDataInput {
-  name?: Maybe<String>;
-  type?: Maybe<CompanyType>;
-  address?: Maybe<AddressUpdateOneInput>;
-  emailDomains?: Maybe<CompanyUpdateemailDomainsInput>;
-  stripeCustomerId?: Maybe<String>;
-  challenges?: Maybe<ChallengeUpdateManyWithoutCompaniesInput>;
-  currentTheme?: Maybe<Theme>;
-}
-
-export interface CompanyUpsertWithoutUsersInput {
-  update: CompanyUpdateWithoutUsersDataInput;
-  create: CompanyCreateWithoutUsersInput;
 }
 
 export interface UserUpsertNestedInput {
@@ -2556,100 +2648,15 @@ export interface PlaceUpdateManyMutationInput {
   description?: Maybe<String>;
 }
 
-export interface RewardCreateInput {
-  id?: Maybe<ID_Input>;
-  type: String;
-  for: String;
-  name: String;
-  description: String;
-  startDate: String;
-  value: Int;
-  article?: Maybe<ArticleCreateOneInput>;
-  winners?: Maybe<UserCreateManyInput>;
-}
-
-export interface ArticleCreateOneInput {
-  create?: Maybe<ArticleCreateInput>;
-  connect?: Maybe<ArticleWhereUniqueInput>;
-}
-
-export interface UserCreateManyInput {
-  create?: Maybe<UserCreateInput[] | UserCreateInput>;
-  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-}
-
 export interface RewardUpdateInput {
-  type?: Maybe<String>;
-  for?: Maybe<String>;
-  name?: Maybe<String>;
-  description?: Maybe<String>;
-  startDate?: Maybe<String>;
+  type?: Maybe<RewardType>;
   value?: Maybe<Int>;
-  article?: Maybe<ArticleUpdateOneInput>;
+  article?: Maybe<ArticleUpdateOneRequiredInput>;
   winners?: Maybe<UserUpdateManyInput>;
 }
 
-export interface ArticleUpdateOneInput {
-  create?: Maybe<ArticleCreateInput>;
-  update?: Maybe<ArticleUpdateDataInput>;
-  upsert?: Maybe<ArticleUpsertNestedInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<ArticleWhereUniqueInput>;
-}
-
-export interface ArticleUpdateDataInput {
-  title?: Maybe<String>;
-  content?: Maybe<String>;
-  theme?: Maybe<Theme>;
-  photo?: Maybe<PhotoUpdateOneInput>;
-  videoUrl?: Maybe<String>;
-  quiz?: Maybe<QuizUpdateOneInput>;
-  date?: Maybe<String>;
-}
-
-export interface ArticleUpsertNestedInput {
-  update: ArticleUpdateDataInput;
-  create: ArticleCreateInput;
-}
-
-export interface UserUpdateManyInput {
-  create?: Maybe<UserCreateInput[] | UserCreateInput>;
-  update?: Maybe<
-    | UserUpdateWithWhereUniqueNestedInput[]
-    | UserUpdateWithWhereUniqueNestedInput
-  >;
-  upsert?: Maybe<
-    | UserUpsertWithWhereUniqueNestedInput[]
-    | UserUpsertWithWhereUniqueNestedInput
-  >;
-  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-  updateMany?: Maybe<
-    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface UserUpdateWithWhereUniqueNestedInput {
-  where: UserWhereUniqueInput;
-  data: UserUpdateDataInput;
-}
-
-export interface UserUpsertWithWhereUniqueNestedInput {
-  where: UserWhereUniqueInput;
-  update: UserUpdateDataInput;
-  create: UserCreateInput;
-}
-
 export interface RewardUpdateManyMutationInput {
-  type?: Maybe<String>;
-  for?: Maybe<String>;
-  name?: Maybe<String>;
-  description?: Maybe<String>;
-  startDate?: Maybe<String>;
+  type?: Maybe<RewardType>;
   value?: Maybe<Int>;
 }
 
@@ -3050,6 +3057,15 @@ export interface CompanyPromise extends Promise<Company>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  rewards: <T = FragmentableArray<Reward>>(args?: {
+    where?: RewardWhereInput;
+    orderBy?: RewardOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   currentTheme: () => Promise<Theme>;
 }
 
@@ -3080,6 +3096,15 @@ export interface CompanySubscription
     first?: Int;
     last?: Int;
   }) => T;
+  rewards: <T = Promise<AsyncIterator<RewardSubscription>>>(args?: {
+    where?: RewardWhereInput;
+    orderBy?: RewardOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   currentTheme: () => Promise<AsyncIterator<Theme>>;
 }
 
@@ -3104,6 +3129,15 @@ export interface CompanyNullablePromise
   challenges: <T = FragmentableArray<Challenge>>(args?: {
     where?: ChallengeWhereInput;
     orderBy?: ChallengeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  rewards: <T = FragmentableArray<Reward>>(args?: {
+    where?: RewardWhereInput;
+    orderBy?: RewardOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -3262,6 +3296,64 @@ export interface HistoryNullablePromise
   originType: () => Promise<OriginType>;
   originId: () => Promise<ID_Output>;
   date: () => Promise<String>;
+}
+
+export interface Reward {
+  id: ID_Output;
+  type: RewardType;
+  value: Int;
+}
+
+export interface RewardPromise extends Promise<Reward>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  type: () => Promise<RewardType>;
+  value: () => Promise<Int>;
+  article: <T = ArticlePromise>() => T;
+  winners: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface RewardSubscription
+  extends Promise<AsyncIterator<Reward>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  type: () => Promise<AsyncIterator<RewardType>>;
+  value: () => Promise<AsyncIterator<Int>>;
+  article: <T = ArticleSubscription>() => T;
+  winners: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface RewardNullablePromise
+  extends Promise<Reward | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  type: () => Promise<RewardType>;
+  value: () => Promise<Int>;
+  article: <T = ArticlePromise>() => T;
+  winners: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface ChallengeConnection {
@@ -3702,80 +3794,6 @@ export interface AggregatePlaceSubscription
   extends Promise<AsyncIterator<AggregatePlace>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface Reward {
-  id: ID_Output;
-  type: String;
-  for: String;
-  name: String;
-  description: String;
-  startDate: String;
-  value: Int;
-}
-
-export interface RewardPromise extends Promise<Reward>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  type: () => Promise<String>;
-  for: () => Promise<String>;
-  name: () => Promise<String>;
-  description: () => Promise<String>;
-  startDate: () => Promise<String>;
-  value: () => Promise<Int>;
-  article: <T = ArticlePromise>() => T;
-  winners: <T = FragmentableArray<User>>(args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface RewardSubscription
-  extends Promise<AsyncIterator<Reward>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  type: () => Promise<AsyncIterator<String>>;
-  for: () => Promise<AsyncIterator<String>>;
-  name: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  startDate: () => Promise<AsyncIterator<String>>;
-  value: () => Promise<AsyncIterator<Int>>;
-  article: <T = ArticleSubscription>() => T;
-  winners: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface RewardNullablePromise
-  extends Promise<Reward | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  type: () => Promise<String>;
-  for: () => Promise<String>;
-  name: () => Promise<String>;
-  description: () => Promise<String>;
-  startDate: () => Promise<String>;
-  value: () => Promise<Int>;
-  article: <T = ArticlePromise>() => T;
-  winners: <T = FragmentableArray<User>>(args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
 }
 
 export interface RewardConnection {
@@ -4245,11 +4263,7 @@ export interface RewardSubscriptionPayloadSubscription
 
 export interface RewardPreviousValues {
   id: ID_Output;
-  type: String;
-  for: String;
-  name: String;
-  description: String;
-  startDate: String;
+  type: RewardType;
   value: Int;
 }
 
@@ -4257,11 +4271,7 @@ export interface RewardPreviousValuesPromise
   extends Promise<RewardPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  type: () => Promise<String>;
-  for: () => Promise<String>;
-  name: () => Promise<String>;
-  description: () => Promise<String>;
-  startDate: () => Promise<String>;
+  type: () => Promise<RewardType>;
   value: () => Promise<Int>;
 }
 
@@ -4269,11 +4279,7 @@ export interface RewardPreviousValuesSubscription
   extends Promise<AsyncIterator<RewardPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  type: () => Promise<AsyncIterator<String>>;
-  for: () => Promise<AsyncIterator<String>>;
-  name: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  startDate: () => Promise<AsyncIterator<String>>;
+  type: () => Promise<AsyncIterator<RewardType>>;
   value: () => Promise<AsyncIterator<Int>>;
 }
 
@@ -4509,6 +4515,10 @@ export const models: Model[] = [
   },
   {
     name: "OriginType",
+    embedded: false
+  },
+  {
+    name: "RewardType",
     embedded: false
   }
 ];

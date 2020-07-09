@@ -83,6 +83,10 @@ var models = [
   {
     name: "OriginType",
     embedded: false
+  },
+  {
+    name: "RewardType",
+    embedded: false
   }
 ];
 exports.Prisma = prisma_lib_1.makePrismaClientClass({

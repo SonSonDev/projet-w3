@@ -10,6 +10,7 @@ const { resolvers: companyResolvers } = require("./resolvers/company")
 const { resolvers: userResolvers } = require("./resolvers/user")
 const { resolvers: placeResolvers } = require("./resolvers/place")
 const { resolvers: articleResolvers } = require("./resolvers/article")
+const { resolvers: rewardResolvers } = require("./resolvers/reward")
 
 const { APP_SECRET, parseCookie } = require("./utils")
 
@@ -23,6 +24,7 @@ const resolvers = {
   ...placeResolvers,
   ...tagResolvers,
   ...articleResolvers,
+  ...rewardResolvers,
 }
 
 const server = new GraphQLServer({
@@ -51,7 +53,7 @@ const server = new GraphQLServer({
   },
 })
 
-server.express.get("/", (req, res) => res.send("up"))
+//server.express.get("/", (req, res) => res.send("up"))
 
 server.start({
   port: process.env.PORT,
@@ -60,7 +62,7 @@ server.start({
     // origin: [ process.env.FRONT_URL, process.env.FRONT_URL+":19006", process.env.FRONT_URL+":19001" ],
     origin: (origin, callback) => callback(null, true),
   },
-  playground: null,
+  //playground: null,
 }, async () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`)
   scheduledFunction()
