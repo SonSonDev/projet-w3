@@ -27,7 +27,7 @@ export default function Article({ route: { params: { article } }, navigation }) 
   const { data: { getArticles = [] } = {} } = useQuery(GET_ARTICLES, {
     onError: (error) => console.log(error.message),
   });
-  const hasQuiz = !!article.quiz
+  const hasQuiz = !!article.quiz?.choices
 
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
 
@@ -50,7 +50,7 @@ export default function Article({ route: { params: { article } }, navigation }) 
     onError: error => console.log(error.message),
   })
 
-  const [answerList, setAnswerList] = article.quiz ? useState(article.quiz.choices.map(choice => ({
+  const [answerList, setAnswerList] = article.quiz?.choices ? useState(article.quiz.choices.map(choice => ({
     label: choice,
     selected: false,
   }))) : []

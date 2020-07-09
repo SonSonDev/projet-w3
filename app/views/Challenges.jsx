@@ -24,6 +24,7 @@ import Icon from "../components/atoms/Icon"
 
 import { CHECK_AUTH } from '../graphql/auth'
 import { VALIDATE_CHALLENGE } from '../graphql/user'
+import { GET_REWARDS } from '../graphql/reward'
 import * as s from "../styles";
 import * as fns from "date-fns";
 
@@ -32,6 +33,7 @@ export default function Challenges({ navigation }) {
   const client = useApolloClient()
   /* Informations de l'utilisateur */
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
+  
   const weekPoints = userData?.history?.filter(item => getWeek(Number(item.date), { weekStartsOn: 1 }) === getWeek(Date.now(), { weekStartsOn: 1 }))
     .reduce((acc, cur) => acc + cur.bounty, 0)
 
@@ -77,20 +79,6 @@ export default function Challenges({ navigation }) {
     validateChallenge({ variables: { challengeId }})
   };
 
-  /* TODO: Liste des récompense */
-  const getRewards = [
-    {
-      id: "11",
-      type: "diy",
-      neededPts: 80,
-    },
-    {
-      id: "12",
-      type: "recipe",
-      neededPts: 80,
-    },
-  ];
-
   const isOnChallengesTab = () =>
     tabs.find((tab) => tab.key === "challenges").selected;
 
@@ -98,8 +86,17 @@ export default function Challenges({ navigation }) {
     setTabs(tabs.map((tab, i) => ({ ...tab, selected: i === index })));
   };
 
-  const reducer = (accumulator, currentValue) => accumulator + currentValue;
-
+  /* Récompenses */
+  const { data: { getRewards: rewards } = {}} = useQuery(GET_REWARDS)
+  const rewardsList = rewards?.filter(item => item?.article?.theme === userData.company.currentTheme)
+    .reduce((acc, cur, i) => {
+      acc.push({
+        ...cur,
+        value: (acc[i-1]?.value || 0) + cur.value
+      })
+      return acc
+    }, []) || []
+  
   return (
     <ScrollView style={[s.flex, s.backgroundPale]} stickyHeaderIndices={[0]}>
       <View style={[s.backgroundPale]}>
@@ -191,11 +188,13 @@ export default function Challenges({ navigation }) {
               </View>
             )}
           />
+
+          {/* List de récompenses */}
           <Text style={[s.heading5, s.m2, s.mb1]}>À débloquer cette semaine...</Text>
           <FlatList
             style={[]}
             contentContainerStyle={[s.pl2, s.py1, s.mb1]}
-            data={getRewards}
+            data={rewardsList}
             renderItem={({ item, index }) => (
               <TouchableOpacity
                 style={[
@@ -208,13 +207,16 @@ export default function Challenges({ navigation }) {
                 ]}
                 key={item.id}
                 horizontal
+                onPress={() => {
+                  if (weekPoints >= item.value) console.log(item.article) || navigation.navigate("Article", { article: item.article });
+                }}
               >
-                {item.type === "diy" ? <IconDIY /> : <IconRecipe />}
+                {item.type === "DIY" ? <IconDIY /> : <IconRecipe />}
                 <View style={[s.ml2]}>
                   <Text style={[s.HKGroteskSemiBold]}>
                     1 {item.type === "diy" ? "DIY" : "recette"}
                   </Text>
-                  <Text>{item.neededPts} pts</Text>
+                  <Text>{weekPoints > item.value ? item.value : weekPoints}/{item.value} pts</Text>
                 </View>
               </TouchableOpacity>
             )}
