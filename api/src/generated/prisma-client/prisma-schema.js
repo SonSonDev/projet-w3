@@ -1955,6 +1955,7 @@ input RewardSubscriptionWhereInput {
 enum RewardType {
   DIY
   RECIPE
+  BLOGPOST
 }
 
 input RewardUpdateDataInput {

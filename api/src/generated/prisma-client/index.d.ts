@@ -396,7 +396,7 @@ export type Role = "SUPER_ADMIN" | "ADMIN" | "MODERATOR" | "USER" | "PLACE";
 
 export type OriginType = "PLACE" | "CHALLENGE" | "ARTICLE";
 
-export type RewardType = "DIY" | "RECIPE";
+export type RewardType = "DIY" | "RECIPE" | "BLOGPOST";
 
 export type CompanyOrderByInput =
   | "id_ASC"

@@ -350,6 +350,7 @@ enum OriginType {
 enum RewardType {
   DIY
   RECIPE
+  BLOGPOST
 }
 
 type Social {
