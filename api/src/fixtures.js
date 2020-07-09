@@ -253,6 +253,7 @@ const places = [
   [ "La Vie Claire",                          "194 rue Lecourbe",           "75015", "Paris", "SHOP", [ 48.8406747, 2.2960318 ], "https://madu-staging.s3.eu-west-2.amazonaws.com/La%20Vie%20Claire.jpeg" ],
   [ "La Vie Claire 2",                        "71 rue Saint-Dominique",     "75007", "Paris", "SHOP", [ 48.8598655, 2.309814 ], "https://madu-staging.s3.eu-west-2.amazonaws.com/La%20Vie%20Claire.jpeg" ],
   [ "La Vie Claire 3",                        "5 rue Albert de mun",        "93700", "Drancy", "SHOP", [ 48.9133557, 2.4618855 ], "https://madu-staging.s3.eu-west-2.amazonaws.com/La%20Vie%20Claire.jpeg" ],
+  [ "La Vie Claire 4",                        "100 Rue Alexis Pesnon",      "93100", "Montreuil", "SHOP", [48.8638826, 2.4369874], "https://madu-staging.s3.eu-west-2.amazonaws.com/La%20Vie%20Claire.jpeg" ],
 ]
 
 // for (let i = 0; i < Math.floor(Math.random() * 20 + 20); i++) {
@@ -771,9 +772,9 @@ Diminuer le chauffage la nuit et en cas d'absence entraîne une économie de 10 
     "videoUrl":"",
     "photo":{"uri":"https://madu-staging.s3.eu-west-2.amazonaws.com/will-malott-Xst4N6JnlvU-unsplash.jpg"},
     "quiz":{
-      "question":"quizQuestion",
-      "choices":["aaaaa","bbbb","ccccc","ddddd"],
-      "answer":"aaaaa",
+      "question":"À quelle température doit-t-on chauffer la maison pendant la nuit ?",
+      "choices":["10°C","15°C","20°C","25°C"],
+      "answer":"15°C",
       "value": 10
     }
   },
@@ -799,7 +800,7 @@ Même ceux qui ne sont pas fans du goût du café l'attestent : rien ne vaut l'o
 Autre astuce testée et retestée par nos-grands-mères : celle du pot-pourri. Actualisez-la en dispersant dans les pièces principales de savants mélanges de fleurs et fruits séchées, épices et bois parfumés. Vous pouvez en remplir quelques petits sachets en coton ou en lin, que vous placerez ensuite dans vos tiroirs et armoires.\n\n
 ## 9. Pensez aux huiles essentielles\n\n
 Dernière astuce pour parfumer naturellement votre intérieur : les huiles essentielles. Utilisées avec un diffuseur acheté dans le commerce, et combinées entre elles, elles apportent à votre intérieur une odeur de frais et assainissent durablement l'air. Attention toutefois de ne pas en abuser. Sachez également que la diffusion d'huiles essentielles est vivement déconseillée auprès des femmes enceintes et des enfants en bas âge\n\n
-    `,"videoUrl":"","photo":{"uri":"https://madu-staging.s3.eu-west-2.amazonaws.com/solid-toiletries.png"},"quiz":{"question":"quizQuestion","choices":["aaaaa","bbbb","ccccc","ddddd"],"answer":"bbbb","value":10}},
+    `,"videoUrl":"","photo":{"uri":"https://madu-staging.s3.eu-west-2.amazonaws.com/solid-toiletries.png"},"quiz":{"question":"Quel est le premier réflexe quand ça ne sent pas bon dans la chambre ?","choices":["Allumer des bougies parfumées","Souffler très fort","Vaporiser du parfum partout dans la chambre","Ouvrir la fenêtre"],"answer":"Ouvrir la fenêtre","value":10}},
   {"theme":"ALIMENTATION","title":"Réalisez vos propres conserves",
     "content": `## Préparez vos Bocaux et Terrines Le Parfait\n\n
 Assurez-vous que toutes les surfaces ne présentent pas d’ébréchures, de traces d’abrasion ou de résidus collés. Nettoyez bocaux, terrines et couvercles à l’eau chaude savonneuse. Evitez tout choc entre les bocaux ou les terrines. N’utilisez pas d’éponge métallique ou abrasive pour nettoyer vos bocaux et terrines.\n\n
@@ -847,7 +848,7 @@ Ne consommez pas les aliments, même pour les goûter, dans les cas suivants :\n
 - Vous avez tout simplement un doute sur le bon état de conservation\n\n
 L’ouverture doit être effectuée par un adulte. Tirez sur la languette de la rondelle de manière à faire pénétrer l’air dans le bocal ou la terrine Le Parfait Super, le couvercle se décollera.\n\n
 Pour une ouverture plus aisée, il est recommandé d’utiliser le tire-rondelle Le Parfait conçu spécialement pour cet usage. Dans le cas des terrines Le Parfait Familia Wiss, il suffit de percer la capsule.\n\n
-    `,"videoUrl":"","photo":{"uri":"https://madu-staging.s3.eu-west-2.amazonaws.com/brooke-lark-uarQNKJUdJk-unsplash1.jpg"},"quiz":{"question":"quizQuestion","choices":["aaaaa","bbbb","ccccc","ddddd"],"answer":"ccccc","value":10}},
+    `,"videoUrl":"","photo":{"uri":"https://madu-staging.s3.eu-west-2.amazonaws.com/brooke-lark-uarQNKJUdJk-unsplash1.jpg"},"quiz":{"question":"À quelle température faut-il nettoyer les bocaux ?","choices":["À l'eau froide","À l'eau chaude","À l'eau glacée","À l'eau bouillante"],"answer":"À l'eau chaude","value":10}},
 ]
 
 const defaultPhoto = "https://madu-dev.s3.eu-west-2.amazonaws.com/default.jpg"
