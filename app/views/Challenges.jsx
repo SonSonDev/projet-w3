@@ -88,7 +88,7 @@ export default function Challenges({ navigation }) {
 
   /* Récompenses */
   const { data: { getRewards: rewards } = {}} = useQuery(GET_REWARDS)
-  const rewardsList = rewards?.filter(item => item?.article?.theme === userData.company.currentTheme)
+  const rewardsList = rewards?.filter(item => item?.article?.theme === userData?.company?.currentTheme)
     .reduce((acc, cur, i) => {
       acc.push({
         ...cur,
