@@ -991,12 +991,18 @@ async function populateDb () {
         role: "USER",
         company: { connect: { id: randomFromArray(companiesId) } },
         history: {
-          create: articles.map(({ id }) => Math.random() < 0.2 && ({
-            bounty: 50,
-            originType: "ARTICLE",
+          create: challenges.map(({ id, value }) => Math.random() < 0.5 && ({
+            bounty: value,
+            originType: "CHALLENGE",
             originId: id,
-            date: String(Date.now()),
+            date: String(subDays(new Date(), 1+randomBetween(0, 7)).getTime()),
           })).filter(Boolean),
+          // create: articles.map(({ id }) => Math.random() < 0.2 && ({
+          //   bounty: 50,
+          //   originType: "ARTICLE",
+          //   originId: id,
+          //   date: String(Date.now()),
+          // })).filter(Boolean),
         },
       })
     } catch (error) { console.log(error) }

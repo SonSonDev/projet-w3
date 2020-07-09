@@ -58,7 +58,9 @@ export default function Place ({ route: { params: { place } }, navigation }) {
 
   return (
     <View style={[ s.backgroundPale, s.flex ]}>
-      <StatusBar hidden animated />
+      {Platform.OS === 'ios' && (
+        <StatusBar hidden animated />
+      )}
       <Animated.Image
         style={[
           s.absolute, s.fill, { height: 300 }, s.p2, { transform: [

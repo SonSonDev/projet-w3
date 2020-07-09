@@ -1,5 +1,5 @@
 import React, { useState, useRef }  from "react";
-import { View, ScrollView, Text, Image, FlatList, StatusBar, Animated } from "react-native";
+import { View, ScrollView, Text, Image, FlatList, StatusBar, Animated, Platform } from "react-native";
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { useApolloClient } from "@apollo/react-hooks"
 import Markdown from 'react-native-simple-markdown'
@@ -87,7 +87,9 @@ export default function Article({ route: { params: { article } }, navigation }) 
 
   return (
     <View style={[ s.backgroundPale, s.flex ]}>
-      <StatusBar hidden animated />
+      {Platform.OS === 'ios' && (
+        <StatusBar hidden animated />
+      )}
       <Image source={photo} style={[ s.absolute, s.fill, { height: 300 }]} />
 
       <View style={[ s.absolute, s.p1, { zIndex: 3 } ]}>
