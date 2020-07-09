@@ -1,6 +1,6 @@
 import gql from "graphql-tag"
 
-const articleFragment = gql`
+export const articleFragment = gql`
   fragment ArticleFragment on Article {
     id
     title

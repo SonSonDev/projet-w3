@@ -1,24 +1,5 @@
 import gql from "graphql-tag"
-
-const articleFragment = gql`
-  fragment ArticleFragment on Article {
-    id
-    title
-    content
-    theme
-    photo {
-      uri
-    }
-    videoUrl
-    quiz {
-      question
-      choices
-      answer
-      value
-    }
-    date
-  }
-`
+import { articleFragment } from './article'
 
 const rewardFragment = gql`
   fragment RewardFragment on Reward {

@@ -26,9 +26,9 @@ export default function Profile ({ navigation }) {
   const client = useApolloClient()
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
   const { data: { getTags = [] } = {} } = useQuery(GET_TAGS, { variables: { where: { root: true } } })
-  const { data: { getRewards = [] } = {} } = useQuery(GET_REWARDS)
+  const { data: { getRewards = [] } = {} } = useQuery(GET_REWARDS, { onError: console.log })
   const weekPoints = userData?.history?.filter(item => fns.getWeek(Number(item.date), { weekStartsOn: 1 }) === fns.getWeek(Date.now(), { weekStartsOn: 1 })).reduce((acc, cur) => acc + cur.bounty, 0)
-  console.log(getRewards)
+  // console.log(getRewards)
   return (
     <ScrollView style={[ s.flex, s.backgroundPale ]} contentContainerStyle={[  ]} stickyHeaderIndices={[0]}>
       
@@ -68,7 +68,7 @@ export default function Profile ({ navigation }) {
       </View>
 
       {tabIndex === 0 ? (
-        <View style={[ s.flex, s.round3, s.mx2, s.p2, {backgroundColor: '#FBEAE9', overflow: 'hidden'}]}>
+        <View style={[ s.flex, s.round3, s.mx2, s.p2, {backgroundColor: '#FBEAE9', overflow: 'hidden', height: 200}]}>
           { challengeContent[userData?.company.currentTheme]?.illustation([s.absolute, { bottom: -32, right: -32 }]) }
           <VectChallenges style={[s.absolute, s.bottom, s.left]} />
           <Text style={[s.heading2, s.primary ]}>
