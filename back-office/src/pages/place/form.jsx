@@ -113,7 +113,7 @@ function PlaceForm ({ history,  match: { params: { id } } }) {
       label: "Description",
       children: [
         { key: "headline",    label: "Phrase d’accroche", type: "T" },
-        { key: "description", label: "Description", type: "TT" },
+        { key: "description", label: "Description", type: "TT", attributes: {rows: 6} },
         ...getTags
           .filter(tag => tag.category === category && tag.label === "Prix")
           .map(tag => getTagsNested(tag, { type: "R", className: "fade-in" })),

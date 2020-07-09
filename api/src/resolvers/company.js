@@ -118,14 +118,14 @@ module.exports = {
   mutations: {
 
     async createCompany (_, args, { prisma }) {
-      const [ data, representativeUser ] = await makeCompanyInput({ ...args, name: args.companyName, type: args.companyType, street: args.streetCompany, zipCode: args.zipCodeCompany, city: args.cityCompany }, prisma)
+      const [ data, representativeUser, randomPassword ] = await makeCompanyInput({ ...args, name: args.companyName, type: args.companyType, street: args.streetCompany, zipCode: args.zipCodeCompany, city: args.cityCompany }, prisma)
       const created = await prisma.createCompany(data)
 
       transporter.sendMail({
         from: "madu.group7@gmail.com",
         to: args.emailUser,
         subject: "Votre mot de passe",
-        html: emailTemplate(`${args.firstNameUser} ${args.lastNameUser}`, args.randomPassword),
+        html: emailTemplate(`${args.firstNameUser} ${args.lastNameUser}`, randomPassword),
       }, console.log)
 
       return {
@@ -239,5 +239,6 @@ async function makeCompanyInput ({ name, type, street, zipCode, city, emailDomai
       stripeCustomerId: stripeCustomer.id,
     },
     representativeUser,
+    randomPassword,
   ]
 }

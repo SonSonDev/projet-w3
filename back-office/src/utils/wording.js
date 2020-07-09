@@ -38,6 +38,11 @@ export const themeNames = {
   ENERGY: "Énergie",
 }
 
+export const rewardTypes = {
+  DIY: "DIY",
+  BLOGPOST: "Article",
+}
+
 export const tags = [
   {
     id: "5ebe52ef24aa9a0007db43b9",

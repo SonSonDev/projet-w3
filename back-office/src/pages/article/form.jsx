@@ -32,9 +32,9 @@ const ArticleForm = ({ history, match: { params: { id } } }) => {
     {
       label: "Article",
       children: [
-        { key: "theme", label: "Type d'entreprise", type: "R", options: Object.entries(themeNames).map(([ value, label ]) => ({ value, label })), required: true },
+        { key: "theme", label: "Thème", type: "R", options: Object.entries(themeNames).map(([ value, label ]) => ({ value, label })), required: true },
         { key: "title", label: "Titre de l'article", type: "T", required: true },
-        { key: "content", label: "Contenu", type: "TT", required: true },
+        { key: "content", label: "Contenu", type: "TT", required: true, attributes: {rows: 6} },
         { key: "videoUrl", label: "Lien de la vidéo", type: "T" },
         { key: "photo", label: "Image", type: "P" },
       ],

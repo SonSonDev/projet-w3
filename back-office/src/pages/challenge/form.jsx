@@ -26,9 +26,9 @@ const ChallengeForm = ({ history, match: { params: { id } } }) => {
     {
       // label: "Défi",
       children: [
-        { key: "theme", label: "Type d'entreprise", type: "R", options: Object.entries(themeNames).map(([ value, label ]) => ({ value, label })), required: true },
+        { key: "theme", label: "Thème", type: "R", options: Object.entries(themeNames).map(([ value, label ]) => ({ value, label })), required: true },
         { key: "name", label: "Nom", type: "T", required: true },
-        { key: "description", label: "Description", type: "TT", required: true },
+        { key: "description", label: "Description", type: "TT", required: true, attributes: {rows: 6}},
         { key: "value", label: "Récompense", type: "T" },
       ],
     },

@@ -48,7 +48,7 @@ function CompanyForm ({ history,  match: { params: { id } } }) {
       label: "Entreprise",
       children: [
         { key: "companyName", label: "Nom de l’établissement", type: "T", disabled: true },
-        { key: "companyType", label: "Type d'entreprise", type: "R", options: Object.entries(companyTypeNames).map(([ value, label ]) => ({ value, label })).filter(e => e.value === getCompany.type), disabled: true },
+        { key: "companyType", label: "Catégorie d'entreprise", type: "R", options: Object.entries(companyTypeNames).map(([ value, label ]) => ({ value, label })).filter(e => e.value === getCompany.type), disabled: true },
         { key: "streetCompany", label: "Adresse", type: "T", disabled: true },
         { className: "is-grouped", children: [
           { key: "zipCodeCompany", label: "Code postal", type: "T", disabled: true, className: "control is-expanded" },
