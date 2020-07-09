@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs")
 const faker = require("faker/locale/fr")
 const { prisma } = require("./generated/prisma-client")
 const { mutations: { setAllCompaniesChallenges }} = require("./resolvers/company.js")
-const subDays = require("date-fns/sub_days")
+const subDays = require("date-fns/subDays")
 
 function shuffle(array) {
   return array.sort(() => Math.random() - 0.5)
@@ -495,11 +495,11 @@ async function populateDb () {
         role: "ADMIN",
         isRepresentative: true,
         history: {
-          create: challenges.map(({ id, value }, i) => Math.random() < 0.5 && ({
+          create: challenges.map(({ id, value }) => Math.random() < 0.5 && ({
             bounty: value,
             originType: "CHALLENGE",
             originId: id,
-            date: String(subDays(new Date(), i)),
+            date: String(subDays(new Date(), 1+randomBetween(0, 7))),
           })).filter(Boolean),
         },
       } },

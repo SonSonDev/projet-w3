@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, ScrollView, FlatList, Text, TouchableOpacity } from "react-native";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_PLACES } from "../graphql/place";
@@ -18,7 +18,7 @@ import { challengeContent, contextualisation } from "../utils/wording"
 export default function Home({ navigation }) {
   const { title, category, greeting } = contextualisation()
   /* Informations de l'utilisateur */
-  const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
+  const { data: { checkAuthApp: userData } = {}, client } = useQuery(CHECK_AUTH)
 
   const { data: { getTags = [] } = {} } = useQuery(GET_TAGS, { variables: { where: { root: true } } })
 
@@ -27,7 +27,15 @@ export default function Home({ navigation }) {
     GET_PLACES,
     {
       skip: !userData?.company.address.location || !getTags.length,
-      onError: (error) => console.log(error.message),
+      onError (error) {
+        console.log(error.message)
+        client.writeData({ data: { toast: `FAIL::Une erreur est survenue::${Date.now()}` } })
+      },
+      onCompleted (data) {
+        if (data && !data.getPlaces.length) {
+          client.writeData({ data: { toast: `FAIL::Mince ! On a rien trouvé…::${Date.now()}` } })
+        }
+      },
       variables: {
         where: {
           category,

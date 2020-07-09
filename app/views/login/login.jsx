@@ -40,7 +40,12 @@ export default function Login({ navigation }) {
         console.log(error)
       }
     },
-    onError: error => console.log(error.message),
+    onError: error => {
+      console.log(error.message)
+      client.writeData({ data: {
+        toast: `FAIL::Mince ! Ça n’a pas marché…::${Date.now()}`
+      } })
+    },
   })
 
   /* Action à l'envoi du formulaire */
@@ -60,10 +65,9 @@ export default function Login({ navigation }) {
         <Text style={[ s.heading1, s.mtAuto, s.mb1 ]}>
           Bon retour{'\n'}parmi nous
         </Text>
-        {(!!error || (!loading && !isOnboarded)) && (
+        {!isOnboarded && (
           <Text style={[ s.body1, s.mb1, { maxWidth: 260 } ]}>
-            {error ? 'Une erreur est survenue'
-              : (!isOnboarded && 'Vous avez reçu votre mot de passe par mail')}
+            Vous avez reçu votre mot de passe par mail
           </Text>
         )}
         <Input value={email} onChange={setEmail} style={[ s.mt2, s.mb1 ]} placeholder="Adresse email" autoCapitalize='none' />
@@ -83,7 +87,7 @@ export default function Login({ navigation }) {
           Mot de passe oublié ?
         </Text>
         
-        <Button btnStyle='primary' label={`Connexion${loading && !error ? '…' : ''}`} onPress={onSubmit} style={[ s.mb1 ]} />      
+        <Button btnStyle='primary' label={`Connexion${loading ? '…' : ''}`} onPress={onSubmit} style={[ s.mb1 ]} />      
       </ScrollView>
     </View>
   )
