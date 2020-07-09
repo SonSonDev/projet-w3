@@ -499,7 +499,7 @@ async function populateDb () {
             bounty: value,
             originType: "CHALLENGE",
             originId: id,
-            date: String(subDays(new Date(), 1+randomBetween(0, 7))),
+            date: String(subDays(new Date(), 1+randomBetween(0, 7)).getTime()),
           })).filter(Boolean),
         },
       } },

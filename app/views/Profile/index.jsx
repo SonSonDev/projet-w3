@@ -85,7 +85,7 @@ export default function Profile ({ navigation }) {
               },
             }), {}) || {})
             .map(({ bounty, originType, originId, date, _PLACE, count }, i, a) => (
-              <TouchableOpacity activeOpacity={1} style={[ s.row, s.itemsCenter, s.p2, i === 0 ? [s.pt2, s.roundTop3] : s.pt1, i === a.length-1 ? [s.pb2, s.roundBottom3] : s.pb1, s.mx2, s.backgroundWhite, { borderBottomWidth: 0, borderColor: s.c.bg } ]}>
+              <TouchableOpacity activeOpacity={1} style={[ s.row, s.itemsCenter, s.p2, i === 0 ? [s.pt2, s.roundTop3] : s.pt1, i === a.length-1 ? [s.pb2, s.roundBottom3] : s.pb1, s.mx2, s.backgroundWhite, { borderBottomWidth: 0, borderColor: s.c.bg } ]} key={originId}>
                 <Icon name={categoryIcons[_PLACE?.category]} size={24} color={s.primary.color} style={[ s.p1, s.round2, s.backgroundPrimaryPale, s.overflow, s.mr1 ]} />
                 <View style={[ s.flex, s.mx05 ]}>
                   <Text style={[ s.heading6 ]}>{_PLACE?.name}</Text>

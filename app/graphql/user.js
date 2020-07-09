@@ -29,6 +29,11 @@ export const userFragment = gql`
           originType
           originId
           date
+          _CHALLENGE {
+            id
+            name
+            theme
+          }
         }
       }
       currentTheme
@@ -48,7 +53,9 @@ export const userFragment = gql`
         ...PlaceFragment
       }
       _CHALLENGE {
+        id
         name
+        theme
       }
       _ARTICLE {
         title

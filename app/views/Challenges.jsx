@@ -32,7 +32,7 @@ export default function Challenges({ navigation }) {
   const client = useApolloClient()
   /* Informations de l'utilisateur */
   const { data: { checkAuthApp: userData } = {} } = useQuery(CHECK_AUTH)
-  const weekPoints = userData?.history?.filter(item => getWeek(Number(item.date)) === getWeek(Date.now()))
+  const weekPoints = userData?.history?.filter(item => getWeek(Number(item.date), { weekStartsOn: 1 }) === getWeek(Date.now(), { weekStartsOn: 1 }))
     .reduce((acc, cur) => acc + cur.bounty, 0)
 
   /* Onglets */
@@ -59,6 +59,10 @@ export default function Challenges({ navigation }) {
 
   const [validateChallenge] = useMutation(VALIDATE_CHALLENGE, {
     async update (cache, { data: { validateChallenge } }) {
+      cache.writeQuery({
+        query: CHECK_AUTH,
+        data: { checkAuthApp: validateChallenge }
+      })
       const challenge = validateChallenge.history[validateChallenge.history.length - 1]
       client.writeData({ data: {
         toast: challenge.bounty
@@ -66,7 +70,7 @@ export default function Challenges({ navigation }) {
           : `FAIL::Mauvaise réponse ! Continue de lire le blog et retente ta chance::${Date.now()}`
       } })
     },
-    onError: error => console.log(error.message),
+    onError: error => console.log(error.message) || client.writeData({ data: { toast: `FAIL::Une erreur est survenue::${Date.now()}` } }),
   })
 
   const participate = (challengeId) => {
@@ -225,14 +229,14 @@ export default function Challenges({ navigation }) {
           </Text>
           <FlatList
             style={[s.mx2, s.p2, s.backgroundWhite, s.round3, s.mb2]}
-            data={userData.company.users
+            data={userData?.company.users
               .map(({ id, firstName, history, lastName }) => {
                 if (history.length <= 0) {
                   return { id, firstName, lastName, pts: "0" };
                 } else {
-                  const data = history.filter(({ date }) => {
+                  const data = history.filter(({ date, originType, _CHALLENGE }) => {
                     const msDate = new Date(parseInt(date));
-                    return fns.isThisWeek(msDate, { weekStartsOn: 1 });
+                    return fns.isThisWeek(msDate, { weekStartsOn: 1 })
                   });
 
                   const msgTotal = data.reduce((prev, cur) => {

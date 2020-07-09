@@ -88,7 +88,7 @@ const setCompanyChallenges = async (_, { id }, context) => {
   const newChallenges = (await context.prisma.challenges())
     .sort(() => Math.random() - 0.5)
     .reduce((acc, cur) => {
-      if(acc.length < 5 && !curChallenges.find(c => c.id === cur.id) && cur.theme === newTheme) {
+      if(acc.length < 7 && !curChallenges.find(c => c.id === cur.id) && cur.theme === newTheme) {
         acc.push({ id: cur.id })
       }
       return acc
