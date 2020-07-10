@@ -18,8 +18,8 @@ import { challengeContent, contextualisation } from "../utils/wording"
 import VectChallenges from "../assets/img/vect-challenges.svg";
 import Blob from "../assets/img/blob.svg";
 import IconWinner from "../assets/img/ic-winner.svg";
-import IconDIY from "../assets/img/ic-diy.svg";
-import IconRecipe from "../assets/img/ic-recipe.svg";
+import IconBlogpost from "../assets/img/ic-diy.svg";
+import IconDIY from "../assets/img/ic-recipe.svg";
 import Icon from "../components/atoms/Icon"
 
 import { CHECK_AUTH } from '../graphql/auth'
@@ -204,20 +204,23 @@ export default function Challenges({ navigation }) {
                   s.py2,
                   s.mr2,
                   { flex: 1, flexDirection: "row", alignItems: "center" },
+                  !(weekPoints >= item.value) && { opacity: 0.5 },
                 ]}
                 key={item.id}
-                horizontal
+                activeOpacity={1}
+                disabled={!(weekPoints >= item.value)}
                 onPress={() => {
-                  if (weekPoints >= item.value) console.log(item.article) || navigation.navigate("Article", { article: item.article });
+                  if (weekPoints >= item.value) navigation.navigate("Article", { article: item.article });
                 }}
               >
-                {item.type === "DIY" ? <IconDIY /> : <IconRecipe />}
+                {item.type === "DIY" ? <IconDIY /> : <IconBlogpost />}
                 <View style={[s.ml2]}>
                   <Text style={[s.HKGroteskSemiBold]}>
-                    1 {item.type === "diy" ? "DIY" : "recette"}
+                    1 {item.type === "DIY" ? "DIY" : "recette"}
                   </Text>
                   <Text>{weekPoints > item.value ? item.value : weekPoints}/{item.value} pts</Text>
                 </View>
+                {weekPoints >= item.value && <Icon name="checkbox-circle-fill" color="#0D6166" size={20} style={[s.absolute, {top: 10, right : 10}]} />}
               </TouchableOpacity>
             )}
             horizontal

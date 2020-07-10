@@ -3,6 +3,7 @@ import { View, ScrollView, Text, Image, FlatList, StatusBar, Animated, Platform 
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { useApolloClient } from "@apollo/react-hooks"
 import Markdown from 'react-native-simple-markdown'
+import Constants from 'expo-constants'
 
 import * as s from "../styles";
 import { GET_ARTICLE, GET_ARTICLES } from "../graphql/article";
@@ -93,6 +94,7 @@ export default function Article({ route: { params: { article } }, navigation }) 
       <Image source={photo} style={[ s.absolute, s.fill, { height: 300 }]} />
 
       <View style={[ s.absolute, s.p1, { zIndex: 3 } ]}>
+        {Platform.OS === 'android' && <View style={[ { height: Constants.statusBarHeight - s.s1 } ]} />}
         <Button btnStyle="icon" iconName="arrow-left-line" onPress={navigation.goBack} />
       </View>
       <Animated.View style={[ s.absolute, s.pt2, s.left, s.right, s.backgroundWhite, s.pb1, s.px4, s.borderBottom, { zIndex: 2 },
@@ -100,6 +102,7 @@ export default function Article({ route: { params: { article } }, navigation }) 
           { translateY: animated }
         ] }
       ]}>
+        {Platform.OS === 'android' && <View style={[ { height: Constants.statusBarHeight - s.s1 } ]} />}
         <Animated.Text style={[ s.heading6, s.center, s.pt2, s.pb1, {  }, { 
         } ]} numberOfLines={1}>{title}</Animated.Text>
       </Animated.View>

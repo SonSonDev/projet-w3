@@ -252,6 +252,7 @@ export default function Place ({ route: { params: { place } }, navigation }) {
           }
         ] }
       ]}>
+        {Platform.OS === 'android' && <View style={[ { height: Constants.statusBarHeight - s.s1 } ]} />}
         {/* <SafeAreaView style={[ s.backgroundGrey ]}> */}
           <Animated.Text style={[ s.heading6, s.center, s.pt2, s.pb1, {  }, { 
             opacity: scroll.interpolate({
@@ -270,6 +271,7 @@ export default function Place ({ route: { params: { place } }, navigation }) {
         {/* </SafeAreaView> */}
       </Animated.View>
       <Animated.View style={[ s.absolute, s.p1, { paddingTop: s.s1, zIndex: 2 } ]}>
+        {Platform.OS === 'android' && <View style={[ { height: Constants.statusBarHeight - s.s1 } ]} />}
         <Button btnStyle='icon' iconName='arrow-left-line' onPress={navigation.goBack} />
       </Animated.View>
       <View style={[ s.absolute, s.bottom, s.right, s.left ]}>
