@@ -141,6 +141,11 @@ docker-compose exec api yarn deploy
 docker-compose exec api node src/fixtures.js
 ```
 
+## Changer le logo
+
+Pour changer l'icone et l'écran de démarrage de l'application, remplacer les fichiers __App_Icon.png__, __Splashscreen.png__ situés `app/assets`
+
+
 ## Documentation
 
 - [API](/api)
