@@ -109,7 +109,7 @@ export default function Article({ route: { params: { article } }, navigation }) 
       
       <ScrollView
         style={[]}
-        contentContainerStyle={[ { paddingTop: 220 } ]}
+        contentContainerStyle={[ { paddingTop: 280 } ]}
         onScroll={({ nativeEvent: { contentOffset: { y } } }) => {
           if (started) return
           // console.log(y)

@@ -72,7 +72,7 @@ export default function Place ({ route: { params: { place } }, navigation }) {
       />
       <Animated.ScrollView
         style={[  ]}
-        contentContainerStyle={[ { paddingTop: 220 } ]}
+        contentContainerStyle={[ { paddingTop: 280 } ]}
         onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scroll } } }])}
         showsVerticalScrollIndicator={false}
         ref={scrollViewRef}
