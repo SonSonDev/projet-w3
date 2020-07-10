@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { Text, Animated } from 'react-native'
 import { useQuery } from "@apollo/react-hooks"
 import gql from "graphql-tag"
+import { toastStates } from '../../utils/wording'
 import Icon from '../atoms/Icon'
 import * as s from '../../styles'
 
@@ -21,6 +22,8 @@ export default function () {
   const [ type, message = '' ] = toast.split('::')
   const [ isBold ] = message.match(/__[^_]*__/g) || []
 
+  const { icon, color, backgroundColor } = toastStates[type] || {}
+
   return toast ? (
     <Animated.View style={[ s.absolute, s.row, s.itemsCenter, s.top, s.right, s.left, s.mx2, s.mt3, s.backgroundWhite, s.round3, s.py2, s.px2, { zIndex: 3 }, s.shadow2, {
       transform: [
@@ -35,7 +38,7 @@ export default function () {
       }),
       
     } ]} pointerEvents='none'>
-      <Icon name={type === 'SUCCESS' ? "check-line" : 'emotion-unhappy-line'} size={20} color={type === 'SUCCESS' ? '#0E562F' : '#B4543A'} style={[ s.p1, s.round2, { backgroundColor: type === 'SUCCESS' ? '#DAEEE6' : '#FBEAE9' }, s.overflow, s.mr1 ]} />
+      <Icon name={icon} size={20} color={color} style={[ s.p1, s.round2, { backgroundColor }, s.overflow, s.mr1 ]} />
       <Text style={[ s.body1, s.flex, s.mx1 ]}>
         {message.split(isBold).reduce((acc, curr, i) => [ ...acc, <Text key={i+'__toasted'}>{acc.length >= 1 && <Text style={[ s.bold ]}>{isBold.split('__')[1]}</Text>}{curr}</Text> ], [])}
       </Text>

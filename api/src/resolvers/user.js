@@ -176,30 +176,41 @@ module.exports = {
         throw new Error("No user found")
       }
       // console.log(placeId, coordinates)
-      const found = await Mongoose.Place.findOne({
+      const success = await Mongoose.Place.findOne({
+        _id: placeId,
+        "address.location": {
+          $near: {
+            $maxDistance: 100,
+            $geometry: { type: "Point", coordinates },
+          },
+        },
+      })
+      if (success) {
+        return prisma.updateUser({
+          where: { id },
+          data: {
+            history: { create: [ {
+              bounty: 50,
+              originType: "PLACE",
+              originId: placeId,
+              date: String(Date.now()),
+            } ] },
+          },
+        })
+      }
+      const warning = await Mongoose.Place.findOne({
         _id: placeId,
         "address.location": {
           $near: {
             $maxDistance: 500,
             $geometry: { type: "Point", coordinates },
           },
-        }
-      })
-      if (!found) {
-        throw new Error("Not close enough")
-      }
-      // console.log(found)
-      return prisma.updateUser({
-        where: { id },
-        data: {
-          history: { create: [ {
-            bounty: 50,
-            originType: "PLACE",
-            originId: placeId,
-            date: String(Date.now()),
-          } ] },
         },
       })
+      if (warning) {
+        throw new Error("WARNING")
+      }
+      throw new Error("FAIL")
     },
 
   },

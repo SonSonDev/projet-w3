@@ -145,7 +145,7 @@ export default function Challenges({ navigation }) {
 
                 {/* Date du défi */}
                 <View style={{flex: 0, alignItems: 'center', flexDirection: 'column', paddingBottom: 24, width: 48}}>
-                  <Text style={[s.body1, s.bold, {textTransform: "capitalize"}, item.selected && {color: "#B4543A"}]}>{ item.date }</Text>
+                  <Text style={[ s.flex,s.body1, s.bold, {textTransform: "capitalize"}, item.selected && {color: "#B4543A"}]}>{ item.date }</Text>
                   { 
                     item.selected ? (
                       <View style={{borderWidth: 8, padding: 4, borderColor:"#B4543A", borderRadius: 16}}/>

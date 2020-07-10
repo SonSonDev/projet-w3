@@ -301,9 +301,15 @@ export default function Place ({ route: { params: { place } }, navigation }) {
               }).start()
             } catch (error) {
               console.log(error)
-              client.writeData({ data: {
-                toast: `FAIL::Tu es encore trop loin, rendez-vous à l’adresse de ce point d’intérêt pour t’y géolocaliser et gagner des points::${Date.now()}`,
-              } })
+              if (error === "WARNING") {
+                client.writeData({ data: {
+                  toast: `WARNING::Tu y es presque, plus que quelques pas avant de pouvoir te géolocaliser ici et gagner des points !::${Date.now()}`,
+                } })
+              } else {
+                client.writeData({ data: {
+                  toast: `FAIL::Tu es encore trop loin, rendez-vous à l’adresse de ce point d’intérêt pour t’y géolocaliser et gagner des points::${Date.now()}`,
+                } })
+              }
             }
           }}
           style={[ s.m2, s.shadow3, { transform: [
