@@ -133,7 +133,7 @@ export const markdownStyles = {
 
 export const toastStates = {
   'SUCCESS': { icon: 'check-line', color: '#0E562F', backgroundColor: '#DAEEE6' },
-  'WARNING': { icon: 'emotion-happy', color: '#ECB081', backgroundColor: '#FCF4ED' },
+  'WARNING': { icon: 'emotion-happy-line', color: '#ECB081', backgroundColor: '#FCF4ED' },
   'FAIL': { icon: 'emotion-unhappy-line', color: '#B4543A', backgroundColor: '#FBEAE9' },
   'ERROR': { icon: 'emotion-unhappy-line', color: '#B4543A', backgroundColor: '#FBEAE9' },
 }

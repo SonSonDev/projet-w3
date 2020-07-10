@@ -300,8 +300,7 @@ export default function Place ({ route: { params: { place } }, navigation }) {
                 useNativeDriver: true,
               }).start()
             } catch (error) {
-              console.log(error)
-              if (error === "WARNING") {
+              if (error?.graphQLErrors[0]?.message === "WARNING") {
                 client.writeData({ data: {
                   toast: `WARNING::Tu y es presque, plus que quelques pas avant de pouvoir te géolocaliser ici et gagner des points !::${Date.now()}`,
                 } })

@@ -48,7 +48,7 @@ export default function Challenges({ navigation }) {
     if (i+1 <= day) {
       acc.push({
         ...cur,
-        date: format(setDay(Date.now(), i+1), "E d", {locale: fr}).split('.').join(''),
+        date: format(setDay(Date.now(), i+1), "E d", {locale: fr}).split('.').join('').replace(' ', '\u00a0'),
         validated: userData.history.filter(({ date }) => {
           const msDate = new Date(parseInt(date));
           return fns.isThisWeek(msDate, { weekStartsOn: 1 });
@@ -145,7 +145,7 @@ export default function Challenges({ navigation }) {
 
                 {/* Date du défi */}
                 <View style={{flex: 0, alignItems: 'center', flexDirection: 'column', paddingBottom: 24, width: 48}}>
-                  <Text style={[ s.flex,s.body1, s.bold, {textTransform: "capitalize"}, item.selected && {color: "#B4543A"}]}>{ item.date }</Text>
+                  <Text style={[ s.body1, s.bold, {textTransform: "capitalize"}, item.selected && {color: "#B4543A"}]} numberOfLines={1} ellipsizeMode='clip'>{ item.date }</Text>
                   { 
                     item.selected ? (
                       <View style={{borderWidth: 8, padding: 4, borderColor:"#B4543A", borderRadius: 16}}/>
