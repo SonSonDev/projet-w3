@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@googlemaps/google-maps-services-js": "^2.6.1",
-    "aws-sdk": "^2.682.0",
+    "aws-sdk": "^2.1326.0",
     "bcryptjs": "2.4.3",
     "date-fns": "^2.14.0",
     "faker": "^4.1.0",
