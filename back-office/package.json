@@ -22,14 +22,17 @@
     "react-select": "^3.0.8",
     "react-table": "^7.0.0",
     "remixicon": "^2.3.0",
-    "yup": "^0.28.3"
+    "yup": "^0.28.3",
+    "@snyk/protect": "latest"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint --ext .jsx --ext .js src --fix"
+    "lint": "eslint --ext .jsx --ext .js src --fix",
+    "prepare": "yarn run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "browserslist": {
     "production": [
@@ -47,5 +50,6 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-react": "^7.19.0"
-  }
+  },
+  "snyk": true
 }

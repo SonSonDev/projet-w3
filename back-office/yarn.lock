@@ -1339,6 +1339,11 @@
   resolved "https://registry.yarnpkg.com/@scarf/scarf/-/scarf-0.1.7.tgz#e6ffb3660bda77f96037f8c4e21174177fed2d97"
   integrity sha512-XUBa8nl9J1XGyyA+wul1ko5v5ioNU1s/pUPODnPzJ4+uUOwwYZm197KQoxxzOAsypldlFGnAlQ8nkjTjoQV9GQ==
 
+"@snyk/protect@^1.1163.0":
+  version "1.1163.0"
+  resolved "https://registry.yarnpkg.com/@snyk/protect/-/protect-1.1163.0.tgz#68ce3764e40aa3b8ef434e0d72f157258637f102"
+  integrity sha512-pwUwun+dukyPZFgglH7w13laMrtddL306HzxXNDKX9o3j8ay16blAKau/iI/asiL9czAaTbibxbS9KSZSxryng==
+
 "@svgr/babel-plugin-add-jsx-attribute@^4.2.0":
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-4.2.0.tgz#dadcb6218503532d6884b210e7f3c502caaa44b1"
