@@ -1,0 +1,28 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.25.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - react-native > @react-native-community/cli > metro > @babel/core > lodash:
+        patched: '2023-05-24T21:23:29.341Z'
+    - react-native > @react-native-community/cli > metro > babel-preset-fbjs > @babel/plugin-transform-block-scoping > lodash:
+        patched: '2023-05-24T21:23:29.341Z'
+    - react-native > @react-native-community/cli > metro > @babel/core > @babel/generator > lodash:
+        patched: '2023-05-24T21:23:29.341Z'
+    - expo-cli > @expo/xdl > @expo/webpack-config > react-dev-utils > inquirer > lodash:
+        patched: '2023-05-24T21:23:29.341Z'
+    - react-native > @react-native-community/cli > metro > @babel/core > @babel/generator > @babel/types > lodash:
+        patched: '2023-05-24T21:23:29.341Z'
+    - react-native > @react-native-community/cli > metro > metro-react-native-babel-preset > @babel/plugin-transform-sticky-regex > @babel/helper-regex > lodash:
+        patched: '2023-05-24T21:23:29.341Z'
+    - react-native > @react-native-community/cli > metro > babel-preset-fbjs > @babel/plugin-transform-classes > @babel/helper-define-map > lodash:
+        patched: '2023-05-24T21:23:29.341Z'
+    - react-native > @react-native-community/cli > metro > @babel/core > @babel/helper-module-transforms > @babel/helper-replace-supers > @babel/traverse > lodash:
+        patched: '2023-05-24T21:23:29.341Z'
+    - react-native-svg-transformer > @svgr/core > @svgr/plugin-jsx > @babel/core > @babel/helper-module-transforms > @babel/helper-replace-supers > @babel/traverse > lodash:
+        patched: '2023-05-24T21:23:29.341Z'
+    - expo-cli > @expo/xdl > @expo/dev-server > @expo/metro-config > metro-react-native-babel-transformer > babel-preset-fbjs > @babel/plugin-transform-block-scoping > lodash:
+        patched: '2023-05-24T21:23:29.341Z'
+    - expo-cli > @expo/xdl > @expo/dev-server > @expo/metro-config > metro-react-native-babel-transformer > babel-preset-fbjs > @babel/plugin-transform-classes > @babel/helper-define-map > lodash:
+        patched: '2023-05-24T21:23:29.341Z'
