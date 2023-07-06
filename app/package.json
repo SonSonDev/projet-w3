@@ -22,7 +22,7 @@
     "apollo-link-context": "^1.0.20",
     "apollo-link-http": "^1.5.17",
     "date-fns": "^2.14.0",
-    "expo": "~37.0.3",
+    "expo": "~49.0.0",
     "expo-cli": "^3.21.5",
     "expo-linear-gradient": "~8.1.0",
     "expo-linking": "~1.0.1",
